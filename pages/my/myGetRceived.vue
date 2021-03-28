@@ -1,0 +1,98 @@
+<template>
+  <view class="myGetRceived_box">
+    <view class="myGetRceived_content" v-for="(item, index) in 2" :key="index">
+      <view class="myGetRceived_content-box">
+        <view class="myGetRceived_content-left">
+          <image src="../../static/images/224.jpg"></image>
+        </view>
+        <view class="myGetRceived_content-right">
+          <view class="myGetRceived_title"> 已转赠 </view>
+          <view> MarsBabe卡 ¥ 3800 </view>
+          <view class="myGetRceived_id"> 赠予人ID：2938498wawa </view>
+          <view class="myGetRceived_data"> 日期： 2021.1.19 </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>
+
+<style lang="less">
+.myGetRceived_box {
+  width: 750rpx;
+  background: #f8f8f8;
+  // height: 100vh;
+  padding-top: 80rpx;
+
+  .myGetRceived_content {
+    width: 566rpx;
+    height: 280rpx;
+    background: #ffffff;
+    box-shadow: 0px 4px 14px 6px rgba(222, 221, 221, 0.5);
+    border-radius: 16rpx;
+    margin: 0 auto;
+    margin-bottom: 25rpx;
+
+    .myGetRceived_content-box {
+      padding-top: 35rpx;
+      display: flex;
+      justify-content: space-around;
+
+      .myGetRceived_content-left {
+        image {
+          width: 94rpx;
+          height: 94rpx;
+          background: #d8d8d8;
+          border-radius: 8rpx;
+        }
+      }
+
+      .myGetRceived_content-right {
+        view {
+          font-size: 28rpx;
+          color: #666666;
+          margin-bottom: 8rpx;
+        }
+
+        .myGetRceived_title {
+          width: 96rpx;
+          height: 44rpx;
+          font-size: 32rpx;
+          font-family: PingFangSC-Medium, PingFang SC;
+          font-weight: 500;
+          color: #a4a4a4;
+          line-height: 44rpx;
+        }
+
+        .myGetRceived_id {
+          width: 358rpx;
+          height: 40rpx;
+          font-size: 28rpx;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #666666;
+          line-height: 40rpx;
+        }
+
+        .myGetRceived_data {
+          width: 228rpx;
+          height: 40rpx;
+          font-size: 28rpx;
+          font-family: PingFangSC-Regular, PingFang SC;
+          font-weight: 400;
+          color: #666666;
+          line-height: 40rpx;
+        }
+      }
+    }
+  }
+}
+</style>

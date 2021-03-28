@@ -1,0 +1,27 @@
+<template>
+  <view class="cardsKnow_box">
+    <view class="cardsKnow"> Mini Mars 礼品卡使用须知 </view>
+  </view>
+</template>
+
+<script>
+export default {
+  data() {
+    return {};
+  },
+  methods: {},
+};
+</script>
+
+<style lang="less">
+.cardsKnow_box {
+  .cardsKnow {
+    margin-top: 40rpx;
+    text-align: center;
+    font-size: 28rpx;
+    font-family: PingFangSC-Medium, PingFang SC;
+    font-weight: 500;
+    color: #3f3f3f;
+  }
+}
+</style>
