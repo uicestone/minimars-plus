@@ -21,31 +21,22 @@
       <view class="one" v-show="list1 == 0">
         <view class="allcover_box">
           <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title"> 推荐封面 </view>
+            <view class="allcover_box_recommend_title">推荐封面</view>
             <view class="allcover_box_recommend_content_box">
               <view
                 class="allcover_box_recommend_content"
                 v-for="(item, index) in userCoverImg"
                 :key="index"
               >
-                <view
-                  class="allcover_box_recommend_content_img"
-                  @click="open(index, item)"
-                >
-                  <image
-                    :src="item.posterUrl"
-                    mode="aspectFill"
-                    class="image_img"
-                  ></image>
+                <view class="allcover_box_recommend_content_img" @click="open(index, item)">
+                  <image :src="item.posterUrl" mode="aspectFill" class="image_img" />
                 </view>
-                <view class="allcover_box_recommend_content_name">
-                  {{ item.title }}
-                </view>
+                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
               </view>
             </view>
           </view>
           <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title"> 节日主题 </view>
+            <view class="allcover_box_recommend_title">节日主题</view>
             <view class="allcover_box_recommend_content_box">
               <view
                 class="allcover_box_recommend_content"
@@ -54,11 +45,9 @@
               >
                 <view class="allcover_box_recommend_content_img">
                   <!-- <view class="allcover_box_recommend_content_img" @click="open(index)"> -->
-                  <!-- <image :src="item.posterUrl" mode="aspectFill" class="image_img"></image> -->
+                  <!-- <image :src="item.posterUrl" mode="aspectFill" class="image_img" /> -->
                 </view>
-                <view class="allcover_box_recommend_content_name">
-                  {{ item.title }}
-                </view>
+                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
               </view>
             </view>
           </view>
@@ -68,43 +57,28 @@
       <view class="one" v-show="list1 == 1">
         <view class="allcover_box">
           <view class="allcover_box_recommend" v-if="currentCoverBox == false">
-            <view class="allcover_box_recommend_title"> 正在使用 </view>
+            <view class="allcover_box_recommend_title">正在使用</view>
             <view class="allcover_box_recommend_content_box">
               <view class="allcover_box_recommend_content">
                 <view class="allcover_box_recommend_content_img">
-                  <image
-                    :src="currentCover.posterUrl"
-                    mode="aspectFill"
-                    class="image_img"
-                  ></image>
+                  <image :src="currentCover.posterUrl" mode="aspectFill" class="image_img" />
                 </view>
-                <view class="allcover_box_recommend_content_name">
-                  {{ currentCover.title }}
-                </view>
+                <view class="allcover_box_recommend_content_name">{{ currentCover.title }}</view>
               </view>
             </view>
           </view>
           <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title"> 我的封面 </view>
+            <view class="allcover_box_recommend_title">我的封面</view>
             <view class="allcover_box_recommend_content_box">
               <view
                 class="allcover_box_recommend_content"
                 v-for="(item, index) in getCovers"
                 :key="index"
               >
-                <view
-                  class="allcover_box_recommend_content_img"
-                  @click="useCover(item)"
-                >
-                  <image
-                    :src="item.posterUrl"
-                    mode="aspectFill"
-                    class="image_img"
-                  ></image>
+                <view class="allcover_box_recommend_content_img" @click="useCover(item)">
+                  <image :src="item.posterUrl" mode="aspectFill" class="image_img" />
                 </view>
-                <view class="allcover_box_recommend_content_name">
-                  {{ item.title }}
-                </view>
+                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
               </view>
             </view>
           </view>
@@ -115,21 +89,19 @@
     <uni-popup ref="popup" type="center">
       <view class="gift_box">
         <view class="gift_boximg">
-          <image :src="alertImg" mode="aspectFill" class="giftImage"></image>
+          <image :src="alertImg" mode="aspectFill" class="giftImage" />
           <view class="gift_box_clear">
             <image
               class="gift_box_clear_right"
               src="../../static/images/clear.png"
               @click="close()"
-            ></image>
+            />
           </view>
         </view>
         <view class="gift_boximg_detail">
-          <view class="gift_boximg_detail_left">
-            当前封面：{{ alertPriceInPoints }}积分
-          </view>
+          <view class="gift_boximg_detail_left">当前封面：{{ alertPriceInPoints }}积分</view>
           <view class="gift_boximg_detail_right_box" @click="buyuserCover()">
-            <view class="gift_boximg_detail_right"> 兑换使用 </view>
+            <view class="gift_boximg_detail_right">兑换使用</view>
           </view>
         </view>
       </view>

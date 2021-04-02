@@ -2,13 +2,13 @@
   <view class="marsCoupon_box">
     <view class="marsCoupon_header">
       <view>Hi！Alfie！</view>
-      <view> This is ur</view>
+      <view>This is ur</view>
       <view>persenal page.</view>
     </view>
     <view class="marsCoupon_contentbox">
       <view class="coupebox_content">
         <view v-for="(i, index) in image" :key="index" @click="goCarde(index)">
-          <image :src="i" mode="aspectFill" class="image"></image>
+          <image :src="i" mode="aspectFill" class="image" />
         </view>
       </view>
     </view>

@@ -4,30 +4,18 @@
       <view class="login_box">
         <view class="login_box_clear">
           <view class="login_box_clear_left"></view>
-          <image
-            class="login_box_clear_right"
-            src="../../static/images/clear.png"
-            @click="close()"
-          ></image>
+          <image class="login_box_clear_right" src="../../static/images/clear.png" @click="close()" />
         </view>
         <view class="login_contentBox">
-          <view class="login_box_title"> 请先输入手机号码 </view>
+          <view class="login_box_title">请先输入手机号码</view>
           <view class="login_box_content">
-            <input
-              type="text"
-              value="phoneNumber"
-              placeholder="输入手机号码"
-              v-model="phoneNumber"
-            />
+            <input type="text" value="phoneNumber" placeholder="输入手机号码" v-model="phoneNumber" />
           </view>
           <view class="login_box_btn">
             <!-- @click="getphoneNumber" -->
             <button class="login_box_btn_box" @click="getphonenumber">
-              <image
-                class="login_box_btn_img"
-                src="../../static/images/wx.png"
-              ></image>
-              <view class="login_box_btn_name"> 微信授权手机号码 </view>
+              <image class="login_box_btn_img" src="../../static/images/wx.png" />
+              <view class="login_box_btn_name">微信授权手机号码</view>
             </button>
           </view>
         </view>

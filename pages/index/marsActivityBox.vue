@@ -7,18 +7,11 @@
           src="../../static/images/index/index_select.png"
           class="marsActivityBox_title-leftimg"
           @click="goDoorname"
-        ></image>
+        />
       </view>
-      <view class="marsActivityBox_title-right">
-        {{ changedoor }}
-      </view>
+      <view class="marsActivityBox_title-right">{{ changedoor }}</view>
       <view class="storeNameBox" v-if="doorname == 1">
-        <view
-          v-for="(door, index) in doorlist"
-          :key="index"
-          @click="godoor(door)"
-          >{{ door.name }}</view
-        >
+        <view v-for="(door, index) in doorlist" :key="index" @click="godoor(door)">{{ door.name }}</view>
       </view>
     </view>
     <view class="marsCoupon_contentbox">
@@ -29,7 +22,7 @@
           :key="index"
           @click="goMarsActivity"
         >
-          <image src="../../static/images/224.jpg" mode="aspectFill"></image>
+          <image src="../../static/images/224.jpg" mode="aspectFill" />
           <view class="coupebox_contentimgBox_content">
             <view class="coupebox_contentimgBox_content_title">圣诞树DIY</view>
             <view class="coupebox_contentimgBox_content_data">2020.12.19</view>

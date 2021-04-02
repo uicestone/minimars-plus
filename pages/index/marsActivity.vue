@@ -1,10 +1,10 @@
 <template>
   <view class="marsActivityBox">
     <view class="marsActivity_header">
-      <image src="../../static/images/224.jpg" mode="aspectFill"></image>
+      <image src="../../static/images/224.jpg" mode="aspectFill" />
     </view>
     <view class="marsActivity_titleBox">
-      <view class="marsActivity_title"> 圣诞树DIY </view>
+      <view class="marsActivity_title">圣诞树DIY</view>
       <view class="marsActivity_details">
         <view class="marsActivity_time">
           <span>活动时间：</span>

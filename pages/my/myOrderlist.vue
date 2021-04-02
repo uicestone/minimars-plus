@@ -24,9 +24,7 @@
           <view class="haveOrder_scan_box">
             <view class="haveOrder_scan">
               <view class="haveOrder_scan-code"></view>
-              <view class="haveOrder_scan_content">
-                您还没有点餐 快去点点东西吧
-              </view>
+              <view class="haveOrder_scan_content">您还没有点餐 快去点点东西吧</view>
               <view class="haveOrder_scan_btn">
                 <span>去点单</span>
               </view>
@@ -34,25 +32,16 @@
           </view>
         </view>
         <view class="accomplish_border" v-if="QRCodeHide == false">
-          <view
-            class="accomplish_box"
-            v-for="(i, t) in ReservedOrders"
-            :key="t"
-          >
+          <view class="accomplish_box" v-for="(i, t) in ReservedOrders" :key="t">
             <view class="accomplish_top">
               <view class="accomplish_top_title_box">
                 <view class="accomplish_top_title">
-                  <view class="accomplish_top_titlename">
-                    {{ i.store.name }}
-                  </view>
+                  <view class="accomplish_top_titlename">{{ i.store.name }}</view>
                   <span class="accomplish_top_date">{{ i.updatedAt }}</span>
                 </view>
                 <view class="accomplish_top_btn_box">
                   {{ i.status }}
-                  <image
-                    src="../../static/images/111.png"
-                    class="accomplish_top_btn"
-                  ></image>
+                  <image src="../../static/images/111.png" class="accomplish_top_btn" />
                 </view>
               </view>
             </view>
@@ -60,21 +49,18 @@
               <view class="accomplish_contentbox_left">
                 <scroll-view scroll-x="true" class="modeOf_Payment-box">
                   <view class="modeOf_Payment_scroll">
-                    <view
-                      class="modeOf_Payment_box"
-                      v-for="(item, index) in i.items"
-                      :key="index"
-                    >
-                      <image :src="item.productImageUrl"></image>
+                    <view class="modeOf_Payment_box" v-for="(item, index) in i.items" :key="index">
+                      <image :src="item.productImageUrl" />
                     </view>
                   </view>
                 </scroll-view>
               </view>
               <view class="accomplish_contentbox_right">
                 <view>共{{ i.items.length }}件</view>
-                <view class="accomplish_contentbox_right_money"
-                  >￥<span>0</span></view
-                >
+                <view class="accomplish_contentbox_right_money">
+                  ￥
+                  <span>0</span>
+                </view>
               </view>
             </view>
           </view>
@@ -82,11 +68,7 @@
       </view>
       <!-- 已预约 -->
       <view class="one" v-show="list1 == 1">
-        <view
-          class="appointment_box"
-          v-for="(item, index) in ReservedOrders"
-          :key="index"
-        >
+        <view class="appointment_box" v-for="(item, index) in ReservedOrders" :key="index">
           <view class="appointment_box_title">
             <view>{{ item.date }}</view>
             <view style="font-size: 28rpx">{{ item.status }}</view>
@@ -100,25 +82,16 @@
       <!-- 已完成 -->
       <view class="one" v-show="list1 == 2">
         <view class="accomplish_border">
-          <view
-            class="accomplish_box"
-            v-for="(item, index) in ReservedOrders"
-            :key="index"
-          >
+          <view class="accomplish_box" v-for="(item, index) in ReservedOrders" :key="index">
             <view class="accomplish_top">
               <view class="accomplish_top_title_box">
                 <view class="accomplish_top_title">
-                  <view class="accomplish_top_titlename">
-                    {{ item.title }}
-                  </view>
+                  <view class="accomplish_top_titlename">{{ item.title }}</view>
                   <span class="accomplish_top_date">{{ item.date }}</span>
                 </view>
                 <view class="accomplish_top_btn_box">
                   {{ item.status }}
-                  <image
-                    src="../../static/images/111.png"
-                    class="accomplish_top_btn"
-                  ></image>
+                  <image src="../../static/images/111.png" class="accomplish_top_btn" />
                 </view>
               </view>
             </view>
@@ -127,16 +100,17 @@
                 <scroll-view scroll-x="true" class="modeOf_Payment-box">
                   <view class="modeOf_Payment_scroll">
                     <view class="modeOf_Payment_box">
-                      <image src="../../static/images/224.jpg"></image>
+                      <image src="../../static/images/224.jpg" />
                     </view>
                   </view>
                 </scroll-view>
               </view>
               <view class="accomplish_contentbox_right">
                 <view>共一件</view>
-                <view class="accomplish_contentbox_right_money"
-                  >￥<span>395.9</span></view
-                >
+                <view class="accomplish_contentbox_right_money">
+                  ￥
+                  <span>395.9</span>
+                </view>
               </view>
             </view>
           </view>
@@ -152,7 +126,7 @@
 								</view>
 								<view class="accomplish_top_btn_box">
 									已完成
-									<image src="../../static/images/111.png" class="accomplish_top_btn"></image>
+									<image src="../../static/images/111.png" class="accomplish_top_btn" />
 								</view>
 							</view>
 						</view>
@@ -161,7 +135,7 @@
 								<scroll-view scroll-x="true" class="modeOf_Payment-box">
 									<view class="modeOf_Payment_scroll">
 										<view class="modeOf_Payment_box" v-for="(item,index) in 3" :key="index">
-											<image src="../../static/images/224.jpg"></image>
+											<image src="../../static/images/224.jpg" />
 										</view>
 									</view>
 								</scroll-view>
@@ -172,7 +146,7 @@
 							</view>
 						</view>
 					</view>
-					<!-- 详情  弹框 -->
+          <!-- 详情  弹框-->
           <uni-popup ref="popup" type="center">
             <view class="gift_box">
               <view class="gift_box_clear">
@@ -181,47 +155,30 @@
                   class="gift_box_clear_right"
                   src="../../static/images/clear.png"
                   @click="close()"
-                ></image>
+                />
               </view>
-              <view
-                class="listdetail_box"
-                v-for="(item, index) in 3"
-                :key="index"
-              >
+              <view class="listdetail_box" v-for="(item, index) in 3" :key="index">
                 <view class="listdetail_box_content">
-                  <image
-                    src="../../static/images/224.jpg"
-                    class="listdetail_box_contentimg"
-                  ></image>
+                  <image src="../../static/images/224.jpg" class="listdetail_box_contentimg" />
                   <view class="listdetail_box_content_titlebox">
                     <view class="listdetail_box_content_titlebox_left">
-                      <view class="listdetail_box_content_titlebox_left_name"
-                        >猪肋排</view
-                      >
-                      <view class="listdetail_box_content_titlebox_left_number"
-                        >X 1</view
-                      >
+                      <view class="listdetail_box_content_titlebox_left_name">猪肋排</view>
+                      <view class="listdetail_box_content_titlebox_left_number">X 1</view>
                     </view>
-                    <view class="listdetail_box_content_titlebox_right">
-                      ¥ 140
-                    </view>
+                    <view class="listdetail_box_content_titlebox_right">¥ 140</view>
                   </view>
                 </view>
               </view>
               <view class="gift_box_clear count_box">
                 <view class="gift_box_clear_left"></view>
-                <view class="count_box_right"> 总计 ¥ 560 </view>
+                <view class="count_box_right">总计 ¥ 560</view>
               </view>
             </view>
           </uni-popup>
         </view>
       </view>
       <view class="one" v-show="list1 == 3">
-        <view
-          class="appointment_box"
-          v-for="(item, index) in ReservedOrders"
-          :key="index"
-        >
+        <view class="appointment_box" v-for="(item, index) in ReservedOrders" :key="index">
           <view class="appointment_box_title">
             <view>{{ item.date }}</view>
             <view style="font-size: 28rpx">{{ item.status }}</view>

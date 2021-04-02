@@ -2,15 +2,15 @@
   <view class="buycards_box">
     <view class="buycards_top">
       <view class="buycards_top_box">
-        <image :src="itemimg" mode="aspectFill"></image>
+        <image :src="itemimg" mode="aspectFill" />
         <span>{{ cardsDetail.title }}</span>
-        <!-- <image :src="i.posterUrl" mode="aspectFill"></image>
-				<span>{{i.title}}</span> -->
+        <!-- <image :src="i.posterUrl" mode="aspectFill" />
+        <span>{{i.title}}</span>-->
       </view>
     </view>
     <view class="buycards_contentall">
       <view class="buycards_content">
-        <view class="buycards_content-title"> 充值金额选择 </view>
+        <view class="buycards_content-title">充值金额选择</view>
         <view class="buycards_content-Bigbox">
           <view class="buycards_content-box">
             <view
@@ -22,16 +22,10 @@
                 <view class="buycards_contentBody-left">
                   <span>{{ index }}</span>
                 </view>
-                <view
-                  class="buycards_contentBody-right"
-                  @click="goaddMoney(item._id)"
-                >
-                  <image src="../../static/images/add.png"></image>
+                <view class="buycards_contentBody-right" @click="goaddMoney(item._id)">
+                  <image src="../../static/images/add.png" />
                 </view>
-                <view
-                  class="buycards_contentBody-image"
-                  @click="open(item)"
-                ></view>
+                <view class="buycards_contentBody-image" @click="open(item)"></view>
               </view>
               <span>{{ item.balance }}</span>
             </view>
@@ -43,13 +37,13 @@
                     class="login_box_clear_right"
                     src="../../static/images/clear.png"
                     @click="close()"
-                  ></image>
+                  />
                 </view>
                 <view class="buycardsBox_top">
                   <image
                     src="../../static/images/index/indexRecharge.png"
                     class="buycardsBox_top_leftimg"
-                  ></image>
+                  />
                   <view class="buycardsBox_top_right">
                     <view>¥{{ balanceItem.price }}</view>
                     <view>{{ balanceItem.balance }}</view>
@@ -57,14 +51,14 @@
                 </view>
                 <view class="buycardsBox_footer">
                   <view class="buycardsBox_footer_left">
-                    <view class="title"> 使用须知：</view>
+                    <view class="title">使用须知：</view>
                     <scroll-view scroll-y="true" class="gift_contentBox_box">
                       <view class="spanContent">
                         <rich-text :nodes="cardsDetail.content"></rich-text>
                       </view>
                     </scroll-view>
                   </view>
-                  <view class="buycardsBox_footer_right"> </view>
+                  <view class="buycardsBox_footer_right"></view>
                 </view>
               </view>
             </uni-popup>
@@ -76,13 +70,11 @@
         <!-- 订单支付 -->
         <view class="modeOf_Payment_order">
           <view class="modeOf_Payment_order_money">
-            <view> {{ numbers }}张 </view>
+            <view>{{ numbers }}张</view>
             总计 ¥ {{ playMoneyCount.toFixed(2) }}
           </view>
           <view class="modeOf_Payment_order_play">
-            <view class="modeOf_Payment_order_play_name" @click="gocardOrder">
-              订单支付Payment
-            </view>
+            <view class="modeOf_Payment_order_play_name" @click="gocardOrder">订单支付Payment</view>
           </view>
         </view>
       </view>

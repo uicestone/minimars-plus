@@ -9,24 +9,20 @@
         </div>
         <div class="header_right">
           <view class="left_icon" @click="changeMonth('pre')">
-            <image
-              src="../../static/images/myOrderTime/left_time.png"
-              mode=""
-            ></image>
+            <image src="../../static/images/myOrderTime/left_time.png" mode />
           </view>
           <view class="right_icon" @click="changeMonth('next')">
-            <image
-              src="../../static/images/myOrderTime/right_time.png"
-              mode=""
-            ></image>
+            <image src="../../static/images/myOrderTime/right_time.png" mode />
           </view>
         </div>
       </view>
       <!-- 日历的星期 -->
       <view class="week">
-        <view class="week-day" v-for="(item, index) in weekDay" :key="index">{{
+        <view class="week-day" v-for="(item, index) in weekDay" :key="index">
+          {{
           item
-        }}</view>
+          }}
+        </view>
       </view>
       <!-- 日历的天数 -->
       <!-- <view :class="{ hide: !monthOpen }" class="content" :style="{ height: height }"> -->
@@ -44,9 +40,7 @@
                 today: isToday(item.year, item.month, item.date),
                 isWorkDay: isWorkDay(item.year, item.month, item.date),
               }"
-            >
-              {{ Number(item.date) }}
-            </view>
+            >{{ Number(item.date) }}</view>
             <!-- <view class="markDay" v-if="isMarkDay(item.year, item.month, item.date)&&item.isCurM"></view> -->
             <!-- <view class="today-text" v-if="isToday(item.year, item.month, item.date)">今</view> -->
           </view>
@@ -61,15 +55,13 @@
         <view class="visiting_time_box-title">
           <view class="visiting_time_box-title-time">到访时间</view>
           <!-- <view class="visiting_time_box-title-data">{{date}} </view> -->
-          <view class="visiting_time_box-title-data"
-            >{{ y + "年" + formatNum(m) + "月" + d + "日" }}
-          </view>
+          <view class="visiting_time_box-title-data">{{ y + "年" + formatNum(m) + "月" + d + "日" }}</view>
           <!-- {{y}} 年 {{m}} 月 {{d}} 日 -->
         </view>
       </view>
       <view class="message_confirm_box">
         <view class="message_confirm" @click="confirm">
-          <view class="message_confirm_name"> 确认Submit </view>
+          <view class="message_confirm_name">确认Submit</view>
         </view>
       </view>
     </view>

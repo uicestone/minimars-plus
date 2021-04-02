@@ -1,11 +1,7 @@
 <template>
   <view class="orderFood_box">
     <view class="orderFood_left">
-      <scroll-view
-        scroll-y="true"
-        class="orderFood_left_scroll"
-        show-scrollbar="true"
-      >
+      <scroll-view scroll-y="true" class="orderFood_left_scroll" show-scrollbar="true">
         <view
           v-for="(item, index) in tabBars"
           :key="index"
@@ -33,11 +29,7 @@
           indicator-active-color="#9B9B9B"
         >
           <swiper-item v-for="item in swiperImg" :key="item.id">
-            <image
-              class="swiper_item"
-              :src="item.posterUrl"
-              mode="aspectFill"
-            ></image>
+            <image class="swiper_item" :src="item.posterUrl" mode="aspectFill" />
           </swiper-item>
         </swiper>
       </view>
@@ -54,11 +46,7 @@
         >
           <!--   :lower-threshold="200" :upper-threshold="200" :scroll-with-animation="true" -->
           <view class="orderFood_right_content">
-            <view
-              v-for="(item, index) in tabBars"
-              :key="index"
-              :id="'po' + item.uid"
-            >
+            <view v-for="(item, index) in tabBars" :key="index" :id="'po' + item.uid">
               <text class="name orderFood_right_title">{{ item.name }}</text>
               <view
                 v-for="(item2, index2) in item.products"
@@ -69,53 +57,33 @@
                   class="orderFood_right_title_content-left"
                   @click="open(index, index2, item2)"
                 >
-                  <image :src="item2.imageUrl"></image>
+                  <image :src="item2.imageUrl" />
                 </view>
                 <view class="orderFood_right_title_content-right">
-                  <view class="right_title_content-right-title">
-                    {{ item2.name }}
-                  </view>
+                  <view class="right_title_content-right-title">{{ item2.name }}</view>
                   <view
                     class="right_title_content-right-detail"
                     @click="open(index, index2, item2)"
-                  >
-                    {{ item2.description }}
-                  </view>
+                  >{{ item2.description }}</view>
                   <view class="right_title_content-right-money_box">
                     <view class="right_title_content-right-money_box_money">
-                      ￥<span> {{ item2.buyPrice }}</span>
+                      ￥
+                      <span>{{ item2.buyPrice }}</span>
                     </view>
-                    <view
-                      class="right_title_content-right-money_box_add"
-                      v-if="item2.numbers == 0"
-                    >
+                    <view class="right_title_content-right-money_box_add" v-if="item2.numbers == 0">
                       <view></view>
                       <view></view>
                       <view @click="foodAdd(item2)">
-                        <image
-                          src="../../static/images/add.png"
-                          class="foodAdd_img"
-                        ></image>
+                        <image src="../../static/images/add.png" class="foodAdd_img" />
                       </view>
                     </view>
-                    <view
-                      class="right_title_content-right-money_box_add"
-                      v-if="item2.numbers > 0"
-                    >
+                    <view class="right_title_content-right-money_box_add" v-if="item2.numbers > 0">
                       <view @click="foodreduce(item2)">
-                        <image
-                          src="../../static/images/minus.png"
-                          class="foodreduce_img"
-                        ></image>
+                        <image src="../../static/images/minus.png" class="foodreduce_img" />
                       </view>
-                      <view>
-                        {{ item2.numbers }}
-                      </view>
+                      <view>{{ item2.numbers }}</view>
                       <view @click="foodAdd(item2)">
-                        <image
-                          src="../../static/images/add.png"
-                          class="foodAdd_img"
-                        ></image>
+                        <image src="../../static/images/add.png" class="foodAdd_img" />
                       </view>
                     </view>
                   </view>
@@ -129,29 +97,26 @@
         <uni-popup ref="popup" type="center" :tabbar="true">
           <view class="gift_box">
             <view class="gift_box_top">
-              <image :src="item.imageUrl" mode="aspectFill"></image>
+              <image :src="item.imageUrl" mode="aspectFill" />
               <view class="gift_box_top-close">
                 <image
                   class="gift_box_clear_right"
                   src="../../static/images/clear.png"
                   @click="close()"
-                ></image>
+                />
               </view>
             </view>
             <view class="gift_box_top_content">
-              <view class="gift_box_top_content-title">
-                {{ item.name }}
-              </view>
-              <view class="gift_box_top_content-box">
-                {{ item.description }}
-              </view>
+              <view class="gift_box_top_content-title">{{ item.name }}</view>
+              <view class="gift_box_top_content-box">{{ item.description }}</view>
             </view>
             <view class="gift_box_top_footer">
               <view class="gift_box_top_footer-left">
-                ￥<span>{{ item.buyPrice }}</span>
+                ￥
+                <span>{{ item.buyPrice }}</span>
               </view>
               <view class="gift_box_top_footer-right" @click="unpopAdd(index)">
-                <image src="../../static/images/add.png"></image>
+                <image src="../../static/images/add.png" />
               </view>
             </view>
           </view>
@@ -162,15 +127,16 @@
             <image
               src="../../static/images/orderFood/shopcar.png"
               class="orderFood_choose-left_img"
-            ></image>
-            <view class="orderFood_choose-left-line"> </view>
+            />
+            <view class="orderFood_choose-left-line"></view>
             <view class="orderFood_choose-left_money">
-              ￥<span>{{ playMoney }}</span>
+              ￥
+              <span>{{ playMoney }}</span>
             </view>
           </view>
           <view class="orderFood_choose-right" @click="goChoose()">
-            <view class="orderFood_choose-right-choose"> 选好了 </view>
-            <image src="../../static/images/orderFood/white_right.png"></image>
+            <view class="orderFood_choose-right-choose">选好了</view>
+            <image src="../../static/images/orderFood/white_right.png" />
           </view>
         </view>
       </view>

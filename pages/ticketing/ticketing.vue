@@ -15,30 +15,24 @@
         indicator-active-color="#9B9B9B"
       >
         <swiper-item v-for="item in swiperImg" :key="item.id">
-          <image class="swiper_item" :src="item" mode="aspectFill"></image>
+          <image class="swiper_item" :src="item" mode="aspectFill" />
         </swiper-item>
       </swiper>
       <!-- 单次门票 -->
       <view>
         <view class="buy_ticketsBox">
           <view class="buy_tickets" @click="goOrder">
-            <image
-              src="../../static/images/ticketing/ticketing_one.png"
-              mode="aspectFill"
-            ></image>
+            <image src="../../static/images/ticketing/ticketing_one.png" mode="aspectFill" />
             <span>单次门票</span>
           </view>
           <view class="buy_tickets_Food" @click="goBuyCard">
-            <image
-              src="../../static/images/ticketing/ticketing_vip.png"
-              mode="aspectFill"
-            ></image>
+            <image src="../../static/images/ticketing/ticketing_vip.png" mode="aspectFill" />
             <span>礼品卡购买</span>
           </view>
         </view>
       </view>
     </view>
-    <view style="width: 750rpx; height: 1000rpx"> </view>
+    <view style="width: 750rpx; height: 1000rpx"></view>
   </view>
 </template>
 

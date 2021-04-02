@@ -1,19 +1,13 @@
 <template>
   <view class="marsCardebox">
-    <view class="header"> </view>
+    <view class="header"></view>
     <view class="marsCarde_contentbox">
-      <view
-        class="marsCarde_contentbox-content"
-        v-for="(i, j) in cardsList"
-        :key="j"
-      >
-        <view class="contentbox-contentTitle">
-          {{ i.title }}
-        </view>
+      <view class="marsCarde_contentbox-content" v-for="(i, j) in cardsList" :key="j">
+        <view class="contentbox-contentTitle">{{ i.title }}</view>
         <scroll-view scroll-x="true" class="modeOf_Payment-box">
           <view class="modeOf_Payment_scroll">
             <view @click="gobuyCards(i)">
-              <image :src="i.posterUrl" class="yuanimage"></image>
+              <image :src="i.posterUrl" class="yuanimage" />
             </view>
             <view
               class="modeOf_Payment_box"
@@ -21,21 +15,21 @@
               :key="index"
               @click="gobuyCardsCover(i, item)"
             >
-              <image :src="item" mode="aspectFill"></image>
+              <image :src="item" mode="aspectFill" />
             </view>
           </view>
           <!-- 	<view class="modeOf_Payment_scroll"  @click="gobuyCards(i)">
-						<view><image :src="i.posterUrl" class="yuanimage"></image></view>
+						<view><image :src="i.posterUrl" class="yuanimage" /></view>
 						<view class="modeOf_Payment_box" v-for="(item,index) in i.posterUrls" :key="index">
-							<!-- <image :src="i.posterUrl"></image> -->
-          <!-- <image :src="item" mode="aspectFill"></image> -->
+          <!-- <image :src="i.posterUrl" />-->
+          <!-- <image :src="item" mode="aspectFill" /> -->
           <!-- 	</view>
-					</view> -->
+          </view>-->
         </scroll-view>
       </view>
     </view>
     <view class="marsCarde_footerBox">
-      <view class="marsCarde_footer"> 使用须知 </view>
+      <view class="marsCarde_footer">使用须知</view>
     </view>
   </view>
 </template>

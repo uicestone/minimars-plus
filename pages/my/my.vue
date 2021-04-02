@@ -1,36 +1,34 @@
 <template>
   <view class="my_box">
     <view class="my_header-top" @click="goMarsCover()">
-      <image :src="imgulr" mode="aspectFill"></image>
+      <image :src="imgulr" mode="aspectFill" />
     </view>
     <view class="my_header_title_box">
       <view class="my_header_titleBox">
-        <view class="my_header_title">
-          {{ nickname }}
-        </view>
+        <view class="my_header_title">{{ nickname }}</view>
       </view>
 
       <!-- MARS会员 -->
       <view class="my_marsMember_box">
         <view class="my_marsMemberheader">
-          <view class="my_marsMembertitle"> MARS会员 </view>
+          <view class="my_marsMembertitle">MARS会员</view>
           <view class="my_marsMember_headerimg">
-            <image :src="heading" mode="aspectFill"></image>
+            <image :src="heading" mode="aspectFill" />
           </view>
         </view>
         <view class="my_marsMember_content-box">
           <view class="my_marsMember-one">
-            <image src="../../static/images/my/my_jifen.png"></image>
+            <image src="../../static/images/my/my_jifen.png" />
             <view>{{ points }}</view>
             <span>MARS积分</span>
           </view>
           <view class="my_marsMember-one" @click="goCardBag">
-            <image src="../../static/images/my/my_youhui.png"></image>
+            <image src="../../static/images/my/my_youhui.png" />
             <view>{{ couPonNumber }}</view>
             <span>MARS优惠券</span>
           </view>
           <view class="my_marsMember-one" @click="goCardBag">
-            <image src="../../static/images/my/my_card.png"></image>
+            <image src="../../static/images/my/my_card.png" />
             <view>{{ allCardBag }}</view>
             <span>MARS卡包</span>
           </view>
@@ -42,7 +40,7 @@
     <view class="my_centre">
       <!-- 门店动态 -->
       <view class="marsCarde_contentbox-content">
-        <view class="my_centre_boxone"> 门店动态 </view>
+        <view class="my_centre_boxone">门店动态</view>
         <scroll-view scroll-x="true" class="modeOf_Payment-box">
           <view class="modeOf_Payment_scroll">
             <view
@@ -53,14 +51,9 @@
             >
               <!-- <view class="modeOf_Payment_box"> -->
               <view class="my_centre_modeOf_PaymentBox">
-                <image
-                  :src="item.posterUrl"
-                  class="modeOf_PaymentBox_leftimg"
-                ></image>
+                <image :src="item.posterUrl" class="modeOf_PaymentBox_leftimg" />
                 <view class="modeOf_PaymentBox_right">
-                  <view class="modeOf_PaymentBox_right_title">
-                    {{ item.title }}
-                  </view>
+                  <view class="modeOf_PaymentBox_right_title">{{ item.title }}</view>
                   <view class="modeOf_PaymentBox_right_content">
                     <rich-text :nodes="item.content"></rich-text>
                     <!-- 详情 -->
@@ -83,31 +76,31 @@
       <view class="my_vip_content_box">
         <view class="my_vip_content_namebox" @click="goVipCode">
           <span>会员码</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox" @click="goOrderList()">
           <span>我的订单</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox">
           <span>消费历史</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox">
           <span>积分兑换</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox">
           <span>卡券兑换</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox" @click="goCover">
           <span>MARS封面</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
         <view class="my_vip_content_namebox" @click="goMore">
           <span>更多</span>
-          <image src="../../static/images/111.png"></image>
+          <image src="../../static/images/111.png" />
         </view>
       </view>
     </view>
@@ -558,10 +551,6 @@ export default {
         color: #848484;
         line-height: 44rpx;
         text-align: left;
-
-        input {
-          // border: 1px solid red;
-        }
       }
 
       .login_box_btn {

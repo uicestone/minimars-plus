@@ -1,20 +1,17 @@
 <template>
   <view class="myvipcode_box">
     <view class="myvipcodebox_header">
-      <!-- <image src="../../static/images/224.jpg" mode="aspectFill" class="header_img"></image> -->
+      <!-- <image src="../../static/images/224.jpg" mode="aspectFill" class="header_img" /> -->
       <view class="myvipcodeboxHeader_image" @click="gomy()">
-        <image
-          src="../../static/images/my/my_left.png"
-          class="myvipcodeboxHeader_image_img"
-        ></image>
+        <image src="../../static/images/my/my_left.png" class="myvipcodeboxHeader_image_img" />
       </view>
       <view class="myvipcodeboxHeader_headimg">
-        <image :src="heading" class="myvipcodeboxHeader_headimg_img"></image>
+        <image :src="heading" class="myvipcodeboxHeader_headimg_img" />
         <span>{{ nickname }}</span>
       </view>
     </view>
     <view class="myvipcode_box_content">
-      <image :src="srcQRcode" class="myvipcode_box_content_img"></image>
+      <image :src="srcQRcode" class="myvipcode_box_content_img" />
       <span class="myvipcode_box_content_title">会员码每30秒自动刷新一次</span>
     </view>
   </view>

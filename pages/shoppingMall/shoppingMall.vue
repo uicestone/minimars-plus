@@ -14,7 +14,7 @@
         indicator-active-color="#9B9B9B"
       >
         <swiper-item v-for="item in swiperImg" :key="item.id">
-          <image class="swiper_item" :src="item" mode="aspectFill"></image>
+          <image class="swiper_item" :src="item" mode="aspectFill" />
         </swiper-item>
       </swiper>
     </view>
@@ -36,8 +36,8 @@
     </view>
     <!-- 猜你喜欢 -->
     <view class="my_like">
-      <view class="my_like_title"> 猜你喜欢 </view>
-      <view class="my_like_content"> </view>
+      <view class="my_like_title">猜你喜欢</view>
+      <view class="my_like_content"></view>
     </view>
   </view>
 </template>

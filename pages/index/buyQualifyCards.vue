@@ -2,26 +2,16 @@
   <view class="buycards_box">
     <view class="buycards_top">
       <view class="buycards_top_box">
-        <image :src="itemimg" mode="aspectFill"></image>
+        <image :src="itemimg" mode="aspectFill" />
         <view class="cards_box">
           <view class="cards_box-left">
             ¥{{ cardsDetail.price }}
-            <view class="cards_box_left-title">
-              {{ cardsDetail.title }}
-            </view>
+            <view class="cards_box_left-title">{{ cardsDetail.title }}</view>
           </view>
           <view class="cards_box-right" v-if="addAminus">
-            <image
-              src="../../static/images/minus.png"
-              class="minus"
-              @click="gonumberMinus"
-            ></image>
+            <image src="../../static/images/minus.png" class="minus" @click="gonumberMinus" />
             {{ number }}
-            <image
-              src="../../static/images/add.png"
-              class="add"
-              @click="gonumberAdd"
-            ></image>
+            <image src="../../static/images/add.png" class="add" @click="gonumberAdd" />
           </view>
         </view>
       </view>
@@ -37,25 +27,16 @@
         </view>
         <!-- <view class="warm_prompt">
 					温馨提示:
-				</view> -->
+        </view>-->
         <view class="buyQualifyCards_footer">
           <!-- 订单支付 -->
           <view class="buyQualifyCards_footerBox" @click="orderPlay">
-            <view class="buyQualifyCards_footerBox_left">
-              订单支付Payment
-            </view>
-            <view
-              class="buyQualifyCards_footerBox_right"
-              v-if="addAminus == true"
-            >
-              ￥{{ playcards }}
-            </view>
+            <view class="buyQualifyCards_footerBox_left">订单支付Payment</view>
+            <view class="buyQualifyCards_footerBox_right" v-if="addAminus == true">￥{{ playcards }}</view>
             <view
               class="buyQualifyCards_footerBox_right"
               v-if="addAminus == false"
-            >
-              ￥{{ cardsDetail.price }}
-            </view>
+            >￥{{ cardsDetail.price }}</view>
           </view>
         </view>
       </view>

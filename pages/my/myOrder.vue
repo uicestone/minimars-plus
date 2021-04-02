@@ -5,7 +5,7 @@
       <view class="storesToChoose">
         <view class="storesToChoose_choose">
           <view class="title">
-            <image src="../../static/images/index/index_orderOne.png"></image>
+            <image src="../../static/images/index/index_orderOne.png" />
             <view>门店选择</view>
           </view>
           <view class="content">
@@ -25,21 +25,18 @@
                 <view class="uni-input">{{ mendian }}</view>
               </lbPicker>
             </span>
-            <image src="../../static/images/search.png"></image>
+            <image src="../../static/images/search.png" />
           </view>
           <view class="title">
-            <image src="../../static/images/index/index_orderTwo.png"></image>
+            <image src="../../static/images/index/index_orderTwo.png" />
             <view>到访时间</view>
           </view>
           <view class="content content_two" @click="goCalendar()">
-            <input type="text" value="timers" v-model="timers" disabled="" />
-            <image
-              src="../../static/images/right.png"
-              class="content_right"
-            ></image>
+            <input type="text" value="timers" v-model="timers" disabled />
+            <image src="../../static/images/right.png" class="content_right" />
           </view>
           <view class="title">
-            <image src="../../static/images/index/index_orderThree.png"></image>
+            <image src="../../static/images/index/index_orderThree.png" />
             <view>进场人数</view>
           </view>
           <view class="content">
@@ -62,40 +59,34 @@
                 <view slot="picker-bottom_right">确定 Submit</view>
               </lbPicker>
             </span>
-            <image
-              src="../../static/images/right.png"
-              class="content_right"
-            ></image>
+            <image src="../../static/images/right.png" class="content_right" />
           </view>
         </view>
       </view>
     </view>
-    <view class="orderSpace"> </view>
+    <view class="orderSpace"></view>
     <view class="modeOf_Payment">
-      <view class="modeOf_Payment_title"> 更多优惠支付方式 </view>
+      <view class="modeOf_Payment_title">更多优惠支付方式</view>
       <scroll-view scroll-x="true" class="modeOf_Payment-box">
         <view class="modeOf_Payment_scroll">
-          <view
-            class="modeOf_Payment_box"
-            v-for="(item, index) in card"
-            :key="index"
-          >
+          <view class="modeOf_Payment_box" v-for="(item, index) in card" :key="index">
             <image
               :src="item.posterUrl"
               :class="[confircard2 == index ? '' : 'confircard']"
               v-if="correspondingStoresAndCards == false"
-            ></image>
+            />
             <image
               :src="item.posterUrl"
               @click="open(index, item.id, item)"
               :class="[confircard2 == index ? 'confircard' : '']"
               v-if="correspondingStoresAndCards == true"
-            ></image>
+            />
             <view class="modeOf_Payment_box_name">
               {{ item.title }}
-              <view style="color: #9fcdff; font-size: 24rpx; margin-top: 5rpx"
-                >Rmb<span style="font-size: 33rpx">{{ item.price }}</span></view
-              >
+              <view style="color: #9fcdff; font-size: 24rpx; margin-top: 5rpx">
+                Rmb
+                <span style="font-size: 33rpx">{{ item.price }}</span>
+              </view>
             </view>
           </view>
           <view class="modeOf_Payment_box">
@@ -125,12 +116,11 @@
                       font-weight: bold;
                       text-align: center;
                     "
-                    >+</view
-                  >
+                  >+</view>
                 </view>
               </view>
             </view>
-            <view class="modeOf_Payment_box_name"> 点击购买新卡 </view>
+            <view class="modeOf_Payment_box_name">点击购买新卡</view>
           </view>
         </view>
         <!-- 礼品卡  弹框 -->
@@ -142,17 +132,17 @@
                 class="gift_box_clear_right"
                 src="../../static/images/clear.png"
                 @click="close()"
-              ></image>
+              />
             </view>
             <view class="gift_contentBox">
-              <view class="gift_contentBox_title"> 礼品卡使用说明 </view>
+              <view class="gift_contentBox_title">礼品卡使用说明</view>
               <scroll-view scroll-y="true" class="gift_contentBox_box">
                 <view class="gift_contentBox_boxContent">
                   <rich-text :nodes="cardContent"></rich-text>
                 </view>
               </scroll-view>
               <view class="gift_contentBox_btn" @click="giftCardConfirm">
-                <view class="gift_contentBox_btn_name"> 确认 Agree </view>
+                <view class="gift_contentBox_btn_name">确认 Agree</view>
               </view>
             </view>
           </view>
@@ -160,10 +150,10 @@
       </scroll-view>
       <!-- 订单支付 -->
       <view class="modeOf_Payment_order">
-        <view class="modeOf_Payment_order_money"> 订单总价：{{ rmb }}元 </view>
+        <view class="modeOf_Payment_order_money">订单总价：{{ rmb }}元</view>
         <!--  -->
         <view class="modeOf_Payment_order_play" @click="goPlay">
-          <view class="modeOf_Payment_order_play_name"> 订单支付Payment </view>
+          <view class="modeOf_Payment_order_play_name">订单支付Payment</view>
         </view>
       </view>
     </view>

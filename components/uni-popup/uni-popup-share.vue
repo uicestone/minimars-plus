@@ -1,8 +1,8 @@
 <template>
   <view class="uni-popup-share">
-    <view class="uni-share-title"
-      ><text class="uni-share-title-text">{{ title }}</text></view
-    >
+    <view class="uni-share-title">
+      <text class="uni-share-title-text">{{ title }}</text>
+    </view>
     <view class="uni-share-content">
       <view class="uni-share-content-box">
         <view
@@ -11,11 +11,7 @@
           :key="index"
           @click.stop="select(item, index)"
         >
-          <image
-            class="uni-share-image"
-            :src="item.icon"
-            mode="aspectFill"
-          ></image>
+          <image class="uni-share-image" :src="item.icon" mode="aspectFill" />
           <text class="uni-share-text">{{ item.text }}</text>
         </view>
       </view>
