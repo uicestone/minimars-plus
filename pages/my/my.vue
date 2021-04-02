@@ -111,48 +111,11 @@
         </view>
       </view>
     </view>
-    <uni-popup ref="popup" type="bottom" :tabbar="true">
-      <view class="login_box">
-        <view class="login_box_clear">
-          <view class="login_box_clear_left"></view>
-          <image
-            class="login_box_clear_right"
-            src="../../static/images/clear.png"
-            @click="close()"
-          ></image>
-        </view>
-        <view class="login_contentBox">
-          <view class="login_box_title"> 请先输入手机号码 </view>
-          <view class="login_box_content">
-            <input
-              type="text"
-              value="phoneNumber"
-              placeholder="输入手机号码"
-              v-model="phoneNumber"
-            />
-          </view>
-          <view class="login_box_btn">
-            <!-- @click="getphoneNumber" -->
-            <button class="login_box_btn_box" @click="getphonenumber">
-              <image
-                class="login_box_btn_img"
-                src="../../static/images/wx.png"
-              ></image>
-              <view class="login_box_btn_name"> 微信授权手机号码 </view>
-            </button>
-          </view>
-        </view>
-      </view>
-    </uni-popup>
   </view>
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
 export default {
-  components: {
-    uniPopup,
-  },
   data() {
     return {
       phoneNumber: "", //手机号码
@@ -166,44 +129,9 @@ export default {
       allCardBag: 0, //卡包内数量
       points: 0, //积分
       storeDynamic: [], //门店动态
-      authUserIf: {
-        //微信授权信息传参
-        session_key: "",
-        encryptedData: "",
-        iv: "",
-      },
     };
   },
-  onTabItemTap(s) {
-    console.log(s, "我的页面");
-    if (this.nickname == "") {
-      console.log("没有名字跳转");
-      // return uni.navigateBack(to(-1))
-      return uni.switchTab({
-        url: "/pages/index/index",
-      });
-    } else {
-      console.log("有名字跳转");
-      uni.switchTab({
-        url: "/pages/my/my",
-      });
-    }
-  },
-  // created() {
-  // 	if(this.nickname==""){
-  // 		console.log("没有名字跳转")
-  // 		// return uni.navigateBack(to(-1))
-  // 		// return uni.switchTab({
-  // 		// 	url:'/pages/index/index'
-  // 		// })
-  // 	}else{
-  // 		console.log("有名字跳转")
-  // 	}
-  // },
   onShow() {
-    this.authUserIf.session_key = uni.getStorageSync("session_key");
-    this.wxAuthUserInfo();
-    this.open();
     console.log(this.heading);
     if (!this.nickname) {
       console.log("meiyou denglu");
@@ -215,23 +143,6 @@ export default {
     this.getArticleList();
   },
   methods: {
-    // 微信授权获取用户信息
-    wxAuthUserInfo() {
-      console.log("用户信息");
-      uni.getUserInfo({
-        provider: "weixin",
-        success: (infoRes) => {
-          console.log(infoRes, "用户信息");
-          uni.setStorageSync("nickname", infoRes.userInfo.nickName);
-          uni.setStorageSync("headerimg", infoRes.userInfo.avatarUrl);
-          this.$axios
-            .postRequest("/wechat/signup", this.authUserIf)
-            .then((authUser) => {
-              console.log(authUser, "微信授权获取用户信息");
-            });
-        },
-      });
-    },
     // 获取文章列表
     getArticleList() {
       this.$axios
@@ -293,16 +204,6 @@ export default {
         console.log(res.length, "卡包");
         this.allCardBag = res.length;
       });
-    },
-
-    // 弹框打开关闭
-    open() {
-      this.$refs.popup.open();
-      wx.hideTabBar();
-    },
-    close() {
-      this.$refs.popup.close();
-      wx.showTabBar();
     },
     goCardBag() {
       uni.navigateTo({

@@ -15,11 +15,7 @@
         indicator-active-color="#9B9B9B"
       >
         <swiper-item v-for="item in bannerimg" :key="item.id">
-          <image
-            class="swiper_item"
-            :src="item.posterUrl"
-            mode="aspectFill"
-          ></image>
+          <image class="swiper_item" :src="item.posterUrl" mode="aspectFill" />
         </swiper-item>
       </swiper>
       <!-- 购票 -->
@@ -27,58 +23,22 @@
         <view class="buy_ticketsBox">
           <view class="buy_tickets">
             <view @click="myorders">
-              <image
-                src="../../static/images/index/index_BuyingTickets.png"
-              ></image>
+              <image src="../../static/images/index/index_BuyingTickets.png" />
               <span>购票</span>
             </view>
-
-            <uni-popup ref="popup" type="bottom" :tabbar="true">
-              <view class="login_box">
-                <view class="login_box_clear">
-                  <view class="login_box_clear_left"></view>
-                  <image
-                    class="login_box_clear_right"
-                    src="../../static/images/clear.png"
-                    @click="close()"
-                  ></image>
-                </view>
-                <view class="login_contentBox">
-                  <view class="login_box_title"> 请先授权登录 </view>
-                  <view class="login_box_content">
-                    为了更好的为您提供服务，请允许微信授权后再使用功能
-                  </view>
-                  <view class="login_box_btn">
-                    <!-- <button class="login_box_btn_box" @click="getLogin"> -->
-                    <button
-                      class="login_box_btn_box"
-                      open-type="getPhoneNumber"
-                      bindgetphonenumber="getPhoneNumber"
-                      @click="getLogin"
-                    >
-                      <image
-                        class="login_box_btn_img"
-                        src="../../static/images/wx.png"
-                      ></image>
-                      <view class="login_box_btn_name"> 微信授权登录 </view>
-                    </button>
-                  </view>
-                </view>
-              </view>
-            </uni-popup>
           </view>
-          <view class="line"> </view>
+          <view class="line"></view>
           <view class="buy_tickets_Food" @click="goFood()">
-            <image src="../../static/images/index/index_Order.png"></image>
+            <image src="../../static/images/index/index_Order.png" />
             <span>点餐</span>
           </view>
         </view>
       </view>
     </view>
-    <view style="width: 690rpx; height: 310rpx"></view>
+    <view style="width: 690rpx; height: 290rpx"></view>
     <!-- 消息提示框 -->
     <view class="massage_box" v-if="informationShow">
-      <image src="../../static/images/index/looks.png"></image>
+      <image src="../../static/images/index/looks.png" />
       <view>您的订单{{ information }}，请及时查看</view>
     </view>
     <!-- MARS商城 -->
@@ -91,42 +51,36 @@
       <view class="shoppingMall activeImgBox" @click="goMarsActivityBox">
         <!-- <view class="shoppingMall_title">
 					MARS活动
-				</view> -->
+        </view>-->
       </view>
       <view class="shoppingMall cardImgBox" @click="goMarsCoupon">
         <!-- <view class="shoppingMall_title">
 					MARS卡券
-				</view> -->
+        </view>-->
       </view>
     </view>
     <!-- 我的积分 -->
     <view class="integrate_box">
       <view class="integrate">
         <view class="integrate_left">
-          我的积分<span>{{ points }}</span>
+          我的积分
+          <span>{{ points }}</span>
         </view>
         <view class="integrate_right">
           <image
             src="../../static/images/index/index_integralImg.png"
-            mode=""
+            mode
             class="index_integralImg"
-          ></image>
+          />
         </view>
       </view>
     </view>
+    <modal-get-user-info />
   </view>
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import uniPopupMessage from "@/components/uni-popup/uni-popup-message.vue";
-import uniPopupDialog from "@/components/uni-popup/uni-popup-dialog.vue";
 export default {
-  components: {
-    uniPopup,
-    uniPopupMessage,
-    uniPopupDialog,
-  },
   data() {
     return {
       current: 0,
@@ -149,75 +103,15 @@ export default {
     // console.log(s, "1111111")
   },
   onShow() {
-    this.open();
-    uni.login({
-      provider: "weixin",
-      success: (loginRes) => {
-        // 登录接口
-        this.$axios
-          .postRequest("/wechat/login", {
-            code: loginRes.code,
-          })
-          .then((resLogin) => {
-            uni.setStorageSync("userInfo", resLogin.user); //user信息
-            uni.setStorageSync("token", resLogin.token); //token
-            uni.setStorageSync("storeName", resLogin.user.store.name); //默认门店名字
-            uni.setStorageSync("storeId", resLogin.user.store.id); //默认门店id
-            uni.setStorageSync("session_key", resLogin.session_key); //session_key
-            uni.setStorageSync("openid", resLogin.openid); //openid
-            this.points = uni.getStorageSync("userInfo").points;
-            this.userInfo = uni.getStorageSync("userInfo");
-            this.goOedreDetail();
-            this.points = uni.getStorageSync("userInfo").points;
-            this.userInfo = uni.getStorageSync("userInfo");
-            this.authPhone.session_key = uni.getStorageSync("session_key");
-            this.authPhone.openid = uni.getStorageSync("openid");
-            this.getAuthPhomber();
-
-            // 暂时用于更新手机号；
-            this.$axios
-              .putRequest("/user/" + resLogin.user.id, {
-                mobile: 15931152153,
-              })
-              .then((res1) => {
-                console.log(res1);
-              });
-          });
-      },
-    });
-
-    // if (uni.getStorageSync('storeName')) {
-    // 	console.log("存在门店")
-    // } else {
-    // 	console.log("不存在门店")
-    // }
-
-    // if (!uni.getStorageSync('token')) {
-    // 	this.open()
-    // }
-    // if (uni.getStorageSync('userInfo')) {
-    // 	console.log("拿到了userinfo")
-    // } else {
-    // 	this.getTheCurrentLoginUser()
-    // }
+    // this.open();
+    this.points = uni.getStorageSync("userInfo").points;
+    this.userInfo = uni.getStorageSync("userInfo");
+    this.getOrderDetail();
   },
   onLoad() {
     this.getbanner();
   },
   methods: {
-    getPhoneNumber(e) {
-      console.log(e.detail.errMsg, "e.detail.errMsg");
-      console.log(e.detail.iv, "e.detail.iv");
-      console.log(e.detail.encryptedData, "e.detail.encryptedData");
-    },
-    // 微信授权获取手机号
-    getAuthPhomber() {
-      this.$axios
-        .postRequest("/wechat/update-mobile", this.authPhone)
-        .then((rPhone) => {
-          console.log(rPhone, "rPhone");
-        });
-    },
     changeSwiper(e) {
       this.swiperCurrent = e.detail.current;
     },
@@ -225,14 +119,6 @@ export default {
       uni.navigateTo({
         url: "../my/myOrder",
       });
-    },
-    open() {
-      this.$refs.popup.open();
-      wx.hideTabBar();
-    },
-    close() {
-      this.$refs.popup.close();
-      wx.showTabBar();
     },
     // 跳转卡券页面
     goMarsCoupon() {
@@ -261,71 +147,9 @@ export default {
           this.bannerimg = res;
         });
     },
-    // 授权登录
-    getLogin() {
-      uni.login({
-        provider: "weixin",
-        success: (loginRes) => {
-          console.log(loginRes);
-          // this.goToken(loginRes)
-          uni.getUserInfo({
-            provider: "weixin",
-            success: (infoRes) => {
-              // console.log(infoRes)
-              this.goToken(loginRes);
-              this.nickname = infoRes.userInfo.nickName;
-              this.headerimg = infoRes.userInfo.avatarUrl;
-              // console.log(this.headerimg)
-              uni.setStorageSync("nickname", infoRes.userInfo.nickName);
-              uni.setStorageSync("headerimg", infoRes.userInfo.avatarUrl);
-              this.close();
-            },
-            fail: (err) => {
-              console.log(err);
-            },
-          });
-        },
-      });
-    },
-    // 获取token
-    // goToken(loginRes) {
-    // 	this.$axios.postRequest('/wechat/login', {
-    // 		code: loginRes.code
-    // 	}).then(res => {
-    // 		console.log(res, "获取token")
-    // 		// this.points = res.user.points
-    // 		// uni.setStorageSync('points', res.user.points)
-    // 		uni.setStorageSync('token', res.token)
-    // 		this.close();
-    // 		this.goOedreDetail()
-    // 		this.getTheCurrentLoginUser()
-    // 		// 暂时用于更新手机号；
-    // 		this.$axios.putRequest('/user/' + res.user.id, {
-    // 			mobile: 15931152153
-    // 		}).then(res1 => {
-    // 			console.log(res1)
-    // 		})
-    // 	})
-    // },
-    // 获取当前登录用户
-    // getTheCurrentLoginUser() {
-    // 	this.$axios.getRequest('/auth/user').then(res => {
-    // 		// this.points = res.points
-    // 		console.log(res.store, "获取当前登录用户")
-    // 		if (res.store) {
-    // 			uni.setStorageSync('storeName', res.store.name)
-    // 			uni.setStorageSync('storeId', res.store.id)
-    // 			console.log("存在门店")
-    // 		} else {
-    // 			uni.setStorageSync('storeName', "")
-    // 			uni.setStorageSync('storeId', "")
-    // 			console.log("不存在门店")
-    // 		}
-    // 	})
-    // },
 
     // 获取你的订单,查看详情
-    goOedreDetail() {
+    getOrderDetail() {
       this.$axios
         .getRequest("/booking", {
           type: "play",
@@ -369,20 +193,20 @@ export default {
   .banner {
     position: relative;
     width: 750rpx;
-    height: 750rpx;
+    height: calc(100vh - 750rpx);
     background: #d8d8d8;
 
     .swiper {
-      height: 750rpx;
+      height: calc(100vh - 750rpx);
       line-height: 140rpx;
 
       .swiper_item {
         width: 750rpx;
-        height: 750rpx;
+        height: calc(100vh - 750rpx);
 
         img {
           width: 750rpx;
-          height: 750rpx;
+          height: calc(100vh - 750rpx);
         }
 
         span {
@@ -435,103 +259,6 @@ export default {
 
       .buy_tickets {
         margin-left: 60rpx;
-
-        // 微信授权弹框
-        .login_box {
-          background-color: #ffffff;
-          width: 750rpx;
-          height: 550rpx;
-          background: #ffffff;
-          border-radius: 40rpx 40rpx 0rpx 0rpx;
-
-          .login_box_clear {
-            padding-top: 30rpx;
-            width: 672rpx;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-
-            .login_box_clear_left {
-              width: 40rpx;
-              height: 40rpx;
-            }
-
-            .login_box_clear_right {
-              width: 40rpx;
-              height: 40rpx;
-            }
-          }
-
-          .login_contentBox {
-            width: 672rpx;
-            margin: 0 auto;
-
-            .login_box_title {
-              padding-top: 20rpx;
-              width: 264rpx;
-              height: 60rpx;
-              font-size: 44rpx;
-              font-family: PingFangSC-Medium, PingFang SC;
-              font-weight: 550;
-              color: #000000;
-              line-height: 60rpx;
-              padding-bottom: 36rpx;
-            }
-
-            .login_box_content {
-              width: 672rpx;
-              height: 88rpx;
-              font-size: 32rpx;
-              font-family: PingFangSC-Regular, PingFang SC;
-              font-weight: 400;
-              color: #848484;
-              line-height: 44rpx;
-              text-align: left;
-            }
-
-            .login_box_btn {
-              width: 681rpx;
-              height: 102rpx;
-              background: #9fcdff;
-              box-shadow: 0rpx 10rpx 30rpx 0rpx rgba(215, 215, 215, 0.3);
-              border-radius: 52rpx;
-
-              .login_box_btn_box {
-                margin-top: 50rpx;
-                width: 681rpx;
-                height: 102rpx;
-
-                button::after {
-                  border: none;
-                }
-
-                padding: 0;
-                background-color: #9fcdff;
-                line-height: 102px;
-                border-radius: 52rpx;
-                display: flex;
-                justify-content: center;
-                // margin: 65px 222rpx;
-
-                .login_box_btn_img {
-                  width: 50rpx;
-                  height: 50rpx;
-                  color: #ffffff;
-                  padding-top: 25rpx;
-                  padding-right: 13rpx;
-                }
-
-                .login_box_btn_name {
-                  font-size: 32rpx;
-                  font-family: PingFangSC-Medium, PingFang SC;
-                  font-weight: 500;
-                  color: #ffffff;
-                  line-height: 100rpx;
-                }
-              }
-            }
-          }
-        }
       }
 
       .buy_tickets_Food {
@@ -610,7 +337,7 @@ export default {
   // 我的积分
   .integrate_box {
     width: 750rpx;
-    height: 132rpx;
+    // height: 132rpx;
     background: #ffffff;
 
     .integrate {
