@@ -1,12 +1,40 @@
-const commoneUrl = "https://mini-mars.codeispoetry.tech/api"; //第一步设置域名
-//get 请求
+// const baseUrl = "https://mini-mars.codeispoetry.tech/api"; //第一步设置域名
+const baseUrl = "http://localhost:8001/api"; //第一步设置域名
 
+function onSuccess(res, resolve, reject) {
+  if (res.statusCode === 200) {
+    resolve(res.data);
+  } else {
+    uni.showToast({
+      title: res.data.message,
+      duration: 2000,
+      icon: "none",
+    });
+    reject(res.data.message);
+    if (res.statusCode === 401) {
+      console.log("Remove token, user from storage.");
+      uni.removeStorageSync("token");
+      uni.removeStorageSync("user");
+    }
+  }
+}
+
+function onError(err, reject) {
+  uni.showToast({
+    title: "网络出错",
+    duration: 2000,
+    icon: "none",
+  });
+  reject(err);
+}
+
+//get 请求
 function getRequest(url, data) {
-  var promise = new Promise((resolve, reject) => {
-    var getData = data;
+  return new Promise((resolve, reject) => {
+    const getData = data;
 
     uni.request({
-      url: commoneUrl + url,
+      url: baseUrl + url,
       data: getData, //传的参数
       method: "GET", //请求方式
       dataType: "json", //请求类型是   json  固定的
@@ -15,43 +43,20 @@ function getRequest(url, data) {
         Authorization: uni.getStorageSync("token"),
       },
       success: function (res) {
-        if (res.statusCode === 200) {
-          resolve(res.data);
-          if (res.data.code == 200) {
-          } else {
-            uni.showToast({
-              title: res.data.message,
-              duration: 2000,
-              icon: "none",
-            });
-          }
-        } else {
-          uni.showToast({
-            title: res.data.message,
-            duration: 2000,
-            icon: "none",
-          });
-          reject("网络出错");
-        }
+        onSuccess(res, resolve, reject);
       },
       error: function (e) {
-        uni.showToast({
-          title: "网络出错",
-          duration: 2000,
-          icon: "none",
-        });
-        reject("网络出错");
+        onError(e, reject);
       },
     });
   });
-  return promise;
 }
 //post请求
 function postRequest(url, data) {
-  var promise = new Promise((resolve, reject) => {
-    var postData = data;
+  return new Promise((resolve, reject) => {
+    const postData = data;
     uni.request({
-      url: commoneUrl + url,
+      url: baseUrl + url,
       data: postData,
       method: "POST",
       header: {
@@ -59,53 +64,20 @@ function postRequest(url, data) {
         Authorization: uni.getStorageSync("token"),
       },
       success: function (res) {
-        resolve(res.data);
-        if (res.statusCode === 200) {
-          if (res.data.code == 200) {
-          } else if (res.data.code == 402) {
-          } else if (res.data.code == 501 || res.data.code == 502) {
-            uni.showToast({
-              title: res.data.message,
-              duration: 2000,
-              icon: "none",
-            });
-            uni.navigateTo({
-              url: "/pages/index/index",
-            });
-          } else {
-            uni.showToast({
-              title: res.data.message,
-              duration: 2000,
-              icon: "none",
-            });
-          }
-        } else {
-          uni.showToast({
-            title: res.data.message,
-            duration: 2000,
-            icon: "none",
-          });
-          reject("网络出错");
-        }
+        onSuccess(res, resolve, reject);
       },
       error: function (e) {
-        uni.showToast({
-          title: "网络出错",
-          duration: 2000,
-          icon: "none",
-        });
-        reject("网络出错");
+        onError(e, reject);
       },
     });
   });
-  return promise;
 }
 //put请求
 function putRequest(url, data) {
-  var promise = new Promise((resolve, reject) => {
-    var postData = data;
+  return new Promise((resolve, reject) => {
+    const postData = data;
     uni.request({
-      url: commoneUrl + url,
+      url: baseUrl + url,
       data: postData,
       method: "PUT",
       header: {
@@ -113,86 +85,35 @@ function putRequest(url, data) {
         Authorization: uni.getStorageSync("token"),
       },
       success: function (res) {
-        resolve(res.data);
-        if (res.statusCode === 200) {
-          if (res.data.code == 200) {
-          } else if (res.data.code == 402) {
-          } else if (res.data.code == 501 || res.data.code == 502) {
-            uni.showToast({
-              title: res.data.msg,
-              duration: 2000,
-              icon: "none",
-            });
-            uni.navigateTo({
-              url: "/pages/index/index",
-            });
-          } else {
-            uni.showToast({
-              title: res.data.message,
-              duration: 2000,
-              icon: "none",
-            });
-          }
-        } else {
-          uni.showToast({
-            title: res.data.message,
-            duration: 2000,
-            icon: "none",
-          });
-          reject("网络出错");
-        }
+        onSuccess(res, resolve, reject);
       },
       error: function (e) {
-        uni.showToast({
-          title: "网络出错",
-          duration: 2000,
-          icon: "none",
-        });
-        reject("网络出错");
+        onError(err, reject);
       },
     });
   });
-  return promise;
 }
 //上传图片
 function uploadPhoto(url, data) {
-  var uploadData = data;
-  var promise = new Promise((resolve, reject) => {
+  const uploadData = data;
+  return new Promise((resolve, reject) => {
     uni.uploadFile({
-      url: commoneUrl + url,
+      url: baseUrl + url,
       filePath: uploadData,
       name: "img",
-
-      success: function (uploadFileRes) {
-        uploadFileRes.data = JSON.parse(uploadFileRes.data);
-
-        if (uploadFileRes.statusCode == 200) {
-          resolve(uploadFileRes.data);
-        } else {
-          uni.showToast({
-            title: "网络出错",
-            duration: 2000,
-            icon: "none",
-          });
-          reject("网络出错");
-        }
+      success: function (res) {
+        onSuccess(res, resolve, reject);
       },
-      error: function (err) {
-        uni.showToast({
-          title: "网络出错",
-          duration: 2000,
-          icon: "none",
-        });
-        reject("网络出错");
+      error: function (e) {
+        onError(e, reject);
       },
     });
   });
-  return promise;
 }
 
 module.exports = {
   postRequest,
   getRequest,
-  uploadPhoto,
   putRequest,
+  uploadPhoto,
 };
