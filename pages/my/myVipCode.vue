@@ -31,8 +31,7 @@ export default {
     this.heading = uni.getStorageSync("headerimg");
     this.srcQRcode =
       "https://mini-mars.codeispoetry.tech/api/qrcode-image/" +
-      uni.getStorageSync("userid");
-    // src :{usrID}
+      uni.getStorageSync("user").id;
   },
   methods: {
     gomy() {

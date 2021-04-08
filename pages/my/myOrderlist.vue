@@ -146,7 +146,7 @@
 							</view>
 						</view>
 					</view>
-          <!-- 详情  弹框-->
+          详情  弹框-->
           <uni-popup ref="popup" type="center">
             <view class="gift_box">
               <view class="gift_box_clear">

@@ -164,7 +164,6 @@ export default {
         } else {
           this.imgulr = defaulturl;
         }
-        uni.setStorageSync("userid", res.id);
         // console.log(res.currentCover,"res.currentCover")
         if (res.currentCover) {
           this.showbanner = true;

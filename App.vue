@@ -3,24 +3,31 @@ export default {
   onLaunch: async function () {
     console.log("App Launch");
     //全局配置
-    this.$axios.getRequest("/config").then((res) => {
-      // console.log(res, "全局配置")
-      uni.setStorageSync("bookableDays", res.bookableDays); //购票限制日期
-    });
+    this.$axios
+      .getRequest("/config")
+      .then((res) => {
+        // console.log(res, "全局配置")
+        uni.setStorageSync("bookableDays", res.bookableDays); //购票限制日期
+      })
+      .catch((e) => console.error(e.message));
 
     const token = uni.getStorageSync("token");
 
-    if (!token) {
-      await this.login();
-    } else {
-      await this.getAuthUser();
-    }
+    try {
+      if (!token) {
+        await this.login();
+      } else {
+        await this.getAuthUser();
+      }
 
-    const user = uni.getStorageSync("userInfo");
+      const user = uni.getStorageSync("user");
 
-    if (user.store) {
-      uni.setStorageSync("storeName", resLogin.user.store.name); //默认门店名字
-      uni.setStorageSync("storeId", resLogin.user.store.id); //默认门店id
+      if (user.store) {
+        uni.setStorageSync("storeName", user.store.name); //默认门店名字
+        uni.setStorageSync("storeId", user.store.id); //默认门店id
+      }
+    } catch (e) {
+      console.error(e);
     }
   },
   onShow: function () {
@@ -47,7 +54,7 @@ export default {
                 uni.setStorageSync("token", resLogin.token); //token
                 uni.setStorageSync("session_key", resLogin.session_key); //session_key
                 uni.setStorageSync("openid", resLogin.openid); //openid
-                uni.setStorageSync("userInfo", resLogin.user); //user信息
+                uni.setStorageSync("user", resLogin.user); //user信息
               });
           },
           fail(err) {
@@ -58,8 +65,8 @@ export default {
     },
     async getAuthUser() {
       const user = await this.$axios.getRequest("/auth/user");
-      console.log("get auth user:", user);
-      uni.setStorageSync("userInfo", user);
+      console.log("Get auth user:", user);
+      uni.setStorageSync("user", user);
     },
   },
 };

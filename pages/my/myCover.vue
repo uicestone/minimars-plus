@@ -227,10 +227,9 @@ export default {
     },
     // 更换封面
     useCover(item) {
-      console.log(item);
       this.replaceCovers = item.id;
       this.$axios
-        .putRequest("/user/" + uni.getStorageSync("userid"), {
+        .putRequest("/user/" + uni.getStorageSync("user").id, {
           currentCover: this.replaceCovers,
         })
         .then((res) => {

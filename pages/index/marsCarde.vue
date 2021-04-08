@@ -21,9 +21,9 @@
           <!-- 	<view class="modeOf_Payment_scroll"  @click="gobuyCards(i)">
 						<view><image :src="i.posterUrl" class="yuanimage" /></view>
 						<view class="modeOf_Payment_box" v-for="(item,index) in i.posterUrls" :key="index">
-          <!-- <image :src="i.posterUrl" />-->
-          <!-- <image :src="item" mode="aspectFill" /> -->
-          <!-- 	</view>
+          <image :src="i.posterUrl" />
+          <image :src="item" mode="aspectFill" />
+          </view>
           </view>-->
         </scroll-view>
       </view>
