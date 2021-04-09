@@ -104,7 +104,6 @@ export default {
 				
         this.$set(this.selectValue, columnIndex, valueItem)
         this.$set(this.selectItem, columnIndex, columnItem)
-				console.log(this.selectItem,2222222222)
         this.$emit('change', {
           value: this.selectValue,
           item: this.selectItem,
