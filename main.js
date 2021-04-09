@@ -5,6 +5,11 @@ import axios from "./utils/request.js";
 Vue.config.productionTip = false;
 
 Vue.prototype.$axios = axios;
+
+Vue.prototype.$onLaunched = new Promise((resolve) => {
+  Vue.prototype.$launched = resolve;
+});
+
 App.mpType = "app";
 
 const app = new Vue({

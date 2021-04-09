@@ -1,18 +1,18 @@
 <template>
-  <uni-popup ref="popup" type="bottom" :tabBar="true">
+  <uni-popup ref="getUserInfoPopup" type="bottom" :tabBar="true">
     <view class="login_box">
       <view class="login_box_clear">
         <view class="login_box_clear_left"></view>
         <image class="login_box_clear_right" src="../../static/images/clear.png" @click="close()" />
       </view>
       <view class="login_contentBox">
-        <view class="login_box_title">请先授权登录</view>
-        <view class="login_box_content">为了更好的为您提供服务，请允许微信授权后再使用功能</view>
+        <view class="login_box_title">请授权登录</view>
+        <view class="login_box_content">以显示您的头像和昵称</view>
         <view class="login_box_btn">
           <button
             class="login_box_btn_box"
             open-type="getUserInfo"
-            bindgetuserinfo="getUserInfo"
+            @getuserinfo="getUserInfo"
             @click="getUserInfo"
           >
             <image class="login_box_btn_img" src="../../static/images/wx.png" />
@@ -35,7 +35,7 @@ export default {
       uni.getUserInfo({
         provider: "weixin",
         success: async (infoRes) => {
-          console.log("get user info:", infoRes);
+          console.log("Wechat get user info:", infoRes);
           const { encryptedData, iv } = infoRes;
           const session_key = uni.getStorageSync("session_key");
           const { token, user } = await this.$axios.postRequest(
@@ -46,7 +46,7 @@ export default {
               session_key,
             }
           );
-          uni.setStorageSync("userInfo", user);
+          uni.setStorageSync("user", user);
           uni.setStorageSync("token", token);
           this.close();
         },
@@ -56,17 +56,17 @@ export default {
       });
     },
     close() {
-      this.$refs.popup.close();
+      this.$refs.getUserInfoPopup.close();
       uni.showTabBar();
     },
     open() {
-      this.$refs.popup.open();
+      this.$refs.getUserInfoPopup.open();
       uni.hideTabBar();
     },
   },
-  mounted() {
-    const user = uni.getStorageSync("userInfo");
-    if (!user.avatarUrl) {
+  async mounted() {
+    await this.$onLaunched;
+    if (!uni.getStorageSync("user").avatarUrl) {
       this.open();
     }
   },

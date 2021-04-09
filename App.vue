@@ -1,6 +1,6 @@
 <script>
 export default {
-  onLaunch: async function () {
+  async onLaunch() {
     console.log("App Launch");
     //全局配置
     this.$axios
@@ -14,11 +14,14 @@ export default {
     const token = uni.getStorageSync("token");
 
     try {
+      uni.showLoading({ mask: true });
       if (!token) {
         await this.login();
       } else {
         await this.getAuthUser();
       }
+      this.$launched();
+      uni.hideLoading();
 
       const user = uni.getStorageSync("user");
 
@@ -30,10 +33,10 @@ export default {
       console.error(e);
     }
   },
-  onShow: function () {
+  onShow() {
     console.log("App Show");
   },
-  onHide: function () {
+  onHide() {
     console.log("App Hide");
   },
   methods: {
@@ -42,23 +45,25 @@ export default {
         uni.login({
           provider: "weixin",
           success: (loginRes) => {
-            console.log("wechat login success:", loginRes);
+            console.log("Wechat login success:", loginRes);
 
             // 登录接口
             this.$axios
               .postRequest("/wechat/login", {
                 code: loginRes.code,
               })
-              .then((resLogin) => {
-                console.log("wechat login response:", resLogin);
-                uni.setStorageSync("token", resLogin.token); //token
-                uni.setStorageSync("session_key", resLogin.session_key); //session_key
-                uni.setStorageSync("openid", resLogin.openid); //openid
-                uni.setStorageSync("user", resLogin.user); //user信息
+              .then((res) => {
+                console.log("Wechat login:", res);
+                uni.setStorageSync("token", res.token); //token
+                uni.setStorageSync("session_key", res.session_key); //session_key
+                uni.setStorageSync("openid", res.openid); //openid
+                uni.setStorageSync("user", res.user); //user信息
+                resolve(res);
               });
           },
           fail(err) {
-            console.error("wechat login error:", err);
+            console.error("Wechat login error:", err);
+            reject(err);
           },
         });
       });

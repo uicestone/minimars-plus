@@ -4,7 +4,7 @@
     <view class="banner">
       <swiper
         class="swiper"
-        :autoplay="true"
+        :autoplay="swiperAutoplay"
         :interval="3000"
         :duration="1000"
         :current="swiperCurrent"
@@ -35,9 +35,9 @@
         </view>
       </view>
     </view>
-    <view style="width: 690rpx; height: 290rpx"></view>
+    <view style="width: 690rpx; height: 290rpx; margin-bottom:30rpx"></view>
     <!-- 消息提示框 -->
-    <view class="massage_box" v-if="informationShow">
+    <view class="message_box" v-if="informationShow">
       <image src="../../static/images/index/looks.png" />
       <view>您的订单{{ information }}，请及时查看</view>
     </view>
@@ -75,7 +75,8 @@
         </view>
       </view>
     </view>
-    <modal-get-user-info />
+    <!-- <modal-get-user-info /> -->
+    <modal-get-phone-number />
   </view>
 </template>
 
@@ -85,31 +86,36 @@ export default {
     return {
       current: 0,
       swiperCurrent: 0,
+      swiperAutoplay: true,
       points: 10, //积分
       bannerimg: [], //轮播图
       headerimg: "",
       information: "", //订单信息
       informationShow: false,
-      authPhone: {
-        //微信授权手机号传参
-        session_key: "",
-        encryptedData: "",
-        iv: "",
-        openid: "",
-      },
+      user: null,
     };
   },
   onTabItemTap(s) {
     // console.log(s, "1111111")
   },
   onShow() {
-    // this.open();
-    this.points = uni.getStorageSync("userInfo").points;
-    this.userInfo = uni.getStorageSync("userInfo");
-    this.getOrderDetail();
+    console.log("index:show");
+    this.swiperAutoplay = true;
+    this.user = uni.getStorageSync("user");
+
+    if (this.user) {
+      this.points = this.user.points;
+      this.getOrderDetail();
+    }
   },
-  onLoad() {
-    this.getbanner();
+  onHide() {
+    this.swiperAutoplay = false;
+    console.log("index:hide");
+  },
+  async onLoad() {
+    uni.showLoading({ mask: true });
+    await this.getBanner();
+    uni.hideLoading();
   },
   methods: {
     changeSwiper(e) {
@@ -138,8 +144,8 @@ export default {
       });
     },
     // banner图
-    getbanner() {
-      this.$axios
+    getBanner() {
+      return this.$axios
         .getRequest("/post", {
           tag: "home-banner",
         })
@@ -193,20 +199,20 @@ export default {
   .banner {
     position: relative;
     width: 750rpx;
-    height: calc(100vh - 750rpx);
+    height: calc(100vh - 780rpx);
     background: #d8d8d8;
 
     .swiper {
-      height: calc(100vh - 750rpx);
+      height: calc(100vh - 780rpx);
       line-height: 140rpx;
 
       .swiper_item {
         width: 750rpx;
-        height: calc(100vh - 750rpx);
+        height: calc(100vh - 780rpx);
 
         img {
           width: 750rpx;
-          height: calc(100vh - 750rpx);
+          height: calc(100vh - 780rpx);
         }
 
         span {
@@ -268,7 +274,7 @@ export default {
   }
 
   // 消息提示框
-  .massage_box {
+  .message_box {
     width: 690rpx;
     height: 80rpx;
     background: #ffffff;
@@ -283,7 +289,7 @@ export default {
       width: 30rpx;
       height: 30rpx;
       margin-left: 50rpx;
-      margin-top: 32rpx;
+      margin-top: 26rpx;
     }
 
     view {
@@ -292,6 +298,8 @@ export default {
       font-weight: 700;
       color: #bdbdbd;
       margin-left: 20rpx;
+      display: flex;
+      align-items: center;
     }
   }
 
@@ -299,7 +307,7 @@ export default {
   .shoppingMall_box {
     display: flex;
     justify-content: space-around;
-    margin: 20rpx 0;
+    margin: 20rpx 20rpx 20rpx;
 
     .shoppingImgBox {
       background: url(../../static/images/index/index_shoppingImg.png) no-repeat;

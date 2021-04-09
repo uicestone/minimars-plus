@@ -1,22 +1,21 @@
 <template>
-  <uni-popup ref="popup" type="bottom" :tabBar="true">
+  <uni-popup ref="getPhoneNumberPopup" type="bottom" :tabBar="true">
     <view class="login_box">
       <view class="login_box_clear">
         <view class="login_box_clear_left"></view>
         <image class="login_box_clear_right" src="../../static/images/clear.png" @click="close()" />
       </view>
       <view class="login_contentBox">
-        <view class="login_box_title">请先授权手机号</view>
-        <view class="login_box_content">为了更好的为您提供服务，请允许微信授权手机号</view>
+        <view class="login_box_title">请授权手机号</view>
+        <view class="login_box_content">以同步您先前的会员卡和积分信息</view>
         <view class="login_box_btn">
           <button
             class="login_box_btn_box"
             open-type="getPhoneNumber"
-            bindgetphonenumber="getPhoneNumber"
-            @click="getPhoneNumber"
+            @getphonenumber="getPhoneNumber"
           >
             <image class="login_box_btn_img" src="../../static/images/wx.png" />
-            <view class="login_box_btn_name">获取手机号</view>
+            <view class="login_box_btn_name">授权手机号</view>
           </button>
         </view>
       </view>
@@ -30,41 +29,38 @@ export default {
     return {};
   },
   methods: {
-    // 授权登录
-    getPhoneNumber(e) {
-      uni.getPhoneNumber({
-        provider: "weixin",
-        success: async (infoRes) => {
-          console.log("get user info:", infoRes);
-          const { encryptedData, iv } = infoRes;
-          const session_key = uni.getStorageSync("session_key");
-          const { token, user } = await this.$axios.postRequest(
-            "/wechat/signup",
-            {
-              encryptedData,
-              iv,
-              session_key,
-            }
-          );
-          console.log(token, user);
-          this.close();
-        },
-        fail: (err) => {
-          console.log(err);
-        },
-      });
+    async getPhoneNumber(e) {
+      const openid = uni.getStorageSync("openid");
+      const session_key = uni.getStorageSync("session_key");
+      const { encryptedData, iv } = e.detail;
+      const { token, user } = await this.$axios.postRequest(
+        "/wechat/update-mobile",
+        {
+          encryptedData,
+          iv,
+          session_key,
+          openid,
+        }
+      );
+      uni.setStorageSync("user", user);
+      uni.setStorageSync("token", token);
+      this.close();
     },
     close() {
-      this.$refs.popup.close();
+      this.$refs.getPhoneNumberPopup.close();
       uni.showTabBar();
     },
     open() {
-      this.$refs.popup.open();
+      this.$refs.getPhoneNumberPopup.open();
       uni.hideTabBar();
     },
   },
-  mounted() {
-    this.open();
+  async mounted() {
+    await this.$onLaunched;
+    console.log("modal-get-phone-number:mounted");
+    if (!uni.getStorageSync("user").mobile) {
+      this.open();
+    }
   },
 };
 </script>
