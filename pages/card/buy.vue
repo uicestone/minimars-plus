@@ -2,23 +2,20 @@
 view.buycards_box
   view.buycards_top
     view.buycards_top_box
-      img(:src="itemimg", mode="aspectFill")
+      img(:src="cover", mode="aspectFill")
       span {{ cardsDetail.title }}
-      //
-        <image :src="i.posterUrl" mode="aspectFill" />
-        <span>{{i.title}}</span>
   view.buycards_contentall
     view.buycards_content
       view.buycards_content-title 充值金额选择
       view.buycards_content-Bigbox
         view.buycards_content-box
           view.buycards_content-boxone(
-            v-for="(item, index) in balanceChonse",
+            v-for="(item, index) in balancePriceGroups",
             :key="index"
           )
             view.buycards_contentBody
               view.buycards_contentBody-left
-                span {{ index }}
+                span {{ item.count }}
               view.buycards_contentBody-right(@click="goaddMoney(item._id)")
                 img(src="../../static/images/add.png")
               view.buycards_contentBody-image(@click="open(item)")
@@ -40,22 +37,24 @@ view.buycards_box
                   view {{ balanceItem.balance }}
               view.buycardsBox_footer
                 view.buycardsBox_footer_left
-                  view.title 使用须知：
                   scroll-view.gift_contentBox_box(scroll-y="true")
+                    view.title 使用须知：
                     view.spanContent
-                      rich-text(:nodes="cardsDetail.content")
+                      rich-text(:nodes="content")
                 view.buycardsBox_footer_right
     // footer
     view.buycards_footer
       // 订单支付
       view.modeOf_Payment_order
         view.modeOf_Payment_order_money
-          view {{ numbers }}张
+          view {{ totalCount }}张
           |
-          | 总计 ¥ {{ playMoneyCount.toFixed(2) }}
+          | 总计 ¥ {{ price.toFixed(2) }}
         view.modeOf_Payment_order_play
-          view.modeOf_Payment_order_play_name(@click="gocardOrder") 订单支付Payment
-    // end
+          view.modeOf_Payment_order_play_name(@click="gocardOrder")
+            | 确认购买
+            br
+            | Order
 </template>
 
 <script>
@@ -66,63 +65,46 @@ export default {
   },
   data() {
     return {
-      cards1: 0,
-      cards2: 0,
-      cards3: 0,
-      types: "",
-      playMoneyCount: 0,
-      playMoney1: 0,
-      playMoney2: 0,
-      playMoney3: 0,
       slug: "",
-      typeCards: "",
-      cardid: "",
-      cardsDetail: {
+      cardType: {
         title: "",
         price: "",
-        content: [],
-        // balancePriceGroups:[]
+        content: "",
+        balancePriceGroups: [],
       },
-      balanceChonse: [], //充值金额选择
+      content: "",
+      balancePriceGroups: [], //充值金额选择
       balanceItem: {
         balance: 0,
         price: 0,
       }, //弹框的模块
-      itemimg: "",
-      balancePriceGroups: [],
-      index1: Number(0),
-      index2: Number(0),
-      index3: Number(0),
-      numbers: 0,
+      cover: "",
     };
   },
   onLoad(option) {
     this.slug = option.slug;
-    this.itemimg = option.itemimg;
+    this.cover = option.cover;
   },
   onShow() {
-    this.goCard();
+    this.getCardType();
   },
   methods: {
     // 卡片详情
-    goCard() {
-      this.$axios
-        .getRequest("/card-type", {
-          slug: this.slug,
-        })
-        .then((res) => {
-          this.cardsDetail = res[0];
-          res[0].balancePriceGroups.forEach((i) => {
-            i.count = 0;
-            i.total = 0;
-          });
-          this.balanceChonse = res[0].balancePriceGroups;
-        });
+    async getCardType() {
+      this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
+      this.content = this.cardType.content || "";
+      this.content = this.content
+        .replace(/<p([ >])/g, '<p class="p"$1')
+        .replace(/<ol([ >])/g, '<ol class="ol"$1')
+        .replace(/<ul([ >])/g, '<ul class="ul"$1');
+      this.cardType.balancePriceGroups.forEach((group) => {
+        this.balancePriceGroups.push({ ...group, count: 0, total: 0 });
+      });
     },
     // 创建订单
     gocardOrder() {
       let neworder = [];
-      this.balanceChonse.forEach((i) => {
+      this.balancePriceGroups.forEach((i) => {
         neworder.push({
           balance: i.balance,
           count: i.count,
@@ -169,21 +151,25 @@ export default {
       this.$refs.popup.close();
     },
     goaddMoney(id) {
-      this.balanceChonse.forEach((i) => {
+      this.balancePriceGroups.forEach((i) => {
         if (id == i._id) {
           i.count = i.count + 1;
         }
       });
-      console.log(this.balanceChonse);
-      var totalPrice = 0;
-      var number = 0;
-      this.balanceChonse.forEach((j) => {
-        totalPrice += j.count * j.price;
-        number += j.count;
-      });
-      this.numbers = number;
-      this.playMoneyCount = totalPrice;
-      console.log(this.playMoneyCount, 111);
+    },
+  },
+  computed: {
+    totalCount() {
+      return this.balancePriceGroups.reduce(
+        (count, group) => count + group.count,
+        0
+      );
+    },
+    price() {
+      return this.balancePriceGroups.reduce(
+        (price, group) => +(price + group.count * group.price).toFixed(6),
+        0
+      );
     },
   },
 };
@@ -193,10 +179,10 @@ export default {
 .buycards_box {
   width: 750rpx;
   background: #f8f8f8;
+  height: 100vh;
 
   .buycards_top {
     padding: 100rpx 0;
-    height: calc(100vh-600rpx);
 
     .buycards_top_box {
       width: 550rpx;
@@ -227,7 +213,6 @@ export default {
     position: fixed;
     bottom: 0;
     width: 750rpx;
-    height: 600rpx;
     background: #ffffff;
     box-shadow: 0rpx 4rpx 16rpx 8rpx rgba(186, 186, 186, 0.5);
 
@@ -276,8 +261,8 @@ export default {
                 border: 4rpx solid #fffbfb;
 
                 span {
-                  width: 20rpx;
-                  height: 44rpx;
+                  // width: 20rpx;
+                  // height: 44rpx;
                   font-size: 32rpx;
                   font-family: PingFangSC-Semibold, PingFang SC;
                   font-weight: 600;
@@ -375,11 +360,11 @@ export default {
             justify-content: space-between;
             width: 672rpx;
             margin: 0 auto;
-            margin-top: 35rpx;
 
             .buycardsBox_footer_left {
               text-align: left;
-              width: 600rpx;
+              width: 90%;
+              margin: 0 auto;
 
               .title {
                 width: 146rpx;
@@ -391,8 +376,10 @@ export default {
               }
 
               .gift_contentBox_box {
-                height: 350rpx;
-
+                height: 440rpx;
+                .title {
+                  margin-top: 30rpx;
+                }
                 .spanContent {
                   margin-top: 10rpx;
                   font-size: 24rpx;

@@ -2,7 +2,7 @@
 view.buycards_box
   view.buycards_top
     view.buycards_top_box
-      img(:src="itemimg", mode="aspectFill")
+      img(:src="cover", mode="aspectFill")
       view.cards_box
         view.cards_box-left
           | ¥{{ cardType.price }}
@@ -17,17 +17,19 @@ view.buycards_box
       view.purchase_notes
         // 购买须知:
         view.purchase_notesBox
-          rich-text(:nodes="cardType.content")
+          rich-text(:nodes="content")
       //
         <view class="warm_prompt">
         温馨提示:
         </view>
       view.buyQualifyCards_footer
         // 订单支付
-        view.buyQualifyCards_footerBox(@click="orderPlay")
-          view.buyQualifyCards_footerBox_left 订单支付Payment
-          view.buyQualifyCards_footerBox_right(v-if="buyMultiple == true") ￥{{ price }}
-          view.buyQualifyCards_footerBox_right(v-if="buyMultiple == false") ￥{{ cardType.price }}
+        view.buyQualifyCards_footerBox(@click="orderPay")
+          view.buyQualifyCards_footerBox_left(style="text-align:center")
+            | 确认购买
+            br
+            | Order
+          view.buyQualifyCards_footerBox_right ￥{{ price }}
 </template>
 
 <script>
@@ -40,10 +42,11 @@ export default {
         price: "",
         title: "",
         price: "",
-        content: [],
+        content: "",
       },
+      content: "",
       slug: "",
-      itemimg: "",
+      cover: "",
     };
   },
   onShow() {
@@ -51,11 +54,11 @@ export default {
   },
   onLoad(option) {
     this.slug = option.slug;
-    this.itemimg = option.itemimg;
+    this.cover = option.cover;
   },
   methods: {
     // 订单支付
-    orderPlay() {
+    orderPay() {
       let orderDetail = {};
       if (this.buyMultiple) {
         orderDetail = {
@@ -97,12 +100,11 @@ export default {
     // 卡片详情
     async getCardTypeDetail() {
       this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
-      let content = this.cardType.content;
-      content = content
+      this.content = this.cardType.content || "";
+      this.content = this.content
         .replace(/<p([ >])/g, '<p class="p"$1')
-        .replace(/\<ol([ >])/g, '<ol class="ol"$1')
-        .replace(/\<ul([ >])/g, '<ul class="ul"$1');
-      this.cardType.content = content;
+        .replace(/<ol([ >])/g, '<ol class="ol"$1')
+        .replace(/<ul([ >])/g, '<ul class="ul"$1');
 
       this.buyMultiple = this.cardType.type === "times";
     },
@@ -149,7 +151,7 @@ export default {
           line-height: 44rpx;
 
           .cards_box_left-title {
-            width: 218rpx;
+            width: 320rpx;
             height: 40rpx;
             font-size: 28rpx;
             font-family: PingFangSC-Semibold, PingFang SC;
@@ -236,7 +238,7 @@ export default {
           display: flex;
           justify-content: space-around;
           width: 500rpx;
-          height: 77rpx;
+          height: 82rpx;
           align-items: center;
 
           .buyQualifyCards_footerBox_left,

@@ -22,7 +22,7 @@ view.marsCardbox
           <image :src="item" mode="aspectFill" />
           </view>
           </view>
-  view.marsCard_footerBox
+  //- view.marsCard_footerBox
     view.marsCard_footer 使用须知
 </template>
 
@@ -52,11 +52,11 @@ export default {
     gobuyCardsCover(i, item) {
       if (this.type == "balance") {
         uni.navigateTo({
-          url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + item,
+          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + item,
         });
       } else {
         uni.navigateTo({
-          url: "/pages/card/buyTimes?slug=" + i.slug + "&itemimg=" + item,
+          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + item,
         });
       }
     },
@@ -64,12 +64,11 @@ export default {
       console.log("gobuyCards:", i.slug);
       if (this.type == "balance") {
         uni.navigateTo({
-          url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + i.posterUrl,
+          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + i.posterUrl,
         });
       } else {
         uni.navigateTo({
-          url:
-            "/pages/card/buyTimes?slug=" + i.slug + "&itemimg=" + i.posterUrl,
+          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + i.posterUrl,
         });
       }
     },
@@ -97,7 +96,7 @@ export default {
       margin: 30px 0;
 
       .contentbox-contentTitle {
-        margin: 0 auto;
+        margin: 0 auto 10rpx;
         width: 650rpx;
         height: 40rpx;
         font-size: 28rpx;
