@@ -5,23 +5,19 @@ view.buycards_box
       img(:src="itemimg", mode="aspectFill")
       view.cards_box
         view.cards_box-left
-          | ¥{{ cardsDetail.price }}
-          view.cards_box_left-title {{ cardsDetail.title }}
-        view.cards_box-right(v-if="addAminus")
-          img.minus(
-            src="../../static/images/minus.png",
-            @click="gonumberMinus"
-          )
-          |
+          | ¥{{ cardType.price }}
+          view.cards_box_left-title {{ cardType.title }}
+        view.cards_box-right(v-if="buyMultiple")
+          img.minus(src="../../static/images/minus.png", @click="number--")
           | {{ number }}
-          img.add(src="../../static/images/add.png", @click="gonumberAdd")
+          img.add(src="../../static/images/add.png", @click="number++")
   // 购买须知
   view.buyQualifyCards_contentbox
     view.buyQualifyCards_content
       view.purchase_notes
         // 购买须知:
         view.purchase_notesBox
-          rich-text(:nodes="cardsDetail.content")
+          rich-text(:nodes="cardType.content")
       //
         <view class="warm_prompt">
         温馨提示:
@@ -30,19 +26,17 @@ view.buycards_box
         // 订单支付
         view.buyQualifyCards_footerBox(@click="orderPlay")
           view.buyQualifyCards_footerBox_left 订单支付Payment
-          view.buyQualifyCards_footerBox_right(v-if="addAminus == true") ￥{{ playcards }}
-          view.buyQualifyCards_footerBox_right(v-if="addAminus == false") ￥{{ cardsDetail.price }}
+          view.buyQualifyCards_footerBox_right(v-if="buyMultiple == true") ￥{{ price }}
+          view.buyQualifyCards_footerBox_right(v-if="buyMultiple == false") ￥{{ cardType.price }}
 </template>
 
 <script>
 export default {
   data() {
     return {
-      addAminus: false,
-      // cards: 2000,
-      number: 0,
-      playcards: 0,
-      cardsDetail: {
+      buyMultiple: false,
+      number: 1,
+      cardType: {
         price: "",
         title: "",
         price: "",
@@ -53,9 +47,7 @@ export default {
     };
   },
   onShow() {
-    this.goCard();
-    this.playcards = this.cardsDetail.price;
-    // this.getCardsInformation()
+    this.getCardTypeDetail();
   },
   onLoad(option) {
     this.slug = option.slug;
@@ -65,7 +57,7 @@ export default {
     // 订单支付
     orderPlay() {
       let orderDetail = {};
-      if (this.addAminus) {
+      if (this.buyMultiple) {
         orderDetail = {
           slug: this.slug,
           quantity: this.number,
@@ -102,38 +94,22 @@ export default {
         }
       });
     },
-
-    gonumberMinus() {
-      if (this.number != 0) {
-        this.number--;
-        this.playcards = this.playcards - this.cardsDetail.price;
-      } else {
-        this.number = 0;
-      }
-    },
-    gonumberAdd() {
-      this.number++;
-      // this.playcards=this.playcards+this.cards
-      this.playcards = this.cardsDetail.price * this.number;
-    },
     // 卡片详情
-    goCard() {
-      this.$axios
-        .getRequest("/card-type", {
-          slug: this.slug,
-        })
-        .then((res) => {
-          this.cardsDetail = res[0];
-          console.log(this.cardsDetail);
-          if (
-            this.cardsDetail.type == "period" ||
-            this.cardsDetail.type == "coupon"
-          ) {
-            this.addAminus = false;
-          } else {
-            this.addAminus = true;
-          }
-        });
+    async getCardTypeDetail() {
+      this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
+      let content = this.cardType.content;
+      content = content
+        .replace(/<p([ >])/g, '<p class="p"$1')
+        .replace(/\<ol([ >])/g, '<ol class="ol"$1')
+        .replace(/\<ul([ >])/g, '<ul class="ul"$1');
+      this.cardType.content = content;
+
+      this.buyMultiple = this.cardType.type === "times";
+    },
+  },
+  computed: {
+    price() {
+      return this.cardType.price * this.number;
     },
   },
 };
@@ -213,13 +189,13 @@ export default {
     background: #ffffff;
 
     .buyQualifyCards_content {
-      width: 550rpx;
+      width: 80%;
       margin: 0 auto;
       padding-top: 40rpx;
 
       .purchase_notes,
       .warm_prompt {
-        margin-bottom: 140rpx;
+        padding-bottom: 200rpx;
         // width: 126rpx;
         min-height: 34rpx;
         font-size: 24rpx;
@@ -232,16 +208,23 @@ export default {
           font-size: 24rpx;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
-          color: #0d0d0d;
-          line-height: 34rpx;
-          // border: 1px solid red;
+          line-height: 1.25;
+          color: #525252;
+          .p {
+            margin-bottom: 0.5rem;
+          }
+          .ol {
+            margin-top: 1em;
+            margin-bottom: 1em;
+            padding-left: 1.5rem;
+          }
         }
       }
 
       .buyQualifyCards_footer {
         position: fixed;
-        bottom: 0;
-        width: 545rpx;
+        bottom: 50rpx;
+        width: 80%;
         height: 102rpx;
         background: #9fcdff;
         box-shadow: 0rpx 10rpx 30rpx 0rpx rgba(215, 215, 215, 0.3);
