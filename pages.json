@@ -20,12 +20,6 @@
       }
     },
     {
-      "path": "pages/food/scan",
-      "style": {
-        "navigationBarTitleText": "点餐"
-      }
-    },
-    {
       "path": "pages/food/order",
       "style": {
         "navigationBarTitleText": "点餐",
@@ -182,7 +176,7 @@
         "text": "商城"
       },
       {
-        "pagePath": "pages/food/scan",
+        "pagePath": "pages/food/index",
         "iconPath": "static/images/tabbarFood.png",
         "selectedIconPath": "static/images/tabbarFood1.png",
         "text": "点餐"

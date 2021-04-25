@@ -23,7 +23,7 @@ view.orderFood_box
         indicator-color="#B9B9B9",
         indicator-active-color="#9B9B9B"
       )
-        swiper-item(v-for="item in swiperImg", :key="item.id")
+        swiper-item(v-for="item in bannerPosts", :key="item.id")
           img.swiper_item(:src="item.posterUrl", mode="aspectFill")
     // 特色推荐
     view.orderFood_right_content_box
@@ -111,6 +111,8 @@ view.orderFood_box
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import foodMenu from "@/components/food-menu.vue";
+import { sync } from "vuex-pathify";
+
 export default {
   components: {
     uniPopup,
@@ -126,7 +128,7 @@ export default {
       foodWidth: 0,
       tabIndexShow: 0,
       tabIndex: 0,
-      swiperImg: [],
+      bannerPosts: [],
       current: 0,
       swiperCurrent: 0,
       // 购物车显示隐藏
@@ -140,40 +142,57 @@ export default {
       unpooIndex: "",
       unpooIndex2: "",
       item: {},
+      storeCode: "",
       storeId: "",
       tableId: "",
     };
   },
   onLoad(option) {
     console.log("food/index:onLoad", option);
-    this.getmenu();
     this.getbanner();
+    if (option.s && option.t) {
+      this.storeCode = option.s;
+      this.tableId = option.t;
+    } else {
+      uni.scanCode({
+        success: (res) => {
+          console.log("scan type:" + res.scanType);
+          console.log("scan result:" + res.result);
+          uni.setStorageSync("qrCodeRes", res.result);
+        },
+        fail: function (res) {
+          uni.switchTab({
+            url: "../index/index",
+          });
+        },
+      });
+    }
+  },
+  onShow() {
+    if (this.storeCode && this.tableId) {
+      this.getMenu();
+    }
   },
   methods: {
-    getmenu() {
-      this.$axios
-        .getRequest("/store-menu", {
-          qr: uni.getStorageSync("qrCodeRes"),
-        })
-        .then((result) => {
-          result.menu.forEach((i) => {
-            i.products.forEach((j) => {
-              j.numbers = 0;
-            });
-          });
-          this.tabBars = result.menu;
-          this.tableId = result.tableId;
-          this.storeId = result.store.id;
+    async getMenu() {
+      const storeMenu = await this.$axios.getRequest("/store-menu", {
+        // qr: uni.getStorageSync("qrCodeRes"),
+        storeCode: this.storeCode,
+        tableId: this.tableId,
+      });
+      storeMenu.menu.forEach((i) => {
+        i.products.forEach((j) => {
+          j.numbers = 0;
         });
+      });
+      this.tabBars = storeMenu.menu;
+      this.tableId = storeMenu.tableId;
+      this.storeId = storeMenu.store.id;
     },
-    getbanner() {
-      this.$axios
-        .getRequest("/post", {
-          tag: "food",
-        })
-        .then((res) => {
-          this.swiperImg = res;
-        });
+    async getbanner() {
+      this.bannerPosts = await this.$axios.getRequest("/post", {
+        tag: "food",
+      });
     },
     // 轮播
     changeSwiper(e) {

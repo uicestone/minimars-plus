@@ -119,7 +119,7 @@ export default {
     },
     goFood() {
       uni.switchTab({
-        url: "../food/scan",
+        url: "../food/index",
       });
     },
     // banner图
