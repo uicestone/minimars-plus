@@ -8,7 +8,7 @@
       }
     },
     {
-      "path": "pages/ticketing/ticketing",
+      "path": "pages/booking/index",
       "style": {
         "navigationBarTitleText": "票务"
       }
@@ -28,14 +28,14 @@
     {
       "path": "pages/food/order",
       "style": {
-        "navigationBarTitleText": "MINI MARS(长宁天山店)",
+        "navigationBarTitleText": "点餐",
         "enablePullDownRefresh": false,
         "navigationBarBackgroundColor": "#6F7074",
         "navigationBarTextStyle": "#ffffff"
       }
     },
     {
-      "path": "pages/my/my",
+      "path": "pages/my/index",
       "style": {
         "navigationBarTitleText": "我的",
         "enablePullDownRefresh": false
@@ -43,7 +43,7 @@
     },
 
     {
-      "path": "pages/my/myOrder",
+      "path": "pages/booking/create",
       "style": {
         "navigationBarTitleText": "我的订单",
         "navigationBarBackgroundColor": "#D8D8D8",
@@ -51,7 +51,7 @@
       }
     },
     {
-      "path": "pages/my/myOrderTime",
+      "path": "pages/booking/calendar",
       "style": {
         "navigationBarTitleText": "到访时间",
         "navigationBarBackgroundColor": "#FFFFFF",
@@ -59,7 +59,7 @@
       }
     },
     {
-      "path": "pages/index/marsCoupon",
+      "path": "pages/card/index",
       "style": {
         "navigationBarTitleText": "MARS卡券",
         "navigationBarBackgroundColor": "#FFFFFF",
@@ -67,7 +67,7 @@
       }
     },
     {
-      "path": "pages/index/marsActivityBox",
+      "path": "pages/booking/events",
       "style": {
         "navigationBarTitleText": "MARS活动",
         "navigationBarBackgroundColor": "#FFFFFF",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "path": "pages/index/marsActivity",
+      "path": "pages/booking/eventDetail",
       "style": {
         "navigationBarTitleText": "MARS活动",
         "navigationBarBackgroundColor": "#FFFFFF",
@@ -83,7 +83,7 @@
       }
     },
     {
-      "path": "pages/index/marsCard",
+      "path": "pages/card/list",
       "style": {
         "navigationBarTitleText": "礼品卡",
         "enablePullDownRefresh": false,
@@ -91,42 +91,42 @@
       }
     },
     {
-      "path": "pages/index/buyCards",
+      "path": "pages/card/buy",
       "style": {
         "navigationBarTitleText": "购买礼品卡",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/index/buyQualifyCards",
+      "path": "pages/card/buyTimes",
       "style": {
         "navigationBarTitleText": "购买限定礼品卡",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myCardBag",
+      "path": "pages/my/cards",
       "style": {
         "navigationBarTitleText": "MARS卡包",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myUseCardsKnow",
+      "path": "pages/my/cardRule",
       "style": {
         "navigationBarTitleText": "礼品卡使用须知",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myGetRceived",
+      "path": "pages/my/cardTransfers",
       "style": {
         "navigationBarTitleText": "卡券收赠记录",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myOrderlist",
+      "path": "pages/my/bookings",
       "style": {
         "navigationBarTitleText": "我的订单",
         "enablePullDownRefresh": false
@@ -134,7 +134,7 @@
     },
 
     {
-      "path": "pages/my/myVipCode",
+      "path": "pages/my/code",
       "style": {
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false,
@@ -142,42 +142,35 @@
       }
     },
     {
-      "path": "pages/my/myTask",
+      "path": "pages/my/task",
       "style": {
         "navigationBarTitleText": "任务中心",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myMore",
+      "path": "pages/my/more",
       "style": {
         "navigationBarTitleText": "更多",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/mySignIn",
+      "path": "pages/my/signIn",
       "style": {
         "navigationBarTitleText": "每日签到",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/my/myCover",
+      "path": "pages/my/cover",
       "style": {
         "navigationBarTitleText": "MARS封面",
         "enablePullDownRefresh": false
       }
     },
     {
-      "path": "components/phoneNumberAlert/phoneNumberAlert",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
-      }
-    },
-    {
-      "path": "pages/my/myAuth",
+      "path": "pages/my/auth",
       "style": {
         "navigationBarTitleText": "",
         "enablePullDownRefresh": false
@@ -197,7 +190,7 @@
         "text": "首页"
       },
       {
-        "pagePath": "pages/ticketing/ticketing",
+        "pagePath": "pages/booking/index",
         "iconPath": "static/images/tabbarTicketing.png",
         "selectedIconPath": "static/images/tabbarTicketing1.png",
         "text": "票务"
@@ -215,7 +208,7 @@
         "text": "点餐"
       },
       {
-        "pagePath": "pages/my/my",
+        "pagePath": "pages/my/index",
         "iconPath": "static/images/tabbarMe.png",
         "selectedIconPath": "static/images/tabbarMe1.png",
         "text": "我的"
