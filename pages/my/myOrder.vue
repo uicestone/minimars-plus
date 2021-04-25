@@ -157,6 +157,8 @@
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import lbPicker from "../../components/lb-picker/index.vue";
+import { sync } from "vuex-pathify";
+
 export default {
   components: {
     lbPicker,
@@ -170,7 +172,6 @@ export default {
       y: new Date().getFullYear(), // 年
       m: new Date().getMonth() + 1, // 月
       d: new Date().getDate(),
-      date: "",
       adultsKidsText: "1 儿童 ，1 成人",
       children: 1,
       adult: 1,
@@ -198,60 +199,37 @@ export default {
         kidsCount: 0, //儿童人数
         adultsCount: 0, //成人人数
       },
-      isinfo: false, //判断是不是从日历进来的
     };
+  },
+  computed: {
+    date: sync("booking/newBookingDate"),
   },
   onLoad(option) {
     if (uni.getStorageSync("storeName")) {
-      console.log("有默认门店");
       this.store = uni.getStorageSync("storeName");
       this.booking.store = uni.getStorageSync("storeId");
     } else {
       this.store = "";
     }
 
-    if (option.info) {
-      this.isinfo = true;
-      let info = JSON.parse(option.info);
-      // console.log(info,11111)
-      this.adultsKidsText =
-        info.children + " 儿童" + "  ，" + info.adult + " 成人";
-      this.children = info.children;
-      this.adult = info.adult;
-      this.date = info.date;
-      this.booking.store = info.storeId;
-      this.selectedCardIndex = info.card;
-      this.booking.card = info.cardID; //卡片ID 不是ID
-      this.store = info.storeName;
-      this.adultsKidsSelectValue = [info.children, info.adult];
-    } else {
-      this.isinfo = false;
-    }
-
     if (option.date) {
-      // console.log(option.date)
       this.date = option.date;
     }
+
+    this.booking.date = this.date;
+
     this.goStore();
     this.goCard();
     this.getPrice();
   },
 
-  created() {
-    this.m = this.m.toString().padStart(2, "0");
-    this.d = this.d.toString().padStart(2, "0");
-    this.date = this.y + "-" + this.m + "-" + this.d;
-    this.booking.date = this.date;
-  },
   methods: {
     // 门店
     goStore() {
       this.$axios.getRequest("/store").then((res) => {
         this.stores = res;
-        if (this.isinfo == false) {
-          this.store = res[0].name;
-          this.booking.store = res[0].id;
-        }
+        this.store = res[0].name;
+        this.booking.store = res[0].id;
       });
     },
     // 获取门店ID
@@ -279,7 +257,6 @@ export default {
     // 计算价格
     getPrice() {
       this.$axios.postRequest("/booking-price", this.booking).then((res) => {
-        // console.log(res)
         this.price = res.price;
       });
     },
@@ -291,7 +268,6 @@ export default {
       this.booking.adultsCount = this.adult; //成人人数
       this.booking.type = "play";
       this.$axios.postRequest("/booking", this.booking).then((res) => {
-        // console.log(res, "订单支付")
         if (res.payments[0].payArgs) {
           //唤起微信支付
           uni.requestPayment({
@@ -330,24 +306,7 @@ export default {
     //日历
     goCalendar() {
       uni.navigateTo({
-        // url: '../my/myOrderTime?name=' + this.adultsKidsText + "&store=" + this.store + "&card=" + this.selectedCardIndex + "&price="+this.price
-        url:
-          "../my/myOrderTime?date=" +
-          this.date +
-          "&children=" +
-          this.children +
-          "&adult=" +
-          this.adult +
-          "&storeId=" +
-          this.booking.store +
-          "&storeName=" +
-          this.store +
-          "&play=" +
-          "play" +
-          "&card=" +
-          this.selectedCardIndex +
-          "&cardID=" +
-          this.booking.card,
+        url: "../my/myOrderTime",
       });
     },
 
@@ -358,7 +317,6 @@ export default {
       this.getPrice();
     },
     selectAdultsKidsCount(e) {
-      // console.log(e, "e")
       this.children = Number(e.item[0].label);
       this.adult = Number(e.item[1].label);
       this.adultsKidsSelectValue = e.index;
