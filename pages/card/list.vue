@@ -2,7 +2,7 @@
 view.marsCardbox
   view.header
   view.marsCard_contentbox
-    view.marsCard_contentbox-content(v-for="(i, j) in cardsList", :key="j")
+    view.marsCard_contentbox-content(v-for="(i, j) in cardTypes", :key="j")
       view.contentbox-contentTitle {{ i.title }}
       scroll-view.modeOf_Payment-box(scroll-x="true")
         view.modeOf_Payment_scroll
@@ -30,32 +30,27 @@ view.marsCardbox
 export default {
   data() {
     return {
-      typeCards: "",
-      cardsList: [],
+      type: "",
+      cardTypes: [],
     };
   },
   onShow() {
-    this.typeCards; //卡片类型
-    this.goCardsTypeList();
+    this.type; //卡片类型
+    this.getCardTypes();
   },
   onLoad(option) {
-    this.typeCards = option.type;
-    console.log(this.typeCards, "this.typeCards");
+    this.type = option.type;
   },
   methods: {
     // 卡片类型列表
-    goCardsTypeList() {
-      this.$axios
-        .getRequest("/card-type", {
-          type: this.typeCards,
-        })
-        .then((res) => {
-          console.log(res, "卡片类型列表");
-          this.cardsList = res;
-        });
+    async getCardTypes() {
+      this.cardTypes = await this.$axios.getRequest("/card-type", {
+        type: this.type,
+        limit: -1,
+      });
     },
     gobuyCardsCover(i, item) {
-      if (this.typeCards == "balance") {
+      if (this.type == "balance") {
         uni.navigateTo({
           url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + item,
         });
@@ -66,8 +61,8 @@ export default {
       }
     },
     gobuyCards(i) {
-      console.log(i.slug);
-      if (this.typeCards == "balance") {
+      console.log("gobuyCards:", i.slug);
+      if (this.type == "balance") {
         uni.navigateTo({
           url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + i.posterUrl,
         });

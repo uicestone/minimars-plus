@@ -4,7 +4,7 @@ view.index_box
   view.banner
     swiper.swiper(
       :autoplay="true",
-      :interval="3000",
+      :interval="7000",
       :duration="1000",
       :current="swiperCurrent",
       @change="changeSwiper",
@@ -13,8 +13,8 @@ view.index_box
       indicator-color="#B9B9B9",
       indicator-active-color="#9B9B9B"
     )
-      swiper-item(v-for="item in swiperImg", :key="item.id")
-        img.swiper_item(:src="item", mode="aspectFill")
+      swiper-item(v-for="post in bannerPosts", :key="post.id")
+        img.swiper_item(:src="post", mode="aspectFill")
     // 单次门票
     view
       view.buy_ticketsBox
@@ -37,20 +37,19 @@ view.index_box
 export default {
   data() {
     return {
-      swiperImg: [
-        "../../static/images/223.jpg",
-        "../../static/images/224.jpg",
-        "../../static/images/223.jpg",
-        "../../static/images/223.jpg",
-        "../../static/images/224.jpg",
-        "../../static/images/223.jpg",
-      ],
+      bannerPosts: [],
       current: 0,
       swiperCurrent: 0,
     };
   },
   onLoad() {},
   methods: {
+    async getBanner() {
+      this.bannerPosts = await this.$axios.getRequest("/post", {
+        tag: "booking-banner",
+      });
+    },
+
     changeSwiper(e) {
       this.swiperCurrent = e.detail.current;
     },

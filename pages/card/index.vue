@@ -1,9 +1,8 @@
 <template lang="pug">
 view.marsCoupon_box
   view.marsCoupon_header
-    view Hi！Alfie！
-    view This is ur
-    view persenal page.
+    view 亲爱的MINI MARS会员
+    view 请查收您的限定卡券
   view.marsCoupon_contentbox
     view.coupebox_content
       view(v-for="(i, index) in image", :key="index", @click="goCard(index)")
@@ -24,7 +23,7 @@ export default {
   },
   methods: {
     goCard(index) {
-      console.log(index);
+      console.log("goCard index:", index);
       if (index === 0) {
         uni.navigateTo({
           url: "/pages/card/list?type=times",
@@ -60,11 +59,11 @@ export default {
     height: 190rpx;
     font-size: 48rpx;
     font-family: Helvetica;
-    font-weight: 1000;
-    color: #0d0d0d;
-    line-height: 58rpx;
     letter-spacing: 2rpx;
     padding-top: 45rpx;
+    color: #636d67;
+    font-weight: 200;
+    line-height: 1.5;
   }
 
   .marsCoupon_contentbox {

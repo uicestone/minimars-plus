@@ -112,10 +112,13 @@ view.myOrder_box
               view.gift_contentBox_btn_name 确认 Agree
     // 订单支付
     view.modeOf_Payment_order
-      view.modeOf_Payment_order_money 订单总价：{{ price }} 元
+      view.modeOf_Payment_order_money 还需支付：{{ price }} 元
       // 
       view.modeOf_Payment_order_play(@click="goPlay")
-        view.modeOf_Payment_order_play_name 订单支付Payment
+        view.modeOf_Payment_order_play_name
+          | 提交预约
+          br
+          | Submit
 </template>
 
 <script>
@@ -127,9 +130,6 @@ export default {
       store: "",
       index: 0,
       stores: [],
-      y: new Date().getFullYear(), // 年
-      m: new Date().getMonth() + 1, // 月
-      d: new Date().getDate(),
       price: 0,
       adultsKidsValues: [
         [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
@@ -247,7 +247,7 @@ export default {
         } else {
           this.goOrder(); //跳转订单
           uni.showToast({
-            title: "购买成功",
+            title: "预约成功",
             duration: 2000,
           });
         }
@@ -256,7 +256,7 @@ export default {
     // 跳转订单页面
     goOrder() {
       uni.redirectTo({
-        url: "myOrderlist?active=1",
+        url: "../my/bookings?active=1",
       });
     },
     //日历
