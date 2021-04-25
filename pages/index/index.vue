@@ -43,7 +43,7 @@
     </view>
     <!-- MARS商城 -->
     <view class="shoppingMall_box">
-      <view class="shoppingMall shoppingImgBox">
+      <view class="shoppingMall shoppingImgBox" @click="goMall">
         <view class="shoppingMall_title">
           <!-- MARS商城 -->
         </view>
@@ -81,6 +81,8 @@
 </template>
 
 <script>
+import config from "../../utils/config";
+
 export default {
   data() {
     return {
@@ -95,8 +97,12 @@ export default {
       user: null,
     };
   },
-  onTabItemTap(s) {
-    // console.log(s, "1111111")
+  onTabItemTap(data) {
+    if (data.text === "商城") {
+      uni.navigateToMiniProgram({
+        appId: config.mallAppId,
+      });
+    }
   },
   onShow() {
     console.log("index:show");
@@ -137,6 +143,9 @@ export default {
       uni.navigateTo({
         url: "/pages/index/marsActivityBox",
       });
+    },
+    goMall() {
+      uni.navigateToMiniProgram({ appId: config.mallAppId });
     },
     goFood() {
       uni.switchTab({

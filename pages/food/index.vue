@@ -181,6 +181,7 @@ export default {
     };
   },
   onLoad(option) {
+    console.log("food/index:onLoad",option)
     this.getmenu();
     this.getbanner();
   },

@@ -1,5 +1,5 @@
-// const baseUrl = "https://mini-mars.codeispoetry.tech/api"; //第一步设置域名
-const baseUrl = "http://localhost:8001/api"; //第一步设置域名
+import config from "./config";
+const baseUrl = config.apiBaseUrl;
 
 function onSuccess(res, resolve, reject) {
   if (res.statusCode === 200) {

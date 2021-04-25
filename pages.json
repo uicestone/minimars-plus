@@ -1,6 +1,5 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/index/index",
       "style": {
@@ -15,28 +14,31 @@
       }
     },
     {
-      "path": "pages/shoppingMall/shoppingMall",
-      "style": {
-        "navigationBarTitleText": "商城"
-      }
-    },
-    {
-      "path": "pages/orderFood/orderFood",
+      "path": "pages/food/index",
       "style": {
         "navigationBarTitleText": "点餐"
       }
     },
     {
-      "path": "pages/orderFood/order",
+      "path": "pages/food/scan",
       "style": {
         "navigationBarTitleText": "点餐"
+      }
+    },
+    {
+      "path": "pages/food/order",
+      "style": {
+        "navigationBarTitleText": "MINI MARS(长宁天山店)",
+        "enablePullDownRefresh": false,
+        "navigationBarBackgroundColor": "#6F7074",
+        "navigationBarTextStyle": "#ffffff"
       }
     },
     {
       "path": "pages/my/my",
       "style": {
         "navigationBarTitleText": "我的",
-        "enablePullDownRefresh": false //是否使用下拉刷新
+        "enablePullDownRefresh": false
       }
     },
 
@@ -44,7 +46,7 @@
       "path": "pages/my/myOrder",
       "style": {
         "navigationBarTitleText": "我的订单",
-        "navigationBarBackgroundColor": "#D8D8D8", //导航栏背景色
+        "navigationBarBackgroundColor": "#D8D8D8",
         "enablePullDownRefresh": false
       }
     },
@@ -52,7 +54,7 @@
       "path": "pages/my/myOrderTime",
       "style": {
         "navigationBarTitleText": "到访时间",
-        "navigationBarBackgroundColor": "#FFFFFF", //导航栏背景色
+        "navigationBarBackgroundColor": "#FFFFFF",
         "enablePullDownRefresh": false
       }
     },
@@ -60,7 +62,7 @@
       "path": "pages/index/marsCoupon",
       "style": {
         "navigationBarTitleText": "MARS卡券",
-        "navigationBarBackgroundColor": "#FFFFFF", //导航栏背景色
+        "navigationBarBackgroundColor": "#FFFFFF",
         "enablePullDownRefresh": false
       }
     },
@@ -68,7 +70,7 @@
       "path": "pages/index/marsActivityBox",
       "style": {
         "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF", //导航栏背景色
+        "navigationBarBackgroundColor": "#FFFFFF",
         "enablePullDownRefresh": false
       }
     },
@@ -76,7 +78,7 @@
       "path": "pages/index/marsActivity",
       "style": {
         "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF", //导航栏背景色
+        "navigationBarBackgroundColor": "#FFFFFF",
         "enablePullDownRefresh": false
       }
     },
@@ -85,7 +87,7 @@
       "style": {
         "navigationBarTitleText": "礼品卡",
         "enablePullDownRefresh": false,
-        "navigationBarBackgroundColor": "#D8D8D8" //导航栏背景色
+        "navigationBarBackgroundColor": "#D8D8D8"
       }
     },
     {
@@ -128,16 +130,6 @@
       "style": {
         "navigationBarTitleText": "我的订单",
         "enablePullDownRefresh": false
-      }
-    },
-
-    {
-      "path": "pages/orderFood/foodChooseBuy",
-      "style": {
-        "navigationBarTitleText": "MINI MARS(长宁天山店)",
-        "enablePullDownRefresh": false,
-        "navigationBarBackgroundColor": "#6F7074", //导航栏背景色
-        "navigationBarTextStyle": "#ffffff" //标题文字颜色
       }
     },
 
@@ -193,39 +185,39 @@
     }
   ],
   "tabBar": {
-    "color": "#BDBDBD", //默认颜色
-    "selectedColor": "#333333", //选中的颜色
+    "color": "#BDBDBD",
+    "selectedColor": "#333333",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/images/tabbarIndex.png", //点击之前
-        "selectedIconPath": "static/images/tabbarIndex1.png", //点击之后
+        "iconPath": "static/images/tabbarIndex.png",
+        "selectedIconPath": "static/images/tabbarIndex1.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/ticketing/ticketing",
-        "iconPath": "static/images/tabbarTicketing.png", //点击之前
-        "selectedIconPath": "static/images/tabbarTicketing1.png", //点击之后
+        "iconPath": "static/images/tabbarTicketing.png",
+        "selectedIconPath": "static/images/tabbarTicketing1.png",
         "text": "票务"
       },
       {
-        "pagePath": "pages/shoppingMall/shoppingMall",
-        "iconPath": "static/images/tabbarShopping.png", //点击之前
-        "selectedIconPath": "static/images/tabbarShopping1.png", //点击之后
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/tabbarShopping.png",
+        "selectedIconPath": "static/images/tabbarShopping1.png",
         "text": "商城"
       },
       {
-        "pagePath": "pages/orderFood/order",
-        "iconPath": "static/images/tabbarFood.png", //点击之前
-        "selectedIconPath": "static/images/tabbarFood1.png", //点击之后
+        "pagePath": "pages/food/scan",
+        "iconPath": "static/images/tabbarFood.png",
+        "selectedIconPath": "static/images/tabbarFood1.png",
         "text": "点餐"
       },
       {
         "pagePath": "pages/my/my",
-        "iconPath": "static/images/tabbarMe.png", //点击之前
-        "selectedIconPath": "static/images/tabbarMe1.png", //点击之后
+        "iconPath": "static/images/tabbarMe.png",
+        "selectedIconPath": "static/images/tabbarMe1.png",
         "text": "我的"
       }
     ]
