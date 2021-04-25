@@ -9,7 +9,7 @@ view.myOrder_box
           view 门店选择
         view.content
           span
-            lbpicker(
+            lb-picker(
               mode="selector",
               :value="store",
               :list="stores.map((s) => s.name)",
@@ -32,7 +32,7 @@ view.myOrder_box
           view 进场人数
         view.content
           span
-            lbpicker(
+            lb-picker(
               mode="unlinkedSelector",
               :value="adultsKidsSelectValue",
               :list="adultsKidsValues",
@@ -119,15 +119,9 @@ view.myOrder_box
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import lbPicker from "../../components/lb-picker/index.vue";
 import { sync } from "vuex-pathify";
 
 export default {
-  components: {
-    lbPicker,
-    uniPopup,
-  },
   data() {
     return {
       store: "",
@@ -136,9 +130,6 @@ export default {
       y: new Date().getFullYear(), // 年
       m: new Date().getMonth() + 1, // 月
       d: new Date().getDate(),
-      adultsKidsText: "1 儿童 ，1 成人",
-      children: 1,
-      adult: 1,
       price: 0,
       adultsKidsValues: [
         [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
@@ -157,16 +148,19 @@ export default {
       cards: [], //礼品卡
       cardContent: "", //礼品卡使用说明
       cardId: "",
-      clacPrice: {
-        store: "",
-        date: "",
-        kidsCount: 0, //儿童人数
-        adultsCount: 0, //成人人数
-      },
     };
   },
   computed: {
     date: sync("booking/newBookingDate"),
+    adultsKidsText() {
+      return (
+        this.booking.kidsCount +
+        " 儿童" +
+        "，" +
+        this.booking.adultsCount +
+        " 成人"
+      );
+    },
   },
   onLoad(option) {
     if (uni.getStorageSync("storeName")) {
@@ -228,8 +222,6 @@ export default {
     // 订单支付
     goPlay() {
       this.booking.date = this.date; //时间
-      this.booking.kidsCount = this.children; //儿童人数
-      this.booking.adultsCount = this.adult; //成人人数
       this.booking.type = "play";
       this.$axios.postRequest("/booking", this.booking).then((res) => {
         if (res.payments[0].payArgs) {
@@ -281,12 +273,10 @@ export default {
       this.getPrice();
     },
     selectAdultsKidsCount(e) {
-      this.children = Number(e.item[0].label);
-      this.adult = Number(e.item[1].label);
+      this.booking.kidsCount = +e.item[0].label;
+      this.booking.adultsCount = +e.item[1].label;
       this.adultsKidsSelectValue = e.index;
       this.getPrice();
-      this.adultsKidsText =
-        this.children + " 儿童" + "，" + this.adult + " 成人";
     },
     selectCard(index) {
       const card = this.cards[index];

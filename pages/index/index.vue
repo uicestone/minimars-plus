@@ -4,7 +4,7 @@ view.index_box
   view.banner
     swiper.swiper(
       :autoplay="swiperAutoplay",
-      :interval="3000",
+      :interval="5000",
       :duration="1000",
       :current="swiperCurrent",
       @animationfinish="changeSwiper",
@@ -19,7 +19,7 @@ view.index_box
     view
       view.buy_ticketsBox
         view.buy_tickets
-          view(@click="myorders")
+          view(@click="goBookingCreate")
             img(src="../../static/images/index/index_BuyingTickets.png")
             span 购票
         view.line
@@ -36,16 +36,10 @@ view.index_box
     view.shoppingMall.shoppingImgBox(@click="goMall")
       view.shoppingMall_title
         // MARS商城
-    view.shoppingMall.activeImgBox(@click="goMarsActivityBox")
-      //
-        <view class="shoppingMall_title">
-        MARS活动
-        </view>
-    view.shoppingMall.cardImgBox(@click="goMarsCoupon")
-      //
-        <view class="shoppingMall_title">
-        MARS卡券
-        </view>
+    view.shoppingMall.activeImgBox(@click="goEvent")
+      // MARS活动
+    view.shoppingMall.cardImgBox(@click="goCard")
+      // MARS卡券
   // 我的积分
   view.integrate_box
     view.integrate
@@ -57,7 +51,7 @@ view.index_box
           src="../../static/images/index/index_integralImg.png",
           mode=""
         )
-  // <modal-get-user-info />
+  // modal-get-user-info
   modal-get-phone-number
 </template>
 
@@ -108,21 +102,21 @@ export default {
     changeSwiper(e) {
       this.swiperCurrent = e.detail.current;
     },
-    myorders() {
+    goBookingCreate() {
       uni.navigateTo({
-        url: "../my/orders",
+        url: "../booking/create",
       });
     },
     // 跳转卡券页面
-    goMarsCoupon() {
+    goCard() {
       uni.navigateTo({
-        url: "/pages/card/index",
+        url: "../card/index",
       });
     },
     // 跳转活动页面
-    goMarsActivityBox() {
+    goEvent() {
       uni.navigateTo({
-        url: "/pages/booking/events",
+        url: "../booking/events",
       });
     },
     goMall() {
@@ -130,7 +124,7 @@ export default {
     },
     goFood() {
       uni.switchTab({
-        url: "/pages/food/scan",
+        url: "../food/scan",
       });
     },
     // banner图

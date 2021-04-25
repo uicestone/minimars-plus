@@ -144,7 +144,6 @@ export default {
           year: m - 1 >= 0 ? y : y - 1,
         });
       }
-      console.log(firstDayOfMonth, "firstDayOfMonth");
       for (let j = 1; j <= lastDateOfMonth; j++) {
         days.push({
           date: this.formatNum(j),
@@ -167,7 +166,6 @@ export default {
           "YYYY-MM-DD"
         );
       });
-      console.log(days.map((day) => day.day));
       return days;
     },
     isWeekday(item) {
@@ -234,7 +232,6 @@ export default {
       };
       if (selectD > curTime) {
         if (this.disabledAfter) {
-          console.log("未来日期不可选");
           return false;
         } else {
           this.$emit("onDayClick", response);
