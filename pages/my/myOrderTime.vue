@@ -320,6 +320,9 @@ export default {
           border-radius: 40rpx;
           background-color: #e6f5ff;
           line-height: 40rpx;
+          display: flex;
+          justify-content: center;
+          align-items: center;
 
           image {
             width: 30rpx;
@@ -370,6 +373,7 @@ export default {
           width: calc(100% / 7);
 
           .day {
+            font-size: 28rpx;
             font-style: normal;
             display: inline-block;
             vertical-align: middle;
@@ -377,7 +381,7 @@ export default {
             height: 60rpx;
             line-height: 60rpx;
             overflow: hidden;
-            border-radius: 60rpx;
+            border-radius: 30rpx 30rpx 30rpx 0;
             color: #9fcdff;
 
             &.selected {
