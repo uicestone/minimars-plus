@@ -83,7 +83,7 @@
       }
     },
     {
-      "path": "pages/index/marsCarde",
+      "path": "pages/index/marsCard",
       "style": {
         "navigationBarTitleText": "礼品卡",
         "enablePullDownRefresh": false,
@@ -91,7 +91,7 @@
       }
     },
     {
-      "path": "pages/index/buyCardes",
+      "path": "pages/index/buyCards",
       "style": {
         "navigationBarTitleText": "购买礼品卡",
         "enablePullDownRefresh": false

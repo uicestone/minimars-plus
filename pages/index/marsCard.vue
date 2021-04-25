@@ -1,8 +1,8 @@
 <template>
-  <view class="marsCardebox">
+  <view class="marsCardbox">
     <view class="header"></view>
-    <view class="marsCarde_contentbox">
-      <view class="marsCarde_contentbox-content" v-for="(i, j) in cardsList" :key="j">
+    <view class="marsCard_contentbox">
+      <view class="marsCard_contentbox-content" v-for="(i, j) in cardsList" :key="j">
         <view class="contentbox-contentTitle">{{ i.title }}</view>
         <scroll-view scroll-x="true" class="modeOf_Payment-box">
           <view class="modeOf_Payment_scroll">
@@ -28,8 +28,8 @@
         </scroll-view>
       </view>
     </view>
-    <view class="marsCarde_footerBox">
-      <view class="marsCarde_footer">使用须知</view>
+    <view class="marsCard_footerBox">
+      <view class="marsCard_footer">使用须知</view>
     </view>
   </view>
 </template>
@@ -65,7 +65,7 @@ export default {
     gobuyCardsCover(i, item) {
       if (this.typeCards == "balance") {
         uni.navigateTo({
-          url: "/pages/index/buyCardes?slug=" + i.slug + "&itemimg=" + item,
+          url: "/pages/index/buyCards?slug=" + i.slug + "&itemimg=" + item,
         });
       } else {
         uni.navigateTo({
@@ -79,7 +79,7 @@ export default {
       if (this.typeCards == "balance") {
         uni.navigateTo({
           url:
-            "/pages/index/buyCardes?slug=" + i.slug + "&itemimg=" + i.posterUrl,
+            "/pages/index/buyCards?slug=" + i.slug + "&itemimg=" + i.posterUrl,
         });
       } else {
         uni.navigateTo({
@@ -101,7 +101,7 @@ export default {
 </script>
 
 <style lang="less">
-.marsCardebox {
+.marsCardbox {
   width: 750rpx;
 
   .header {
@@ -110,8 +110,8 @@ export default {
     background: #d8d8d8;
   }
 
-  .marsCarde_contentbox {
-    .marsCarde_contentbox-content {
+  .marsCard_contentbox {
+    .marsCard_contentbox-content {
       margin: 30px 0;
 
       .contentbox-contentTitle {
@@ -155,12 +155,12 @@ export default {
     }
   }
 
-  .marsCarde_footerBox {
+  .marsCard_footerBox {
     width: 750rpx;
     position: fixed;
     bottom: 0;
 
-    .marsCarde_footer {
+    .marsCard_footer {
       margin: 10rpx auto;
       width: 100rpx;
       height: 34rpx;

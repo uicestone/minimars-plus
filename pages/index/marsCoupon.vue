@@ -7,7 +7,7 @@
     </view>
     <view class="marsCoupon_contentbox">
       <view class="coupebox_content">
-        <view v-for="(i, index) in image" :key="index" @click="goCarde(index)">
+        <view v-for="(i, index) in image" :key="index" @click="goCard(index)">
           <image :src="i" mode="aspectFill" class="image" />
         </view>
       </view>
@@ -28,23 +28,23 @@ export default {
     };
   },
   methods: {
-    goCarde(index) {
+    goCard(index) {
       console.log(index);
       if (index === 0) {
         uni.navigateTo({
-          url: "/pages/index/marsCarde?type=" + "times",
+          url: "/pages/index/marsCard?type=" + "times",
         });
       } else if (index === 1) {
         uni.navigateTo({
-          url: "/pages/index/marsCarde?type=" + "balance",
+          url: "/pages/index/marsCard?type=" + "balance",
         });
       } else if (index === 2) {
         uni.navigateTo({
-          url: "/pages/index/marsCarde?type=" + "period",
+          url: "/pages/index/marsCard?type=" + "period",
         });
       } else if (index === 3) {
         uni.navigateTo({
-          url: "/pages/index/marsCarde?type=" + "coupon",
+          url: "/pages/index/marsCard?type=" + "coupon",
         });
       }
     },

@@ -39,7 +39,7 @@
 
     <view class="my_centre">
       <!-- 门店动态 -->
-      <view class="marsCarde_contentbox-content">
+      <view class="marsCard_contentbox-content">
         <view class="my_centre_boxone">门店动态</view>
         <scroll-view scroll-x="true" class="modeOf_Payment-box">
           <view class="modeOf_Payment_scroll">
@@ -371,7 +371,7 @@ export default {
     background: #f8f8f8;
 
     // 门店动态
-    .marsCarde_contentbox-content {
+    .marsCard_contentbox-content {
       width: 750rpx;
       margin: 20rpx 0 20px 27rpx;
       margin: 30px auto;
