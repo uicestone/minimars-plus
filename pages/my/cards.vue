@@ -85,12 +85,12 @@ export default {
     },
     gouseCade() {
       uni.navigateTo({
-        url: "/pages/my/myUseCardsKnow",
+        url: "/pages/my/cardRules",
       });
     },
     goRceived() {
       uni.navigateTo({
-        url: "/pages/my/myGetRceived",
+        url: "/pages/my/cardTransfers",
       });
     },
   },

@@ -129,19 +129,19 @@ export default {
     },
     myorders() {
       uni.navigateTo({
-        url: "../my/myOrder",
+        url: "../my/orders",
       });
     },
     // 跳转卡券页面
     goMarsCoupon() {
       uni.navigateTo({
-        url: "/pages/index/marsCoupon",
+        url: "/pages/card/index",
       });
     },
     // 跳转活动页面
     goMarsActivityBox() {
       uni.navigateTo({
-        url: "/pages/index/marsActivityBox",
+        url: "/pages/booking/events",
       });
     },
     goMall() {
@@ -149,7 +149,7 @@ export default {
     },
     goFood() {
       uni.switchTab({
-        url: "/pages/orderFood/order",
+        url: "/pages/food/scan",
       });
     },
     // banner图

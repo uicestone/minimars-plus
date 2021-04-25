@@ -181,7 +181,7 @@ export default {
     };
   },
   onLoad(option) {
-    console.log("food/index:onLoad",option)
+    console.log("food/index:onLoad", option);
     this.getmenu();
     this.getbanner();
   },
@@ -289,7 +289,7 @@ export default {
       console.log(selectshop);
       uni.navigateTo({
         url:
-          "/pages/orderFood/foodChooseBuy?selectshop=" +
+          "./order?selectshop=" +
           JSON.stringify(selectshop) +
           "&tableId=" +
           this.tableId +

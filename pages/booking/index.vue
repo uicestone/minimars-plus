@@ -60,12 +60,12 @@ export default {
     // 礼品卡购买
     goBuyCard() {
       uni.navigateTo({
-        url: "../index/marsCoupon",
+        url: "../card/index",
       });
     },
     goOrder() {
       uni.navigateTo({
-        url: "../my/myOrder",
+        url: "../booking/create",
       });
     },
   },

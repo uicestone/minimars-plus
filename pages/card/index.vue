@@ -32,19 +32,19 @@ export default {
       console.log(index);
       if (index === 0) {
         uni.navigateTo({
-          url: "/pages/index/marsCard?type=" + "times",
+          url: "/pages/card/list?type=times",
         });
       } else if (index === 1) {
         uni.navigateTo({
-          url: "/pages/index/marsCard?type=" + "balance",
+          url: "/pages/card/list?type=balance",
         });
       } else if (index === 2) {
         uni.navigateTo({
-          url: "/pages/index/marsCard?type=" + "period",
+          url: "/pages/card/list?type=period",
         });
       } else if (index === 3) {
         uni.navigateTo({
-          url: "/pages/index/marsCard?type=" + "coupon",
+          url: "/pages/card/list?type=coupon",
         });
       }
     },

@@ -112,7 +112,7 @@
       }
     },
     {
-      "path": "pages/my/cardRule",
+      "path": "pages/my/cardRules",
       "style": {
         "navigationBarTitleText": "礼品卡使用须知",
         "enablePullDownRefresh": false

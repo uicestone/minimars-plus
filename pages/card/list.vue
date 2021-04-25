@@ -65,12 +65,11 @@ export default {
     gobuyCardsCover(i, item) {
       if (this.typeCards == "balance") {
         uni.navigateTo({
-          url: "/pages/index/buyCards?slug=" + i.slug + "&itemimg=" + item,
+          url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + item,
         });
       } else {
         uni.navigateTo({
-          url:
-            "/pages/index/buyQualifyCards?slug=" + i.slug + "&itemimg=" + item,
+          url: "/pages/card/buyTimes?slug=" + i.slug + "&itemimg=" + item,
         });
       }
     },
@@ -78,22 +77,18 @@ export default {
       console.log(i.slug);
       if (this.typeCards == "balance") {
         uni.navigateTo({
-          url:
-            "/pages/index/buyCards?slug=" + i.slug + "&itemimg=" + i.posterUrl,
+          url: "/pages/card/buy?slug=" + i.slug + "&itemimg=" + i.posterUrl,
         });
       } else {
         uni.navigateTo({
           url:
-            "/pages/index/buyQualifyCards?slug=" +
-            i.slug +
-            "&itemimg=" +
-            i.posterUrl,
+            "/pages/card/buyTimes?slug=" + i.slug + "&itemimg=" + i.posterUrl,
         });
       }
     },
     gobuyXDCards() {
       uni.navigateTo({
-        url: "/pages/index/buyQualifyCards",
+        url: "/pages/card/buyTimes",
       });
     },
   },

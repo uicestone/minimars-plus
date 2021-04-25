@@ -306,7 +306,7 @@ export default {
     //日历
     goCalendar() {
       uni.navigateTo({
-        url: "../my/myOrderTime",
+        url: "./calendar",
       });
     },
 

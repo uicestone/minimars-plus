@@ -20,7 +20,7 @@
           class="coupebox_contentimgBox"
           v-for="(item, index) in 7"
           :key="index"
-          @click="goMarsActivity"
+          @click="goDetail"
         >
           <image src="../../static/images/224.jpg" mode="aspectFill" />
           <view class="coupebox_contentimgBox_content">
@@ -78,9 +78,9 @@ export default {
     console.log(this.doorlist);
   },
   methods: {
-    goMarsActivity() {
+    goDetail() {
       uni.navigateTo({
-        url: "/pages/index/marsActivity",
+        url: "./eventDetail",
       });
     },
     goDoorname() {
