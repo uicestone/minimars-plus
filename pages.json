@@ -29,7 +29,6 @@
       "path": "pages/food/order",
       "style": {
         "navigationBarTitleText": "点餐",
-        "enablePullDownRefresh": false,
         "navigationBarBackgroundColor": "#6F7074",
         "navigationBarTextStyle": "#ffffff"
       }
@@ -37,99 +36,86 @@
     {
       "path": "pages/my/index",
       "style": {
-        "navigationBarTitleText": "我的",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "我的"
       }
     },
 
     {
       "path": "pages/booking/create",
       "style": {
-        "navigationBarTitleText": "我的订单",
-        "navigationBarBackgroundColor": "#D8D8D8",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "预约",
+        "navigationBarBackgroundColor": "#D8D8D8"
       }
     },
     {
       "path": "pages/booking/calendar",
       "style": {
-        "navigationBarTitleText": "到访时间",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "选择日期",
+        "navigationBarBackgroundColor": "#FFFFFF"
       }
     },
     {
       "path": "pages/card/index",
       "style": {
         "navigationBarTitleText": "MARS卡券",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "enablePullDownRefresh": false
+        "navigationBarBackgroundColor": "#FFFFFF"
       }
     },
     {
       "path": "pages/booking/events",
       "style": {
         "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "enablePullDownRefresh": false
+        "navigationBarBackgroundColor": "#FFFFFF"
       }
     },
     {
       "path": "pages/booking/eventDetail",
       "style": {
         "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF",
-        "enablePullDownRefresh": false
+        "navigationBarBackgroundColor": "#FFFFFF"
       }
     },
     {
       "path": "pages/card/list",
       "style": {
         "navigationBarTitleText": "礼品卡",
-        "enablePullDownRefresh": false,
         "navigationBarBackgroundColor": "#D8D8D8"
       }
     },
     {
       "path": "pages/card/buy",
       "style": {
-        "navigationBarTitleText": "购买礼品卡",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "购买礼品卡"
       }
     },
     {
       "path": "pages/card/buyTimes",
       "style": {
-        "navigationBarTitleText": "购买限定礼品卡",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "购买限定礼品卡"
       }
     },
     {
       "path": "pages/my/cards",
       "style": {
-        "navigationBarTitleText": "MARS卡包",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "MARS卡包"
       }
     },
     {
       "path": "pages/my/cardRules",
       "style": {
-        "navigationBarTitleText": "礼品卡使用须知",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "礼品卡使用须知"
       }
     },
     {
       "path": "pages/my/cardTransfers",
       "style": {
-        "navigationBarTitleText": "卡券收赠记录",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "卡券收赠记录"
       }
     },
     {
       "path": "pages/my/bookings",
       "style": {
-        "navigationBarTitleText": "我的订单",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "我的订单"
       }
     },
 
@@ -137,43 +123,37 @@
       "path": "pages/my/code",
       "style": {
         "navigationBarTitleText": "",
-        "enablePullDownRefresh": false,
         "navigationStyle": "custom"
       }
     },
     {
       "path": "pages/my/task",
       "style": {
-        "navigationBarTitleText": "任务中心",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "任务中心"
       }
     },
     {
       "path": "pages/my/more",
       "style": {
-        "navigationBarTitleText": "更多",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "更多"
       }
     },
     {
       "path": "pages/my/signIn",
       "style": {
-        "navigationBarTitleText": "每日签到",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "每日签到"
       }
     },
     {
       "path": "pages/my/cover",
       "style": {
-        "navigationBarTitleText": "MARS封面",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": "MARS封面"
       }
     },
     {
       "path": "pages/my/auth",
       "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false
+        "navigationBarTitleText": ""
       }
     }
   ],
