@@ -1,5 +1,5 @@
-<template>
-  <div></div>
+<template lang="pug">
+view
 </template>
 
 <script>

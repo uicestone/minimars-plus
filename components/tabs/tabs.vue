@@ -1,40 +1,19 @@
-<template>
-  <view class="tabBlock" v-if="list.length > 0">
-    <scroll-view
-      scroll-x="true"
-      scroll-with-animation
-      :scroll-left="tabsScrollLeft"
-      @scroll="scroll"
-    >
-      <view class="tab" id="tab_list">
-        <view
-          v-for="(item, index) in list"
-          :key="index"
-          :class="[
-            'tab__item',
-            { 'tab__item--active': currentIndex === index },
-          ]"
-          :style="{ color: currentIndex === index ? `${itemColor}` : '' }"
-          id="tab_item"
-          @click="select(item, index)"
-        >
-          <view class="tab__item-title">
-            {{ item.title }}
-          </view>
-        </view>
-      </view>
-      <view
-        class="tab__line"
-        :style="{
-          background: lineColor,
-          width: lineStyle.width,
-          transform: lineStyle.transform,
-          transitionDuration: lineStyle.transitionDuration,
-        }"
-      >
-      </view>
-    </scroll-view>
-  </view>
+<template lang="pug">
+view.tabBlock(v-if='list.length > 0')
+  scroll-view(scroll-x='true' scroll-with-animation :scroll-left='tabsScrollLeft' @scroll='scroll')
+    view#tab_list.tab
+      view#tab_item(v-for='(item, index) in list' :key='index' :class="[\
+      'tab__item',\
+      { 'tab__item--active': currentIndex === index },\
+      ]" :style="{ color: currentIndex === index ? `${itemColor}` : '' }" @click='select(item, index)')
+        view.tab__item-title
+          | {{ item.title }}
+    view.tab__line(:style='{\
+    background: lineColor,\
+    width: lineStyle.width,\
+    transform: lineStyle.transform,\
+    transitionDuration: lineStyle.transitionDuration,\
+    }')
 </template>
 
 <script>

@@ -1,19 +1,14 @@
-<template>
-  <view class="myGetRceived_box">
-    <view class="myGetRceived_content" v-for="(item, index) in 2" :key="index">
-      <view class="myGetRceived_content-box">
-        <view class="myGetRceived_content-left">
-          <image src="../../static/images/224.jpg" />
-        </view>
-        <view class="myGetRceived_content-right">
-          <view class="myGetRceived_title">已转赠</view>
-          <view>MarsBabe卡 ¥ 3800</view>
-          <view class="myGetRceived_id">赠予人ID：2938498wawa</view>
-          <view class="myGetRceived_data">日期： 2021.1.19</view>
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.myGetRceived_box
+  view.myGetRceived_content(v-for="(item, index) in 2", :key="index")
+    view.myGetRceived_content-box
+      view.myGetRceived_content-left
+        img(src="../../static/images/224.jpg")
+      view.myGetRceived_content-right
+        view.myGetRceived_title 已转赠
+        view MarsBabe卡 ¥ 3800
+        view.myGetRceived_id 赠予人ID：2938498wawa
+        view.myGetRceived_data 日期： 2021.1.19
 </template>
 
 <script>

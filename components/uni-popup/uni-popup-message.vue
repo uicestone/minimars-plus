@@ -1,11 +1,6 @@
-<template>
-  <view class="uni-popup-message" :class="'uni-popup__' + [type]">
-    <text
-      class="uni-popup-message-text"
-      :class="'uni-popup__' + [type] + '-text'"
-      >{{ message }}</text
-    >
-  </view>
+<template lang="pug">
+view.uni-popup-message(:class="'uni-popup__' + [type]")
+  text.uni-popup-message-text(:class="'uni-popup__' + [type] + '-text'") {{ message }}
 </template>
 
 <script>

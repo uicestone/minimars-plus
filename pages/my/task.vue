@@ -1,87 +1,63 @@
-<template>
-  <view class="myTaskBox">
-    <view class="banner">
-      <swiper
-        class="swiper"
-        :autoplay="true"
-        :interval="3000"
-        :duration="1000"
-        :current="swiperCurrent"
-        @change="changeSwiper"
-        indicator-dots="true"
-        circular="true"
-        indicator-color="#B9B9B9"
-        indicator-active-color="#9B9B9B"
-      >
-        <swiper-item v-for="item in swiperImg" :key="item.id">
-          <image class="swiper_item" :src="item" mode="aspectFill" />
-        </swiper-item>
-      </swiper>
-    </view>
-    <!-- 每日任务 -->
-    <view class="myTask_Boxactive">
-      <view class="myTask_Boxactive_title">每日任务</view>
-      <view class="myTask_Boxactive_content">
-        <image src="../../static/images/my/my_qiandao.png" class="Boxactive_content_left" />
-        <view class="Boxactive_content_right">
-          <view class="Boxactive_content_rightBox">
-            <view class="Boxactive_content_rightBox_left">
-              <view class="Boxactive_content_rightBox_leftTitle">
-                每日签到
-                <view>
-                  积分
-                  <span>+5</span>
-                </view>
-              </view>
-              <view class="Boxactive_content_rightBox_leftdetail">打卡签到获得惊喜积分</view>
-            </view>
-            <view class="Boxactive_content_rightBox_right" @click="goSignIn">去签到</view>
-          </view>
+<template lang="pug">
+view.myTaskBox
+  view.banner
+    swiper.swiper(
+      :autoplay="true",
+      :interval="3000",
+      :duration="1000",
+      :current="swiperCurrent",
+      @change="changeSwiper",
+      indicator-dots="true",
+      circular="true",
+      indicator-color="#B9B9B9",
+      indicator-active-color="#9B9B9B"
+    )
+      swiper-item(v-for="item in swiperImg", :key="item.id")
+        img.swiper_item(:src="item", mode="aspectFill")
+  // 每日任务
+  view.myTask_Boxactive
+    view.myTask_Boxactive_title 每日任务
+    view.myTask_Boxactive_content
+      img.Boxactive_content_left(src="../../static/images/my/my_qiandao.png")
+      view.Boxactive_content_right
+        view.Boxactive_content_rightBox
+          view.Boxactive_content_rightBox_left
+            view.Boxactive_content_rightBox_leftTitle
+              | 每日签到
+              view
+                | 积分
+                span +5
+            view.Boxactive_content_rightBox_leftdetail 打卡签到获得惊喜积分
+          view.Boxactive_content_rightBox_right(@click="goSignIn") 去签到
+  // 每周任务
+  view.myTask_weeklybox
+    view.myTask_Boxactive.weekly
+      view.myTask_Boxactive_title.weekly_title 每周任务
+      view.myTask_Boxactive_content
+        img.Boxactive_content_left(src="../../static/images/my/my_jingli.png")
+        view.Boxactive_content_right
+          view.Boxactive_content_rightBox
+            view.Boxactive_content_rightBox_left
+              view.Boxactive_content_rightBox_leftTitle 订单奖励
+              view.Boxactive_content_rightBox_leftdetail 会员全渠道消费
+            view.Boxactive_content_rightBox_right 领任务
+    view.myTask_Boxactive.weekly.weeklyHeight
+      //
+        <view class="myTask_Boxactive_title">
+        每周任务
         </view>
-      </view>
-    </view>
-    <!-- 每周任务 -->
-    <view class="myTask_weeklybox">
-      <view class="myTask_Boxactive weekly">
-        <view class="myTask_Boxactive_title weekly_title">每周任务</view>
-        <view class="myTask_Boxactive_content">
-          <image src="../../static/images/my/my_jingli.png" class="Boxactive_content_left" />
-          <view class="Boxactive_content_right">
-            <view class="Boxactive_content_rightBox">
-              <view class="Boxactive_content_rightBox_left">
-                <view class="Boxactive_content_rightBox_leftTitle">订单奖励</view>
-                <view class="Boxactive_content_rightBox_leftdetail">会员全渠道消费</view>
-              </view>
-              <view class="Boxactive_content_rightBox_right">领任务</view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <view class="myTask_Boxactive weekly weeklyHeight">
-        <!-- <view class="myTask_Boxactive_title">
-					每周任务
-        </view>-->
-        <view class="myTask_Boxactive_content">
-          <image src="../../static/images/my/my_liulan.png" class="Boxactive_content_left" />
-          <view class="Boxactive_content_right">
-            <view class="Boxactive_content_rightBox">
-              <view class="Boxactive_content_rightBox_left">
-                <view class="Boxactive_content_rightBox_leftTitle">
-                  活动浏览
-                  <view>
-                    积分
-                    <span>+10</span>
-                  </view>
-                </view>
-                <view class="Boxactive_content_rightBox_leftdetail">浏览活动页面获得积分奖励</view>
-              </view>
-              <view class="Boxactive_content_rightBox_right">去浏览</view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+      view.myTask_Boxactive_content
+        img.Boxactive_content_left(src="../../static/images/my/my_liulan.png")
+        view.Boxactive_content_right
+          view.Boxactive_content_rightBox
+            view.Boxactive_content_rightBox_left
+              view.Boxactive_content_rightBox_leftTitle
+                | 活动浏览
+                view
+                  | 积分
+                  span +10
+              view.Boxactive_content_rightBox_leftdetail 浏览活动页面获得积分奖励
+            view.Boxactive_content_rightBox_right 去浏览
 </template>
 
 <script>

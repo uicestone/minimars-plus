@@ -1,110 +1,77 @@
-<template>
-  <view class="my_box">
-    <view class="my_header-top" @click="goMarsCover()">
-      <image :src="imgulr" mode="aspectFill" />
-    </view>
-    <view class="my_header_title_box">
-      <view class="my_header_titleBox">
-        <view class="my_header_title">{{ nickname }}</view>
-      </view>
-
-      <!-- MARS会员 -->
-      <view class="my_marsMember_box">
-        <view class="my_marsMemberheader">
-          <view class="my_marsMembertitle">MARS会员</view>
-          <view class="my_marsMember_headerimg">
-            <image :src="heading" mode="aspectFill" />
-          </view>
-        </view>
-        <view class="my_marsMember_content-box">
-          <view class="my_marsMember-one">
-            <image src="../../static/images/my/my_jifen.png" />
-            <view>{{ points }}</view>
-            <span>MARS积分</span>
-          </view>
-          <view class="my_marsMember-one" @click="goCardBag">
-            <image src="../../static/images/my/my_youhui.png" />
-            <view>{{ couPonNumber }}</view>
-            <span>MARS优惠券</span>
-          </view>
-          <view class="my_marsMember-one" @click="goCardBag">
-            <image src="../../static/images/my/my_card.png" />
-            <view>{{ allCardBag }}</view>
-            <span>MARS卡包</span>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="vip"></view>
-
-    <view class="my_centre">
-      <!-- 门店动态 -->
-      <view class="marsCard_contentbox-content">
-        <view class="my_centre_boxone">门店动态</view>
-        <scroll-view scroll-x="true" class="modeOf_Payment-box">
-          <view class="modeOf_Payment_scroll">
-            <view
-              class="modeOf_Payment_box"
-              v-for="(item, index) in storeDynamic"
-              :key="index"
-              @click="gobuyCards"
-            >
-              <!-- <view class="modeOf_Payment_box"> -->
-              <view class="my_centre_modeOf_PaymentBox">
-                <image :src="item.posterUrl" class="modeOf_PaymentBox_leftimg" />
-                <view class="modeOf_PaymentBox_right">
-                  <view class="modeOf_PaymentBox_right_title">{{ item.title }}</view>
-                  <view class="modeOf_PaymentBox_right_content">
-                    <rich-text :nodes="item.content"></rich-text>
-                    <!-- 详情 -->
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </scroll-view>
-      </view>
-      <!-- 任务中心 -->
-      <view class="my_centre_boxtwo" @click="goTask">
-        <view class="my_centretwo">
-          <span>任务中心</span>
-        </view>
-      </view>
-    </view>
-    <!-- 会员码 -->
-    <view class="my_vip_content">
-      <view class="my_vip_content_box">
-        <view class="my_vip_content_namebox" @click="goVipCode">
-          <span>会员码</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox" @click="goOrderList()">
-          <span>我的订单</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox">
-          <span>消费历史</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox">
-          <span>积分兑换</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox">
-          <span>卡券兑换</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox" @click="goCover">
-          <span>MARS封面</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox" @click="goMore">
-          <span>更多</span>
-          <image src="../../static/images/111.png" />
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.my_box
+  view.my_header-top(@click="goMarsCover()")
+    img(:src="imgulr", mode="aspectFill")
+  view.my_header_title_box
+    view.my_header_titleBox
+      view.my_header_title {{ nickname }}
+    // MARS会员
+    view.my_marsMember_box
+      view.my_marsMemberheader
+        view.my_marsMembertitle MARS会员
+        view.my_marsMember_headerimg
+          img(:src="heading", mode="aspectFill")
+      view.my_marsMember_content-box
+        view.my_marsMember-one
+          img(src="../../static/images/my/my_jifen.png")
+          view {{ points }}
+          span MARS积分
+        view.my_marsMember-one(@click="goCardBag")
+          img(src="../../static/images/my/my_youhui.png")
+          view {{ couPonNumber }}
+          span MARS优惠券
+        view.my_marsMember-one(@click="goCardBag")
+          img(src="../../static/images/my/my_card.png")
+          view {{ allCardBag }}
+          span MARS卡包
+  view.vip
+  view.my_centre
+    // 门店动态
+    view.marsCard_contentbox-content
+      view.my_centre_boxone 门店动态
+      scroll-view.modeOf_Payment-box(scroll-x="true")
+        view.modeOf_Payment_scroll
+          view.modeOf_Payment_box(
+            v-for="(item, index) in storeDynamic",
+            :key="index",
+            @click="gobuyCards"
+          )
+            // <view class="modeOf_Payment_box">
+            view.my_centre_modeOf_PaymentBox
+              img.modeOf_PaymentBox_leftimg(:src="item.posterUrl")
+              view.modeOf_PaymentBox_right
+                view.modeOf_PaymentBox_right_title {{ item.title }}
+                view.modeOf_PaymentBox_right_content
+                  rich-text(:nodes="item.content")
+                  // 详情
+                  // 任务中心
+                  view.my_centre_boxtwo(@click="goTask")
+                    view.my_centretwo
+                      span 任务中心
+  // 会员码
+  view.my_vip_content
+    view.my_vip_content_box
+      view.my_vip_content_namebox(@click="goVipCode")
+        span 会员码
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox(@click="goOrderList()")
+        span 我的订单
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox
+        span 消费历史
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox
+        span 积分兑换
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox
+        span 卡券兑换
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox(@click="goCover")
+        span MARS封面
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox(@click="goMore")
+        span 更多
+        img(src="../../static/images/111.png")
 </template>
 
 <script>

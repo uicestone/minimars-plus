@@ -1,18 +1,13 @@
-<template>
-  <view class="mymore_box">
-    <view class="my_vip_content">
-      <view class="my_vip_content_box">
-        <view class="my_vip_content_namebox">
-          <span>个人资料</span>
-          <image src="../../static/images/111.png" />
-        </view>
-        <view class="my_vip_content_namebox">
-          <span>条款</span>
-          <image src="../../static/images/111.png" />
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.mymore_box
+  view.my_vip_content
+    view.my_vip_content_box
+      view.my_vip_content_namebox
+        span 个人资料
+        img(src="../../static/images/111.png")
+      view.my_vip_content_namebox
+        span 条款
+        img(src="../../static/images/111.png")
 </template>
 
 <script>

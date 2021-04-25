@@ -1,25 +1,18 @@
-<template>
-  <view class="uni-popup-share">
-    <view class="uni-share-title">
-      <text class="uni-share-title-text">{{ title }}</text>
-    </view>
-    <view class="uni-share-content">
-      <view class="uni-share-content-box">
-        <view
-          class="uni-share-content-item"
-          v-for="(item, index) in bottomData"
-          :key="index"
-          @click.stop="select(item, index)"
-        >
-          <image class="uni-share-image" :src="item.icon" mode="aspectFill" />
-          <text class="uni-share-text">{{ item.text }}</text>
-        </view>
-      </view>
-    </view>
-    <view class="uni-share-button-box">
-      <button class="uni-share-button" @click="close">取消</button>
-    </view>
-  </view>
+<template lang="pug">
+view.uni-popup-share
+  view.uni-share-title
+    text.uni-share-title-text {{ title }}
+  view.uni-share-content
+    view.uni-share-content-box
+      view.uni-share-content-item(
+        v-for="(item, index) in bottomData",
+        :key="index",
+        @click.stop="select(item, index)"
+      )
+        img.uni-share-image(:src="item.icon", mode="aspectFill")
+        text.uni-share-text {{ item.text }}
+  view.uni-share-button-box
+    button.uni-share-button(@click="close") 取消
 </template>
 
 <script>

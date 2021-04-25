@@ -1,71 +1,52 @@
-<template>
-  <view class="cardbag">
-    <view class="cardbag_box">
-      <view class="cardbag_box-left">
-        <view
-          class="cardbag_use"
-          @click="gouse()"
-          :class="btnnum == 0 ? 'clickcard' : 'noclickcard'"
-        >可使用 （1）</view>
-        <view
-          class="cardbag_unactivated"
-          @click="nouse()"
-          :class="btnnum == 1 ? 'clickcard' : 'noclickcard'"
-        >未激活 （2）</view>
-      </view>
-      <view class="cardbag_box-right">
-        <image src="../../static/images/my/card.png" />获得更多礼品卡
-      </view>
-    </view>
-    <view class="cardbag_card" v-show="btnnum == 0">
-      <view class="cardbag_card_box">
-        <image src="../../static/images/224.jpg" mode="aspectFill" />
-        <view class="cardbag_card_box-content">
-          <view class="cardbag_card_box-content-money">
-            MarsBabe卡
-            <span>¥ 3800</span>
-          </view>
-          <view class="cardbag_card_box-content-time">（过期时间：2021.5.18）</view>
-        </view>
-      </view>
-      <view class="mycards_footer">历史卡券</view>
-    </view>
-    <!-- 未激活 -->
-    <view class="cardbag_card" v-show="btnnum == 1">
-      <view class="cardbag_card_box">
-        <image src="../../static/images/224.jpg" mode="aspectFill" />
-        <view class="cardbag_card_box-content">
-          <view class="cardbag_card_box-content-money">
-            Mars圣诞卡
-            <span>¥ 3800</span>
-          </view>
-          <view class="cardbag_card_box-content-times">
-            <view class="cardbag_card_box-content-time-left">自用激活</view>
-            <view class="cardbag_card_box-content-time-right giveColors">赠送好友</view>
-          </view>
-        </view>
-      </view>
-      <view class="cardbag_card_box">
-        <image src="../../static/images/224.jpg" mode="aspectFill" />
-        <view class="cardbag_card_box-content">
-          <view class="cardbag_card_box-content-money">
-            Mars圣诞卡
-            <span>¥ 3800</span>
-          </view>
-          <view class="cardbag_card_box-content-times">
-            <view></view>
-            <view class="cardbag_card_box-content-time-right getColors">待领取</view>
-          </view>
-        </view>
-      </view>
-      <!-- 底部，礼品卡使用须知 -->
-      <view class="mycards_footer-use">
-        <view class="mycards_footer-use_left" @click="gouseCade()">礼品卡使用须知</view>
-        <view class="mycards_footer-use_line"></view>
-        <view class="mycards_footer-use_right" @click="goRceived()">卡券收赠记录</view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.cardbag
+  view.cardbag_box
+    view.cardbag_box-left
+      view.cardbag_use(
+        @click="gouse()",
+        :class="btnnum == 0 ? 'clickcard' : 'noclickcard'"
+      ) 可使用 （1）
+      view.cardbag_unactivated(
+        @click="nouse()",
+        :class="btnnum == 1 ? 'clickcard' : 'noclickcard'"
+      ) 未激活 （2）
+    view.cardbag_box-right
+      img(src="../../static/images/my/card.png")
+      | 获得更多礼品卡
+  view.cardbag_card(v-show="btnnum == 0")
+    view.cardbag_card_box
+      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.cardbag_card_box-content
+        view.cardbag_card_box-content-money
+          | MarsBabe卡
+          span ¥ 3800
+        view.cardbag_card_box-content-time （过期时间：2021.5.18）
+    view.mycards_footer 历史卡券
+  // 未激活
+  view.cardbag_card(v-show="btnnum == 1")
+    view.cardbag_card_box
+      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.cardbag_card_box-content
+        view.cardbag_card_box-content-money
+          | Mars圣诞卡
+          span ¥ 3800
+        view.cardbag_card_box-content-times
+          view.cardbag_card_box-content-time-left 自用激活
+          view.cardbag_card_box-content-time-right.giveColors 赠送好友
+    view.cardbag_card_box
+      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.cardbag_card_box-content
+        view.cardbag_card_box-content-money
+          | Mars圣诞卡
+          span ¥ 3800
+        view.cardbag_card_box-content-times
+          view
+          view.cardbag_card_box-content-time-right.getColors 待领取
+    // 底部，礼品卡使用须知
+    view.mycards_footer-use
+      view.mycards_footer-use_left(@click="gouseCade()") 礼品卡使用须知
+      view.mycards_footer-use_line
+      view.mycards_footer-use_right(@click="goRceived()") 卡券收赠记录
 </template>
 
 <script>

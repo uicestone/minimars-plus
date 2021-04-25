@@ -1,22 +1,16 @@
-<template>
-  <view class="marsActivityBox">
-    <view class="marsActivity_header">
-      <image src="../../static/images/224.jpg" mode="aspectFill" />
-    </view>
-    <view class="marsActivity_titleBox">
-      <view class="marsActivity_title">圣诞树DIY</view>
-      <view class="marsActivity_details">
-        <view class="marsActivity_time">
-          <span>活动时间：</span>
-          <view>2020.12.19</view>
-        </view>
-        <view class="marsActivity_time">
-          <span>适用年龄：</span>
-          <view>3岁-10岁</view>
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.marsActivityBox
+  view.marsActivity_header
+    img(src="../../static/images/224.jpg", mode="aspectFill")
+  view.marsActivity_titleBox
+    view.marsActivity_title 圣诞树DIY
+    view.marsActivity_details
+      view.marsActivity_time
+        span 活动时间：
+        view 2020.12.19
+      view.marsActivity_time
+        span 适用年龄：
+        view 3岁-10岁
 </template>
 
 <script>

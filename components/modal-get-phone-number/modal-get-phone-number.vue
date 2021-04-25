@@ -1,26 +1,22 @@
-<template>
-  <uni-popup ref="getPhoneNumberPopup" type="bottom" :tabBar="true">
-    <view class="login_box">
-      <view class="login_box_clear">
-        <view class="login_box_clear_left"></view>
-        <image class="login_box_clear_right" src="../../static/images/clear.png" @click="close()" />
-      </view>
-      <view class="login_contentBox">
-        <view class="login_box_title">请授权手机号</view>
-        <view class="login_box_content">以同步您先前的会员卡和积分信息</view>
-        <view class="login_box_btn">
-          <button
-            class="login_box_btn_box"
-            open-type="getPhoneNumber"
-            @getphonenumber="getPhoneNumber"
-          >
-            <image class="login_box_btn_img" src="../../static/images/wx.png" />
-            <view class="login_box_btn_name">授权手机号</view>
-          </button>
-        </view>
-      </view>
-    </view>
-  </uni-popup>
+<template lang="pug">
+uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
+  view.login_box
+    view.login_box_clear
+      view.login_box_clear_left
+      img.login_box_clear_right(
+        src="../../static/images/clear.png",
+        @click="close()"
+      )
+    view.login_contentBox
+      view.login_box_title 请授权手机号
+      view.login_box_content 以同步您先前的会员卡和积分信息
+      view.login_box_btn
+        button.login_box_btn_box(
+          open-type="getPhoneNumber",
+          @getphonenumber="getPhoneNumber"
+        )
+          img.login_box_btn_img(src="../../static/images/wx.png")
+          view.login_box_btn_name 授权手机号
 </template>
 
 <script>

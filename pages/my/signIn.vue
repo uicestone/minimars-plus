@@ -1,33 +1,27 @@
-<template>
-  <view class="mysigninbox">
-    <view class="my_signin_top"></view>
-    <view class="my_signin_content_box">
-      <view class="my_signin_content">
-        <view class="my_signin_daybox">
-          <view class="my_signin_day" v-for="(item, index) in signinImg" :key="index">
-            <view class="my_signin_day_title">{{ item.name }}</view>
-            <view class="my_signin_day_content">
-              <!-- 	<view v-for="(i,j) in signinImg" :key="j">
-								<image :src="i" class="signin_day" />
-              </view>-->
-              <image :src="item.img" class="signin_day" />
-            </view>
-          </view>
-          <view class="my_signin_day my_signin_dayseve">
-            <view class="my_signin_day_title my_signin_dayseve_title">第七天</view>
-            <view class="my_signin_day_content my_signin_dayseve_content">
-              <image src="../../static/images/my/my_signin_Seven.png" class="signin_dayseveimg" />
-            </view>
-          </view>
-        </view>
-        <!-- 签到 -->
-        <view class="sigb_box">
-          <view class="sigb_box_btn">今日签到</view>
-          <view class="sigb_box_detail">？签到说明</view>
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.mysigninbox
+  view.my_signin_top
+  view.my_signin_content_box
+    view.my_signin_content
+      view.my_signin_daybox
+        view.my_signin_day(v-for="(item, index) in signinImg", :key="index")
+          view.my_signin_day_title {{ item.name }}
+          view.my_signin_day_content
+            //
+              <view v-for="(i,j) in signinImg" :key="j">
+              <image :src="i" class="signin_day" />
+              </view>
+            img.signin_day(:src="item.img")
+        view.my_signin_day.my_signin_dayseve
+          view.my_signin_day_title.my_signin_dayseve_title 第七天
+          view.my_signin_day_content.my_signin_dayseve_content
+            img.signin_dayseveimg(
+              src="../../static/images/my/my_signin_Seven.png"
+            )
+      // 签到
+      view.sigb_box
+        view.sigb_box_btn 今日签到
+        view.sigb_box_detail ？签到说明
 </template>
 
 <script>

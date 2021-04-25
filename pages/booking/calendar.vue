@@ -1,63 +1,43 @@
-<template>
-  <view class="orderTime_box">
-    <view class="calendar-wrapper">
-      <view style="width: 750rpx; height: 120rpx"></view>
-      <!-- 日历头部 -->
-      <view class="header">
-        <div class="header_left">
-          <view class="header_data">{{ date | date('YYYY年M月') }}</view>
-        </div>
-        <div class="header_right">
-          <view class="left_icon" @click="addMonth(-1)">
-            <image src="../../static/images/myOrderTime/left_time.png" mode />
-          </view>
-          <view class="right_icon" @click="addMonth(1)">
-            <image src="../../static/images/myOrderTime/right_time.png" mode />
-          </view>
-        </div>
-      </view>
-      <!-- 日历的星期 -->
-      <view class="week">
-        <view class="week-day" v-for="(item, index) in weekDay" :key="index">{{ item }}</view>
-      </view>
-      <!-- 日历的天数 -->
-      <!-- <view :class="{ hide: !monthOpen }" class="content" :style="{ height: height }"> -->
-      <view class="content" :style="{ height: height }">
-        <view :style="{ top: positionTop + 'rpx' }" class="days">
-          <view class="item" v-for="(item, index) in days" :key="index">
-            <view
-              class="day"
-              @click="selectOne(item, $event)"
-              :class="{
-                selected:
-                  date === `${item.text}`,
-                today: isToday(item.year, item.month, item.date),
-                isWeekday: isWeekday(item),
-              }"
-            >{{ Number(item.date) }}</view>
-          </view>
-        </view>
-      </view>
-    </view>
+<template lang="pug">
+view.orderTime_box
+  view.calendar-wrapper
+    view(style='width: 750rpx; height: 120rpx')
+    // 日历头部
+    view.header
+      .header_left
+        view.header_data {{ date | date('YYYY年M月') }}
+      .header_right
+        view.left_icon(@click='addMonth(-1)')
+          img(src='../../static/images/myOrderTime/left_time.png' mode='')
+        view.right_icon(@click='addMonth(1)')
+          img(src='../../static/images/myOrderTime/right_time.png' mode='')
+    // 日历的星期
+    view.week
+      view.week-day(v-for='(item, index) in weekDay' :key='index') {{ item }}
+    // 日历的天数
+    // <view :class="{ hide: !monthOpen }" class="content" :style="{ height: height }">
+    view.content(:style='{ height: height }')
+      view.days(:style="{ top: positionTop + 'rpx' }")
+        view.item(v-for='(item, index) in days' :key='index')
+          view.day(@click='selectOne(item, $event)' :class='{\
+          selected:\
+          date === `${item.text}`,\
+          today: isToday(item.year, item.month, item.date),\
+          isWeekday: isWeekday(item),\
+          }') {{ Number(item.date) }}
+  // 到访时间
+  view.visiting_time
+    view.visiting_time_box
+      view.visiting_time_box_sign .
+      view.visiting_time_box-title
+        view.visiting_time_box-title-time 到访时间
+        // <view class="visiting_time_box-title-data">{{date}} </view>
+        view.visiting_time_box-title-data {{ date | date('Y年M月D日') }}
+        // {{y}} 年 {{m}} 月 {{d}} 日
+    view.message_confirm_box
+      view.message_confirm(@click='confirm')
+        view.message_confirm_name 确认Submit
 
-    <!-- 到访时间 -->
-    <view class="visiting_time">
-      <view class="visiting_time_box">
-        <view class="visiting_time_box_sign">.</view>
-        <view class="visiting_time_box-title">
-          <view class="visiting_time_box-title-time">到访时间</view>
-          <!-- <view class="visiting_time_box-title-data">{{date}} </view> -->
-          <view class="visiting_time_box-title-data">{{ date | date('Y年M月D日') }}</view>
-          <!-- {{y}} 年 {{m}} 月 {{d}} 日 -->
-        </view>
-      </view>
-      <view class="message_confirm_box">
-        <view class="message_confirm" @click="confirm">
-          <view class="message_confirm_name">确认Submit</view>
-        </view>
-      </view>
-    </view>
-  </view>
 </template>
 
 <script>

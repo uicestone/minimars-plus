@@ -1,157 +1,121 @@
-<template>
-  <view class="myOrder_box">
-    <!-- 门店选择 -->
-    <view class="myOrder_top">
-      <view class="storesToChoose">
-        <view class="storesToChoose_choose">
-          <view class="title">
-            <image src="../../static/images/index/index_orderOne.png" />
-            <view>门店选择</view>
-          </view>
-          <view class="content">
-            <span>
-              <lbPicker
-                mode="selector"
-                :value="store"
-                :list="stores.map(s => s.name)"
-                @confirm="selectStore"
-                :footers="false"
-              >
-                <view slot="cancel-text">取消</view>
-                <view slot="action-center">门店选择</view>
-                <view slot="confirm-text">确定</view>
-                <view class="uni-input">{{ store }}</view>
-              </lbPicker>
-            </span>
-            <image src="../../static/images/search.png" />
-          </view>
-          <view class="title">
-            <image src="../../static/images/index/index_orderTwo.png" />
-            <view>到访时间</view>
-          </view>
-          <view class="content content_two" @click="goCalendar()">
-            <input type="text" v-model="date" disabled />
-            <image src="../../static/images/right.png" class="content_right" />
-          </view>
-          <view class="title">
-            <image src="../../static/images/index/index_orderThree.png" />
-            <view>进场人数</view>
-          </view>
-          <view class="content">
-            <span>
-              <lbPicker
-                mode="unlinkedSelector"
-                :value="adultsKidsSelectValue"
-                :list="adultsKidsValues"
-                list-key="id"
-                :footers="true"
-                @confirm="selectAdultsKidsCount"
-              >
-                <view slot="cancel-text">儿童（位）</view>
-                <view slot="confirm-text">成人（位）</view>
-                <view class="uni-input">{{ adultsKidsText }}</view>
-                <view slot="picker-bottom_left">取消Cancel</view>
-                <view slot="picker-bottom_right">确定 Submit</view>
-              </lbPicker>
-            </span>
-            <image src="../../static/images/right.png" class="content_right" />
-          </view>
-        </view>
-      </view>
-    </view>
-    <view class="orderSpace"></view>
-    <view class="modeOf_Payment">
-      <view class="modeOf_Payment_title">更多优惠支付方式</view>
-      <scroll-view scroll-x="true" class="modeOf_Payment-box">
-        <view class="modeOf_Payment_scroll">
-          <view
-            class="modeOf_Payment_box"
-            v-for="(item, index) in cards"
-            :key="index"
-            @click="selectCard(index)"
-          >
-            <image
-              mode="aspectFill"
-              :src="item.posterUrl"
-              :class="[selectedCardIndex == index ? 'selected' : '', !isCardAvailable(item) ? 'disabled' : '']"
-            />
-            <view class="modeOf_Payment_box_name">
-              {{ item.title }}
-              <view style="color: #9fcdff; font-size: 24rpx; margin-top: 5rpx">
-                Rmb
-                <span style="font-size: 33rpx">{{ item.price }}</span>
-              </view>
-            </view>
-          </view>
-          <view class="modeOf_Payment_box">
-            <view
-              class="modeOf_Payment_box_btn"
-              style="
-                position: relative;
-                border: 1px solid #d8d8d8;
-                background-color: #d8d8d8;
-              "
-            >
-              <view @click="goBuyCards">
-                <view
-                  style="
-                    background-color: #9fcdff;
-                    width: 80rpx;
-                    height: 80rpx;
-                    border-radius: 50%;
-                    margin: 70rpx auto;
-                  "
-                >
-                  <view
-                    style="
-                      color: #ffffff;
-                      margin-bottom: 50rpx;
-                      font-size: 56rpx;
-                      font-weight: bold;
-                      text-align: center;
-                    "
-                  >+</view>
-                </view>
-              </view>
-            </view>
-            <view class="modeOf_Payment_box_name">点击购买新卡</view>
-          </view>
-        </view>
-        <!-- 礼品卡  弹框 -->
-        <uni-popup ref="cardContentPopup" type="center">
-          <view class="gift_box">
-            <view class="gift_box_clear">
-              <view class="gift_box_clear_left"></view>
-              <image
-                class="gift_box_clear_right"
-                src="../../static/images/clear.png"
-                @click="closeCardContent()"
-              />
-            </view>
-            <view class="gift_contentBox">
-              <view class="gift_contentBox_title">礼品卡使用说明</view>
-              <scroll-view scroll-y="true" class="gift_contentBox_box">
-                <view class="gift_contentBox_boxContent">
-                  <rich-text :nodes="cardContent"></rich-text>
-                </view>
-              </scroll-view>
-              <view class="gift_contentBox_btn" @click="closeCardContent">
-                <view class="gift_contentBox_btn_name">确认 Agree</view>
-              </view>
-            </view>
-          </view>
-        </uni-popup>
-      </scroll-view>
-      <!-- 订单支付 -->
-      <view class="modeOf_Payment_order">
-        <view class="modeOf_Payment_order_money">订单总价：{{ price }} 元</view>
-        <!--  -->
-        <view class="modeOf_Payment_order_play" @click="goPlay">
-          <view class="modeOf_Payment_order_play_name">订单支付Payment</view>
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.myOrder_box
+  // 门店选择
+  view.myOrder_top
+    view.storesToChoose
+      view.storesToChoose_choose
+        view.title
+          img(src="../../static/images/index/index_orderOne.png")
+          view 门店选择
+        view.content
+          span
+            lbpicker(
+              mode="selector",
+              :value="store",
+              :list="stores.map((s) => s.name)",
+              @confirm="selectStore",
+              :footers="false"
+            )
+              view(slot="cancel-text") 取消
+              view(slot="action-center") 门店选择
+              view(slot="confirm-text") 确定
+              view.uni-input {{ store }}
+          img(src="../../static/images/search.png")
+        view.title
+          img(src="../../static/images/index/index_orderTwo.png")
+          view 到访时间
+        view.content.content_two(@click="goCalendar()")
+          input(type="text", v-model="date", disabled)
+          img.content_right(src="../../static/images/right.png")
+        view.title
+          img(src="../../static/images/index/index_orderThree.png")
+          view 进场人数
+        view.content
+          span
+            lbpicker(
+              mode="unlinkedSelector",
+              :value="adultsKidsSelectValue",
+              :list="adultsKidsValues",
+              list-key="id",
+              :footers="true",
+              @confirm="selectAdultsKidsCount"
+            )
+              view(slot="cancel-text") 儿童（位）
+              view(slot="confirm-text") 成人（位）
+              view.uni-input {{ adultsKidsText }}
+              view(slot="picker-bottom_left") 取消Cancel
+              view(slot="picker-bottom_right") 确定 Submit
+          img.content_right(src="../../static/images/right.png")
+  view.orderSpace
+  view.modeOf_Payment
+    view.modeOf_Payment_title 更多优惠支付方式
+    scroll-view.modeOf_Payment-box(scroll-x="true")
+      view.modeOf_Payment_scroll
+        view.modeOf_Payment_box(
+          v-for="(item, index) in cards",
+          :key="index",
+          @click="selectCard(index)"
+        )
+          img(
+            mode="aspectFill",
+            :src="item.posterUrl",
+            :class="[selectedCardIndex == index ? 'selected' : '', !isCardAvailable(item) ? 'disabled' : '']"
+          )
+          view.modeOf_Payment_box_name
+            | {{ item.title }}
+            view(style="color: #9fcdff; font-size: 24rpx; margin-top: 5rpx")
+              | Rmb
+              span(style="font-size: 33rpx") {{ item.price }}
+        view.modeOf_Payment_box
+          view.modeOf_Payment_box_btn(
+            style='\
+          position: relative;\
+          border: 1px solid #d8d8d8;\
+          background-color: #d8d8d8;\
+          '
+          )
+            view(@click="goBuyCards")
+              view(
+                style='\
+              background-color: #9fcdff;\
+              width: 80rpx;\
+              height: 80rpx;\
+              border-radius: 50%;\
+              margin: 70rpx auto;\
+              '
+              )
+                view(
+                  style='\
+                color: #ffffff;\
+                margin-bottom: 50rpx;\
+                font-size: 56rpx;\
+                font-weight: bold;\
+                text-align: center;\
+                '
+                ) +
+          view.modeOf_Payment_box_name 点击购买新卡
+      // 礼品卡  弹框
+      uni-popup(ref="cardContentPopup", type="center")
+        view.gift_box
+          view.gift_box_clear
+            view.gift_box_clear_left
+            img.gift_box_clear_right(
+              src="../../static/images/clear.png",
+              @click="closeCardContent()"
+            )
+          view.gift_contentBox
+            view.gift_contentBox_title 礼品卡使用说明
+            scroll-view.gift_contentBox_box(scroll-y="true")
+              view.gift_contentBox_boxContent
+                rich-text(:nodes="cardContent")
+            view.gift_contentBox_btn(@click="closeCardContent")
+              view.gift_contentBox_btn_name 确认 Agree
+    // 订单支付
+    view.modeOf_Payment_order
+      view.modeOf_Payment_order_money 订单总价：{{ price }} 元
+      // 
+      view.modeOf_Payment_order_play(@click="goPlay")
+        view.modeOf_Payment_order_play_name 订单支付Payment
 </template>
 
 <script>

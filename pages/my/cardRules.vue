@@ -1,7 +1,6 @@
-<template>
-  <view class="cardsKnow_box">
-    <view class="cardsKnow"> Mini Mars 礼品卡使用须知 </view>
-  </view>
+<template lang="pug">
+view.cardsKnow_box
+  view.cardsKnow Mini Mars 礼品卡使用须知
 </template>
 
 <script>

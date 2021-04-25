@@ -1,165 +1,137 @@
-<template>
-  <view class="foodchooseBox">
-    <view class="foodchooseBox_content">
-      <view class="foodchooseBox_top">
-        <view class="foodchooseBox_top-box">
-          <view class="foodchooseBox_top_one" v-for="(item, index) in selectshop" :key="index">
-            <image :src="item.imageUrl" class="topimg" />
-            <view class="foodchooseBox_top_one_title">
-              <view class="foodchooseBox_top_one_name">{{ item.name }}</view>
-              <view class="foodchooseBox_top_one_moneybox">
-                <view class="foodchooseBox_top_one_money">
-                  ￥
-                  <span>{{ item.buyPrice }}</span>
-                </view>
-                <view class="foodchooseBox_top_one_number">x{{ item.numbers }}</view>
-              </view>
-            </view>
-          </view>
-          <view class="foodchooseBox_top_one" v-for="(item, index) in replacebox" :key="index">
-            <image src="../../static/images/224.jpg" class="topimg" />
-            <view class="foodchooseBox_top_one_title">
-              <view class="foodchooseBox_top_one_name">火龙果蓝莓奶昔</view>
-              <view class="foodchooseBox_top_one_moneybox">
-                <view class="foodchooseBox_top_one_money">
-                  ￥
-                  <span>29.9</span>
-                </view>
-                <view class="foodchooseBox_top_one_number">x1</view>
-              </view>
-            </view>
-          </view>
-
-          <view class="foodchooseBox_top-box_discounts">
-            <view class="foodchooseBox_top-box_discounts_left">
-              <view>优惠券</view>
-              <image
-                src="../../static/images/orderFood/fooddiscounts.png"
-                class="discounts_leftimg"
-              />
-            </view>
-            <view class="foodchooseBox_top-box_discounts_right">
-              <view>无可用优惠券</view>
-              <image src="../../static/images/111.png" class="discounts_rightimg" />
-            </view>
-          </view>
-          <view class="foodchooseBox_top-box_count">
-            <view>共一件 合计</view>
-            <view>
-              ¥
-              <span>{{ totalPrice }}</span>
-            </view>
-          </view>
+<template lang="pug">
+view.foodchooseBox
+  view.foodchooseBox_content
+    view.foodchooseBox_top
+      view.foodchooseBox_top-box
+        view.foodchooseBox_top_one(
+          v-for="(item, index) in selectshop",
+          :key="index"
+        )
+          img.topimg(:src="item.imageUrl")
+          view.foodchooseBox_top_one_title
+            view.foodchooseBox_top_one_name {{ item.name }}
+            view.foodchooseBox_top_one_moneybox
+              view.foodchooseBox_top_one_money
+                | ￥
+                span {{ item.buyPrice }}
+              view.foodchooseBox_top_one_number x{{ item.numbers }}
+        view.foodchooseBox_top_one(
+          v-for="(item, index) in replacebox",
+          :key="index"
+        )
+          img.topimg(src="../../static/images/224.jpg")
+          view.foodchooseBox_top_one_title
+            view.foodchooseBox_top_one_name 火龙果蓝莓奶昔
+            view.foodchooseBox_top_one_moneybox
+              view.foodchooseBox_top_one_money
+                | ￥
+                span 29.9
+              view.foodchooseBox_top_one_number x1
+        view.foodchooseBox_top-box_discounts
+          view.foodchooseBox_top-box_discounts_left
+            view 优惠券
+            img.discounts_leftimg(
+              src="../../static/images/orderFood/fooddiscounts.png"
+            )
+          view.foodchooseBox_top-box_discounts_right
+            view 无可用优惠券
+            img.discounts_rightimg(src="../../static/images/111.png")
+        view.foodchooseBox_top-box_count
+          view 共一件 合计
+          view
+            | ¥
+            span {{ totalPrice }}
+    // 超值换购
+    view.bargain_buy
+      //
+        <view class="bargain_buy_title">
+        超值换购
         </view>
-      </view>
-      <!-- 超值换购 -->
-      <view class="bargain_buy">
-        <!-- <view class="bargain_buy_title">
-					超值换购
-				</view>
-				<view class="bargain_buybox">
-					<view class="bargain_buybox_content" v-for="(item,index) in foods " :key="index">
-						<view class="bargain_buybox_content_box">
-							<view class="bargain_buybox_content_image">
-								<image src="../../static/images/224.jpg" class="bargain_buybox_content-img" @click="open(index)" />
-								<view class="bargain_buybox_btn-imgbox" v-show="item.buyadd" @click="goadd(index)">
-									<image src="../../static/images/orderFood/foodchooseAdd.png" class="bargain_buybox_btn-img" />
-								</view>
-								<view class="bargain_buybox_btn-imgbox" v-show="item.buyadd==false" @click="goMinus(index)">
-									<image src="../../static/images/orderFood/foodchooseMinus.png" class="bargain_buybox_btn-imgMinus" />
-								</view>
-							</view>
-							<view class="bargain_buybox_content_detail" @click="open(index)">
-								<view class="bargain_buybox_content_title">火龙果蓝莓奶昔</view>
-								<view class="bargain_buybox_content_detail_box">
-									<view class="bargain_buybox_content_detail_left"><span>¥ </span> 29.9</view>
-									<view class="bargain_buybox_content_detail_right">
-										<span>¥</span>38
-										<view class="bargain_buybox_content_detail_rightline"></view>
-									</view>
-								</view>
-
-							</view>
-						</view>
-
-					</view>
-        </view>-->
-        <!-- 详情 -->
-        <uni-popup ref="popup" type="center">
-          <view class="gift_box">
-            <view class="gift_box_top">
-              <image src="../../static/images/224.jpg" mode="aspectFill" />
-              <view class="gift_box_top-close">
-                <image
-                  class="gift_box_clear_right"
-                  src="../../static/images/clear.png"
-                  @click="close()"
-                />
-              </view>
-            </view>
-            <view class="gift_box_top_content">
-              <view class="gift_box_top_content-title">至尊肉食主义拼盘</view>
-              <view class="gift_box_top_content-box">卡真鸡腿肉，羊排，西冷牛排，芝士肠， 维也纳肠</view>
-            </view>
-            <view class="gift_box_top_footer">
-              <view class="gift_box_top_footer-leftbox">
-                <view class="gift_box_top_footer-left">
-                  ￥
-                  <span>28</span>
-                </view>
-                <view class="bargain_buybox_content_detail_right">
-                  <span>¥</span>38
-                  <view class="bargain_buybox_content_detail_rightline"></view>
-                </view>
-              </view>
-              <view class="gift_box_top_footer-right" @click="goAddClose()">
-                <image src="../../static/images/add.png" />
-              </view>
-            </view>
-          </view>
-        </uni-popup>
-      </view>
-      <!-- 请选择支付方式 -->
-      <!-- <view class="modeOfPayment">
-				<view class="modeOfPayment_Box">
-					<view class="modeOfPayment_Box_title">
-						请选择支付方式
-					</view>
-					<view class="modeOfPayment_gift_box">
-						<view class="modeOfPayment_gift_title">
-							礼品卡
-						</view>
-						<view class="modeOfPayment_gift_titlechoose">
-							选择您的礼品卡
-						</view>
-						<view class="modeOfPayment_gift_content_box">
-							<scroll-view scroll-x="true" class="modeOf_Payment-box">
-								<view class="modeOf_Payment_scroll">
-									<view class="modeOf_Payment_box" v-for="(item,index) in cardList" :key="index">
-										<image :src="item.imageUrl" mode="aspectFill" />
-									</view>
-								</view>
-							</scroll-view>
-
-						</view>
-					</view>
-					<view class="wxModeOfPayment">
-						<view class="wxModeOfPayment_left">微信支付</view>
-						<view class="wxModeOfPayment_right" @click="gowxSelected">
-							<image src="../../static/images/orderFood/foodchooseSelected.png" class="wxModeOfPayment_rightimg" v-show="wxSelected" />
-						</view>
-					</view>
-				</view>
-
-      </view>-->
-      <!-- 立即支付 -->
-      <view class="payNowBox">
-        <view class="payNow" @click="createdOred">
-          <view class="payNow_btn">立即支付</view>
+        <view class="bargain_buybox">
+        <view class="bargain_buybox_content" v-for="(item,index) in foods " :key="index">
+        <view class="bargain_buybox_content_box">
+        <view class="bargain_buybox_content_image">
+        <image src="../../static/images/224.jpg" class="bargain_buybox_content-img" @click="open(index)" />
+        <view class="bargain_buybox_btn-imgbox" v-show="item.buyadd" @click="goadd(index)">
+        <image src="../../static/images/orderFood/foodchooseAdd.png" class="bargain_buybox_btn-img" />
         </view>
+        <view class="bargain_buybox_btn-imgbox" v-show="item.buyadd==false" @click="goMinus(index)">
+        <image src="../../static/images/orderFood/foodchooseMinus.png" class="bargain_buybox_btn-imgMinus" />
+        </view>
+        </view>
+        <view class="bargain_buybox_content_detail" @click="open(index)">
+        <view class="bargain_buybox_content_title">火龙果蓝莓奶昔</view>
+        <view class="bargain_buybox_content_detail_box">
+        <view class="bargain_buybox_content_detail_left"><span>¥ </span> 29.9</view>
+        <view class="bargain_buybox_content_detail_right">
+        <span>¥</span>38
+        <view class="bargain_buybox_content_detail_rightline"></view>
+        </view>
+        </view>
+        </view>
+        </view>
+        </view>
+        </view>
+      // 详情
+      uni-popup(ref="popup", type="center")
+        view.gift_box
+          view.gift_box_top
+            img(src="../../static/images/224.jpg", mode="aspectFill")
+            view.gift_box_top-close
+              img.gift_box_clear_right(
+                src="../../static/images/clear.png",
+                @click="close()"
+              )
+          view.gift_box_top_content
+            view.gift_box_top_content-title 至尊肉食主义拼盘
+            view.gift_box_top_content-box 卡真鸡腿肉，羊排，西冷牛排，芝士肠， 维也纳肠
+          view.gift_box_top_footer
+            view.gift_box_top_footer-leftbox
+              view.gift_box_top_footer-left
+                | ￥
+                span 28
+              view.bargain_buybox_content_detail_right
+                span ¥
+                | 38
+                view.bargain_buybox_content_detail_rightline
+            view.gift_box_top_footer-right(@click="goAddClose()")
+              img(src="../../static/images/add.png")
+    // 请选择支付方式
+    //
+      <view class="modeOfPayment">
+      <view class="modeOfPayment_Box">
+      <view class="modeOfPayment_Box_title">
+      请选择支付方式
       </view>
-    </view>
-  </view>
+      <view class="modeOfPayment_gift_box">
+      <view class="modeOfPayment_gift_title">
+      礼品卡
+      </view>
+      <view class="modeOfPayment_gift_titlechoose">
+      选择您的礼品卡
+      </view>
+      <view class="modeOfPayment_gift_content_box">
+      <scroll-view scroll-x="true" class="modeOf_Payment-box">
+      <view class="modeOf_Payment_scroll">
+      <view class="modeOf_Payment_box" v-for="(item,index) in cardList" :key="index">
+      <image :src="item.imageUrl" mode="aspectFill" />
+      </view>
+      </view>
+      </scroll-view>
+      </view>
+      </view>
+      <view class="wxModeOfPayment">
+      <view class="wxModeOfPayment_left">微信支付</view>
+      <view class="wxModeOfPayment_right" @click="gowxSelected">
+      <image src="../../static/images/orderFood/foodchooseSelected.png" class="wxModeOfPayment_rightimg" v-show="wxSelected" />
+      </view>
+      </view>
+      </view>
+      </view>
+    // 立即支付
+    view.payNowBox
+      view.payNow(@click="createdOred")
+        view.payNow_btn 立即支付
 </template>
 
 <script>

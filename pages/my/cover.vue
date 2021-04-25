@@ -1,112 +1,81 @@
-<template>
-  <div class="orderLlist">
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-      "
-    >
-      <div style="width: 100%">
-        <tabs
-          :list="tabsList"
-          lineColor="#4A5BED"
-          itemColor="#405BE6"
-          v-model="active"
-          @input="tabsChange"
-        ></tabs>
-      </div>
-      <!-- 全部封面 -->
-      <view class="one" v-show="list1 == 0">
-        <view class="allcover_box">
-          <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title">推荐封面</view>
-            <view class="allcover_box_recommend_content_box">
-              <view
-                class="allcover_box_recommend_content"
-                v-for="(item, index) in userCoverImg"
-                :key="index"
-              >
-                <view class="allcover_box_recommend_content_img" @click="open(index, item)">
-                  <image :src="item.posterUrl" mode="aspectFill" class="image_img" />
-                </view>
-                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
-              </view>
-            </view>
-          </view>
-          <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title">节日主题</view>
-            <view class="allcover_box_recommend_content_box">
-              <view
-                class="allcover_box_recommend_content"
-                v-for="(item, index) in festivalCoverImg"
-                :key="index"
-              >
-                <view class="allcover_box_recommend_content_img">
-                  <!-- <view class="allcover_box_recommend_content_img" @click="open(index)"> -->
-                  <!-- <image :src="item.posterUrl" mode="aspectFill" class="image_img" /> -->
-                </view>
-                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-      <!-- 封面管理 -->
-      <view class="one" v-show="list1 == 1">
-        <view class="allcover_box">
-          <view class="allcover_box_recommend" v-if="currentCoverBox == false">
-            <view class="allcover_box_recommend_title">正在使用</view>
-            <view class="allcover_box_recommend_content_box">
-              <view class="allcover_box_recommend_content">
-                <view class="allcover_box_recommend_content_img">
-                  <image :src="currentCover.posterUrl" mode="aspectFill" class="image_img" />
-                </view>
-                <view class="allcover_box_recommend_content_name">{{ currentCover.title }}</view>
-              </view>
-            </view>
-          </view>
-          <view class="allcover_box_recommend">
-            <view class="allcover_box_recommend_title">我的封面</view>
-            <view class="allcover_box_recommend_content_box">
-              <view
-                class="allcover_box_recommend_content"
-                v-for="(item, index) in getCovers"
-                :key="index"
-              >
-                <view class="allcover_box_recommend_content_img" @click="useCover(item)">
-                  <image :src="item.posterUrl" mode="aspectFill" class="image_img" />
-                </view>
-                <view class="allcover_box_recommend_content_name">{{ item.title }}</view>
-              </view>
-            </view>
-          </view>
-        </view>
-      </view>
-    </div>
-    <!-- 详情  弹框 -->
-    <uni-popup ref="popup" type="center">
-      <view class="gift_box">
-        <view class="gift_boximg">
-          <image :src="alertImg" mode="aspectFill" class="giftImage" />
-          <view class="gift_box_clear">
-            <image
-              class="gift_box_clear_right"
-              src="../../static/images/clear.png"
-              @click="close()"
-            />
-          </view>
-        </view>
-        <view class="gift_boximg_detail">
-          <view class="gift_boximg_detail_left">当前封面：{{ alertPriceInPoints }}积分</view>
-          <view class="gift_boximg_detail_right_box" @click="buyuserCover()">
-            <view class="gift_boximg_detail_right">兑换使用</view>
-          </view>
-        </view>
-      </view>
-    </uni-popup>
-  </div>
+<template lang="pug">
+.orderLlist
+  div(
+    style='\
+  width: 100%;\
+  display: flex;\
+  justify-content: center;\
+  flex-wrap: wrap;\
+  '
+  )
+    div(style="width: 100%")
+      tabs(
+        :list="tabsList",
+        linecolor="#4A5BED",
+        itemcolor="#405BE6",
+        v-model="active",
+        @input="tabsChange"
+      )
+    // 全部封面
+    view.one(v-show="list1 == 0")
+      view.allcover_box
+        view.allcover_box_recommend
+          view.allcover_box_recommend_title 推荐封面
+          view.allcover_box_recommend_content_box
+            view.allcover_box_recommend_content(
+              v-for="(item, index) in userCoverImg",
+              :key="index"
+            )
+              view.allcover_box_recommend_content_img(
+                @click="open(index, item)"
+              )
+                img.image_img(:src="item.posterUrl", mode="aspectFill")
+              view.allcover_box_recommend_content_name {{ item.title }}
+        view.allcover_box_recommend
+          view.allcover_box_recommend_title 节日主题
+          view.allcover_box_recommend_content_box
+            view.allcover_box_recommend_content(
+              v-for="(item, index) in festivalCoverImg",
+              :key="index"
+            )
+              view.allcover_box_recommend_content_img
+                // <view class="allcover_box_recommend_content_img" @click="open(index)">
+                // <image :src="item.posterUrl" mode="aspectFill" class="image_img" />
+              view.allcover_box_recommend_content_name {{ item.title }}
+    // 封面管理
+    view.one(v-show="list1 == 1")
+      view.allcover_box
+        view.allcover_box_recommend(v-if="currentCoverBox == false")
+          view.allcover_box_recommend_title 正在使用
+          view.allcover_box_recommend_content_box
+            view.allcover_box_recommend_content
+              view.allcover_box_recommend_content_img
+                img.image_img(:src="currentCover.posterUrl", mode="aspectFill")
+              view.allcover_box_recommend_content_name {{ currentCover.title }}
+        view.allcover_box_recommend
+          view.allcover_box_recommend_title 我的封面
+          view.allcover_box_recommend_content_box
+            view.allcover_box_recommend_content(
+              v-for="(item, index) in getCovers",
+              :key="index"
+            )
+              view.allcover_box_recommend_content_img(@click="useCover(item)")
+                img.image_img(:src="item.posterUrl", mode="aspectFill")
+              view.allcover_box_recommend_content_name {{ item.title }}
+  // 详情  弹框
+  uni-popup(ref="popup", type="center")
+    view.gift_box
+      view.gift_boximg
+        img.giftImage(:src="alertImg", mode="aspectFill")
+        view.gift_box_clear
+          img.gift_box_clear_right(
+            src="../../static/images/clear.png",
+            @click="close()"
+          )
+      view.gift_boximg_detail
+        view.gift_boximg_detail_left 当前封面：{{ alertPriceInPoints }}积分
+        view.gift_boximg_detail_right_box(@click="buyuserCover()")
+          view.gift_boximg_detail_right 兑换使用
 </template>
 
 <script>

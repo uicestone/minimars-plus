@@ -1,83 +1,64 @@
-<template>
-  <view class="index_box">
-    <!-- 轮播 -->
-    <view class="banner">
-      <swiper
-        class="swiper"
-        :autoplay="swiperAutoplay"
-        :interval="3000"
-        :duration="1000"
-        :current="swiperCurrent"
-        @animationfinish="changeSwiper"
-        indicator-dots="true"
-        circular="true"
-        indicator-color="#B9B9B9"
-        indicator-active-color="#9B9B9B"
-      >
-        <swiper-item v-for="item in bannerimg" :key="item.id">
-          <image class="swiper_item" :src="item.posterUrl" mode="aspectFill" />
-        </swiper-item>
-      </swiper>
-      <!-- 购票 -->
-      <view>
-        <view class="buy_ticketsBox">
-          <view class="buy_tickets">
-            <view @click="myorders">
-              <image src="../../static/images/index/index_BuyingTickets.png" />
-              <span>购票</span>
-            </view>
-          </view>
-          <view class="line"></view>
-          <view class="buy_tickets_Food" @click="goFood()">
-            <image src="../../static/images/index/index_Order.png" />
-            <span>点餐</span>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view style="width: 690rpx; height: 290rpx; margin-bottom:30rpx"></view>
-    <!-- 消息提示框 -->
-    <view class="message_box" v-if="informationShow">
-      <image src="../../static/images/index/looks.png" />
-      <view>您的订单{{ information }}，请及时查看</view>
-    </view>
-    <!-- MARS商城 -->
-    <view class="shoppingMall_box">
-      <view class="shoppingMall shoppingImgBox" @click="goMall">
+<template lang="pug">
+view.index_box
+  // 轮播
+  view.banner
+    swiper.swiper(
+      :autoplay="swiperAutoplay",
+      :interval="3000",
+      :duration="1000",
+      :current="swiperCurrent",
+      @animationfinish="changeSwiper",
+      indicator-dots="true",
+      circular="true",
+      indicator-color="#B9B9B9",
+      indicator-active-color="#9B9B9B"
+    )
+      swiper-item(v-for="item in bannerimg", :key="item.id")
+        img.swiper_item(:src="item.posterUrl", mode="aspectFill")
+    // 购票
+    view
+      view.buy_ticketsBox
+        view.buy_tickets
+          view(@click="myorders")
+            img(src="../../static/images/index/index_BuyingTickets.png")
+            span 购票
+        view.line
+        view.buy_tickets_Food(@click="goFood()")
+          img(src="../../static/images/index/index_Order.png")
+          span 点餐
+  view(style="width: 690rpx; height: 290rpx; margin-bottom:30rpx")
+  // 消息提示框
+  view.message_box(v-if="informationShow")
+    img(src="../../static/images/index/looks.png")
+    view 您的订单{{ information }}，请及时查看
+  // MARS商城
+  view.shoppingMall_box
+    view.shoppingMall.shoppingImgBox(@click="goMall")
+      view.shoppingMall_title
+        // MARS商城
+    view.shoppingMall.activeImgBox(@click="goMarsActivityBox")
+      //
         <view class="shoppingMall_title">
-          <!-- MARS商城 -->
+        MARS活动
         </view>
-      </view>
-      <view class="shoppingMall activeImgBox" @click="goMarsActivityBox">
-        <!-- <view class="shoppingMall_title">
-					MARS活动
-        </view>-->
-      </view>
-      <view class="shoppingMall cardImgBox" @click="goMarsCoupon">
-        <!-- <view class="shoppingMall_title">
-					MARS卡券
-        </view>-->
-      </view>
-    </view>
-    <!-- 我的积分 -->
-    <view class="integrate_box">
-      <view class="integrate">
-        <view class="integrate_left">
-          我的积分
-          <span>{{ points }}</span>
+    view.shoppingMall.cardImgBox(@click="goMarsCoupon")
+      //
+        <view class="shoppingMall_title">
+        MARS卡券
         </view>
-        <view class="integrate_right">
-          <image
-            src="../../static/images/index/index_integralImg.png"
-            mode
-            class="index_integralImg"
-          />
-        </view>
-      </view>
-    </view>
-    <!-- <modal-get-user-info /> -->
-    <modal-get-phone-number />
-  </view>
+  // 我的积分
+  view.integrate_box
+    view.integrate
+      view.integrate_left
+        | 我的积分
+        span {{ points }}
+      view.integrate_right
+        img.index_integralImg(
+          src="../../static/images/index/index_integralImg.png",
+          mode=""
+        )
+  // <modal-get-user-info />
+  modal-get-phone-number
 </template>
 
 <script>

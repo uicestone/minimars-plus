@@ -1,196 +1,161 @@
-<template>
-  <div class="orderLlist">
-    <div
-      style="
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        flex-wrap: wrap;
-      "
-    >
-      <div style="width: 100%">
-        <tabs
-          :list="tabsList"
-          lineColor="#4A5BED"
-          itemColor="#405BE6"
-          v-model="active"
-          @input="tabsChange"
-        ></tabs>
-      </div>
-      <!-- 已点餐 -->
-      <view class="one" v-show="list1 == 0">
-        <view class="haveOrder_box" v-if="QRCodeHide">
-          <!-- scan a QR code -->
-          <view class="haveOrder_scan_box">
-            <view class="haveOrder_scan">
-              <view class="haveOrder_scan-code"></view>
-              <view class="haveOrder_scan_content">您还没有点餐 快去点点东西吧</view>
-              <view class="haveOrder_scan_btn">
-                <span>去点单</span>
-              </view>
-            </view>
+<template lang="pug">
+.orderLlist
+  div(
+    style='\
+  width: 100%;\
+  display: flex;\
+  justify-content: center;\
+  flex-wrap: wrap;\
+  '
+  )
+    div(style="width: 100%")
+      tabs(
+        :list="tabsList",
+        linecolor="#4A5BED",
+        itemcolor="#405BE6",
+        v-model="active",
+        @input="tabsChange"
+      )
+    // 已点餐
+    view.one(v-show="list1 == 0")
+      view.haveOrder_box(v-if="QRCodeHide")
+        // scan a QR code
+        view.haveOrder_scan_box
+          view.haveOrder_scan
+            view.haveOrder_scan-code
+            view.haveOrder_scan_content 您还没有点餐 快去点点东西吧
+            view.haveOrder_scan_btn
+              span 去点单
+      view.accomplish_border(v-if="QRCodeHide == false")
+        view.accomplish_box(v-for="(i, t) in ReservedOrders", :key="t")
+          view.accomplish_top
+            view.accomplish_top_title_box
+              view.accomplish_top_title
+                view.accomplish_top_titlename {{ i.store.name }}
+                span.accomplish_top_date {{ i.updatedAt }}
+              view.accomplish_top_btn_box
+                | {{ i.status }}
+                img.accomplish_top_btn(src="../../static/images/111.png")
+          view.accomplish_contentbox(@click="open()")
+            view.accomplish_contentbox_left
+              scroll-view.modeOf_Payment-box(scroll-x="true")
+                view.modeOf_Payment_scroll
+                  view.modeOf_Payment_box(
+                    v-for="(item, index) in i.items",
+                    :key="index"
+                  )
+                    img(:src="item.productImageUrl")
+            view.accomplish_contentbox_right
+              view 共{{ i.items.length }}件
+              view.accomplish_contentbox_right_money
+                | ￥
+                span 0
+    // 已预约
+    view.one(v-show="list1 == 1")
+      view.appointment_box(
+        v-for="(item, index) in ReservedOrders",
+        :key="index"
+      )
+        view.appointment_box_title
+          view {{ item.date }}
+          view(style="font-size: 28rpx") {{ item.status }}
+        view.appointment_box_name
+          view.appointment_box_nameTitle {{ item.title }}
+          |
+          | {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
+    // 已完成
+    view.one(v-show="list1 == 2")
+      view.accomplish_border
+        view.accomplish_box(
+          v-for="(item, index) in ReservedOrders",
+          :key="index"
+        )
+          view.accomplish_top
+            view.accomplish_top_title_box
+              view.accomplish_top_title
+                view.accomplish_top_titlename {{ item.title }}
+                span.accomplish_top_date {{ item.date }}
+              view.accomplish_top_btn_box
+                | {{ item.status }}
+                img.accomplish_top_btn(src="../../static/images/111.png")
+          view.accomplish_contentbox(@click="open()")
+            view.accomplish_contentbox_left
+              scroll-view.modeOf_Payment-box(scroll-x="true")
+                view.modeOf_Payment_scroll
+                  view.modeOf_Payment_box
+                    img(src="../../static/images/224.jpg")
+            view.accomplish_contentbox_right
+              view 共一件
+              view.accomplish_contentbox_right_money
+                | ￥
+                span 395.9
+        // two
+        //
+          <view class="accomplish_box">
+          <view class="accomplish_top">
+          <view class="accomplish_top_title_box">
+          <view class="accomplish_top_title">
+          <view class="accomplish_top_titlename">
+          长宁天山店
           </view>
-        </view>
-        <view class="accomplish_border" v-if="QRCodeHide == false">
-          <view class="accomplish_box" v-for="(i, t) in ReservedOrders" :key="t">
-            <view class="accomplish_top">
-              <view class="accomplish_top_title_box">
-                <view class="accomplish_top_title">
-                  <view class="accomplish_top_titlename">{{ i.store.name }}</view>
-                  <span class="accomplish_top_date">{{ i.updatedAt }}</span>
-                </view>
-                <view class="accomplish_top_btn_box">
-                  {{ i.status }}
-                  <image src="../../static/images/111.png" class="accomplish_top_btn" />
-                </view>
-              </view>
-            </view>
-            <view class="accomplish_contentbox" @click="open()">
-              <view class="accomplish_contentbox_left">
-                <scroll-view scroll-x="true" class="modeOf_Payment-box">
-                  <view class="modeOf_Payment_scroll">
-                    <view class="modeOf_Payment_box" v-for="(item, index) in i.items" :key="index">
-                      <image :src="item.productImageUrl" />
-                    </view>
-                  </view>
-                </scroll-view>
-              </view>
-              <view class="accomplish_contentbox_right">
-                <view>共{{ i.items.length }}件</view>
-                <view class="accomplish_contentbox_right_money">
-                  ￥
-                  <span>0</span>
-                </view>
-              </view>
-            </view>
+          <span class="accomplish_top_date">2020-12-18 18:24:29</span>
           </view>
-        </view>
-      </view>
-      <!-- 已预约 -->
-      <view class="one" v-show="list1 == 1">
-        <view class="appointment_box" v-for="(item, index) in ReservedOrders" :key="index">
-          <view class="appointment_box_title">
-            <view>{{ item.date }}</view>
-            <view style="font-size: 28rpx">{{ item.status }}</view>
+          <view class="accomplish_top_btn_box">
+          已完成
+          <image src="../../static/images/111.png" class="accomplish_top_btn" />
           </view>
-          <view class="appointment_box_name">
-            <view class="appointment_box_nameTitle">{{ item.title }}</view>
-            {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
           </view>
-        </view>
-      </view>
-      <!-- 已完成 -->
-      <view class="one" v-show="list1 == 2">
-        <view class="accomplish_border">
-          <view class="accomplish_box" v-for="(item, index) in ReservedOrders" :key="index">
-            <view class="accomplish_top">
-              <view class="accomplish_top_title_box">
-                <view class="accomplish_top_title">
-                  <view class="accomplish_top_titlename">{{ item.title }}</view>
-                  <span class="accomplish_top_date">{{ item.date }}</span>
-                </view>
-                <view class="accomplish_top_btn_box">
-                  {{ item.status }}
-                  <image src="../../static/images/111.png" class="accomplish_top_btn" />
-                </view>
-              </view>
-            </view>
-            <view class="accomplish_contentbox" @click="open()">
-              <view class="accomplish_contentbox_left">
-                <scroll-view scroll-x="true" class="modeOf_Payment-box">
-                  <view class="modeOf_Payment_scroll">
-                    <view class="modeOf_Payment_box">
-                      <image src="../../static/images/224.jpg" />
-                    </view>
-                  </view>
-                </scroll-view>
-              </view>
-              <view class="accomplish_contentbox_right">
-                <view>共一件</view>
-                <view class="accomplish_contentbox_right_money">
-                  ￥
-                  <span>395.9</span>
-                </view>
-              </view>
-            </view>
           </view>
-          <!-- two -->
-          <!-- <view class="accomplish_box">
-						<view class="accomplish_top">
-							<view class="accomplish_top_title_box">
-								<view class="accomplish_top_title">
-									<view class="accomplish_top_titlename">
-										长宁天山店
-									</view>
-									<span class="accomplish_top_date">2020-12-18 18:24:29</span>
-								</view>
-								<view class="accomplish_top_btn_box">
-									已完成
-									<image src="../../static/images/111.png" class="accomplish_top_btn" />
-								</view>
-							</view>
-						</view>
-						<view class="accomplish_contentbox" @click="open()">
-							<view class="accomplish_contentbox_left">
-								<scroll-view scroll-x="true" class="modeOf_Payment-box">
-									<view class="modeOf_Payment_scroll">
-										<view class="modeOf_Payment_box" v-for="(item,index) in 3" :key="index">
-											<image src="../../static/images/224.jpg" />
-										</view>
-									</view>
-								</scroll-view>
-							</view>
-							<view class="accomplish_contentbox_right">
-								<view>共三件</view>
-								<view class="accomplish_contentbox_right_money">￥<span>395.9</span></view>
-							</view>
-						</view>
-					</view>
-          详情  弹框-->
-          <uni-popup ref="popup" type="center">
-            <view class="gift_box">
-              <view class="gift_box_clear">
-                <view class="gift_box_clear_left">长宁天山店</view>
-                <image
-                  class="gift_box_clear_right"
-                  src="../../static/images/clear.png"
-                  @click="close()"
-                />
-              </view>
-              <view class="listdetail_box" v-for="(item, index) in 3" :key="index">
-                <view class="listdetail_box_content">
-                  <image src="../../static/images/224.jpg" class="listdetail_box_contentimg" />
-                  <view class="listdetail_box_content_titlebox">
-                    <view class="listdetail_box_content_titlebox_left">
-                      <view class="listdetail_box_content_titlebox_left_name">猪肋排</view>
-                      <view class="listdetail_box_content_titlebox_left_number">X 1</view>
-                    </view>
-                    <view class="listdetail_box_content_titlebox_right">¥ 140</view>
-                  </view>
-                </view>
-              </view>
-              <view class="gift_box_clear count_box">
-                <view class="gift_box_clear_left"></view>
-                <view class="count_box_right">总计 ¥ 560</view>
-              </view>
-            </view>
-          </uni-popup>
-        </view>
-      </view>
-      <view class="one" v-show="list1 == 3">
-        <view class="appointment_box" v-for="(item, index) in ReservedOrders" :key="index">
-          <view class="appointment_box_title">
-            <view>{{ item.date }}</view>
-            <view style="font-size: 28rpx">{{ item.status }}</view>
+          <view class="accomplish_contentbox" @click="open()">
+          <view class="accomplish_contentbox_left">
+          <scroll-view scroll-x="true" class="modeOf_Payment-box">
+          <view class="modeOf_Payment_scroll">
+          <view class="modeOf_Payment_box" v-for="(item,index) in 3" :key="index">
+          <image src="../../static/images/224.jpg" />
           </view>
-          <view class="appointment_box_name">
-            <view class="appointment_box_nameTitle">{{ item.title }}</view>
-            {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
           </view>
-        </view>
-      </view>
-    </div>
-  </div>
+          </scroll-view>
+          </view>
+          <view class="accomplish_contentbox_right">
+          <view>共三件</view>
+          <view class="accomplish_contentbox_right_money">￥<span>395.9</span></view>
+          </view>
+          </view>
+          </view>
+          详情  弹框
+        uni-popup(ref="popup", type="center")
+          view.gift_box
+            view.gift_box_clear
+              view.gift_box_clear_left 长宁天山店
+              img.gift_box_clear_right(
+                src="../../static/images/clear.png",
+                @click="close()"
+              )
+            view.listdetail_box(v-for="(item, index) in 3", :key="index")
+              view.listdetail_box_content
+                img.listdetail_box_contentimg(
+                  src="../../static/images/224.jpg"
+                )
+                view.listdetail_box_content_titlebox
+                  view.listdetail_box_content_titlebox_left
+                    view.listdetail_box_content_titlebox_left_name 猪肋排
+                    view.listdetail_box_content_titlebox_left_number X 1
+                  view.listdetail_box_content_titlebox_right ¥ 140
+            view.gift_box_clear.count_box
+              view.gift_box_clear_left
+              view.count_box_right 总计 ¥ 560
+    view.one(v-show="list1 == 3")
+      view.appointment_box(
+        v-for="(item, index) in ReservedOrders",
+        :key="index"
+      )
+        view.appointment_box_title
+          view {{ item.date }}
+          view(style="font-size: 28rpx") {{ item.status }}
+        view.appointment_box_name
+          view.appointment_box_nameTitle {{ item.title }}
+          |
+          | {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
 </template>
 
 <script>

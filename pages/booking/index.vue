@@ -1,39 +1,36 @@
-<template>
-  <view class="index_box">
-    <!-- 轮播 -->
-    <view class="banner">
-      <swiper
-        class="swiper"
-        :autoplay="true"
-        :interval="3000"
-        :duration="1000"
-        :current="swiperCurrent"
-        @change="changeSwiper"
-        indicator-dots="true"
-        circular="true"
-        indicator-color="#B9B9B9"
-        indicator-active-color="#9B9B9B"
-      >
-        <swiper-item v-for="item in swiperImg" :key="item.id">
-          <image class="swiper_item" :src="item" mode="aspectFill" />
-        </swiper-item>
-      </swiper>
-      <!-- 单次门票 -->
-      <view>
-        <view class="buy_ticketsBox">
-          <view class="buy_tickets" @click="goOrder">
-            <image src="../../static/images/ticketing/ticketing_one.png" mode="aspectFill" />
-            <span>单次门票</span>
-          </view>
-          <view class="buy_tickets_Food" @click="goBuyCard">
-            <image src="../../static/images/ticketing/ticketing_vip.png" mode="aspectFill" />
-            <span>礼品卡购买</span>
-          </view>
-        </view>
-      </view>
-    </view>
-    <view style="width: 750rpx; height: 1000rpx"></view>
-  </view>
+<template lang="pug">
+view.index_box
+  // 轮播
+  view.banner
+    swiper.swiper(
+      :autoplay="true",
+      :interval="3000",
+      :duration="1000",
+      :current="swiperCurrent",
+      @change="changeSwiper",
+      indicator-dots="true",
+      circular="true",
+      indicator-color="#B9B9B9",
+      indicator-active-color="#9B9B9B"
+    )
+      swiper-item(v-for="item in swiperImg", :key="item.id")
+        img.swiper_item(:src="item", mode="aspectFill")
+    // 单次门票
+    view
+      view.buy_ticketsBox
+        view.buy_tickets(@click="goOrder")
+          img(
+            src="../../static/images/ticketing/ticketing_one.png",
+            mode="aspectFill"
+          )
+          span 单次门票
+        view.buy_tickets_Food(@click="goBuyCard")
+          img(
+            src="../../static/images/ticketing/ticketing_vip.png",
+            mode="aspectFill"
+          )
+          span 礼品卡购买
+  view(style="width: 750rpx; height: 1000rpx")
 </template>
 
 <script>

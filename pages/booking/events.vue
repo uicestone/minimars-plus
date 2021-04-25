@@ -1,37 +1,31 @@
-<template>
-  <view class="marsActivityBox_box">
-    <view class="marsActivityBox_title_box">
-      <view class="marsActivityBox_title-left">
-        选择门店
-        <image
-          src="../../static/images/index/index_select.png"
-          class="marsActivityBox_title-leftimg"
-          @click="goDoorname"
-        />
-      </view>
-      <view class="marsActivityBox_title-right">{{ changedoor }}</view>
-      <view class="storeNameBox" v-if="doorname == 1">
-        <view v-for="(door, index) in doorlist" :key="index" @click="godoor(door)">{{ door.name }}</view>
-      </view>
-    </view>
-    <view class="marsCoupon_contentbox">
-      <view class="coupebox_content">
-        <view
-          class="coupebox_contentimgBox"
-          v-for="(item, index) in 7"
-          :key="index"
-          @click="goDetail"
-        >
-          <image src="../../static/images/224.jpg" mode="aspectFill" />
-          <view class="coupebox_contentimgBox_content">
-            <view class="coupebox_contentimgBox_content_title">圣诞树DIY</view>
-            <view class="coupebox_contentimgBox_content_data">2020.12.19</view>
-            <view class="coupebox_contentimgBox_content_detail">3岁-10岁</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.marsActivityBox_box
+  view.marsActivityBox_title_box
+    view.marsActivityBox_title-left
+      | 选择门店
+      img.marsActivityBox_title-leftimg(
+        src="../../static/images/index/index_select.png",
+        @click="goDoorname"
+      )
+    view.marsActivityBox_title-right {{ changedoor }}
+    view.storeNameBox(v-if="doorname == 1")
+      view(
+        v-for="(door, index) in doorlist",
+        :key="index",
+        @click="godoor(door)"
+      ) {{ door.name }}
+  view.marsCoupon_contentbox
+    view.coupebox_content
+      view.coupebox_contentimgBox(
+        v-for="(item, index) in 7",
+        :key="index",
+        @click="goDetail"
+      )
+        img(src="../../static/images/224.jpg", mode="aspectFill")
+        view.coupebox_contentimgBox_content
+          view.coupebox_contentimgBox_content_title 圣诞树DIY
+          view.coupebox_contentimgBox_content_data 2020.12.19
+          view.coupebox_contentimgBox_content_detail 3岁-10岁
 </template>
 
 <script>

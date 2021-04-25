@@ -1,37 +1,29 @@
-<template>
-  <view class="marsCardbox">
-    <view class="header"></view>
-    <view class="marsCard_contentbox">
-      <view class="marsCard_contentbox-content" v-for="(i, j) in cardsList" :key="j">
-        <view class="contentbox-contentTitle">{{ i.title }}</view>
-        <scroll-view scroll-x="true" class="modeOf_Payment-box">
-          <view class="modeOf_Payment_scroll">
-            <view @click="gobuyCards(i)">
-              <image :src="i.posterUrl" class="yuanimage" />
-            </view>
-            <view
-              class="modeOf_Payment_box"
-              v-for="(item, index) in i.posterUrls"
-              :key="index"
-              @click="gobuyCardsCover(i, item)"
-            >
-              <image :src="item" mode="aspectFill" />
-            </view>
-          </view>
-          <!-- 	<view class="modeOf_Payment_scroll"  @click="gobuyCards(i)">
-						<view><image :src="i.posterUrl" class="yuanimage" /></view>
-						<view class="modeOf_Payment_box" v-for="(item,index) in i.posterUrls" :key="index">
+<template lang="pug">
+view.marsCardbox
+  view.header
+  view.marsCard_contentbox
+    view.marsCard_contentbox-content(v-for="(i, j) in cardsList", :key="j")
+      view.contentbox-contentTitle {{ i.title }}
+      scroll-view.modeOf_Payment-box(scroll-x="true")
+        view.modeOf_Payment_scroll
+          view(@click="gobuyCards(i)")
+            img.yuanimage(:src="i.posterUrl")
+          view.modeOf_Payment_box(
+            v-for="(item, index) in i.posterUrls",
+            :key="index",
+            @click="gobuyCardsCover(i, item)"
+          )
+            img(:src="item", mode="aspectFill")
+        //
+          <view class="modeOf_Payment_scroll"  @click="gobuyCards(i)">
+          <view><image :src="i.posterUrl" class="yuanimage" /></view>
+          <view class="modeOf_Payment_box" v-for="(item,index) in i.posterUrls" :key="index">
           <image :src="i.posterUrl" />
           <image :src="item" mode="aspectFill" />
           </view>
-          </view>-->
-        </scroll-view>
-      </view>
-    </view>
-    <view class="marsCard_footerBox">
-      <view class="marsCard_footer">使用须知</view>
-    </view>
-  </view>
+          </view>
+  view.marsCard_footerBox
+    view.marsCard_footer 使用须知
 </template>
 
 <script>

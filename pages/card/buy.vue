@@ -1,86 +1,61 @@
-<template>
-  <view class="buycards_box">
-    <view class="buycards_top">
-      <view class="buycards_top_box">
-        <image :src="itemimg" mode="aspectFill" />
-        <span>{{ cardsDetail.title }}</span>
-        <!-- <image :src="i.posterUrl" mode="aspectFill" />
-        <span>{{i.title}}</span>-->
-      </view>
-    </view>
-    <view class="buycards_contentall">
-      <view class="buycards_content">
-        <view class="buycards_content-title">充值金额选择</view>
-        <view class="buycards_content-Bigbox">
-          <view class="buycards_content-box">
-            <view
-              class="buycards_content-boxone"
-              v-for="(item, index) in balanceChonse"
-              :key="index"
-            >
-              <view class="buycards_contentBody">
-                <view class="buycards_contentBody-left">
-                  <span>{{ index }}</span>
-                </view>
-                <view class="buycards_contentBody-right" @click="goaddMoney(item._id)">
-                  <image src="../../static/images/add.png" />
-                </view>
-                <view class="buycards_contentBody-image" @click="open(item)"></view>
-              </view>
-              <span>{{ item.balance }}</span>
-            </view>
-            <uni-popup ref="popup" type="bottom" :tabbar="false">
-              <view class="login_box">
-                <view class="login_box_clear">
-                  <view class="login_box_clear_left"></view>
-                  <image
-                    class="login_box_clear_right"
-                    src="../../static/images/clear.png"
-                    @click="close()"
-                  />
-                </view>
-                <view class="buycardsBox_top">
-                  <image
-                    src="../../static/images/index/indexRecharge.png"
-                    class="buycardsBox_top_leftimg"
-                  />
-                  <view class="buycardsBox_top_right">
-                    <view>¥{{ balanceItem.price }}</view>
-                    <view>{{ balanceItem.balance }}</view>
-                  </view>
-                </view>
-                <view class="buycardsBox_footer">
-                  <view class="buycardsBox_footer_left">
-                    <view class="title">使用须知：</view>
-                    <scroll-view scroll-y="true" class="gift_contentBox_box">
-                      <view class="spanContent">
-                        <rich-text :nodes="cardsDetail.content"></rich-text>
-                      </view>
-                    </scroll-view>
-                  </view>
-                  <view class="buycardsBox_footer_right"></view>
-                </view>
-              </view>
-            </uni-popup>
-          </view>
-        </view>
-      </view>
-      <!-- footer -->
-      <view class="buycards_footer">
-        <!-- 订单支付 -->
-        <view class="modeOf_Payment_order">
-          <view class="modeOf_Payment_order_money">
-            <view>{{ numbers }}张</view>
-            总计 ¥ {{ playMoneyCount.toFixed(2) }}
-          </view>
-          <view class="modeOf_Payment_order_play">
-            <view class="modeOf_Payment_order_play_name" @click="gocardOrder">订单支付Payment</view>
-          </view>
-        </view>
-      </view>
-      <!-- end -->
-    </view>
-  </view>
+<template lang="pug">
+view.buycards_box
+  view.buycards_top
+    view.buycards_top_box
+      img(:src="itemimg", mode="aspectFill")
+      span {{ cardsDetail.title }}
+      //
+        <image :src="i.posterUrl" mode="aspectFill" />
+        <span>{{i.title}}</span>
+  view.buycards_contentall
+    view.buycards_content
+      view.buycards_content-title 充值金额选择
+      view.buycards_content-Bigbox
+        view.buycards_content-box
+          view.buycards_content-boxone(
+            v-for="(item, index) in balanceChonse",
+            :key="index"
+          )
+            view.buycards_contentBody
+              view.buycards_contentBody-left
+                span {{ index }}
+              view.buycards_contentBody-right(@click="goaddMoney(item._id)")
+                img(src="../../static/images/add.png")
+              view.buycards_contentBody-image(@click="open(item)")
+            span {{ item.balance }}
+          uni-popup(ref="popup", type="bottom", :tabbar="false")
+            view.login_box
+              view.login_box_clear
+                view.login_box_clear_left
+                img.login_box_clear_right(
+                  src="../../static/images/clear.png",
+                  @click="close()"
+                )
+              view.buycardsBox_top
+                img.buycardsBox_top_leftimg(
+                  src="../../static/images/index/indexRecharge.png"
+                )
+                view.buycardsBox_top_right
+                  view ¥{{ balanceItem.price }}
+                  view {{ balanceItem.balance }}
+              view.buycardsBox_footer
+                view.buycardsBox_footer_left
+                  view.title 使用须知：
+                  scroll-view.gift_contentBox_box(scroll-y="true")
+                    view.spanContent
+                      rich-text(:nodes="cardsDetail.content")
+                view.buycardsBox_footer_right
+    // footer
+    view.buycards_footer
+      // 订单支付
+      view.modeOf_Payment_order
+        view.modeOf_Payment_order_money
+          view {{ numbers }}张
+          |
+          | 总计 ¥ {{ playMoneyCount.toFixed(2) }}
+        view.modeOf_Payment_order_play
+          view.modeOf_Payment_order_play_name(@click="gocardOrder") 订单支付Payment
+    // end
 </template>
 
 <script>

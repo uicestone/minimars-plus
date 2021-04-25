@@ -1,34 +1,24 @@
-<template>
-  <view class="uni-popup-dialog">
-    <view class="uni-dialog-title">
-      <text
-        class="uni-dialog-title-text"
-        :class="['uni-popup__' + dialogType]"
-        >{{ title }}</text
-      >
-    </view>
-    <view class="uni-dialog-content">
-      <text class="uni-dialog-content-text" v-if="mode === 'base'">{{
-        content
-      }}</text>
-      <input
-        v-else
-        class="uni-dialog-input"
-        v-model="val"
-        type="text"
-        :placeholder="placeholder"
-        :focus="focus"
-      />
-    </view>
-    <view class="uni-dialog-button-group">
-      <view class="uni-dialog-button" @click="close">
-        <text class="uni-dialog-button-text">取消</text>
-      </view>
-      <view class="uni-dialog-button uni-border-left" @click="onOk">
-        <text class="uni-dialog-button-text uni-button-color">确定</text>
-      </view>
-    </view>
-  </view>
+<template lang="pug">
+view.uni-popup-dialog
+  view.uni-dialog-title
+    text.uni-dialog-title-text(:class="['uni-popup__' + dialogType]") {{ title }}
+  view.uni-dialog-content
+    text.uni-dialog-content-text(v-if="mode === 'base'")
+      | {{
+      | content
+      | }}
+    input.uni-dialog-input(
+      v-else,
+      v-model="val",
+      type="text",
+      :placeholder="placeholder",
+      :focus="focus"
+    )
+  view.uni-dialog-button-group
+    view.uni-dialog-button(@click="close")
+      text.uni-dialog-button-text 取消
+    view.uni-dialog-button.uni-border-left(@click="onOk")
+      text.uni-dialog-button-text.uni-button-color 确定
 </template>
 
 <script>

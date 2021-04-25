@@ -1,147 +1,111 @@
-<template>
-  <view class="orderFood_box">
-    <view class="orderFood_left">
-      <scroll-view scroll-y="true" class="orderFood_left_scroll" show-scrollbar="true">
-        <view
-          v-for="(item, index) in tabBars"
-          :key="index"
-          @click="setid(item.uid)"
-          :class="item.uid == change ? 'active' : ''"
-          class="orderFood_left_title"
-        >
-          <span>{{ item.name }}</span>
-        </view>
-      </scroll-view>
-    </view>
-    <view class="orderFood_right">
-      <!-- 轮播 -->
-      <view class="orderFood_right_banner">
-        <swiper
-          class="swiper"
-          :autoplay="true"
-          :interval="3000"
-          :duration="1000"
-          :current="swiperCurrent"
-          @change="changeSwiper"
-          indicator-dots="true"
-          circular="true"
-          indicator-color="#B9B9B9"
-          indicator-active-color="#9B9B9B"
-        >
-          <swiper-item v-for="item in swiperImg" :key="item.id">
-            <image class="swiper_item" :src="item.posterUrl" mode="aspectFill" />
-          </swiper-item>
-        </swiper>
-      </view>
-
-      <!-- 特色推荐 -->
-      <view class="orderFood_right_content_box">
-        <scroll-view
-          class="orderFood_right_content_scroll"
-          :scroll-y="true"
-          :scroll-into-view="clickId"
-          @scroll="asideScroll"
-          @scrolltolower="scrolltolower"
-          @scrolltoupper="scrolltoupper"
-        >
-          <!--   :lower-threshold="200" :upper-threshold="200" :scroll-with-animation="true" -->
-          <view class="orderFood_right_content">
-            <view v-for="(item, index) in tabBars" :key="index" :id="'po' + item.uid">
-              <text class="name orderFood_right_title">{{ item.name }}</text>
-              <view
-                v-for="(item2, index2) in item.products"
-                :key="index2"
-                class="orderFood_right_title_content"
-              >
-                <view
-                  class="orderFood_right_title_content-left"
+<template lang="pug">
+view.orderFood_box
+  view.orderFood_left
+    scroll-view.orderFood_left_scroll(scroll-y="true", show-scrollbar="true")
+      view.orderFood_left_title(
+        v-for="(item, index) in tabBars",
+        :key="index",
+        @click="setid(item.uid)",
+        :class="item.uid == change ? 'active' : ''"
+      )
+        span {{ item.name }}
+  view.orderFood_right
+    // 轮播
+    view.orderFood_right_banner
+      swiper.swiper(
+        :autoplay="true",
+        :interval="3000",
+        :duration="1000",
+        :current="swiperCurrent",
+        @change="changeSwiper",
+        indicator-dots="true",
+        circular="true",
+        indicator-color="#B9B9B9",
+        indicator-active-color="#9B9B9B"
+      )
+        swiper-item(v-for="item in swiperImg", :key="item.id")
+          img.swiper_item(:src="item.posterUrl", mode="aspectFill")
+    // 特色推荐
+    view.orderFood_right_content_box
+      scroll-view.orderFood_right_content_scroll(
+        :scroll-y="true",
+        :scroll-into-view="clickId",
+        @scroll="asideScroll",
+        @scrolltolower="scrolltolower",
+        @scrolltoupper="scrolltoupper"
+      )
+        // :lower-threshold="200" :upper-threshold="200" :scroll-with-animation="true"
+        view.orderFood_right_content
+          view(
+            v-for="(item, index) in tabBars",
+            :key="index",
+            :id="'po' + item.uid"
+          )
+            text.name.orderFood_right_title {{ item.name }}
+            view.orderFood_right_title_content(
+              v-for="(item2, index2) in item.products",
+              :key="index2"
+            )
+              view.orderFood_right_title_content-left(
+                @click="open(index, index2, item2)"
+              )
+                img(:src="item2.imageUrl")
+              view.orderFood_right_title_content-right
+                view.right_title_content-right-title {{ item2.name }}
+                view.right_title_content-right-detail(
                   @click="open(index, index2, item2)"
-                >
-                  <image :src="item2.imageUrl" />
-                </view>
-                <view class="orderFood_right_title_content-right">
-                  <view class="right_title_content-right-title">{{ item2.name }}</view>
-                  <view
-                    class="right_title_content-right-detail"
-                    @click="open(index, index2, item2)"
-                  >{{ item2.description }}</view>
-                  <view class="right_title_content-right-money_box">
-                    <view class="right_title_content-right-money_box_money">
-                      ￥
-                      <span>{{ item2.buyPrice }}</span>
-                    </view>
-                    <view class="right_title_content-right-money_box_add" v-if="item2.numbers == 0">
-                      <view></view>
-                      <view></view>
-                      <view @click="foodAdd(item2)">
-                        <image src="../../static/images/add.png" class="foodAdd_img" />
-                      </view>
-                    </view>
-                    <view class="right_title_content-right-money_box_add" v-if="item2.numbers > 0">
-                      <view @click="foodreduce(item2)">
-                        <image src="../../static/images/minus.png" class="foodreduce_img" />
-                      </view>
-                      <view>{{ item2.numbers }}</view>
-                      <view @click="foodAdd(item2)">
-                        <image src="../../static/images/add.png" class="foodAdd_img" />
-                      </view>
-                    </view>
-                  </view>
-                </view>
-              </view>
-            </view>
-          </view>
-        </scroll-view>
-
-        <!-- 详情 -->
-        <uni-popup ref="popup" type="center" :tabbar="true">
-          <view class="gift_box">
-            <view class="gift_box_top">
-              <image :src="item.imageUrl" mode="aspectFill" />
-              <view class="gift_box_top-close">
-                <image
-                  class="gift_box_clear_right"
-                  src="../../static/images/clear.png"
-                  @click="close()"
-                />
-              </view>
-            </view>
-            <view class="gift_box_top_content">
-              <view class="gift_box_top_content-title">{{ item.name }}</view>
-              <view class="gift_box_top_content-box">{{ item.description }}</view>
-            </view>
-            <view class="gift_box_top_footer">
-              <view class="gift_box_top_footer-left">
-                ￥
-                <span>{{ item.buyPrice }}</span>
-              </view>
-              <view class="gift_box_top_footer-right" @click="unpopAdd(index)">
-                <image src="../../static/images/add.png" />
-              </view>
-            </view>
-          </view>
-        </uni-popup>
-        <!-- 加购选择 -->
-        <view class="orderFood_choose" v-if="settlement == 1">
-          <view class="orderFood_choose-left">
-            <image
-              src="../../static/images/orderFood/shopcar.png"
-              class="orderFood_choose-left_img"
-            />
-            <view class="orderFood_choose-left-line"></view>
-            <view class="orderFood_choose-left_money">
-              ￥
-              <span>{{ playMoney }}</span>
-            </view>
-          </view>
-          <view class="orderFood_choose-right" @click="goChoose()">
-            <view class="orderFood_choose-right-choose">选好了</view>
-            <image src="../../static/images/orderFood/white_right.png" />
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+                ) {{ item2.description }}
+                view.right_title_content-right-money_box
+                  view.right_title_content-right-money_box_money
+                    | ￥
+                    span {{ item2.buyPrice }}
+                  view.right_title_content-right-money_box_add(
+                    v-if="item2.numbers == 0"
+                  )
+                    view
+                    view
+                    view(@click="foodAdd(item2)")
+                      img.foodAdd_img(src="../../static/images/add.png")
+                  view.right_title_content-right-money_box_add(
+                    v-if="item2.numbers > 0"
+                  )
+                    view(@click="foodreduce(item2)")
+                      img.foodreduce_img(src="../../static/images/minus.png")
+                    view {{ item2.numbers }}
+                    view(@click="foodAdd(item2)")
+                      img.foodAdd_img(src="../../static/images/add.png")
+      // 详情
+      uni-popup(ref="popup", type="center", :tabbar="true")
+        view.gift_box
+          view.gift_box_top
+            img(:src="item.imageUrl", mode="aspectFill")
+            view.gift_box_top-close
+              img.gift_box_clear_right(
+                src="../../static/images/clear.png",
+                @click="close()"
+              )
+          view.gift_box_top_content
+            view.gift_box_top_content-title {{ item.name }}
+            view.gift_box_top_content-box {{ item.description }}
+          view.gift_box_top_footer
+            view.gift_box_top_footer-left
+              | ￥
+              span {{ item.buyPrice }}
+            view.gift_box_top_footer-right(@click="unpopAdd(index)")
+              img(src="../../static/images/add.png")
+      // 加购选择
+      view.orderFood_choose(v-if="settlement == 1")
+        view.orderFood_choose-left
+          img.orderFood_choose-left_img(
+            src="../../static/images/orderFood/shopcar.png"
+          )
+          view.orderFood_choose-left-line
+          view.orderFood_choose-left_money
+            | ￥
+            span {{ playMoney }}
+        view.orderFood_choose-right(@click="goChoose()")
+          view.orderFood_choose-right-choose 选好了
+          img(src="../../static/images/orderFood/white_right.png")
 </template>
 
 <script>

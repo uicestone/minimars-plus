@@ -1,47 +1,37 @@
-<template>
-  <view class="buycards_box">
-    <view class="buycards_top">
-      <view class="buycards_top_box">
-        <image :src="itemimg" mode="aspectFill" />
-        <view class="cards_box">
-          <view class="cards_box-left">
-            ¥{{ cardsDetail.price }}
-            <view class="cards_box_left-title">{{ cardsDetail.title }}</view>
-          </view>
-          <view class="cards_box-right" v-if="addAminus">
-            <image src="../../static/images/minus.png" class="minus" @click="gonumberMinus" />
-            {{ number }}
-            <image src="../../static/images/add.png" class="add" @click="gonumberAdd" />
-          </view>
+<template lang="pug">
+view.buycards_box
+  view.buycards_top
+    view.buycards_top_box
+      img(:src="itemimg", mode="aspectFill")
+      view.cards_box
+        view.cards_box-left
+          | ¥{{ cardsDetail.price }}
+          view.cards_box_left-title {{ cardsDetail.title }}
+        view.cards_box-right(v-if="addAminus")
+          img.minus(
+            src="../../static/images/minus.png",
+            @click="gonumberMinus"
+          )
+          |
+          | {{ number }}
+          img.add(src="../../static/images/add.png", @click="gonumberAdd")
+  // 购买须知
+  view.buyQualifyCards_contentbox
+    view.buyQualifyCards_content
+      view.purchase_notes
+        // 购买须知:
+        view.purchase_notesBox
+          rich-text(:nodes="cardsDetail.content")
+      //
+        <view class="warm_prompt">
+        温馨提示:
         </view>
-      </view>
-    </view>
-    <!-- 购买须知 -->
-    <view class="buyQualifyCards_contentbox">
-      <view class="buyQualifyCards_content">
-        <view class="purchase_notes">
-          <!-- 购买须知: -->
-          <view class="purchase_notesBox">
-            <rich-text :nodes="cardsDetail.content"></rich-text>
-          </view>
-        </view>
-        <!-- <view class="warm_prompt">
-					温馨提示:
-        </view>-->
-        <view class="buyQualifyCards_footer">
-          <!-- 订单支付 -->
-          <view class="buyQualifyCards_footerBox" @click="orderPlay">
-            <view class="buyQualifyCards_footerBox_left">订单支付Payment</view>
-            <view class="buyQualifyCards_footerBox_right" v-if="addAminus == true">￥{{ playcards }}</view>
-            <view
-              class="buyQualifyCards_footerBox_right"
-              v-if="addAminus == false"
-            >￥{{ cardsDetail.price }}</view>
-          </view>
-        </view>
-      </view>
-    </view>
-  </view>
+      view.buyQualifyCards_footer
+        // 订单支付
+        view.buyQualifyCards_footerBox(@click="orderPlay")
+          view.buyQualifyCards_footerBox_left 订单支付Payment
+          view.buyQualifyCards_footerBox_right(v-if="addAminus == true") ￥{{ playcards }}
+          view.buyQualifyCards_footerBox_right(v-if="addAminus == false") ￥{{ cardsDetail.price }}
 </template>
 
 <script>
