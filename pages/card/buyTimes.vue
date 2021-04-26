@@ -24,7 +24,7 @@ view.buycards_box
         </view>
       view.buyQualifyCards_footer
         // 订单支付
-        view.buyQualifyCards_footerBox(@click="orderPay")
+        view.buyQualifyCards_footerBox(@click="pay")
           view.buyQualifyCards_footerBox_left(style="text-align:center")
             | 确认购买
             br
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     // 订单支付
-    orderPay() {
+    async pay() {
       let orderDetail = {};
       if (this.buyMultiple) {
         orderDetail = {
@@ -70,32 +70,31 @@ export default {
           slug: this.slug,
         };
       }
-      this.$axios.postRequest("/card", orderDetail).then((res) => {
-        if (res.payments[0].payArgs) {
-          //唤起微信支付
-          uni.requestPayment({
-            provider: "wxpay",
-            timeStamp: res.payments[0].payArgs.timeStamp,
-            nonceStr: res.payments[0].payArgs.nonceStr,
-            package: res.payments[0].payArgs.package,
-            signType: "MD5",
-            paySign: res.payments[0].payArgs.paySign,
-            success: function (res) {
-              console.log("success:" + JSON.stringify(res));
-              uni.showToast({
-                title: "支付成功",
-                duration: 2000,
-              });
-              uni.redirectTo({
-                url: "../my/myCardBag", // 购买成功,跳到我的卡包
-              });
-            },
-            fail: function (err) {
-              console.log("fail:" + JSON.stringify(err));
-            },
-          });
-        }
-      });
+      const card = await this.$axios.postRequest("/card", orderDetail);
+      if (card.payments[0].payArgs) {
+        //唤起微信支付
+        uni.requestPayment({
+          provider: "wxpay",
+          timeStamp: card.payments[0].payArgs.timeStamp,
+          nonceStr: card.payments[0].payArgs.nonceStr,
+          package: card.payments[0].payArgs.package,
+          signType: "MD5",
+          paySign: card.payments[0].payArgs.paySign,
+          success: function (res) {
+            console.log("success:" + JSON.stringify(res));
+            uni.showToast({
+              title: "支付成功",
+              duration: 2000,
+            });
+            uni.redirectTo({
+              url: "../my/cards", // 购买成功,跳到我的卡包
+            });
+          },
+          fail: function (err) {
+            console.log("fail:" + JSON.stringify(err));
+          },
+        });
+      }
     },
     // 卡片详情
     async getCardTypeDetail() {

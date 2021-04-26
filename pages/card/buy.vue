@@ -51,7 +51,7 @@ view.buycards_box
           |
           | 总计 ¥ {{ price.toFixed(2) }}
         view.modeOf_Payment_order_play
-          view.modeOf_Payment_order_play_name(@click="gocardOrder")
+          view.modeOf_Payment_order_play_name(@click="pay")
             | 确认购买
             br
             | Order
@@ -102,7 +102,7 @@ export default {
       });
     },
     // 创建订单
-    gocardOrder() {
+    async pay() {
       let neworder = [];
       this.balancePriceGroups.forEach((i) => {
         neworder.push({
@@ -110,37 +110,34 @@ export default {
           count: i.count,
         });
       });
-      this.$axios
-        .postRequest("/card", {
-          slug: this.slug,
-          balanceGroups: neworder,
-        })
-        .then((res) => {
-          if (res.payments[0].payArgs) {
-            //唤起微信支付
-            uni.requestPayment({
-              provider: "wxpay",
-              timeStamp: res.payments[0].payArgs.timeStamp,
-              nonceStr: res.payments[0].payArgs.nonceStr,
-              package: res.payments[0].payArgs.package,
-              signType: "MD5",
-              paySign: res.payments[0].payArgs.paySign,
-              success: function (res) {
-                console.log("success:" + JSON.stringify(res));
-                uni.showToast({
-                  title: "支付成功",
-                  duration: 2000,
-                });
-                uni.redirectTo({
-                  url: "../my/myCardBag", // 购买成功,跳到我的卡包
-                });
-              },
-              fail: function (err) {
-                console.log("fail:" + JSON.stringify(err));
-              },
+      const card = await this.$axios.postRequest("/card", {
+        slug: this.slug,
+        balanceGroups: neworder,
+      });
+      if (card.payments[0].payArgs) {
+        //唤起微信支付
+        uni.requestPayment({
+          provider: "wxpay",
+          timeStamp: card.payments[0].payArgs.timeStamp,
+          nonceStr: card.payments[0].payArgs.nonceStr,
+          package: card.payments[0].payArgs.package,
+          signType: "MD5",
+          paySign: card.payments[0].payArgs.paySign,
+          success: function (res) {
+            console.log("success:" + JSON.stringify(res));
+            uni.showToast({
+              title: "支付成功",
+              duration: 2000,
             });
-          }
+            uni.redirectTo({
+              url: "../my/cards", // 购买成功,跳到我的卡包
+            });
+          },
+          fail: function (err) {
+            console.log("fail:" + JSON.stringify(err));
+          },
         });
+      }
     },
     open(item) {
       console.log(item, "item");

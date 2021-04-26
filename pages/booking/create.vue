@@ -209,8 +209,8 @@ export default {
     // 去购卡
     goBuyCards() {
       this.goCard();
-      uni.redirectTo({
-        url: "../index/marsCoupon",
+      uni.navigateTo({
+        url: "../card/index",
       });
     },
     // 计算价格
