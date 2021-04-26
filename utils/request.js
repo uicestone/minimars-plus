@@ -1,4 +1,5 @@
 import config from "./config";
+import store from "../store";
 const baseUrl = config.apiBaseUrl;
 
 function onSuccess(res, resolve, reject) {
@@ -12,9 +13,8 @@ function onSuccess(res, resolve, reject) {
     });
     reject(res.data.message);
     if (res.statusCode === 401) {
-      console.log("Remove token, user from storage.");
+      console.log("Remove token from storage.");
       uni.removeStorageSync("token");
-      uni.removeStorageSync("user");
     }
   }
 }
@@ -32,7 +32,6 @@ function onError(err, reject) {
 function getRequest(url, data) {
   return new Promise((resolve, reject) => {
     const getData = data;
-
     uni.request({
       url: baseUrl + url,
       data: getData, //传的参数
@@ -40,7 +39,7 @@ function getRequest(url, data) {
       dataType: "json", //请求类型是   json  固定的
       header: {
         "content-type": "application/json",
-        Authorization: uni.getStorageSync("token"),
+        Authorization: store.state.auth.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);
@@ -61,7 +60,7 @@ function postRequest(url, data) {
       method: "POST",
       header: {
         "content-type": "application/json",
-        Authorization: uni.getStorageSync("token"),
+        Authorization: store.state.auth.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);
@@ -82,7 +81,7 @@ function putRequest(url, data) {
       method: "PUT",
       header: {
         "content-type": "application/json",
-        Authorization: uni.getStorageSync("token"),
+        Authorization: store.state.auth.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);

@@ -21,9 +21,14 @@ uni-popup(ref="getUserInfoPopup", type="bottom", :tabbar="true")
 </template>
 
 <script>
+import { sync } from "vuex-pathify";
+
 export default {
   data() {
     return {};
+  },
+  computed: {
+    auth: sync("auth"),
   },
   methods: {
     // 授权登录
@@ -33,7 +38,7 @@ export default {
         success: async (infoRes) => {
           console.log("Wechat get user info:", infoRes);
           const { encryptedData, iv } = infoRes;
-          const session_key = uni.getStorageSync("session_key");
+          const session_key = auth.session_key;
           const { token, user } = await this.$axios.postRequest(
             "/wechat/signup",
             {
@@ -42,8 +47,9 @@ export default {
               session_key,
             }
           );
-          uni.setStorageSync("user", user);
           uni.setStorageSync("token", token);
+          this.auth.token = token;
+          this.auth.user = user;
           this.close();
         },
         fail: (err) => {
@@ -61,8 +67,8 @@ export default {
     },
   },
   async mounted() {
-    await this.$onLaunched;
-    if (!uni.getStorageSync("user").avatarUrl) {
+    // await this.$onLaunched;
+    if (this.auth.openid && !this.auth.user.avatarUrl) {
       this.open();
     }
   },

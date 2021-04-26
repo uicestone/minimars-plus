@@ -7,28 +7,32 @@ view.myvipcode_box
         src="../../static/images/my/my_left.png"
       )
     view.myvipcodeboxHeader_headimg
-      img.myvipcodeboxHeader_headimg_img(:src="heading")
-      span {{ nickname }}
+      img.myvipcodeboxHeader_headimg_img(:src="avatar")
+      span {{ name }}
   view.myvipcode_box_content
     img.myvipcode_box_content_img(:src="srcQRcode")
     span.myvipcode_box_content_title 会员码每30秒自动刷新一次
 </template>
 
 <script>
+import { sync } from "vuex-pathify";
+
 export default {
   data() {
     return {
-      heading: "",
+      avatar: "",
       srcQRcode: "", // 会员码
-      nickname: "",
+      name: "",
     };
   },
+  computed: {
+    user: sync("auth/user"),
+  },
   onShow() {
-    this.nickname = uni.getStorageSync("nickname");
-    this.heading = uni.getStorageSync("headerimg");
+    this.name = thisuser.name;
+    this.avatar = thisuser.avatarUrl;
     this.srcQRcode =
-      "https://mini-mars.codeispoetry.tech/api/qrcode-image/" +
-      uni.getStorageSync("user").id;
+      "https://mini-mars.codeispoetry.tech/api/qrcode-image/" + thisuser.id;
   },
   methods: {
     gomy() {

@@ -142,8 +142,6 @@ export default {
     },
     // 获取手机号
     getphonenumber() {
-      uni.setStorageSync("phoneNumber", this.phoneNumber);
-      this.phoneNumber = uni.getStorageSync("phoneNumber");
       this.close();
     },
     // 优惠券

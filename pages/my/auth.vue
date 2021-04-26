@@ -13,8 +13,6 @@ export default {
       provider: "weixin",
       success: (infoRes) => {
         console.log(infoRes, "用户信息");
-        uni.setStorageSync("nickname", infoRes.userInfo.nickName);
-        uni.setStorageSync("headerimg", infoRes.userInfo.avatarUrl);
       },
     });
   },

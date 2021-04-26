@@ -7,7 +7,7 @@ view.marsActivityBox_box
         src="../../static/images/index/index_select.png",
         @click="goDoorname"
       )
-    view.marsActivityBox_title-right {{ changedoor }}
+    view.marsActivityBox_title-right {{ store }}
     view.storeNameBox(v-if="doorname == 1")
       view(
         v-for="(door, index) in doorlist",
@@ -29,11 +29,13 @@ view.marsActivityBox_box
 </template>
 
 <script>
+import { sync } from "vuex-pathify";
+
 export default {
   data() {
     return {
       doorname: 0,
-      changedoor: "",
+      store: "",
 
       doorlist: [
         {
@@ -55,18 +57,15 @@ export default {
       ],
     };
   },
+  computed: {
+    user: sync("auth/user"),
+  },
   onShow() {
-    console.log(uni.getStorageSync("storeName"));
-    if (uni.getStorageSync("storeName")) {
-      console.log("有默认门店");
-      this.changedoor = uni.getStorageSync("storeName");
+    if (user.store) {
+      this.store = user.store.name;
     } else {
-      this.changedoor = "";
-      console.log("没有默认门店");
-      // this.ticketOrderPayment.store=uni.getStorageSync("nameId")
+      this.store = "";
     }
-    // this.changedoor=uni.getStorageSync("name")
-    // uni.getStorageSync("nameId")
   },
   created() {
     console.log(this.doorlist);
@@ -86,7 +85,7 @@ export default {
     },
     godoor(door) {
       // console.log(door.name)
-      this.changedoor = door.name;
+      this.store = door.name;
     },
   },
 };

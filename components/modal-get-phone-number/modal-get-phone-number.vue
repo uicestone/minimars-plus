@@ -20,14 +20,21 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
 </template>
 
 <script>
+import { sync } from "vuex-pathify";
+import wechatLogin from "@/utils/wechatLogin";
+
 export default {
   data() {
     return {};
   },
+  computed: {
+    auth: sync("auth"),
+  },
   methods: {
     async getPhoneNumber(e) {
-      const openid = uni.getStorageSync("openid");
-      const session_key = uni.getStorageSync("session_key");
+      Object.assign(this.auth, await wechatLogin());
+      const openid = this.auth.openid;
+      const session_key = this.auth.session_key;
       const { encryptedData, iv } = e.detail;
       const { token, user } = await this.$axios.postRequest(
         "/wechat/update-mobile",
@@ -38,8 +45,9 @@ export default {
           openid,
         }
       );
-      uni.setStorageSync("user", user);
       uni.setStorageSync("token", token);
+      this.auth.token = token;
+      this.auth.user = user;
       this.close();
     },
     close() {
@@ -51,12 +59,12 @@ export default {
       uni.hideTabBar();
     },
   },
-  async mounted() {
-    await this.$onLaunched;
-    console.log("modal-get-phone-number:mounted");
-    if (!uni.getStorageSync("user").mobile) {
-      this.open();
-    }
+  watch: {
+    "auth.user"(user) {
+      if (user.id && !user.mobile) {
+        this.open();
+      }
+    },
   },
 };
 </script>

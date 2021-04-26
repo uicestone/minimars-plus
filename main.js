@@ -7,9 +7,9 @@ Vue.config.productionTip = false;
 
 Vue.prototype.$axios = axios;
 
-Vue.prototype.$onLaunched = new Promise((resolve) => {
-  Vue.prototype.$launched = resolve;
-});
+// Vue.prototype.$onLaunched = new Promise((resolve) => {
+//   Vue.prototype.$launched = resolve;
+// });
 
 App.mpType = "app";
 

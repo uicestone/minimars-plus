@@ -151,6 +151,7 @@ export default {
     };
   },
   computed: {
+    user: sync("auth/user"),
     date: sync("booking/newBookingDate"),
     adultsKidsText() {
       return (
@@ -163,9 +164,9 @@ export default {
     },
   },
   onLoad(option) {
-    if (uni.getStorageSync("storeName")) {
-      this.store = uni.getStorageSync("storeName");
-      this.booking.store = uni.getStorageSync("storeId");
+    if (this.user.store) {
+      this.store = user.store.name;
+      this.booking.store = this.store.id;
     } else {
       this.store = "";
     }

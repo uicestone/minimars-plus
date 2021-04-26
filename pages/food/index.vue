@@ -158,7 +158,6 @@ export default {
         success: (res) => {
           console.log("scan type:" + res.scanType);
           console.log("scan result:" + res.result);
-          uni.setStorageSync("qrCodeRes", res.result);
         },
         fail: function (res) {
           uni.switchTab({
@@ -179,7 +178,6 @@ export default {
   methods: {
     async getMenu() {
       const storeMenu = await this.$axios.getRequest("/store-menu", {
-        // qr: uni.getStorageSync("qrCodeRes"),
         storeCode: this.storeCode,
         tableId: this.tableId,
       });

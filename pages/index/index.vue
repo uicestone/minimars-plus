@@ -43,8 +43,7 @@ view.index_box
   view.integrate_box
     view.integrate
       view.integrate_left
-        | 我的积分
-        span {{ points }}
+        span 我的积分 {{ points || '-' }}
       view.integrate_right
         img.index_integralImg(
           src="../../static/images/index/index_integralImg.png",
@@ -56,17 +55,22 @@ view.index_box
 
 <script>
 import config from "../../utils/config";
+import { sync } from "vuex-pathify";
 
 export default {
   data() {
     return {
       swiperCurrent: 0,
       swiperAutoplay: true,
-      points: null, //积分
       bannerPosts: [], //轮播图
       latestBooking: null,
-      user: null,
     };
+  },
+  computed: {
+    user: sync("auth/user"),
+    points() {
+      return this.user && this.user.points ? this.user.points : "-";
+    },
   },
   onTabItemTap(data) {
     if (data.text === "商城") {
@@ -75,12 +79,12 @@ export default {
       });
     }
   },
-  onShow() {
+  async onShow() {
+    console.log("index:onShow");
+    // await this.$onLaunched;
     this.swiperAutoplay = true;
-    this.user = uni.getStorageSync("user");
 
-    if (this.user) {
-      this.points = this.user.points;
+    if (this.user.id) {
       this.getLatestBooking();
     }
   },
@@ -88,6 +92,8 @@ export default {
     this.swiperAutoplay = false;
   },
   async onLoad() {
+    // await this.$onLaunched;
+    console.log("index:onLoad");
     uni.showLoading({ mask: true });
     await this.getBanner();
     uni.hideLoading();

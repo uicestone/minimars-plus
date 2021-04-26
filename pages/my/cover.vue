@@ -81,10 +81,15 @@
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import tabs from "@/components/tabs/tabs.vue";
+import { sync } from "vuex-pathify";
+
 export default {
   components: {
     tabs,
     uniPopup,
+  },
+  computed: {
+    user: sync("auth/user"),
   },
   data() {
     return {
@@ -180,25 +185,13 @@ export default {
           this.active = 1;
           this.list1 = 1;
           this.$refs.popup.close();
-          // if (res == 200) {
-          // 	this.myCover()
-          // 	console.log("222222222")
-          // 	this.active=1
-          // 	this.$refs.popup.close()
-
-          // } else {
-          // 	console.log("44444444")
-          // 	this.myCover()
-          // 	this.active=1
-          // 	this.$refs.popup.close()
-          // }
         });
     },
     // 更换封面
     useCover(item) {
       this.replaceCovers = item.id;
       this.$axios
-        .putRequest("/user/" + uni.getStorageSync("user").id, {
+        .putRequest("/user/" + this.user.id, {
           currentCover: this.replaceCovers,
         })
         .then((res) => {
