@@ -345,20 +345,24 @@ export default {
 
       .active {
         background-color: #ffffff;
+        border-left: 7rpx solid #9fcdff;
       }
 
       .orderFood_left_title {
         width: 132rpx;
-        height: 68rpx;
+        height: 93rpx;
         border-bottom: 1px solid #d1d1d1;
-        text-align: center;
+        // text-align: center;
         padding-top: 10rpx 0 10rpx 0;
         line-height: 25rpx;
-        padding-top: 25rpx;
+        // padding-top: 25rpx;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
         span {
-          width: 132rpx;
-          height: 60rpx;
+          // width: 132rpx;
+          // height: 60rpx;
           font-size: 20rpx;
           font-family: PingFangSC-Regular, PingFang SC;
           font-weight: 400;
@@ -381,7 +385,7 @@ export default {
       height: 22.5vh;
       background: #f0f0f0;
       border-radius: 20rpx;
-      margin: 5rpx auto;
+      margin: 10rpx auto;
 
       .swiper {
         width: 554rpx;
@@ -438,6 +442,8 @@ export default {
             justify-content: space-between;
             margin-bottom: 20rpx;
             margin-top: 20rpx;
+            min-height: 168rpx;
+            position: relative;
 
             .orderFood_right_title_content-left {
               width: 160rpx;
@@ -453,7 +459,8 @@ export default {
 
             .orderFood_right_title_content-right {
               width: 360rpx;
-
+              position: relative;
+              min-height: 175rpx;
               .right_title_content-right-title {
                 width: 100%;
                 height: 36rpx;
@@ -473,6 +480,7 @@ export default {
                 font-weight: 500;
                 color: #bdbdbd;
                 line-height: 28rpx;
+                overflow: hidden;
               }
 
               .right_title_content-right-money_box {
@@ -480,8 +488,9 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                margin-top: 30rpx;
-
+                // margin-top: 30rpx;
+                position: absolute;
+                bottom: 0;
                 .right_title_content-right-money_box_money {
                   width: 74rpx;
                   height: 42rpx;
@@ -619,7 +628,7 @@ export default {
   .orderFood_choose {
     z-index: 1;
     position: fixed;
-    bottom: 0;
+    bottom: 20rpx;
     right: 70rpx;
     width: 600rpx;
     height: 114rpx;
