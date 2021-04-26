@@ -114,7 +114,7 @@ view.myOrder_box
     view.modeOf_Payment_order
       view.modeOf_Payment_order_money 还需支付：{{ price }} 元
       // 
-      view.modeOf_Payment_order_play(@click="goPlay")
+      view.modeOf_Payment_order_play(@click="pay")
         view.modeOf_Payment_order_play_name
           | 提交预约
           br
@@ -221,38 +221,40 @@ export default {
     },
 
     // 订单支付
-    goPlay() {
+    async pay() {
       this.booking.date = this.date; //时间
       this.booking.type = "play";
-      this.$axios.postRequest("/booking", this.booking).then((res) => {
-        if (res.payments[0].payArgs) {
-          //唤起微信支付
-          uni.requestPayment({
-            provider: "wxpay",
-            timeStamp: res.payments[0].payArgs.timeStamp,
-            nonceStr: res.payments[0].payArgs.nonceStr,
-            package: res.payments[0].payArgs.package,
-            signType: "MD5",
-            paySign: res.payments[0].payArgs.paySign,
-            success: function (res) {
-              console.log("success:" + JSON.stringify(res));
-              uni.showToast({
-                title: "支付成功",
-                duration: 2000,
-              });
-            },
-            fail: function (err) {
-              console.log("fail:" + JSON.stringify(err));
-            },
-          });
-        } else {
-          this.goOrder(); //跳转订单
-          uni.showToast({
-            title: "预约成功",
-            duration: 2000,
-          });
-        }
-      });
+      uni.showLoading();
+      const booking = await this.$axios.postRequest("/booking", this.booking);
+      uni.hideLoading();
+      if (booking.payments[0].payArgs) {
+        //唤起微信支付
+        uni.requestPayment({
+          provider: "wxpay",
+          timeStamp: booking.payments[0].payArgs.timeStamp,
+          nonceStr: booking.payments[0].payArgs.nonceStr,
+          package: booking.payments[0].payArgs.package,
+          signType: "MD5",
+          paySign: booking.payments[0].payArgs.paySign,
+          success: function (res) {
+            console.log("success:" + JSON.stringify(res));
+            uni.showToast({
+              title: "预约成功",
+              duration: 2000,
+            });
+            uni.redirectTo({ url: "../my/bookings" });
+          },
+          fail: function (err) {
+            console.log("fail:" + JSON.stringify(err));
+          },
+        });
+      } else {
+        this.goOrder(); //跳转订单
+        uni.showToast({
+          title: "预约成功",
+          duration: 2000,
+        });
+      }
     },
     // 跳转订单页面
     goOrder() {

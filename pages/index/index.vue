@@ -83,10 +83,6 @@ export default {
     console.log("index:onShow");
     // await this.$onLaunched;
     this.swiperAutoplay = true;
-
-    if (this.user.id) {
-      this.getLatestBooking();
-    }
   },
   onHide() {
     this.swiperAutoplay = false;
@@ -146,6 +142,13 @@ export default {
       }
     },
   },
+  watch: {
+    user(user) {
+      if (user.id) {
+        this.getLatestBooking();
+      }
+    },
+  },
   filters: {
     statusLabel(status) {
       return config.bookingStatusName[status];
@@ -190,7 +193,7 @@ export default {
     .buy_ticketsBox {
       position: absolute;
       margin-top: 0;
-      bottom: -150px;
+      bottom: -300rpx;
       right: 30rpx;
       width: 690rpx;
       height: 358rpx;
