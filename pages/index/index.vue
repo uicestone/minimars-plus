@@ -7,7 +7,6 @@ view.index_box
       :interval="7000",
       :duration="1000",
       :current="swiperCurrent",
-      @animationfinish="changeSwiper",
       indicator-dots="true",
       circular="true",
       indicator-color="#B9B9B9",

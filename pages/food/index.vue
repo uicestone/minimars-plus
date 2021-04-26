@@ -13,11 +13,10 @@ view.orderFood_box
     // 轮播
     view.orderFood_right_banner
       swiper.swiper(
-        :autoplay="true",
+        :autoplay="swiperAutoplay",
         :interval="3000",
         :duration="1000",
         :current="swiperCurrent",
-        @change="changeSwiper",
         indicator-dots="true",
         circular="true",
         indicator-color="#B9B9B9",
@@ -124,6 +123,7 @@ export default {
       playMoney: 0,
       change: 0,
       swiperHeight: 0,
+      swiperAutoplay: true,
       menuWidth: 0,
       foodWidth: 0,
       tabIndexShow: 0,
@@ -172,6 +172,9 @@ export default {
     if (this.storeCode && this.tableId) {
       this.getMenu();
     }
+  },
+  onHide() {
+    this.swiperAutoplay = false;
   },
   methods: {
     async getMenu() {

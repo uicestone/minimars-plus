@@ -3,11 +3,10 @@ view.index_box
   // 轮播
   view.banner
     swiper.swiper(
-      :autoplay="true",
+      :autoplay="swiperAutoplay",
       :interval="7000",
       :duration="1000",
       :current="swiperCurrent",
-      @change="changeSwiper",
       indicator-dots="true",
       circular="true",
       indicator-color="#B9B9B9",
@@ -40,9 +39,13 @@ export default {
       bannerPosts: [],
       current: 0,
       swiperCurrent: 0,
+      swiperAutoplay: true,
     };
   },
   onLoad() {},
+  onHide() {
+    this.swiperAutoplay = false;
+  },
   methods: {
     async getBanner() {
       this.bannerPosts = await this.$axios.getRequest("/post", {

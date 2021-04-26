@@ -2,11 +2,10 @@
 view.myTaskBox
   view.banner
     swiper.swiper(
-      :autoplay="true",
+      :autoplay="swiperAutoplay",
       :interval="3000",
       :duration="1000",
       :current="swiperCurrent",
-      @change="changeSwiper",
       indicator-dots="true",
       circular="true",
       indicator-color="#B9B9B9",
@@ -62,6 +61,9 @@ view.myTaskBox
 
 <script>
 export default {
+  onHide() {
+    this.swiperAutoplay = false;
+  },
   data() {
     return {
       swiperImg: [
@@ -74,6 +76,7 @@ export default {
       ],
       current: 0,
       swiperCurrent: 0,
+      swiperAutoplay: true,
     };
   },
   methods: {
