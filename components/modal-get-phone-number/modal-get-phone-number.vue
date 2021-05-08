@@ -105,7 +105,6 @@ export default {
       width: 264rpx;
       height: 60rpx;
       font-size: 44rpx;
-      font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 550;
       color: #000000;
       line-height: 60rpx;
@@ -116,7 +115,6 @@ export default {
       width: 672rpx;
       height: 88rpx;
       font-size: 32rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
       font-weight: 400;
       color: #848484;
       line-height: 44rpx;
@@ -157,7 +155,6 @@ export default {
 
         .login_box_btn_name {
           font-size: 32rpx;
-          font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #ffffff;
           line-height: 100rpx;

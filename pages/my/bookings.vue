@@ -344,7 +344,6 @@ export default {
             .accomplish_top_title {
               .accomplish_top_titlename {
                 font-size: 30rpx;
-                font-family: PingFangSC-Medium, PingFang SC;
                 font-weight: 500;
                 color: #222222;
               }
@@ -424,7 +423,6 @@ export default {
               width: 114rpx;
               height: 48rpx;
               font-size: 22rpx;
-              font-family: PingFangSC-Medium, PingFang SC;
               font-weight: 500;
               color: #222222;
               line-height: 32rpx;
@@ -466,7 +464,6 @@ export default {
     .appointment_box_name {
       height: 84rpx;
       font-size: 30rpx;
-      font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 550;
       color: #222222;
       line-height: 42rpx;
@@ -500,7 +497,6 @@ export default {
           width: 150rpx;
           height: 42rpx;
           font-size: 30rpx;
-          font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #222222;
           line-height: 42rpx;
@@ -515,7 +511,6 @@ export default {
           width: 162rpx;
           height: 42rpx;
           font-size: 30rpx;
-          font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #0d0d0d;
           line-height: 42rpx;
@@ -561,7 +556,6 @@ export default {
                 width: 40rpx;
                 height: 42rpx;
                 font-size: 26rpx;
-                font-family: PingFangSC-Medium, PingFang SC;
                 font-weight: 500;
                 color: #999999;
                 line-height: 75rpx;
@@ -571,7 +565,6 @@ export default {
             .listdetail_box_content_titlebox_right {
               height: 42rpx;
               font-size: 30rpx;
-              font-family: PingFangSC-Medium, PingFang SC;
               font-weight: 500;
               color: #0d0d0d;
               line-height: 42rpx;
@@ -601,7 +594,6 @@ export default {
           .accomplish_top_title {
             .accomplish_top_titlename {
               font-size: 30rpx;
-              font-family: PingFangSC-Medium, PingFang SC;
               font-weight: 500;
               color: #222222;
             }
@@ -681,7 +673,6 @@ export default {
             width: 114rpx;
             height: 48rpx;
             font-size: 22rpx;
-            font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #222222;
             line-height: 32rpx;

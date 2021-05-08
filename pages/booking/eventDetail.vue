@@ -46,7 +46,6 @@ export default {
       height: 40rpx;
       padding: 10rpx;
       font-size: 36rpx;
-      font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 600;
       color: #000000;
       line-height: 40rpx;
@@ -59,7 +58,6 @@ export default {
     .marsActivity_details {
       height: 50rpx;
       font-size: 28rpx;
-      font-family: PingFangSC-Medium, PingFang SC;
       font-weight: 600;
       color: #000000;
       line-height: 40rpx;

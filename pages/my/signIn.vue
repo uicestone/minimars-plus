@@ -98,7 +98,6 @@ export default {
             background: #9fcdff;
             border-radius: 16rpx 16rpx 0rpx 0rpx;
             font-size: 22rpx;
-            font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #ffffff;
             line-height: 62rpx;

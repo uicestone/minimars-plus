@@ -426,7 +426,6 @@ export default {
           padding-bottom: 90rpx;
 
           .name {
-            font-family: PingFangSC-Medium, PingFang SC;
             color: #0d0d0d;
             line-height: 34rpx;
             margin: 40rpx 0;
@@ -434,7 +433,6 @@ export default {
             height: 34rpx;
             line-height: 34rpx;
             font-size: 24rpx;
-            font-family: PingFangSC-Medium, PingFang SC;
             color: #0d0d0d;
           }
 
@@ -477,7 +475,6 @@ export default {
                 width: 360rpx;
                 height: 56rpx;
                 font-size: 20rpx;
-                font-family: PingFangSC-Medium, PingFang SC;
                 font-weight: 500;
                 color: #bdbdbd;
                 line-height: 28rpx;
@@ -496,7 +493,6 @@ export default {
                   width: 74rpx;
                   height: 42rpx;
                   font-size: 18rpx;
-                  font-family: PingFangSC-Medium, PingFang SC;
                   font-weight: 550;
                   color: #222222;
                   // line-height: 26rpx;
@@ -579,7 +575,6 @@ export default {
             width: 360rpx;
             height: 56rpx;
             font-size: 20rpx;
-            font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #bdbdbd;
             line-height: 28rpx;
@@ -600,7 +595,6 @@ export default {
             width: 88rpx;
             height: 50rpx;
             font-size: 22rpx;
-            font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #9fcdff;
             line-height: 65rpx;
@@ -662,7 +656,6 @@ export default {
         width: 74rpx;
         height: 42rpx;
         font-size: 18rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #ffffff;
         line-height: 45rpx;
@@ -684,7 +677,6 @@ export default {
         width: 90rpx;
         height: 42rpx;
         font-size: 30rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #ffffff;
         line-height: 42rpx;

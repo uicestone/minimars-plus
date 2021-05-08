@@ -58,7 +58,6 @@ export default {
     width: 638rpx;
     height: 190rpx;
     font-size: 48rpx;
-    font-family: Helvetica;
     letter-spacing: 2rpx;
     padding-top: 45rpx;
     color: #636d67;

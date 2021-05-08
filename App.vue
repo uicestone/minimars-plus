@@ -43,9 +43,31 @@ export default {
 </script>
 
 <style>
-/*每个页面公共css */
 * {
   margin: 0;
   padding: 0;
+}
+
+html {
+  font-family: Gotham, "PingFang SC", sans-serif;
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("~@/static/fonts/Gotham-Light.woff2") format("woff2"),
+    url("~@/static/fonts/Gotham-Light.woff") format("woff");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Gotham";
+  src: url("~@/static/fonts/Gotham-Medium.woff2") format("woff2"),
+    url("~@/static/fonts/Gotham-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 </style>

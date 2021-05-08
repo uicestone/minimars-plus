@@ -20,13 +20,13 @@ view.index_box
         view.buy_tickets(@click="goOrder")
           img(
             src="../../static/images/ticketing/ticketing_one.png",
-            mode="aspectFill"
+            mode="aspectFit"
           )
           span 单次门票
         view.buy_tickets_Food(@click="goBuyCard")
           img(
             src="../../static/images/ticketing/ticketing_vip.png",
-            mode="aspectFill"
+            mode="aspectFit"
           )
           span 礼品卡购买
   view(style="width: 750rpx; height: 1000rpx")
@@ -135,7 +135,6 @@ export default {
 
       span {
         font-size: 32rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 700;
         color: #0d0d0d;
         margin: 10rpx;

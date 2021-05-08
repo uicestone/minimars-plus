@@ -144,7 +144,6 @@ export default {
           width: 108rpx;
           height: 44rpx;
           font-size: 32rpx;
-          font-family: PingFangSC-Medium, PingFang SC;
           font-weight: 500;
           color: #0d0d0d;
           line-height: 44rpx;
@@ -242,7 +241,6 @@ export default {
 
           .buyQualifyCards_footerBox_left,
           .buyQualifyCards_footerBox_right {
-            font-family: PingFangSC-Medium, PingFang SC;
             font-weight: 500;
             color: #ffffff;
           }

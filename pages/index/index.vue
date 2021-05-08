@@ -19,13 +19,19 @@ view.index_box
       view.buy_ticketsBox
         view.buy_tickets
           view(@click="goBookingCreate")
-            img(src="../../static/images/index/index_BuyingTickets.png")
+            img(
+              src="../../static/images/index/index_BuyingTickets.png",
+              mode="aspectFit"
+            )
             span 购票
         view.line
         view.buy_tickets_Food(@click="goFood()")
           img(src="../../static/images/index/index_Order.png")
           span 点餐
-  view(style="width: 690rpx; height: 290rpx; margin-bottom:30rpx")
+  view(
+    style="width: 690rpx; height: 290rpx; margin-bottom:30rpx",
+    mode="aspectFit"
+  )
   // 消息提示框
   view.message_box(v-if="latestBooking")
     img(src="../../static/images/index/looks.png")
@@ -224,8 +230,6 @@ export default {
 
         span {
           font-size: 32rpx;
-          font-family: PingFangSC-Medium, PingFang SC;
-          font-weight: 700;
           color: #333333;
         }
       }
@@ -262,7 +266,6 @@ export default {
     view {
       font-size: 24rpx;
       font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 700;
       color: #bdbdbd;
       margin-left: 20rpx;
       display: flex;
@@ -277,17 +280,20 @@ export default {
     margin: 20rpx 20rpx 20rpx;
 
     .shoppingImgBox {
-      background: url(../../static/images/index/index_shoppingImg.png) no-repeat;
+      // background: url(../../static/images/index/index_shoppingImg.png) no-repeat;
+      background: white;
       background-size: 100% 100%;
     }
 
     .activeImgBox {
-      background: url("../../static/images/index/indexActiveImg.png") no-repeat;
+      // background: url("../../static/images/index/indexActiveImg.png") no-repeat;
+      background: white;
       background-size: 100% 100%;
     }
 
     .cardImgBox {
-      background: url(../../static/images/index/index_cardImg.png) no-repeat;
+      // background: url(../../static/images/index/index_cardImg.png) no-repeat;
+      background: white;
       background-size: 100% 100%;
     }
 
@@ -301,8 +307,7 @@ export default {
       // 	margin-top: 20rpx;
       // 	text-align: center;
       // 	font-size: 32rpx;
-      // 	font-family: PingFangSC-Medium, PingFang SC;
-      // 	font-weight: blod;
+      // 	      // 	font-weight: blod;
       // 	color: #333333;
       // }
     }
@@ -323,13 +328,10 @@ export default {
 
       .integrate_left {
         font-size: 29rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
-        font-weight: 700;
         color: #333333;
 
         span {
           font-size: 29rpx;
-          font-family: Helvetica;
           color: #333333;
           line-height: 34px;
         }

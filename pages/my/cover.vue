@@ -241,7 +241,6 @@ export default {
         width: 120rpx;
         height: 42rpx;
         font-size: 30rpx;
-        font-family: PingFangSC-Medium, PingFang SC;
         font-weight: 500;
         color: #0d0d0d;
         margin-left: 10rpx;
