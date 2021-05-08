@@ -50,7 +50,8 @@ export default {
 
 html {
   font-family: Gotham, "PingFang SC", sans-serif;
-  font-weight: 300;
+  font-weight: 500;
+  color: #646a6d;
 }
 
 @font-face {

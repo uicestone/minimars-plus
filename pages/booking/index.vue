@@ -96,8 +96,6 @@ export default {
         }
 
         span {
-          font-weight: bold;
-          color: #333333;
         }
       }
     }

@@ -26,12 +26,12 @@ view.index_box
             span 购票
         view.line
         view.buy_tickets_Food(@click="goFood()")
-          img(src="../../static/images/index/index_Order.png")
+          img(
+            src="../../static/images/index/index_Order.png",
+            mode="aspectFit"
+          )
           span 点餐
-  view(
-    style="width: 690rpx; height: 290rpx; margin-bottom:30rpx",
-    mode="aspectFit"
-  )
+  view(style="width: 690rpx; height: 290rpx; margin-bottom:30rpx")
   // 消息提示框
   view.message_box(v-if="latestBooking")
     img(src="../../static/images/index/looks.png")
@@ -189,8 +189,6 @@ export default {
         }
 
         span {
-          font-weight: bold;
-          color: #333333;
         }
       }
     }
@@ -230,7 +228,6 @@ export default {
 
         span {
           font-size: 32rpx;
-          color: #333333;
         }
       }
 
@@ -300,16 +297,7 @@ export default {
     .shoppingMall {
       width: 220rpx;
       height: 250rpx;
-      // background: #F0F0F0;
       border-radius: 20rpx;
-
-      // .shoppingMall_title {
-      // 	margin-top: 20rpx;
-      // 	text-align: center;
-      // 	font-size: 32rpx;
-      // 	      // 	font-weight: blod;
-      // 	color: #333333;
-      // }
     }
   }
 
@@ -328,11 +316,9 @@ export default {
 
       .integrate_left {
         font-size: 29rpx;
-        color: #333333;
 
         span {
           font-size: 29rpx;
-          color: #333333;
           line-height: 34px;
         }
       }
