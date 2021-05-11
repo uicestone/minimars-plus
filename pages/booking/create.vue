@@ -7,19 +7,8 @@ view.myOrder_box
         view.title
           img(src="../../static/images/index/index_orderOne.png")
           view 门店选择
-        view.content
-          span
-            lb-picker(
-              mode="selector",
-              :value="store",
-              :list="stores.map((s) => s.name)",
-              @confirm="selectStore",
-              :footers="false"
-            )
-              view(slot="cancel-text") 取消
-              view(slot="action-center") 门店选择
-              view(slot="confirm-text") 确定
-              view.uni-input {{ store }}
+        view.content(@click="showShopPop")
+          span {{store}} 
           img(src="../../static/images/search.png")
         view.title
           img(src="../../static/images/index/index_orderTwo.png")
@@ -33,7 +22,7 @@ view.myOrder_box
         view.content
           span
             lb-picker(
-              mode="unlinkedSelector",
+              mode="unlinkedSelector",	
               :value="adultsKidsSelectValue",
               :list="adultsKidsValues",
               list-key="id",
@@ -119,12 +108,33 @@ view.myOrder_box
           | 提交预约
           br
           | Submit
+  
+  // 门店选择
+  custom-popup(ref="shopPop")
+    view.shop-pop-header(slot="header") 门店选择 STORES
+    view(slot="body")
+      custom-picker(valueKey="id",labelKey="name",:options="[stores]",@onchange="selectStore")
+  
+  // 进场人数选择
+  //- custom-popup(ref="peoplePop")
+  //-   view.people-pop-header(slot="header")
+  //-     view.people-pop__title 儿童 KIDS
+  //-     view.people-pop__title 成人 ADULTS
+  //-   view(slot="body")
+  //-     custom-picker
 </template>
-
+      
 <script>
 import { sync } from "vuex-pathify";
 
+import customPopup from "../../components/custom-popup/popup"
+import customPicker from "../../components/custom-picker/picker"
+
 export default {
+  components:{
+    "custom-popup":customPopup,
+    "custom-picker":customPicker
+  },
   data() {
     return {
       store: "",
@@ -268,9 +278,14 @@ export default {
         url: "./calendar",
       });
     },
+    
+    // 显示门店弹窗
+    showShopPop(){
+      this.$refs.shopPop.open()
+    },
 
     selectStore(e) {
-      this.store = e.value;
+      this.store = e.value[0].name;
       this.getStore();
       this.goCard();
       this.getPrice();
@@ -582,5 +597,27 @@ export default {
       }
     }
   }
+}
+</style>
+
+<style scoped>
+.shop-pop-header{
+  font-size: var(--theme--font-size-normal);
+}
+
+.people-pop-header{
+  font-size: var(--theme--font-size-normal);
+  display:flex;
+  align-items:center;
+  width:100%;
+}
+
+.people-pop__title{
+  flex:1;
+  text-align:center;
+}
+
+.people-pop__title+.people-pop__title{
+  border-left:2rpx solid #6f8f7d
 }
 </style>

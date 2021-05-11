@@ -43,6 +43,11 @@ export default {
 </script>
 
 <style>
+page{
+  --theme--main-color:#92ffac;
+  --theme--font-size-normal:28rpx;
+}  
+  
 * {
   margin: 0;
   padding: 0;
