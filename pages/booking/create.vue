@@ -165,7 +165,7 @@ export default {
   },
   onLoad(option) {
     if (this.user.store) {
-      this.store = user.store.name;
+      this.store = this.user.store.name;
       this.booking.store = this.store.id;
     } else {
       this.store = "";
