@@ -43,6 +43,7 @@ export default {
 </script>
 
 <style>
+  @import url("./utils/all.min.css");
 page{
   --theme--main-color:#92ffac;
   --theme--font-size-normal:28rpx;

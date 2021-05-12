@@ -13,27 +13,14 @@ view.myOrder_box
         view.title
           img(src="../../static/images/index/index_orderTwo.png")
           view 到访时间
-        view.content.content_two(@click="goCalendar()")
+        view.content.content_two(@click="showCalendarPop")
           input(type="text", v-model="date", disabled)
           img.content_right(src="../../static/images/right.png")
         view.title
           img(src="../../static/images/index/index_orderThree.png")
           view 进场人数
-        view.content
-          span
-            lb-picker(
-              mode="unlinkedSelector",	
-              :value="adultsKidsSelectValue",
-              :list="adultsKidsValues",
-              list-key="id",
-              :footers="true",
-              @confirm="selectAdultsKidsCount"
-            )
-              view(slot="cancel-text") 儿童（位）
-              view(slot="confirm-text") 成人（位）
-              view.uni-input {{ adultsKidsText }}
-              view(slot="picker-bottom_left") 取消Cancel
-              view(slot="picker-bottom_right") 确定 Submit
+        view.content(@click="showPeoplePop")
+          span {{ adultsKidsText }}
           img.content_right(src="../../static/images/right.png")
   view.orderSpace
   view.modeOf_Payment
@@ -111,29 +98,42 @@ view.myOrder_box
   
   // 门店选择
   custom-popup(ref="shopPop")
-    view.shop-pop-header(slot="header") 门店选择 STORES
+    view.pop-header(slot="header") 门店选择 STORES
     view(slot="body")
       custom-picker(valueKey="id",labelKey="name",:options="[stores]",@onchange="selectStore")
   
+  // 日期选择
+  custom-popup(ref="calendarPop")
+    view.pop-header(slot="header")
+      view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(@click="changeMonth(-1)")
+      view {{currentMonth}}
+      view.pop-header__arrow.pop-header__arrow--right.cover-mask--medium(@click="changeMonth(+1)")
+    view.calendar__body(slot="body")
+      custom-calendar(:markDays.sync="date",:displayMonth.sync="calendarDisplayMonth",ref="calendar")
+  
   // 进场人数选择
-  //- custom-popup(ref="peoplePop")
-  //-   view.people-pop-header(slot="header")
-  //-     view.people-pop__title 儿童 KIDS
-  //-     view.people-pop__title 成人 ADULTS
-  //-   view(slot="body")
-  //-     custom-picker
+  custom-popup(ref="peoplePop")
+    view.pop-header(slot="header")
+      view.people-pop__title 儿童 KIDS
+      view.people-pop__title 成人 ADULTS
+    view(slot="body")
+      custom-picker(valueKey="value",labelKey="label",:options="adultsKidsValues",@onchange="selectAdultsKidsCount")
+
 </template>
       
 <script>
 import { sync } from "vuex-pathify";
+import moment from "moment"
 
 import customPopup from "../../components/custom-popup/popup"
 import customPicker from "../../components/custom-picker/picker"
+import customCalendar from "../../components/custom-calendar/calendar"
 
 export default {
   components:{
     "custom-popup":customPopup,
-    "custom-picker":customPicker
+    "custom-picker":customPicker,
+    "custom-calendar":customCalendar
   },
   data() {
     return {
@@ -145,7 +145,8 @@ export default {
         [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
         [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
       ],
-      adultsKidsSelectValue: [0, 0], // picker - 索引
+      date:[moment().format("YYYY-MM-DD")],
+      calendarDisplayMonth:moment().format("YYYY-MM-DD"),
       selectedCardIndex: -1,
       booking: {
         type: "play",
@@ -162,7 +163,6 @@ export default {
   },
   computed: {
     user: sync("auth/user"),
-    date: sync("booking/newBookingDate"),
     adultsKidsText() {
       return (
         this.booking.kidsCount +
@@ -172,6 +172,9 @@ export default {
         " 成人"
       );
     },
+    currentMonth(){
+      return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月")
+    }
   },
   onLoad(option) {
     if (this.user.store) {
@@ -182,10 +185,10 @@ export default {
     }
 
     if (option.date) {
-      this.date = option.date;
+      this.date = [option.date];
     }
 
-    this.booking.date = this.date;
+    this.booking.date = this.date[0];
 
     this.goStore();
     this.goCard();
@@ -232,7 +235,7 @@ export default {
 
     // 订单支付
     async pay() {
-      this.booking.date = this.date; //时间
+      this.booking.date = this.date[0]; //时间
       this.booking.type = "play";
       uni.showLoading();
       const booking = await this.$axios.postRequest("/booking", this.booking);
@@ -272,6 +275,17 @@ export default {
         url: "../my/bookings?active=1",
       });
     },
+    
+    // 显示日历弹窗
+    showCalendarPop(){
+       this.$refs.calendarPop.open()
+    },
+    
+    // 选择月份
+    changeMonth(n){
+       this.$refs.calendar.addMonth(n)
+    },
+    
     //日历
     goCalendar() {
       uni.navigateTo({
@@ -290,10 +304,15 @@ export default {
       this.goCard();
       this.getPrice();
     },
+    
+    // 显示人数弹窗
+    showPeoplePop(){
+        this.$refs.peoplePop.open()
+    },
+    
     selectAdultsKidsCount(e) {
-      this.booking.kidsCount = +e.item[0].label;
-      this.booking.adultsCount = +e.item[1].label;
-      this.adultsKidsSelectValue = e.index;
+      this.booking.kidsCount = +e.value[0].label;
+      this.booking.adultsCount = +e.value[1].label;
       this.getPrice();
     },
     selectCard(index) {
@@ -601,14 +620,11 @@ export default {
 </style>
 
 <style scoped>
-.shop-pop-header{
-  font-size: var(--theme--font-size-normal);
-}
-
-.people-pop-header{
+.pop-header,.pop-header,.pop-header{
   font-size: var(--theme--font-size-normal);
   display:flex;
   align-items:center;
+  justify-content:center;
   width:100%;
 }
 
@@ -619,5 +635,27 @@ export default {
 
 .people-pop__title+.people-pop__title{
   border-left:2rpx solid #6f8f7d
+}
+
+.calendar__body{
+  padding:0 80rpx 25rpx;
+  box-sizing:border-box;
+}
+
+.pop-header__arrow{
+  width:20rpx;
+  height:20rpx;
+  background:url("../../static/images/booking/calendar_arrow.png") no-repeat center;
+  background-size:contain;
+}
+
+.pop-header__arrow--left{
+  transform: rotate(-90deg);
+  margin-right: 40rpx;
+}
+
+.pop-header__arrow--right{
+  transform: rotate(90deg);
+  margin-left: 40rpx;
 }
 </style>
