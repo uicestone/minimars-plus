@@ -46,7 +46,12 @@ export default {
   @import url("./utils/all.min.css");
 page{
   --theme--main-color:#92ffac;
-  --theme--font-size-normal:28rpx;
+  --theme--font-size-s:22rpx;
+  --theme--font-size-m:28rpx;
+  --theme--font-size-l:36rpx;
+  --theme--font-main-color:#646a6d;
+  --theme--font-deputy-color:#aaaeaf;
+  --theme--bg-main-color:#d9dcdd;
 }  
   
 * {

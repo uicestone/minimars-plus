@@ -29,7 +29,6 @@ view.index_box
             mode="aspectFit"
           )
           span 礼品卡购买
-  view(style="width: 750rpx; height: 1000rpx")
 </template>
 
 <script>
@@ -103,7 +102,7 @@ export default {
 
   // 单次门票
   .buy_ticketsBox {
-    height: 562rpx;
+    height: 560rpx;
     position: absolute;
     top: 240px;
     margin-top: 0rpx;
@@ -118,24 +117,23 @@ export default {
     .buy_tickets,
     .buy_tickets_Food {
       width: 290rpx;
-      height: 400rpx;
+      height: 395rpx;
       box-shadow: 0px 4rpx 8rpx 0rpx rgba(195, 195, 195, 0.5);
       border-radius: 16rpx;
-      margin-top: 70rpx;
+      margin-top: 60rpx;
       text-align: center;
+      font-size: 0;
 
       image {
         width: 290rpx;
-        height: 400rpx;
+        height: 100%;
         border-radius: 12rpx;
-        margin-bottom: 15rpx;
       }
 
       span {
-        font-size: 32rpx;
-        font-weight: 700;
-        color: #0d0d0d;
-        margin: 10rpx;
+        font-size: var(--theme--font-size-m);
+        line-height: 109rpx;
+        color: var(--theme--font-main-color);
       }
     }
 

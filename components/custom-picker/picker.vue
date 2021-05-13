@@ -60,7 +60,7 @@
     margin: 0 70rpx;
     text-align: center;
     line-height: 100rpx;
-    font-size: var(--theme--font-size-normal);
+    font-size: var(--theme--font-size-m);
     border-bottom: 2rpx #d9dcdd solid;
     box-sizing: border-box;
   }

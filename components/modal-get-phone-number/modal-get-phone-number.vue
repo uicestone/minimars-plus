@@ -8,8 +8,8 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
         @click="close()"
       )
     view.login_contentBox
-      view.login_box_title 请授权手机号
-      view.login_box_content 以同步您先前的会员卡和积分信息
+      view.login_box_title 请先授权登陆
+      view.login_box_content 为了更好的为您提供服务，\n请允许微信授权后再使用功能。
       view.login_box_btn
         button.login_box_btn_box(
           open-type="getPhoneNumber",
@@ -104,9 +104,8 @@ export default {
       padding-top: 20rpx;
       width: 264rpx;
       height: 60rpx;
-      font-size: 44rpx;
-      font-weight: 550;
-      color: #000000;
+      font-size: var(--theme--font-size-l);
+      color: var(--theme--font-main-color);
       line-height: 60rpx;
       padding-bottom: 36rpx;
     }
@@ -114,19 +113,19 @@ export default {
     .login_box_content {
       width: 672rpx;
       height: 88rpx;
-      font-size: 32rpx;
-      font-weight: 400;
-      color: #848484;
+      font-size: var(--theme--font-size-m);
+      color: var(--theme--font-main-color);
       line-height: 44rpx;
       text-align: left;
+      white-space: pre-wrap;
     }
 
     .login_box_btn {
       width: 681rpx;
       height: 102rpx;
-      background: #9fcdff;
+      background: var(--theme--main-color);
       box-shadow: 0rpx 10rpx 30rpx 0rpx rgba(215, 215, 215, 0.3);
-      border-radius: 52rpx;
+      border-radius: 12rpx;
 
       .login_box_btn_box {
         margin-top: 50rpx;
@@ -138,7 +137,7 @@ export default {
         }
 
         padding: 0;
-        background-color: #9fcdff;
+        background: transparent;
         line-height: 102px;
         border-radius: 52rpx;
         display: flex;
@@ -154,9 +153,8 @@ export default {
         }
 
         .login_box_btn_name {
-          font-size: 32rpx;
-          font-weight: 500;
-          color: #ffffff;
+          font-size: var(--theme--font-size-m);
+          color:var(--theme--font-main-color);
           line-height: 100rpx;
         }
       }

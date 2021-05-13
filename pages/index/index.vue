@@ -206,6 +206,7 @@ export default {
       background: #ffffff;
       box-shadow: 0rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.03);
       border-radius: 20rpx;
+      font-size: 0;
 
       .line {
         border: 1rpx solid #f7f7f7;
@@ -227,7 +228,10 @@ export default {
         }
 
         span {
-          font-size: 32rpx;
+          font-size: var(--theme--font-size-m);
+          margin-top: 36rpx;
+          color: var(--theme--font-main-color);
+          display: block;
         }
       }
 
@@ -263,7 +267,7 @@ export default {
     view {
       font-size: 24rpx;
       font-family: PingFangSC-Regular, PingFang SC;
-      color: #bdbdbd;
+      color: var(--theme--font-deputy-color);
       margin-left: 20rpx;
       display: flex;
       align-items: center;
@@ -318,8 +322,9 @@ export default {
         font-size: 29rpx;
 
         span {
-          font-size: 29rpx;
+          font-size: var(--theme--font-size-m);
           line-height: 34px;
+          color: var(--theme--font-main-color);
         }
       }
 
