@@ -159,7 +159,7 @@ export default {
           width: 260rpx;
           height: 34rpx;
           font-size: 22rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #666666;
           line-height: 75rpx;
@@ -170,7 +170,7 @@ export default {
           width: 280rpx;
           height: 32rpx;
           font-size: 22rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #a4a4a4;
           line-height: 75rpx;
@@ -180,7 +180,7 @@ export default {
         .cardbag_card_box-content-times {
           width: 290rpx;
           font-size: 22rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #a4a4a4;
           display: flex;
@@ -220,7 +220,7 @@ export default {
       width: 80rpx;
       height: 28rpx;
       font-size: 20rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
+      
       font-weight: 400;
       color: #767676;
       line-height: 28rpx;
@@ -239,7 +239,7 @@ export default {
       width: 360rpx;
       height: 28rpx;
       font-size: 20rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
+      
       font-weight: 400;
       color: #767676;
       position: absolute;
@@ -256,7 +256,7 @@ export default {
         width: 140rpx;
         height: 28rpx;
         font-size: 20rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
+        
         font-weight: 400;
         color: #767676;
         line-height: 28rpx;
@@ -266,7 +266,7 @@ export default {
         width: 120rpx;
         height: 28rpx;
         font-size: 20rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
+        
         font-weight: 400;
         color: #767676;
         line-height: 28rpx;

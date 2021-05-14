@@ -152,7 +152,7 @@ export default {
             width: 320rpx;
             height: 40rpx;
             font-size: 28rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #0d0d0d;
             line-height: 40rpx;
@@ -199,14 +199,14 @@ export default {
         // width: 126rpx;
         min-height: 34rpx;
         font-size: 24rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
+        
         font-weight: 400;
         color: #0d0d0d;
         line-height: 34rpx;
 
         .purchase_notesBox {
           font-size: 24rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           line-height: 1.25;
           color: #525252;

@@ -197,7 +197,7 @@ export default {
         width: 218rpx;
         height: 40rpx;
         font-size: 28rpx;
-        font-family: PingFangSC-Semibold, PingFang SC;
+       
         font-weight: 600;
         color: #0d0d0d;
         line-height: 40rpx;
@@ -260,7 +260,7 @@ export default {
                   // width: 20rpx;
                   // height: 44rpx;
                   font-size: 32rpx;
-                  font-family: PingFangSC-Semibold, PingFang SC;
+                 
                   font-weight: 600;
                   color: #ffffff;
                   line-height: 44rpx;
@@ -343,7 +343,7 @@ export default {
               width: 218rpx;
               height: 40rpx;
               font-size: 28rpx;
-              font-family: PingFangSC-Semibold, PingFang SC;
+             
               font-weight: 600;
               color: #0d0d0d;
               line-height: 40rpx;
@@ -366,7 +366,7 @@ export default {
                 width: 146rpx;
                 height: 40rpx;
                 font-size: 28rpx;
-                font-family: PingFangSC-Semibold, PingFang SC;
+               
                 font-weight: 600;
                 color: #0d0d0d;
               }
@@ -379,7 +379,7 @@ export default {
                 .spanContent {
                   margin-top: 10rpx;
                   font-size: 24rpx;
-                  font-family: PingFangSC-Regular, PingFang SC;
+                  
                   font-weight: 400;
                   color: #0d0d0d;
                 }
@@ -415,7 +415,7 @@ export default {
 
         .modeOf_Payment_order_money {
           font-size: 30rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 550;
           color: #373447;
           margin-top: 80rpx;

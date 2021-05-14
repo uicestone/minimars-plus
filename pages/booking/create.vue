@@ -13,8 +13,8 @@ view.myOrder_box
         view.title
           img(src="../../static/images/index/index_orderTwo.png")
           view 到访时间
-        view.content.content_two(@click="showCalendarPop")
-          input(type="text", v-model="date", disabled)
+        view.content(@click="showCalendarPop")
+          span {{date[0]}}
           img.content_right(src="../../static/images/right.png")
         view.title
           img(src="../../static/images/index/index_orderThree.png")
@@ -24,77 +24,39 @@ view.myOrder_box
           img.content_right(src="../../static/images/right.png")
   view.orderSpace
   view.modeOf_Payment
-    view.modeOf_Payment_title 更多优惠支付方式
-    scroll-view.modeOf_Payment-box(scroll-x="true")
-      view.modeOf_Payment_scroll
-        view.modeOf_Payment_box(
-          v-for="(item, index) in cards",
-          :key="index",
-          @click="selectCard(index)"
-        )
+    view.modeOf_Payment_title
+      view.img-box
+        img(src="../../static/images/booking/more_payment.png")
+      span 更多优惠支付方式
+    view.modeOf_Payment_scroll
+      view.modeOf_Payment_box(
+        v-for="(item, index) in cards",
+        :key="index",
+        @click="selectCard(index)"
+      )
+        view.payment-box__img.img-box
           img(
             mode="aspectFill",
             :src="item.posterUrl",
             :class="[selectedCardIndex == index ? 'selected' : '', !isCardAvailable(item) ? 'disabled' : '']"
           )
-          view.modeOf_Payment_box_name
-            | {{ item.title }}
-            view(style="color: #9fcdff; font-size: 24rpx; margin-top: 5rpx")
-              | Rmb
-              span(style="font-size: 33rpx") {{ item.price }}
-        view.modeOf_Payment_box
-          view.modeOf_Payment_box_btn(
-            style='\
-          position: relative;\
-          border: 1px solid #d8d8d8;\
-          background-color: #d8d8d8;\
-          '
-          )
-            view(@click="goBuyCards")
-              view(
-                style='\
-              background-color: #9fcdff;\
-              width: 80rpx;\
-              height: 80rpx;\
-              border-radius: 50%;\
-              margin: 70rpx auto;\
-              '
-              )
-                view(
-                  style='\
-                color: #ffffff;\
-                margin-bottom: 50rpx;\
-                font-size: 56rpx;\
-                font-weight: bold;\
-                text-align: center;\
-                '
-                ) +
-          view.modeOf_Payment_box_name 点击购买新卡
-      // 礼品卡  弹框
-      uni-popup(ref="cardContentPopup", type="center")
-        view.gift_box
-          view.gift_box_clear
-            view.gift_box_clear_left
-            img.gift_box_clear_right(
-              src="../../static/images/clear.png",
-              @click="closeCardContent()"
-            )
-          view.gift_contentBox
-            view.gift_contentBox_title 礼品卡使用说明
-            scroll-view.gift_contentBox_box(scroll-y="true")
-              view.gift_contentBox_boxContent
-                rich-text(:nodes="cardContent")
-            view.gift_contentBox_btn(@click="closeCardContent")
-              view.gift_contentBox_btn_name 确认 Agree
+        view.modeOf_Payment_box_name
+          | {{ item.title }}
+          view.payment-box__price
+            | RMB {{ item.price }}
+      view.modeOf_Payment_box.payment-box--add(@click="goBuyCards")
+        view.payment-box__img.img-box
+          view.payment-box__img--add.img-box
+            img(src="../../static/images/booking/create_add.png")
+        view.modeOf_Payment_box_name
+          | 点击购买新卡
+          
     // 订单支付
-    view.modeOf_Payment_order
-      view.modeOf_Payment_order_money 还需支付：{{ price }} 元
+    view.pay-bar
+      view.pay-bar__text 还需支付：{{ price }} 元
       // 
-      view.modeOf_Payment_order_play(@click="pay")
-        view.modeOf_Payment_order_play_name
-          | 提交预约
-          br
-          | Submit
+      view.pay-bar__btn(@click="pay")
+          | 订单支付 PAYMENT
   
   // 门店选择
   custom-popup(ref="shopPop")
@@ -118,7 +80,23 @@ view.myOrder_box
       view.people-pop__title 成人 ADULTS
     view(slot="body")
       custom-picker(valueKey="value",labelKey="label",:options="adultsKidsValues",@onchange="selectAdultsKidsCount")
-
+      
+  // 礼品卡  弹框
+  uni-popup(ref="cardContentPopup", type="center")
+    view.gift_box
+      view.gift_box_clear
+        view.gift_box_clear_left
+        img.gift_box_clear_right(
+          src="../../static/images/clear.png",
+          @click="closeCardContent()"
+        )
+      view.gift_contentBox
+        view.gift_contentBox_title 礼品卡使用说明
+        scroll-view.gift_contentBox_box(scroll-y="true")
+          view.gift_contentBox_boxContent
+            rich-text(:nodes="cardContent")
+        view.gift_contentBox_btn(@click="closeCardContent")
+          | 信息确认 SUBMIT
 </template>
       
 <script>
@@ -346,11 +324,10 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .myOrder_box {
   background-color: #f8f8f8;
   // min-height: 1100rpx;
-  height: 100vh;
 
   // 门店选择
   .myOrder_top {
@@ -369,7 +346,7 @@ export default {
       justify-content: space-around;
       background: #ffffff;
       box-shadow: 0rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.03);
-      border-radius: 20rpx;
+      border-radius: var(--theme--border-radius);
 
       .storesToChoose_choose {
         height: 170rpx;
@@ -381,17 +358,15 @@ export default {
           image {
             width: 40rpx;
             height: 40rpx;
-            background: #d8d8d8;
           }
 
           view {
-            margin-left: 30rpx;
+            margin-left: 16rpx;
             width: 112rpx;
             height: 40rpx;
-            font-size: 28rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
+            font-size: var(--theme--font-size-m);
             font-weight: 400;
-            color: #949397;
+            color: var(--theme--font-deputy-color);
             line-height: 40rpx;
           }
         }
@@ -400,16 +375,16 @@ export default {
           width: 594rpx;
           height: 80rpx;
           line-height: 80rpx;
-          border-radius: 40rpx;
-          border: 4rpx solid #dfdfdf;
+          border-radius: var(--theme--border-radius);
+          border: 2rpx solid #aaaeaf;
           display: flex;
           justify-content: space-between;
           margin-top: 15rpx;
+          font-size: var(--theme--font-size-m);
+          color:var(--theme--font-main-color);
 
           input {
             margin-left: 30rpx;
-            font-size: 30rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 500;
             color: #373447;
             margin-top: 20rpx;
@@ -418,8 +393,6 @@ export default {
           span {
             width: 550rpx;
             margin-left: 30rpx;
-            font-size: 30rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
             font-weight: 500;
             color: #373447;
           }
@@ -430,14 +403,6 @@ export default {
             margin-right: 25rpx;
             margin-top: 28rpx;
           }
-        }
-
-        // 到访时间
-        .content_two {
-          width: 352rpx;
-          height: 80rpx;
-          border-radius: 40rpx;
-          border: 4rpx solid #dfdfdf;
         }
       }
     }
@@ -456,167 +421,165 @@ export default {
     .modeOf_Payment_title {
       width: 690rpx;
       margin: 0 auto;
-      font-size: 28rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
-      font-weight: 600;
-      color: #373447;
+      font-size: var(--theme--font-size-m);
+      color: var(--theme--font-deputy-color);
       margin-bottom: 20rpx;
+      display: flex;
+      align-items: center;
+      
+      .img-box{
+        width: 32rpx;
+        height: 26rpx;
+        margin-left: 50rpx;
+        margin-right: 20rpx;
+      }
     }
 
-    .modeOf_Payment-box {
-      .modeOf_Payment_scroll {
-        display: flex;
-        // justify-content: space-around;
-        width: 690rpx;
-        margin: 0 auto;
+      
+    .modeOf_Payment_scroll {
+      overflow-x: scroll;
+      white-space: nowrap;
 
-        .modeOf_Payment_box {
-          margin: 0 20rpx;
-          opacity: 1;
-
-          image {
-            width: 380rpx;
-            height: 230rpx;
-            border-radius: 10rpx;
-          }
-
-          .selected {
-            border-bottom: 10rpx solid #42ff62;
-            box-sizing: border-box;
-          }
-
-          .disabled {
-            opacity: 0.5;
-          }
-
-          .modeOf_Payment_box_btn {
-            width: 280rpx;
-            height: 230rpx;
-            border-radius: 10rpx;
-          }
-
-          .modeOf_Payment_box_name {
-            font-size: 25rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
-            font-weight: 600;
-            color: #373447;
-            margin: 10rpx 0;
-          }
-        }
-      }
-
-      // 礼品卡弹框
-      .gift_box {
-        width: 600rpx;
-        height: 940rpx;
-        background: #ffffff;
-        border-radius: 52rpx;
-        background: #ffffff;
-
-        .gift_box_clear {
-          padding-top: 30rpx;
-          width: 540rpx;
-          margin: 0 auto;
-          display: flex;
-          justify-content: space-between;
-
-          .gift_box_clear_left {
-            width: 40rpx;
-            height: 40rpx;
-          }
-
-          .gift_box_clear_right {
-            width: 40rpx;
-            height: 40rpx;
-          }
+      .modeOf_Payment_box {
+        display: inline-block;
+        vertical-align: top;
+        margin-right: 38rpx;
+        opacity: 1;
+        
+        &:first-child{
+          margin-left: 38rpx;
         }
 
-        .gift_contentBox {
-          width: 600rpx;
-          margin: 0 auto;
-          text-align: center;
+        .payment-box__img {
+          width: 380rpx;
+          height: 230rpx;
+          border-radius: var(--theme--border-radius);
+          position: relative;
+          background-color: var(--theme--bg-main-color);
+        }
+        
+        .payment-box__img--add{
+          width: 68rpx;
+          height: 68rpx;
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%,-50%);
+        }
 
-          .gift_contentBox_title {
-            width: 220rpx;
-            // height: 42rpx;
-            font-size: 30rpx;
-            font-weight: 500;
-            color: #1a1a1a;
+        .selected {
+          border-bottom: 10rpx solid #42ff62;
+          box-sizing: border-box;
+        }
+
+        .disabled {
+          opacity: 0.5;
+        }
+
+        .modeOf_Payment_box_btn {
+          width: 280rpx;
+          height: 230rpx;
+          border-radius: var(--theme--border-radius);
+        }
+
+        .modeOf_Payment_box_name {
+          font-size: var(--theme--font-size-s);
+          color: var(--theme--font-main-color);
+          margin: 10rpx 0;
+          
+          .payment-box__price{
+            font-size: var(--theme--font-size-m);
             line-height: 42rpx;
-            margin: 0 auto 20rpx;
-          }
-
-          .gift_contentBox_box {
-            width: 570rpx;
-            height: 690rpx;
-            margin: 0 auto;
-
-            .gift_contentBox_boxContent {
-              text-align: left;
-            }
-          }
-
-          .gift_contentBox_btn {
-            width: 246rpx;
-            height: 78rpx;
-            background: #9fcdff;
-            border-radius: 39rpx;
-            margin: 0 auto;
-            // margin-top: 15rpx;
-
-            .gift_contentBox_btn_name {
-              width: 78rpx;
-              height: 40rpx;
-              font-size: 28rpx;
-              text-align: center;
-              font-weight: 500;
-              color: #ffffff;
-              line-height: 35rpx;
-              margin: 0 auto;
-              padding: 5rpx 0;
-            }
           }
         }
       }
     }
 
-    .modeOf_Payment_order {
+    .pay-bar {
       display: flex;
       justify-content: space-between;
-      width: 666rpx;
-      // height: 140rpx;
-      margin: 0 auto;
-      line-height: 140rpx;
-      margin-top: 55rpx;
+      align-items: center;
+      height: 120rpx;
+      width: 100%;
+      padding-bottom: env(safe-area-inset-bottom);
+      position: fixed;
+      bottom: 0;
+      background-color: #f8f8f8;
+      font-size: var(--theme--font-size-m);
 
-      .modeOf_Payment_order_money {
-        font-size: 30rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
-        font-weight: 550;
-        color: #373447;
-        margin-top: 40rpx;
+      .pay-bar__text {
+        color:var(--theme--font-main-color);
+        margin-left: 40rpx;
       }
 
-      .modeOf_Payment_order_play {
-        margin-top: 35rpx;
-        background-color: #9fcdff;
-        width: 220rpx;
-        height: 95rpx;
-        border-radius: 70rpx;
-
-        .modeOf_Payment_order_play_name {
-          margin: 5rpx auto;
-          font-size: 28rpx;
-          text-align: center;
-          font-weight: 540;
-          color: #ffffff;
-          line-height: 35rpx;
-          padding-top: 10rpx;
-        }
+      .pay-bar__btn {
+        background-color: var(--theme--main-color);
+        height: 102rpx;
+        line-height: 102rpx;
+        padding: 0 46rpx;
+        margin-right: 30rpx;
+        border-radius: var(--theme--border-radius);
       }
     }
   }
 }
+
+.gift_box {
+    width: 600rpx;
+    height: 940rpx;
+    background: #ffffff;
+    border-radius: var(--theme--border-radius);
+
+    .gift_box_clear {
+      padding-top: 30rpx;
+      width: 540rpx;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+
+      .gift_box_clear_left {
+        width: 40rpx;
+        height: 40rpx;
+      }
+
+      .gift_box_clear_right {
+        width: 40rpx;
+        height: 40rpx;
+      }
+    }
+
+    .gift_contentBox {
+      width: 600rpx;
+      margin: 0 auto;
+      text-align: center;
+
+      .gift_contentBox_title {
+        width: 220rpx;
+        line-height: 42rpx;
+        margin: 0 auto 20rpx;
+      }
+
+      .gift_contentBox_box {
+        width: 570rpx;
+        height: 690rpx;
+        margin: 0 auto;
+
+        .gift_contentBox_boxContent {
+          text-align: left;
+        }
+      }
+
+      .gift_contentBox_btn {
+        height: 102rpx;
+        line-height: 102rpx;
+        padding: 0 62rpx;
+        background: var(--theme--main-color);
+        border-radius: var(--theme--border-radius);
+        display: inline-block;
+        white-space: nowrap;
+      }
+    }
+  }
 </style>
 
 <style scoped>

@@ -266,7 +266,7 @@ export default {
 
     view {
       font-size: 24rpx;
-      font-family: PingFangSC-Regular, PingFang SC;
+      
       color: var(--theme--font-deputy-color);
       margin-left: 20rpx;
       display: flex;

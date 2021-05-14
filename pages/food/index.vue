@@ -365,7 +365,7 @@ export default {
           // width: 132rpx;
           // height: 60rpx;
           font-size: 20rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #555555;
           white-space: wrap;
@@ -464,7 +464,7 @@ export default {
                 width: 100%;
                 height: 36rpx;
                 font-size: 26rpx;
-                font-family: PingFangSC-Semibold, PingFang SC;
+               
                 font-weight: 600;
                 color: #222222;
                 line-height: 36rpx;
@@ -564,7 +564,7 @@ export default {
             width: 100%;
             height: 36rpx;
             font-size: 26rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #222222;
             line-height: 36rpx;

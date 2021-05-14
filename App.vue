@@ -52,6 +52,9 @@ page{
   --theme--font-main-color:#646a6d;
   --theme--font-deputy-color:#aaaeaf;
   --theme--bg-main-color:#d9dcdd;
+  --theme--font-weight-light:300;
+  --theme--font-weight-medium:300;
+  --theme--border-radius:20rpx;
 }  
   
 * {
@@ -60,9 +63,10 @@ page{
 }
 
 html {
+  font-weight: var(--theme--font-weight-medium);
+  font-size: var(--theme--font-size-m);
+  color: var(--theme--font-main-color);
   font-family: Gotham, "PingFang SC", sans-serif;
-  font-weight: 500;
-  color: #646a6d;
 }
 
 @font-face {

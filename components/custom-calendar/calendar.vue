@@ -13,7 +13,7 @@
               view.day(@click='selectOne(item, $event)' :class='{\
               selected:\
               date === `${item.text}`,\
-              today: isMarkDay(item.year, item.month, item.date),\
+              selected: isMarkDay(item.year, item.month, item.date),\
               isWeekday: isWeekday(item),\
               }') {{ Number(item.date) }}
   </view>
@@ -312,6 +312,7 @@ export default {
 
             &.selected {
               background-color: #9fcdff;
+              background-color: var(--theme--main-color);
             }
 
             &.nolm {

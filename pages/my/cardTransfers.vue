@@ -70,7 +70,7 @@ export default {
           width: 358rpx;
           height: 40rpx;
           font-size: 28rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #666666;
           line-height: 40rpx;
@@ -80,7 +80,7 @@ export default {
           width: 228rpx;
           height: 40rpx;
           font-size: 28rpx;
-          font-family: PingFangSC-Regular, PingFang SC;
+          
           font-weight: 400;
           color: #666666;
           line-height: 40rpx;

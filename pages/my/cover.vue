@@ -272,7 +272,7 @@ export default {
 
           .allcover_box_recommend_content_name {
             font-size: 24rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
+            
             font-weight: 400;
             color: #666666;
             margin-left: 10rpx;
@@ -327,7 +327,7 @@ export default {
         width: 214rpx;
         height: 36rpx;
         font-size: 26rpx;
-        font-family: PingFangSC-Regular, PingFang SC;
+        
         font-weight: 400;
         color: #0d0d0d;
         line-height: 36rpx;
@@ -345,7 +345,7 @@ export default {
           margin: 40rpx auto;
           text-align: center;
           font-size: 26rpx;
-          font-family: PingFangSC-Semibold, PingFang SC;
+         
           font-weight: 600;
           color: #ffffff;
         }

@@ -325,7 +325,7 @@ export default {
               width: 240rpx;
               height: 42rpx;
               font-size: 30rpx;
-              font-family: PingFangSC-Semibold, PingFang SC;
+             
               font-weight: 600;
               color: #222222;
               line-height: 42rpx;
@@ -423,7 +423,7 @@ export default {
             span {
               margin: 0 10rpx;
               font-size: 40rpx;
-              font-family: PingFangSC-Semibold, PingFang SC;
+             
               font-weight: 600;
               color: #222222;
             }
@@ -446,7 +446,7 @@ export default {
         width: 104rpx;
         height: 36rpx;
         font-size: 26rpx;
-        font-family: PingFangSC-Semibold, PingFang SC;
+       
         font-weight: 600;
         color: #fff;
         line-height: 36rpx;
@@ -516,7 +516,7 @@ export default {
               .bargain_buybox_content_title {
                 text-align: center;
                 font-size: 22rpx;
-                font-family: PingFangSC-Semibold, PingFang SC;
+               
                 font-weight: 600;
                 color: #222222;
                 line-height: 32rpx;
@@ -604,7 +604,7 @@ export default {
             width: 208rpx;
             height: 36rpx;
             font-size: 26rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #222222;
             line-height: 36rpx;
@@ -705,7 +705,7 @@ export default {
           padding: 20rpx 0;
           height: 36rpx;
           font-size: 26rpx;
-          font-family: PingFangSC-Semibold, PingFang SC;
+         
           font-weight: 600;
           color: #6b6b6b;
           line-height: 36rpx;
@@ -716,7 +716,7 @@ export default {
             width: 78rpx;
             height: 36rpx;
             font-size: 26rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #222222;
             line-height: 36rpx;
@@ -728,7 +728,7 @@ export default {
             width: 195rpx;
             height: 34rpx;
             font-size: 24rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #bdbdbd;
             line-height: 34rpx;
@@ -767,7 +767,7 @@ export default {
           .wxModeOfPayment_left {
             width: 104rpx;
             font-size: 26rpx;
-            font-family: PingFangSC-Semibold, PingFang SC;
+           
             font-weight: 600;
             color: #222222;
           }

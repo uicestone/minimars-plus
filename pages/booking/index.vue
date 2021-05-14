@@ -118,7 +118,6 @@ export default {
     .buy_tickets_Food {
       width: 290rpx;
       height: 395rpx;
-      box-shadow: 0px 4rpx 8rpx 0rpx rgba(195, 195, 195, 0.5);
       border-radius: 16rpx;
       margin-top: 60rpx;
       text-align: center;

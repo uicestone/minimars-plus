@@ -195,14 +195,14 @@ export default {
           .coupebox_contentimgBox_content_title,
           .coupebox_contentimgBox_content_data {
             font-size: 24rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
+            
             font-weight: 400;
             color: #ffffff;
           }
 
           .coupebox_contentimgBox_content_detail {
             font-size: 20rpx;
-            font-family: PingFangSC-Regular, PingFang SC;
+            
             font-weight: 400;
             color: #ffffff;
           }
