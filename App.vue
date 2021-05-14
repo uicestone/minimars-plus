@@ -53,7 +53,7 @@ page{
   --theme--font-deputy-color:#aaaeaf;
   --theme--bg-main-color:#d9dcdd;
   --theme--font-weight-light:300;
-  --theme--font-weight-medium:300;
+  --theme--font-weight-medium:500;
   --theme--border-radius:20rpx;
 }  
   
