@@ -43,7 +43,7 @@ export default {
           height: 40rpx;
           font-size: 30rpx;
           
-          font-weight: 500;
+          
           color: #0d0d0d;
           line-height: 40rpx;
         }

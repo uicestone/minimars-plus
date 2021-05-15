@@ -204,7 +204,6 @@ export default {
     position: relative;
     width: 750rpx;
     height: 500rpx;
-    // background: #EDEDED;
 
     image {
       width: 750rpx;
@@ -230,9 +229,7 @@ export default {
         margin: 0 auto;
         width: 680rpx;
         height: 100rpx;
-        font-size: 30rpx;
-        
-        font-weight: 400;
+        font-size: var(--theme--font-size-l );
         color: #ffffff;
         line-height: 100rpx;
       }
@@ -261,9 +258,7 @@ export default {
           margin: 15rpx 0 0 30rpx;
           width: 178px;
           height: 50rpx;
-          font-size: 36rpx;
-          font-weight: 500;
-          color: #0d0d0d;
+          font-size: var(--theme--font-size-l);
           line-height: 50rpx;
         }
 
@@ -299,9 +294,7 @@ export default {
 
           view {
             margin: 10rpx 0;
-            font-size: 30rpx;
-            font-weight: 600;
-            color: #666666;
+            font-size: var(--theme--font-size-m);
             line-height: 36rpx;
           }
 
@@ -314,9 +307,7 @@ export default {
           span {
             width: 145rpx;
             height: 34rpx;
-            font-size: 24rpx;
-            font-weight: 500;
-            color: #666666;
+            font-size: var(--theme--font-size-s);
             line-height: 34rpx;
           }
         }
@@ -343,9 +334,7 @@ export default {
         margin: 15rpx auto;
         width: 600rpx;
         height: 42rpx;
-        font-size: 30rpx;
-        font-weight: 500;
-        color: #0d0d0d;
+        font-size: var(--theme--font-size-s);
         line-height: 42rpx;
       }
 
@@ -380,7 +369,7 @@ export default {
               .modeOf_PaymentBox_right {
                 width: 420rpx;
                 font-size: 30rpx;
-                font-weight: 500;
+                
                 color: #0d0d0d;
 
                 .modeOf_PaymentBox_right_content {
@@ -412,7 +401,7 @@ export default {
         span {
           margin-left: 50rpx;
           font-size: 30rpx;
-          font-weight: 500;
+          
           color: #0d0d0d;
           line-height: 42rpx;
         }
@@ -441,10 +430,7 @@ export default {
         span {
           width: 150rpx;
           height: 40rpx;
-          font-size: 28rpx;
-          
-          font-weight: 500;
-          color: #0d0d0d;
+          font-size: var(--theme--font-size-s);
           line-height: 40rpx;
         }
 
@@ -493,7 +479,7 @@ export default {
         // width: 264rpx;
         height: 60rpx;
         font-size: 44rpx;
-        font-weight: 550;
+        
         color: #000000;
         line-height: 60rpx;
         padding-bottom: 36rpx;
@@ -504,7 +490,7 @@ export default {
         height: 88rpx;
         font-size: 32rpx;
         
-        font-weight: 400;
+        
         color: #848484;
         line-height: 44rpx;
         text-align: left;
@@ -544,7 +530,7 @@ export default {
 
           .login_box_btn_name {
             font-size: 32rpx;
-            font-weight: 500;
+            
             color: #ffffff;
             line-height: 100rpx;
           }

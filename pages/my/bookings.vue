@@ -294,7 +294,7 @@ export default {
           height: 68rpx;
           font-size: 24rpx;
           
-          font-weight: 400;
+          
           color: #666666;
           line-height: 34rpx;
           margin: 0 auto;
@@ -314,7 +314,7 @@ export default {
             height: 50rpx;
             font-size: 36rpx;
            
-            font-weight: 600;
+            
             color: #ffffff;
             line-height: 100rpx;
           }
@@ -344,14 +344,14 @@ export default {
             .accomplish_top_title {
               .accomplish_top_titlename {
                 font-size: 30rpx;
-                font-weight: 500;
+                
                 color: #222222;
               }
 
               span {
                 font-size: 20rpx;
                 
-                font-weight: 400;
+                
                 color: #666666;
               }
             }
@@ -361,7 +361,7 @@ export default {
               height: 36rpx;
               font-size: 26rpx;
               
-              font-weight: 400;
+              
               color: #666666;
               line-height: 125rpx;
 
@@ -414,7 +414,7 @@ export default {
               height: 34rpx;
               font-size: 24rpx;
               
-              font-weight: 400;
+              
               color: #666666;
               line-height: 34rpx;
             }
@@ -423,7 +423,7 @@ export default {
               width: 114rpx;
               height: 48rpx;
               font-size: 22rpx;
-              font-weight: 500;
+              
               color: #222222;
               line-height: 32rpx;
 
@@ -455,7 +455,7 @@ export default {
         height: 44rpx;
         font-size: 32rpx;
         
-        font-weight: 400;
+        
         color: #666666;
         line-height: 44rpx;
       }
@@ -464,7 +464,7 @@ export default {
     .appointment_box_name {
       height: 84rpx;
       font-size: 30rpx;
-      font-weight: 550;
+      
       color: #222222;
       line-height: 42rpx;
 
@@ -497,7 +497,7 @@ export default {
           width: 150rpx;
           height: 42rpx;
           font-size: 30rpx;
-          font-weight: 500;
+          
           color: #222222;
           line-height: 42rpx;
         }
@@ -511,7 +511,7 @@ export default {
           width: 162rpx;
           height: 42rpx;
           font-size: 30rpx;
-          font-weight: 500;
+          
           color: #0d0d0d;
           line-height: 42rpx;
         }
@@ -547,7 +547,7 @@ export default {
                 height: 42rpx;
                 font-size: 30rpx;
                 
-                font-weight: 400;
+                
                 color: #0d0d0d;
                 line-height: 42rpx;
               }
@@ -556,7 +556,7 @@ export default {
                 width: 40rpx;
                 height: 42rpx;
                 font-size: 26rpx;
-                font-weight: 500;
+                
                 color: #999999;
                 line-height: 75rpx;
               }
@@ -565,7 +565,7 @@ export default {
             .listdetail_box_content_titlebox_right {
               height: 42rpx;
               font-size: 30rpx;
-              font-weight: 500;
+              
               color: #0d0d0d;
               line-height: 42rpx;
             }
@@ -594,14 +594,14 @@ export default {
           .accomplish_top_title {
             .accomplish_top_titlename {
               font-size: 30rpx;
-              font-weight: 500;
+              
               color: #222222;
             }
 
             span {
               font-size: 20rpx;
               
-              font-weight: 400;
+              
               color: #666666;
             }
           }
@@ -611,7 +611,7 @@ export default {
             height: 36rpx;
             font-size: 26rpx;
             
-            font-weight: 400;
+            
             color: #666666;
             line-height: 125rpx;
 
@@ -664,7 +664,7 @@ export default {
             height: 34rpx;
             font-size: 24rpx;
             
-            font-weight: 400;
+            
             color: #666666;
             line-height: 34rpx;
           }
@@ -673,7 +673,7 @@ export default {
             width: 114rpx;
             height: 48rpx;
             font-size: 22rpx;
-            font-weight: 500;
+            
             color: #222222;
             line-height: 32rpx;
 

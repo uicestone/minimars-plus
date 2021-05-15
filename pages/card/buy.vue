@@ -198,7 +198,7 @@ export default {
         height: 40rpx;
         font-size: 28rpx;
        
-        font-weight: 600;
+        
         color: #0d0d0d;
         line-height: 40rpx;
       }
@@ -224,7 +224,7 @@ export default {
         width: 176rpx;
         height: 40rpx;
         font-size: 28rpx;
-        font-weight: 550;
+        
         color: #0d0d0d;
         line-height: 40rpx;
       }
@@ -261,7 +261,7 @@ export default {
                   // height: 44rpx;
                   font-size: 32rpx;
                  
-                  font-weight: 600;
+                  
                   color: #ffffff;
                   line-height: 44rpx;
                   z-index: 1;
@@ -344,7 +344,7 @@ export default {
               height: 40rpx;
               font-size: 28rpx;
              
-              font-weight: 600;
+              
               color: #0d0d0d;
               line-height: 40rpx;
               text-align: left;
@@ -367,7 +367,7 @@ export default {
                 height: 40rpx;
                 font-size: 28rpx;
                
-                font-weight: 600;
+                
                 color: #0d0d0d;
               }
 
@@ -380,7 +380,7 @@ export default {
                   margin-top: 10rpx;
                   font-size: 24rpx;
                   
-                  font-weight: 400;
+                  
                   color: #0d0d0d;
                 }
               }
@@ -416,13 +416,13 @@ export default {
         .modeOf_Payment_order_money {
           font-size: 30rpx;
           
-          font-weight: 550;
+          
           color: #373447;
           margin-top: 80rpx;
 
           view {
             font-size: 30rpx;
-            font-weight: 600;
+            
             color: #6d6d6d;
           }
         }
@@ -438,7 +438,7 @@ export default {
             margin: 5rpx auto;
             font-size: 28rpx;
             text-align: center;
-            font-weight: 540;
+            
             color: #ffffff;
             line-height: 35rpx;
             padding-top: 10rpx;

@@ -91,7 +91,8 @@
     {
       "path": "pages/my/cards",
       "style": {
-        "navigationBarTitleText": "MARS卡包"
+        "navigationBarTitleText": "MARS卡包",
+        "navigationBarBackgroundColor":"#FFFFFF"
       }
     },
     {
@@ -206,6 +207,31 @@
       {
         "name": "预约", //模式名称
         "path": "pages/booking/create", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "卡券", //模式名称
+        "path": "pages/card/index", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "礼品卡", //模式名称
+        "path": "pages/card/list", //启动页面，必选
+        "query": "type=coupon" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "购买限定礼品卡", //模式名称
+        "path": "pages/card/buyTimes", //启动页面，必选
+        "query": "slug=488-t&cover=https://cdn.mini-mars.com/uploads/d4e80b8cdbee261538876e4a1d12ee15886c2b8e.jpg" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "我的卡包", //模式名称
+        "path": "pages/my/cards", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "我的", //模式名称
+        "path": "pages/my/index", //启动页面，必选
         "query": "" //启动参数，在页面的onLoad函数里面得到
       }
     ]

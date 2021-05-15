@@ -1,47 +1,36 @@
 <template lang="pug">
 view.cardbag
-  view.cardbag_box
-    view.cardbag_box-left
-      view.cardbag_use(
-        @click="gouse()",
-        :class="btnnum == 0 ? 'clickcard' : 'noclickcard'"
-      ) 可使用 （1）
-      view.cardbag_unactivated(
-        @click="nouse()",
-        :class="btnnum == 1 ? 'clickcard' : 'noclickcard'"
-      ) 未激活 （2）
-    view.cardbag_box-right
-      img(src="../../static/images/my/card.png")
-      | 获得更多礼品卡
-  view.cardbag_card(v-show="btnnum == 0")
+  custom-tabs(:tabs="tabs",:activeIndex.sync="activeIndex",@onselect="selectTab")
+  view.cardbag_card(v-show="activeIndex == 0")
     view.cardbag_card_box
-      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.img-box.cadbag__img
+        img(src="../../static/images/224.jpg", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
-          | MarsBabe卡
-          span ¥ 3800
-        view.cardbag_card_box-content-time （过期时间：2021.5.18）
+          | MarsBabe卡 rmb 3800
+        view.cardbag_card_box-content-time 2021.5.18到期
     view.mycards_footer 历史卡券
   // 未激活
-  view.cardbag_card(v-show="btnnum == 1")
+  view.cardbag_card(v-show="activeIndex == 1")
     view.cardbag_card_box
-      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.img-box.cadbag__img
+        img(src="../../static/images/224.jpg", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | Mars圣诞卡
           span ¥ 3800
         view.cardbag_card_box-content-times
-          view.cardbag_card_box-content-time-left 自用激活
-          view.cardbag_card_box-content-time-right.giveColors 赠送好友
+          view.cardbag__btn 自用激活
+          view.cardbag__btn 赠送好友
     view.cardbag_card_box
-      img(src="../../static/images/224.jpg", mode="aspectFill")
+      view.img-box.cadbag__img
+        img(src="../../static/images/224.jpg", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | Mars圣诞卡
           span ¥ 3800
         view.cardbag_card_box-content-times
-          view
-          view.cardbag_card_box-content-time-right.getColors 待领取
+          view.cardbag__btn.cardbag__btn--highlight 待领取
     // 底部，礼品卡使用须知
     view.mycards_footer-use
       view.mycards_footer-use_left(@click="gouseCade()") 礼品卡使用须知
@@ -50,34 +39,56 @@ view.cardbag
 </template>
 
 <script>
+import customTabs from '../../components/custom-tabs/tabs.vue';
 export default {
   data() {
     return {
-      btnnum: 0,
-      count: "",
+      tabs: [
+        {
+          id: 1,
+          name: '可使用（1）'
+        },
+        {
+          id: 2,
+          name: '未激活（2）'
+        },
+        {
+          id: 3,
+          name: '获得更多礼品卡',
+          showArrow: true,
+          customClick: true
+        }
+      ],
+      activeIndex: 0,
+      count: ''
     };
   },
+  components: {
+    'custom-tabs': customTabs
+  },
   methods: {
-    gouse() {
-      this.btnnum = 0;
-    },
-    nouse() {
-      this.btnnum = 1;
+    selectTab(e) {
+      console.log(e);
+      if(e.item.id===3){
+        wx.navigateTo({
+          url:"/pages/card/index"
+        })
+      }
     },
     gouseCade() {
       uni.navigateTo({
-        url: "/pages/my/cardRules",
+        url: '/pages/my/cardRules'
       });
     },
     goRceived() {
       uni.navigateTo({
-        url: "/pages/my/cardTransfers",
+        url: '/pages/my/cardTransfers'
       });
-    },
-  },
+    }
+  }
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 .cardbag {
   width: 750rpx;
   background: #f8f8f8;
@@ -96,7 +107,6 @@ export default {
       width: 322rpx;
       height: 34rpx;
       font-size: 24rpx;
-      font-weight: 500;
       color: #919191;
       line-height: 34rpx;
     }
@@ -113,7 +123,7 @@ export default {
       width: 260rpx;
       height: 40rpx;
       font-size: 28rpx;
-      font-weight: 500;
+
       color: #3f3f3f;
       line-height: 40rpx;
       display: flex;
@@ -130,148 +140,119 @@ export default {
 
   .cardbag_card {
     .cardbag_card_box {
-      width: 566rpx;
-      height: 404rpx;
-      // background: #D8D8D8;
+      width: 690rpx;
       box-shadow: 0rpx 4rpx 14rpx 6rpx rgba(222, 221, 221, 0.5);
-      border-radius: 16rpx;
+      border-radius: ;
       margin: 0 auto;
       position: relative;
-      margin-bottom: 45rpx;
-
-      image {
-        width: 566rpx;
-        height: 404rpx;
-        border-radius: 16rpx;
-      }
+      margin-top: 30rpx;
+      border-radius: var(--theme--border-radius);
+      overflow: hidden;
 
       .cardbag_card_box-content {
-        position: absolute;
-        bottom: 0;
         display: flex;
-        width: 566rpx;
-        text-align: center;
-        height: 82rpx;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 34rpx 0 40rpx;
+        box-sizing: border-box;
+        width: 100%;
+        height: 90rpx;
         background: #ffffff;
         border-radius: 0rpx 0rpx 16rpx 16rpx;
 
         .cardbag_card_box-content-money {
-          width: 260rpx;
+          max-width: 50%;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
           height: 34rpx;
-          font-size: 22rpx;
-          
-          font-weight: 400;
-          color: #666666;
-          line-height: 75rpx;
+          font-size: var(--theme--font-size-s);
         }
 
         //时间
         .cardbag_card_box-content-time {
-          width: 280rpx;
           height: 32rpx;
-          font-size: 22rpx;
-          
-          font-weight: 400;
-          color: #a4a4a4;
-          line-height: 75rpx;
+          font-size: var(--theme--font-size-s);
         }
 
         // 激活/赠送
         .cardbag_card_box-content-times {
-          width: 290rpx;
           font-size: 22rpx;
-          
-          font-weight: 400;
           color: #a4a4a4;
           display: flex;
           align-items: center;
           justify-content: space-between;
-
-          .cardbag_card_box-content-time-left {
-            width: 134rpx;
-            height: 50rpx;
-            border-radius: 25rpx;
-            border: 2rpx solid #c4c4c4;
-            line-height: 50rpx;
-          }
-
-          .cardbag_card_box-content-time-right {
-            width: 134rpx;
-            height: 50rpx;
-            border-radius: 25rpx;
-            border: 2rpx solid #9fcdff;
-            line-height: 50rpx;
-          }
-
-          .giveColors {
-            color: #9fcdff;
-          }
-
-          .getColors {
-            color: #ffffff;
-            background: #9fcdff;
-          }
         }
       }
     }
 
     // 历史卡券
     .mycards_footer {
-      width: 80rpx;
       height: 28rpx;
-      font-size: 20rpx;
-      
-      font-weight: 400;
-      color: #767676;
+      font-size: var(--theme--font-size-s);
       line-height: 28rpx;
-      text-shadow: 0rpx 2rpx 6rpx rgba(0, 0, 0, 0.5);
       position: absolute;
       bottom: 20rpx;
       right: 350rpx;
+      padding-bottom: env(safe-area-inset-bottom);
+      color: var(--theme--font-deputy-color);
     }
 
     // 礼品卡使用须知
     .mycards_footer-use {
-      text-shadow: 0rpx 2rpx 15rpx rgba(0, 0, 0, 0.5);
+      color: var(--theme--font-deputy-color);
+      font-size: var(--theme--font-size-s);
       margin: 0 auto;
       display: flex;
       justify-content: space-around;
-      width: 360rpx;
+      align-items: center;
       height: 28rpx;
-      font-size: 20rpx;
-      
-      font-weight: 400;
-      color: #767676;
       position: absolute;
       bottom: 20rpx;
       left: 195rpx;
 
       .mycards_footer-use_line {
-        background-color: #767676;
-        width: 3rpx;
-        height: 30rpx;
+        background-color: var(--theme--font-deputy-color);
+        width: 2rpx;
+        height: 20rpx;
+        margin: 0 28rpx;
       }
 
       .mycards_footer-use_left {
-        width: 140rpx;
         height: 28rpx;
-        font-size: 20rpx;
-        
-        font-weight: 400;
-        color: #767676;
         line-height: 28rpx;
       }
 
       .mycards_footer-use_right {
-        width: 120rpx;
         height: 28rpx;
-        font-size: 20rpx;
-        
-        font-weight: 400;
-        color: #767676;
         line-height: 28rpx;
       }
     }
   }
+}
+
+.cadbag__img {
+  width: 100%;
+  height: 232rpx;
+}
+
+.cardbag__btn {
+  width: 130rpx;
+  height: 46rpx;
+  text-align: center;
+  font-size: var(--theme--font-size-s);
+  border: 2rpx solid var(--theme--font-main-color);
+  border-radius: var(--theme--border-radius);
+  line-height: 46rpx;
+  color: var(--theme--font-main-color);
+}
+
+.cardbag__btn + .cardbag__btn {
+  margin-left: 20rpx;
+}
+
+.cardbag__btn--highlight {
+  background-color: var(--theme--main-color);
+  border-color: var(--theme--main-color);
 }
 </style>

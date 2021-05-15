@@ -326,7 +326,7 @@ export default {
               height: 42rpx;
               font-size: 30rpx;
              
-              font-weight: 600;
+              
               color: #222222;
               line-height: 42rpx;
             }
@@ -338,7 +338,7 @@ export default {
                 width: 74rpx;
                 height: 42rpx;
                 font-size: 18rpx;
-                font-weight: 500;
+                
                 color: #222222;
                 line-height: 26rpx;
 
@@ -351,7 +351,7 @@ export default {
                 width: 30rpx;
                 height: 36rpx;
                 font-size: 26rpx;
-                font-weight: 500;
+                
                 color: #222222;
                 line-height: 36rpx;
                 float: right;
@@ -391,7 +391,7 @@ export default {
               width: 144rpx;
               height: 34rpx;
               font-size: 24rpx;
-              font-weight: 500;
+              
               color: #bdbdbd;
               line-height: 34rpx;
             }
@@ -417,14 +417,14 @@ export default {
             align-items: center;
             height: 34rpx;
             font-size: 24rpx;
-            font-weight: 500;
+            
             color: #0d0d0d;
 
             span {
               margin: 0 10rpx;
               font-size: 40rpx;
              
-              font-weight: 600;
+              
               color: #222222;
             }
           }
@@ -447,7 +447,7 @@ export default {
         height: 36rpx;
         font-size: 26rpx;
        
-        font-weight: 600;
+        
         color: #fff;
         line-height: 36rpx;
       }
@@ -517,7 +517,7 @@ export default {
                 text-align: center;
                 font-size: 22rpx;
                
-                font-weight: 600;
+                
                 color: #222222;
                 line-height: 32rpx;
               }
@@ -530,7 +530,7 @@ export default {
 
                 .bargain_buybox_content_detail_left {
                   font-size: 30rpx;
-                  font-weight: 500;
+                  
                   color: #222222;
                   line-height: 26rpx;
 
@@ -544,7 +544,7 @@ export default {
                   width: 80rpx;
                   text-align: center;
                   font-size: 30rpx;
-                  font-weight: 500;
+                  
                   color: #bfbfbf;
                   position: relative;
 
@@ -605,7 +605,7 @@ export default {
             height: 36rpx;
             font-size: 26rpx;
            
-            font-weight: 600;
+            
             color: #222222;
             line-height: 36rpx;
             margin: 15rpx 0 10rpx 0;
@@ -615,7 +615,7 @@ export default {
             width: 360rpx;
             height: 56rpx;
             font-size: 20rpx;
-            font-weight: 500;
+            
             color: #bdbdbd;
             line-height: 28rpx;
           }
@@ -638,7 +638,7 @@ export default {
               width: 88rpx;
               height: 50rpx;
               font-size: 22rpx;
-              font-weight: 500;
+              
               color: #9fcdff;
               line-height: 50rpx;
               margin-left: 10rpx;
@@ -652,7 +652,7 @@ export default {
               width: 80rpx;
               text-align: center;
               font-size: 30rpx;
-              font-weight: 500;
+              
               color: #bfbfbf;
               position: relative;
 
@@ -706,7 +706,7 @@ export default {
           height: 36rpx;
           font-size: 26rpx;
          
-          font-weight: 600;
+          
           color: #6b6b6b;
           line-height: 36rpx;
         }
@@ -717,7 +717,7 @@ export default {
             height: 36rpx;
             font-size: 26rpx;
            
-            font-weight: 600;
+            
             color: #222222;
             line-height: 36rpx;
             margin-top: 40rpx;
@@ -729,7 +729,7 @@ export default {
             height: 34rpx;
             font-size: 24rpx;
            
-            font-weight: 600;
+            
             color: #bdbdbd;
             line-height: 34rpx;
             margin-bottom: 20rpx;
@@ -768,7 +768,7 @@ export default {
             width: 104rpx;
             font-size: 26rpx;
            
-            font-weight: 600;
+            
             color: #222222;
           }
 
@@ -807,7 +807,7 @@ export default {
           width: 120rpx;
           height: 42rpx;
           font-size: 30rpx;
-          font-weight: 500;
+          
           color: #ffffff;
           line-height: 42rpx;
           margin: 0 auto;

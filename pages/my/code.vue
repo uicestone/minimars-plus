@@ -105,7 +105,7 @@ export default {
       height: 34rpx;
       font-size: 24rpx;
       
-      font-weight: 400;
+      
       color: #bdbdbd;
       line-height: 34rpx;
     }

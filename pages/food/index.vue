@@ -366,7 +366,7 @@ export default {
           // height: 60rpx;
           font-size: 20rpx;
           
-          font-weight: 400;
+          
           color: #555555;
           white-space: wrap;
         }
@@ -465,7 +465,7 @@ export default {
                 height: 36rpx;
                 font-size: 26rpx;
                
-                font-weight: 600;
+                
                 color: #222222;
                 line-height: 36rpx;
                 margin-bottom: 5rpx;
@@ -475,7 +475,7 @@ export default {
                 width: 360rpx;
                 height: 56rpx;
                 font-size: 20rpx;
-                font-weight: 500;
+                
                 color: #bdbdbd;
                 line-height: 28rpx;
                 overflow: hidden;
@@ -493,7 +493,7 @@ export default {
                   width: 74rpx;
                   height: 42rpx;
                   font-size: 18rpx;
-                  font-weight: 550;
+                  
                   color: #222222;
                   // line-height: 26rpx;
 
@@ -565,7 +565,7 @@ export default {
             height: 36rpx;
             font-size: 26rpx;
            
-            font-weight: 600;
+            
             color: #222222;
             line-height: 36rpx;
             margin: 15rpx 0 10rpx 0;
@@ -575,7 +575,7 @@ export default {
             width: 360rpx;
             height: 56rpx;
             font-size: 20rpx;
-            font-weight: 500;
+            
             color: #bdbdbd;
             line-height: 28rpx;
           }
@@ -595,7 +595,7 @@ export default {
             width: 88rpx;
             height: 50rpx;
             font-size: 22rpx;
-            font-weight: 500;
+            
             color: #9fcdff;
             line-height: 65rpx;
             margin-left: 10rpx;
@@ -656,7 +656,7 @@ export default {
         width: 74rpx;
         height: 42rpx;
         font-size: 18rpx;
-        font-weight: 500;
+        
         color: #ffffff;
         line-height: 45rpx;
 
@@ -677,7 +677,7 @@ export default {
         width: 90rpx;
         height: 42rpx;
         font-size: 30rpx;
-        font-weight: 500;
+        
         color: #ffffff;
         line-height: 42rpx;
       }

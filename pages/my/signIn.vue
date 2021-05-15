@@ -98,7 +98,7 @@ export default {
             background: #9fcdff;
             border-radius: 16rpx 16rpx 0rpx 0rpx;
             font-size: 22rpx;
-            font-weight: 500;
+            
             color: #ffffff;
             line-height: 62rpx;
           }
@@ -157,7 +157,7 @@ export default {
           height: 32rpx;
           font-size: 22rpx;
           
-          font-weight: 400;
+          
           color: #0d0d0d;
           line-height: 32rpx;
           margin: 10rpx auto;

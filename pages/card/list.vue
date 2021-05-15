@@ -88,22 +88,19 @@ export default {
   .header {
     width: 750rpx;
     height: 320rpx;
-    background: #d8d8d8;
+    background: var(--theme--bg-main-color);
   }
 
   .marsCard_contentbox {
     .marsCard_contentbox-content {
-      margin: 30px 0;
 
       .contentbox-contentTitle {
-        margin: 0 auto 10rpx;
         width: 650rpx;
         height: 40rpx;
-        font-size: 28rpx;
-       
-        font-weight: 600;
-        color: #0d0d0d;
         line-height: 40rpx;
+        font-size: var(--theme--font-size-m);
+        color: var(--theme--font-main-color);
+        margin:38rpx auto 26rpx;
       }
 
       .modeOf_Payment-box {
@@ -114,9 +111,9 @@ export default {
           .yuanimage {
             width: 330rpx;
             height: 220rpx;
-            background: #d8d8d8;
+            background: var(--theme--bg-main-color);
             box-shadow: 4rpx 4rpx 6rpx 4rpx rgba(204, 204, 204, 0.5);
-            border-radius: 16rpx;
+            border-radius: var(--theme--border-radius);
             margin-right: 60rpx;
           }
 
@@ -147,7 +144,7 @@ export default {
       height: 34rpx;
       font-size: 24rpx;
      
-      font-weight: 600;
+      
       color: #b5b5b5;
       line-height: 34rpx;
     }

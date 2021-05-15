@@ -122,7 +122,7 @@ export default {
         }
 
         span {
-          font-weight: bold;
+          
         }
       }
     }
@@ -143,7 +143,7 @@ export default {
       width: 120rpx;
       height: 42rpx;
       font-size: 30rpx;
-      font-weight: 550;
+      
       color: #0d0d0d;
       line-height: 42rpx;
     }
@@ -174,7 +174,7 @@ export default {
               width: 275rpx;
               height: 42rpx;
               font-size: 30rpx;
-              font-weight: 550;
+              
               color: #0d0d0d;
               line-height: 42rpx;
               display: flex;
@@ -185,7 +185,7 @@ export default {
                 height: 32rpx;
                 font-size: 22rpx;
                 
-                font-weight: 400;
+                
                 color: #0d0d0d;
                 line-height: 55rpx;
 
@@ -200,7 +200,7 @@ export default {
               height: 32rpx;
               font-size: 22rpx;
               
-              font-weight: 400;
+              
               color: #ababab;
               line-height: 32rpx;
             }
@@ -215,7 +215,7 @@ export default {
             line-height: 60rpx;
             font-size: 26rpx;
             
-            font-weight: 400;
+            
             color: #ffffff;
           }
         }

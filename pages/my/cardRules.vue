@@ -18,7 +18,7 @@ export default {
     margin-top: 40rpx;
     text-align: center;
     font-size: 28rpx;
-    font-weight: 500;
+    
     color: #3f3f3f;
   }
 }

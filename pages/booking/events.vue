@@ -112,7 +112,6 @@ export default {
       width: 180rpx;
       height: 42rpx;
       font-size: 30rpx;
-      font-weight: 500;
       color: #676767;
       line-height: 42rpx;
 
@@ -129,7 +128,6 @@ export default {
       // width: 530rpx;
       height: 42rpx;
       font-size: 30rpx;
-      font-weight: 500;
       color: #0d0d0d;
       line-height: 42rpx;
       border-radius: 6rpx;
@@ -195,15 +193,11 @@ export default {
           .coupebox_contentimgBox_content_title,
           .coupebox_contentimgBox_content_data {
             font-size: 24rpx;
-            
-            font-weight: 400;
             color: #ffffff;
           }
 
           .coupebox_contentimgBox_content_detail {
             font-size: 20rpx;
-            
-            font-weight: 400;
             color: #ffffff;
           }
         }

@@ -61,7 +61,7 @@ export default {
           width: 96rpx;
           height: 44rpx;
           font-size: 32rpx;
-          font-weight: 500;
+          
           color: #a4a4a4;
           line-height: 44rpx;
         }
@@ -71,7 +71,7 @@ export default {
           height: 40rpx;
           font-size: 28rpx;
           
-          font-weight: 400;
+          
           color: #666666;
           line-height: 40rpx;
         }
@@ -81,7 +81,7 @@ export default {
           height: 40rpx;
           font-size: 28rpx;
           
-          font-weight: 400;
+          
           color: #666666;
           line-height: 40rpx;
         }

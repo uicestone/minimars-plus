@@ -365,7 +365,6 @@ export default {
             width: 112rpx;
             height: 40rpx;
             font-size: var(--theme--font-size-m);
-            font-weight: 400;
             color: var(--theme--font-deputy-color);
             line-height: 40rpx;
           }
@@ -385,16 +384,12 @@ export default {
 
           input {
             margin-left: 30rpx;
-            font-weight: 500;
-            color: #373447;
             margin-top: 20rpx;
           }
 
           span {
             width: 550rpx;
             margin-left: 30rpx;
-            font-weight: 500;
-            color: #373447;
           }
 
           image {
