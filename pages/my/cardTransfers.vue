@@ -1,92 +1,38 @@
 <template lang="pug">
-view.myGetRceived_box
-  view.myGetRceived_content(v-for="(item, index) in 2", :key="index")
-    view.myGetRceived_content-box
-      view.myGetRceived_content-left
-        img(src="../../static/images/224.jpg")
-      view.myGetRceived_content-right
-        view.myGetRceived_title 已转赠
-        view MarsBabe卡 ¥ 3800
-        view.myGetRceived_id 赠予人ID：2938498wawa
-        view.myGetRceived_data 日期： 2021.1.19
+view.list
+  view.item(v-for="item in 4",:key="item")
+    custom-card
+      view.item-content__name MARS BABY卡 rmb 3,000
+      view.item-content__status 未收卡
+      view.item-content__id 赠卡人ID: 2877hhh343
+      view.item-content__date 日期：2021.05.18
 </template>
 
 <script>
+import customCard from '../../components/custom-card-box/card-box.vue';
 export default {
+  components: {
+    'custom-card': customCard
+  },
   data() {
     return {};
   },
-  methods: {},
+  methods: {}
 };
 </script>
 
-<style lang="less">
-.myGetRceived_box {
-  width: 750rpx;
-  background: #f8f8f8;
-  // height: 100vh;
-  padding-top: 80rpx;
+<style scoped>
+page {
+  background-color: #f8f8f8;
+}
 
-  .myGetRceived_content {
-    width: 566rpx;
-    height: 280rpx;
-    background: #ffffff;
-    box-shadow: 0px 4px 14px 6px rgba(222, 221, 221, 0.5);
-    border-radius: 16rpx;
-    margin: 0 auto;
-    margin-bottom: 25rpx;
+.list {
+  padding-bottom: 30rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
-    .myGetRceived_content-box {
-      padding-top: 35rpx;
-      display: flex;
-      justify-content: space-around;
-
-      .myGetRceived_content-left {
-        image {
-          width: 94rpx;
-          height: 94rpx;
-          background: #d8d8d8;
-          border-radius: 8rpx;
-        }
-      }
-
-      .myGetRceived_content-right {
-        view {
-          font-size: 28rpx;
-          color: #666666;
-          margin-bottom: 8rpx;
-        }
-
-        .myGetRceived_title {
-          width: 96rpx;
-          height: 44rpx;
-          font-size: 32rpx;
-          
-          color: #a4a4a4;
-          line-height: 44rpx;
-        }
-
-        .myGetRceived_id {
-          width: 358rpx;
-          height: 40rpx;
-          font-size: 28rpx;
-          
-          
-          color: #666666;
-          line-height: 40rpx;
-        }
-
-        .myGetRceived_data {
-          width: 228rpx;
-          height: 40rpx;
-          font-size: 28rpx;
-          
-          
-          color: #666666;
-          line-height: 40rpx;
-        }
-      }
-    }
-  }
+.item{
+  width: 690rpx;
+  margin: 30rpx auto 0;
 }
 </style>

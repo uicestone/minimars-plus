@@ -225,6 +225,11 @@
         "query": "slug=488-t&cover=https://cdn.mini-mars.com/uploads/d4e80b8cdbee261538876e4a1d12ee15886c2b8e.jpg" //启动参数，在页面的onLoad函数里面得到
       },
       {
+        "name": "购买礼品卡", //模式名称
+        "path": "pages/card/buy", //启动页面，必选
+        "query": "slug=1212&cover=https://cdn.mini-mars.com/uploads/cb5ab9f212b7b0a5909c6bc69b180c9e7b02b31c.png" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
         "name": "我的卡包", //模式名称
         "path": "pages/my/cards", //启动页面，必选
         "query": "" //启动参数，在页面的onLoad函数里面得到
@@ -232,6 +237,16 @@
       {
         "name": "我的", //模式名称
         "path": "pages/my/index", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "卡券收赠记录", //模式名称
+        "path": "pages/my/cardTransfers", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "MARS 活动", //模式名称
+        "path": "pages/booking/eventDetail", //启动页面，必选
         "query": "" //启动参数，在页面的onLoad函数里面得到
       }
     ]

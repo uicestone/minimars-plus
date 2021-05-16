@@ -2,7 +2,9 @@
   <view class="tabs">
     <view class="tab" :class="syncActiveIndex === index ? 'tab--active' : ''" v-for="(item, index) in tabs" :key="index" @click="selectTab(index)">
       <span>{{ item.name }}</span>
-      <view class="img-box tab__arrow" v-if="item.showArrow"><image src="../../static/images/components/tab_arrow.png" mode=""></image></view>
+      <view class="img-box tab__arrow" v-if="item.showArrow" :style="{ transform: 'rotate(' + towards[item.arrowTowards || 'right'] + 'deg)' }">
+        <image src="../../static/images/components/tab_arrow.png" mode=""></image>
+      </view>
     </view>
   </view>
 </template>
@@ -18,6 +20,7 @@ export default {
         {
           name: '标签',
           showArrow: true, // 显示右箭头
+          arrowTowards: 'right', // 箭头朝向
           customClick: true // 自定义点击效果
         }
       ]
@@ -25,6 +28,7 @@ export default {
   },
   data() {
     return {
+      towards: { top: -90, right: 0, bottom: 90, left: 180 },
       syncActiveIndex: 0
     };
   },
@@ -50,7 +54,9 @@ export default {
   border-top: 2rpx solid #f9f9f9;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
+  padding: 0 64rpx;
+  box-sizing: border-box;
 }
 
 .tab {
@@ -86,7 +92,6 @@ export default {
 .tab__arrow {
   width: 20rpx;
   height: 20rpx;
+  margin-left: 10rpx;
 }
 </style>
-
-<style></style>

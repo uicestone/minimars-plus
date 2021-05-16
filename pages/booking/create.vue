@@ -98,60 +98,51 @@ view.myOrder_box
         view.gift_contentBox_btn(@click="closeCardContent")
           | 信息确认 SUBMIT
 </template>
-      
-<script>
-import { sync } from "vuex-pathify";
-import moment from "moment"
 
-import customPopup from "../../components/custom-popup/popup"
-import customPicker from "../../components/custom-picker/picker"
-import customCalendar from "../../components/custom-calendar/calendar"
+<script>
+import { sync } from 'vuex-pathify';
+import moment from 'moment';
+
+import customPopup from '../../components/custom-popup/popup';
+import customPicker from '../../components/custom-picker/picker';
+import customCalendar from '../../components/custom-calendar/calendar';
 
 export default {
-  components:{
-    "custom-popup":customPopup,
-    "custom-picker":customPicker,
-    "custom-calendar":customCalendar
+  components: {
+    'custom-popup': customPopup,
+    'custom-picker': customPicker,
+    'custom-calendar': customCalendar
   },
   data() {
     return {
-      store: "",
+      store: '',
       index: 0,
       stores: [],
       price: 0,
-      adultsKidsValues: [
-        [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
-        [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
-      ],
-      date:[moment().format("YYYY-MM-DD")],
-      calendarDisplayMonth:moment().format("YYYY-MM-DD"),
+      adultsKidsValues: [[...Array(10).keys()].map(n => ({ label: n + 1, value: n + 1 })), [...Array(10).keys()].map(n => ({ label: n + 1, value: n + 1 }))],
+      date: [moment().format('YYYY-MM-DD')],
+      calendarDisplayMonth: moment().format('YYYY-MM-DD'),
       selectedCardIndex: -1,
       booking: {
-        type: "play",
-        store: " ", //门店ID
-        date: "", //到访时间
+        type: 'play',
+        store: ' ', //门店ID
+        date: '', //到访时间
         kidsCount: 1, //儿童人数
         adultsCount: 1, //成人人数
-        card: "", //礼品卡ID
+        card: '' //礼品卡ID
       },
       cards: [], //礼品卡
-      cardContent: "", //礼品卡使用说明
-      cardId: "",
+      cardContent: '', //礼品卡使用说明
+      cardId: ''
     };
   },
   computed: {
-    user: sync("auth/user"),
+    user: sync('auth/user'),
     adultsKidsText() {
-      return (
-        this.booking.kidsCount +
-        " 儿童" +
-        "，" +
-        this.booking.adultsCount +
-        " 成人"
-      );
+      return this.booking.kidsCount + ' 儿童' + '，' + this.booking.adultsCount + ' 成人';
     },
-    currentMonth(){
-      return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月")
+    currentMonth() {
+      return moment(this.calendarDisplayMonth).format('YYYY 年 MM 月');
     }
   },
   onLoad(option) {
@@ -159,7 +150,7 @@ export default {
       this.store = this.user.store.name;
       this.booking.store = this.store.id;
     } else {
-      this.store = "";
+      this.store = '';
     }
 
     if (option.date) {
@@ -176,7 +167,7 @@ export default {
   methods: {
     // 门店
     goStore() {
-      this.$axios.getRequest("/store").then((res) => {
+      this.$axios.getRequest('/store').then(res => {
         this.stores = res;
         this.store = res[0].name;
         this.booking.store = res[0].id;
@@ -184,7 +175,7 @@ export default {
     },
     // 获取门店ID
     getStore() {
-      this.stores.forEach((item) => {
+      this.stores.forEach(item => {
         if (item.name == this.store) {
           this.booking.store = item.id;
           this.getPrice();
@@ -193,7 +184,7 @@ export default {
     },
     // 卡片
     goCard() {
-      this.$axios.getRequest("/card").then((res) => {
+      this.$axios.getRequest('/card').then(res => {
         this.cards = res;
       });
     },
@@ -201,12 +192,12 @@ export default {
     goBuyCards() {
       this.goCard();
       uni.navigateTo({
-        url: "../card/index",
+        url: '../card/index'
       });
     },
     // 计算价格
     getPrice() {
-      this.$axios.postRequest("/booking-price", this.booking).then((res) => {
+      this.$axios.postRequest('/booking-price', this.booking).then(res => {
         this.price = res.price;
       });
     },
@@ -214,66 +205,66 @@ export default {
     // 订单支付
     async pay() {
       this.booking.date = this.date[0]; //时间
-      this.booking.type = "play";
+      this.booking.type = 'play';
       uni.showLoading();
-      const booking = await this.$axios.postRequest("/booking", this.booking);
+      const booking = await this.$axios.postRequest('/booking', this.booking);
       uni.hideLoading();
       if (booking.payments[0].payArgs) {
         //唤起微信支付
         uni.requestPayment({
-          provider: "wxpay",
+          provider: 'wxpay',
           timeStamp: booking.payments[0].payArgs.timeStamp,
           nonceStr: booking.payments[0].payArgs.nonceStr,
           package: booking.payments[0].payArgs.package,
-          signType: "MD5",
+          signType: 'MD5',
           paySign: booking.payments[0].payArgs.paySign,
-          success: function (res) {
-            console.log("success:" + JSON.stringify(res));
+          success: function(res) {
+            console.log('success:' + JSON.stringify(res));
             uni.showToast({
-              title: "预约成功",
-              duration: 2000,
+              title: '预约成功',
+              duration: 2000
             });
-            uni.redirectTo({ url: "../my/bookings" });
+            uni.redirectTo({ url: '../my/bookings' });
           },
-          fail: function (err) {
-            console.log("fail:" + JSON.stringify(err));
-          },
+          fail: function(err) {
+            console.log('fail:' + JSON.stringify(err));
+          }
         });
       } else {
         this.goOrder(); //跳转订单
         uni.showToast({
-          title: "预约成功",
-          duration: 2000,
+          title: '预约成功',
+          duration: 2000
         });
       }
     },
     // 跳转订单页面
     goOrder() {
       uni.redirectTo({
-        url: "../my/bookings?active=1",
+        url: '../my/bookings?active=1'
       });
     },
-    
+
     // 显示日历弹窗
-    showCalendarPop(){
-       this.$refs.calendarPop.open()
+    showCalendarPop() {
+      this.$refs.calendarPop.open();
     },
-    
+
     // 选择月份
-    changeMonth(n){
-       this.$refs.calendar.addMonth(n)
+    changeMonth(n) {
+      this.$refs.calendar.addMonth(n);
     },
-    
+
     //日历
     goCalendar() {
       uni.navigateTo({
-        url: "./calendar",
+        url: './calendar'
       });
     },
-    
+
     // 显示门店弹窗
-    showShopPop(){
-      this.$refs.shopPop.open()
+    showShopPop() {
+      this.$refs.shopPop.open();
     },
 
     selectStore(e) {
@@ -282,12 +273,12 @@ export default {
       this.goCard();
       this.getPrice();
     },
-    
+
     // 显示人数弹窗
-    showPeoplePop(){
-        this.$refs.peoplePop.open()
+    showPeoplePop() {
+      this.$refs.peoplePop.open();
     },
-    
+
     selectAdultsKidsCount(e) {
       this.booking.kidsCount = +e.value[0].label;
       this.booking.adultsCount = +e.value[1].label;
@@ -319,15 +310,17 @@ export default {
     },
     closeCardContent() {
       this.$refs.cardContentPopup.close();
-    },
-  },
+    }
+  }
 };
 </script>
 
 <style lang="less" scoped>
-.myOrder_box {
+page {
   background-color: #f8f8f8;
-  // min-height: 1100rpx;
+}
+
+.myOrder_box {
 
   // 门店选择
   .myOrder_top {
@@ -380,7 +373,7 @@ export default {
           justify-content: space-between;
           margin-top: 15rpx;
           font-size: var(--theme--font-size-m);
-          color:var(--theme--font-main-color);
+          color: var(--theme--font-main-color);
 
           input {
             margin-left: 30rpx;
@@ -410,9 +403,6 @@ export default {
 
   // 更多优惠
   .modeOf_Payment {
-    // border: 1px solid red;
-    min-height: 620rpx;
-
     .modeOf_Payment_title {
       width: 690rpx;
       margin: 0 auto;
@@ -421,8 +411,8 @@ export default {
       margin-bottom: 20rpx;
       display: flex;
       align-items: center;
-      
-      .img-box{
+
+      .img-box {
         width: 32rpx;
         height: 26rpx;
         margin-left: 50rpx;
@@ -430,7 +420,6 @@ export default {
       }
     }
 
-      
     .modeOf_Payment_scroll {
       overflow-x: scroll;
       white-space: nowrap;
@@ -440,8 +429,8 @@ export default {
         vertical-align: top;
         margin-right: 38rpx;
         opacity: 1;
-        
-        &:first-child{
+
+        &:first-child {
           margin-left: 38rpx;
         }
 
@@ -452,14 +441,14 @@ export default {
           position: relative;
           background-color: var(--theme--bg-main-color);
         }
-        
-        .payment-box__img--add{
+
+        .payment-box__img--add {
           width: 68rpx;
           height: 68rpx;
           position: absolute;
           left: 50%;
           top: 50%;
-          transform: translate(-50%,-50%);
+          transform: translate(-50%, -50%);
         }
 
         .selected {
@@ -481,8 +470,8 @@ export default {
           font-size: var(--theme--font-size-s);
           color: var(--theme--font-main-color);
           margin: 10rpx 0;
-          
-          .payment-box__price{
+
+          .payment-box__price {
             font-size: var(--theme--font-size-m);
             line-height: 42rpx;
           }
@@ -503,7 +492,7 @@ export default {
       font-size: var(--theme--font-size-m);
 
       .pay-bar__text {
-        color:var(--theme--font-main-color);
+        color: var(--theme--font-main-color);
         margin-left: 40rpx;
       }
 
@@ -520,99 +509,101 @@ export default {
 }
 
 .gift_box {
-    width: 600rpx;
-    height: 940rpx;
-    background: #ffffff;
-    border-radius: var(--theme--border-radius);
+  width: 600rpx;
+  height: 940rpx;
+  background: #ffffff;
+  border-radius: var(--theme--border-radius);
 
-    .gift_box_clear {
-      padding-top: 30rpx;
-      width: 540rpx;
-      margin: 0 auto;
-      display: flex;
-      justify-content: space-between;
+  .gift_box_clear {
+    padding-top: 30rpx;
+    width: 540rpx;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
 
-      .gift_box_clear_left {
-        width: 40rpx;
-        height: 40rpx;
-      }
-
-      .gift_box_clear_right {
-        width: 40rpx;
-        height: 40rpx;
-      }
+    .gift_box_clear_left {
+      width: 40rpx;
+      height: 40rpx;
     }
 
-    .gift_contentBox {
-      width: 600rpx;
-      margin: 0 auto;
-      text-align: center;
-
-      .gift_contentBox_title {
-        width: 220rpx;
-        line-height: 42rpx;
-        margin: 0 auto 20rpx;
-      }
-
-      .gift_contentBox_box {
-        width: 570rpx;
-        height: 690rpx;
-        margin: 0 auto;
-
-        .gift_contentBox_boxContent {
-          text-align: left;
-        }
-      }
-
-      .gift_contentBox_btn {
-        height: 102rpx;
-        line-height: 102rpx;
-        padding: 0 62rpx;
-        background: var(--theme--main-color);
-        border-radius: var(--theme--border-radius);
-        display: inline-block;
-        white-space: nowrap;
-      }
+    .gift_box_clear_right {
+      width: 40rpx;
+      height: 40rpx;
     }
   }
+
+  .gift_contentBox {
+    width: 600rpx;
+    margin: 0 auto;
+    text-align: center;
+
+    .gift_contentBox_title {
+      width: 220rpx;
+      line-height: 42rpx;
+      margin: 0 auto 20rpx;
+    }
+
+    .gift_contentBox_box {
+      width: 570rpx;
+      height: 690rpx;
+      margin: 0 auto;
+
+      .gift_contentBox_boxContent {
+        text-align: left;
+      }
+    }
+
+    .gift_contentBox_btn {
+      height: 102rpx;
+      line-height: 102rpx;
+      padding: 0 62rpx;
+      background: var(--theme--main-color);
+      border-radius: var(--theme--border-radius);
+      display: inline-block;
+      white-space: nowrap;
+    }
+  }
+}
 </style>
 
 <style scoped>
-.pop-header,.pop-header,.pop-header{
+.pop-header,
+.pop-header,
+.pop-header {
   font-size: var(--theme--font-size-normal);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
 }
 
-.people-pop__title{
-  flex:1;
-  text-align:center;
+.people-pop__title {
+  flex: 1;
+  text-align: center;
 }
 
-.people-pop__title+.people-pop__title{
-  border-left:2rpx solid #6f8f7d
+.people-pop__title + .people-pop__title {
+  border-left: 2rpx solid #6f8f7d;
 }
 
-.calendar__body{
-  padding:0 80rpx 25rpx;
-  box-sizing:border-box;
+.calendar__body {
+  padding: 0 80rpx 25rpx;
+  box-sizing: border-box;
 }
 
-.pop-header__arrow{
-  width:20rpx;
-  height:20rpx;
-  background:url("../../static/images/booking/calendar_arrow.png") no-repeat center;
-  background-size:contain;
+.pop-header__arrow {
+  width: 20rpx;
+  height: 20rpx;
+  background: url('../../static/images/booking/calendar_arrow.png') no-repeat center;
+  background-size: contain;
 }
 
-.pop-header__arrow--left{
+.pop-header__arrow--left {
   transform: rotate(-90deg);
   margin-right: 40rpx;
 }
 
-.pop-header__arrow--right{
+.pop-header__arrow--right {
   transform: rotate(90deg);
   margin-left: 40rpx;
 }

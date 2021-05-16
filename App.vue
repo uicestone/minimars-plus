@@ -55,6 +55,7 @@ page{
   --theme--font-weight-light:300;
   --theme--font-weight-medium:500;
   --theme--border-radius:20rpx;
+  --theme--box-shadow:4rpx 4rpx 6rpx 4rpx rgba(0, 0, 0, 0.1);
 }  
   
 * {

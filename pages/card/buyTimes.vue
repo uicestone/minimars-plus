@@ -5,8 +5,8 @@ view.buycards_box
       img(:src="cover", mode="aspectFill")
       view.cards_box
         view.cards_box-left
-          | ¥{{ cardType.price }}
-          view.cards_box_left-title {{ cardType.title }}
+          | {{ cardType.title }}
+          view.cards_box_left-title rmb {{ cardType.price }}
         view.cards_box-right(v-if="buyMultiple")
           view.img-box.minus.cover-mask--small
             img(src="../../static/images/minus.png", @click="()=>{if(number>1)number--}")
@@ -135,17 +135,18 @@ export default {
       .cards_box {
         display: flex;
         justify-content: space-between;
+        margin-top: 50rpx;
 
         .cards_box-left {
-          width: 108rpx;
           font-size: var(--theme--font-size-s);
-          margin-top: 48rpx;
+          font-weight: var(--theme--font-weight-light);
           line-height: 42rpx;
 
           .cards_box_left-title {
             width: 320rpx;
             height: 40rpx;
             font-size: var(--theme--font-size-m);
+            font-weight: var(--theme--font-weight-medium);
           }
         }
 

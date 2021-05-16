@@ -69,10 +69,10 @@ export default {
   methods: {
     selectTab(e) {
       console.log(e);
-      if(e.item.id===3){
+      if (e.item.id === 3) {
         wx.navigateTo({
-          url:"/pages/card/index"
-        })
+          url: '/pages/card/index'
+        });
       }
     },
     gouseCade() {
