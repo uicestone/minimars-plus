@@ -1,27 +1,19 @@
 <template lang="pug">
-view.mysigninbox
-  view.my_signin_top
-  view.my_signin_content_box
-    view.my_signin_content
-      view.my_signin_daybox
-        view.my_signin_day(v-for="(item, index) in signinImg", :key="index")
-          view.my_signin_day_title {{ item.name }}
-          view.my_signin_day_content
-            //
-              <view v-for="(i,j) in signinImg" :key="j">
-              <image :src="i" class="signin_day" />
-              </view>
-            img.signin_day(:src="item.img")
-        view.my_signin_day.my_signin_dayseve
-          view.my_signin_day_title.my_signin_dayseve_title 第七天
-          view.my_signin_day_content.my_signin_dayseve_content
-            img.signin_dayseveimg(
-              src="../../static/images/my/my_signin_Seven.png"
-            )
-      // 签到
-      view.sigb_box
-        view.sigb_box_btn 今日签到
-        view.sigb_box_detail ？签到说明
+view
+  swiper.banner(autoplay,loop)
+    swiper-item(v-for="(item,index) in swiperImg",:key="index")
+      view.banner__img.img-box
+        img(:src="item")
+  
+  view.container
+    view.list
+      view.item(v-for="(item,index) in signinImg",:key="index")
+        view.item__name {{item.name}}
+        view.img-box.item__img
+          img
+    view.btn 今日签到 SIGN IN NOW
+    
+  view.intro 签到说明
 </template>
 
 <script>
@@ -30,140 +22,117 @@ export default {
     return {
       signinImg: [
         {
-          name: "第一天",
-          img: "../../static/images/my/my_signin_one.png",
+          name: '第一天',
+          img: '../../static/images/my/my_signin_one.png'
         },
         {
-          name: "第二天",
-          img: "../../static/images/my/my_signin_Two.png",
+          name: '第二天',
+          img: '../../static/images/my/my_signin_Two.png'
         },
         {
-          name: "第三天",
-          img: "../../static/images/my/my_signin_three.png",
+          name: '第三天',
+          img: '../../static/images/my/my_signin_three.png'
         },
         {
-          name: "第四天",
-          img: "../../static/images/my/my_signin_Four.png",
+          name: '第四天',
+          img: '../../static/images/my/my_signin_Four.png'
         },
         {
-          name: "第五天",
-          img: "../../static/images/my/my_signin_Five.png",
+          name: '第五天',
+          img: '../../static/images/my/my_signin_Five.png'
         },
         {
-          name: "第六天",
-          img: "../../static/images/my/my_signin_Six.png",
+          name: '第六天',
+          img: '../../static/images/my/my_signin_Six.png'
         },
-      ],
+        {
+          name: '第七天',
+          img: '../../static/images/my/my_signin_Six.png'
+        }
+      ]
     };
   },
-  methods: {},
+  methods: {}
 };
 </script>
 
-<style lang="less">
-.mysigninbox {
-  width: 750rpx;
-  min-height: 100vh;
-  background: #f8f8f8;
+<style lang="less" scoped>
+.banner {
+  width: 100%;
+  height: 424rpx;
+  background-color: var(--theme--bg-main-color);
+}
 
-  .my_signin_top {
-    margin-top: 25rpx;
-    width: 750rpx;
-    height: 392rpx;
-    background: #ededed;
-  }
+.banner__img {
+  width: 100%;
+  height: 100%;
+}
 
-  .my_signin_content_box {
-    .my_signin_content {
-      width: 600rpx;
-      margin: 85rpx auto;
-      min-height: 600rpx;
+.container {
+  position: absolute;
+  top: 380rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
 
-      .my_signin_daybox {
-        display: flex;
-        flex-wrap: wrap;
+.list {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+}
 
-        .my_signin_day {
-          margin: 10rpx;
-          width: 128rpx;
-          height: 174rpx;
-          background: #ffffff;
-          border-radius: 16rpx;
+.item {
+  border-radius: var(--theme--border-radius);
+  box-shadow: var(--theme--box-shadow);
+  background-color: white;
+  color: var(--theme--font-main-color);
+  padding: 36rpx;
+  margin-left: 28rpx;
+}
 
-          .my_signin_day_title {
-            text-align: center;
-            margin: 5rpx auto;
-            width: 128rpx;
-            height: 62rpx;
-            background: #9fcdff;
-            border-radius: 16rpx 16rpx 0rpx 0rpx;
-            font-size: 22rpx;
-            
-            color: #ffffff;
-            line-height: 62rpx;
-          }
+.item:nth-of-type(n + 5) {
+  margin-top: 40rpx;
+}
 
-          .my_signin_day_content {
-            width: 46rpx;
-            height: 46rpx;
-            margin: 30rpx auto;
-            background: #d8d8d8;
+.item:nth-of-type(4n + 1) {
+  margin-left: 0;
+}
 
-            .signin_day {
-              width: 46rpx;
-              height: 46rpx;
-            }
-          }
-        }
+.item__name {
+  font-size: var(--theme--font-size-s);
+  text-align: center;
+  padding-bottom: 34rpx;
+  border-bottom: 2rpx solid var(--theme--bg-main-color);
+}
 
-        .my_signin_dayseve {
-          width: 276rpx;
-          height: 174rpx;
+.item__img {
+  width: 78rpx;
+  height: 78rpx;
+  background-color: var(--theme--bg-main-color);
+  margin-top: 28rpx;
+}
 
-          .my_signin_dayseve_title {
-            width: 276rpx;
-          }
+.btn {
+  width: 594rpx;
+  height: 102rpx;
+  border-radius: var(--theme--border-radius);
+  background-color: var(--theme--main-color);
+  line-height: 102rpx;
+  font-size: var(--theme--font-size-m);
+  text-align: center;
+  margin: 42rpx auto 0;
+}
 
-          .my_signin_dayseve_content {
-            width: 100rpx;
-            height: 100rpx;
-            background: #d8d8d8;
-            margin: 5rpx 0rpx 5rpx 160rpx;
-
-            .signin_dayseveimg {
-              width: 100rpx;
-              height: 100rpx;
-            }
-          }
-        }
-      }
-
-      // 签到
-      .sigb_box {
-        margin-top: 20rpx;
-
-        .sigb_box_btn {
-          width: 382rpx;
-          height: 102rpx;
-          background: #ededed;
-          border-radius: 51rpx;
-          text-align: center;
-          line-height: 102rpx;
-          margin: 0 auto;
-        }
-
-        .sigb_box_detail {
-          width: 110rpx;
-          height: 32rpx;
-          font-size: 22rpx;
-          
-          
-          color: #0d0d0d;
-          line-height: 32rpx;
-          margin: 10rpx auto;
-        }
-      }
-    }
-  }
+.intro {
+  position: absolute;
+  bottom: 24rpx;
+  font-size: var(--theme--font-size-s);
+  color: var(--theme--font-deputy-color);
+  left: 50%;
+  transform: translateX(-50%);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 </style>

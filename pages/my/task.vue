@@ -1,62 +1,42 @@
 <template lang="pug">
-view.myTaskBox
-  view.banner
-    swiper.swiper(
-      :autoplay="swiperAutoplay",
-      :interval="3000",
-      :duration="1000",
-      :current="swiperCurrent",
-      indicator-dots="true",
-      circular="true",
-      indicator-color="#B9B9B9",
-      indicator-active-color="#9B9B9B"
-    )
-      swiper-item(v-for="item in swiperImg", :key="item.id")
-        img.swiper_item(:src="item", mode="aspectFill")
-  // 每日任务
-  view.myTask_Boxactive
-    view.myTask_Boxactive_title 每日任务
-    view.myTask_Boxactive_content
-      img.Boxactive_content_left(src="../../static/images/my/my_qiandao.png")
-      view.Boxactive_content_right
-        view.Boxactive_content_rightBox
-          view.Boxactive_content_rightBox_left
-            view.Boxactive_content_rightBox_leftTitle
-              | 每日签到
-              view
-                | 积分
-                span +5
-            view.Boxactive_content_rightBox_leftdetail 打卡签到获得惊喜积分
-          view.Boxactive_content_rightBox_right(@click="goSignIn") 去签到
-  // 每周任务
-  view.myTask_weeklybox
-    view.myTask_Boxactive.weekly
-      view.myTask_Boxactive_title.weekly_title 每周任务
-      view.myTask_Boxactive_content
-        img.Boxactive_content_left(src="../../static/images/my/my_jingli.png")
-        view.Boxactive_content_right
-          view.Boxactive_content_rightBox
-            view.Boxactive_content_rightBox_left
-              view.Boxactive_content_rightBox_leftTitle 订单奖励
-              view.Boxactive_content_rightBox_leftdetail 会员全渠道消费
-            view.Boxactive_content_rightBox_right 领任务
-    view.myTask_Boxactive.weekly.weeklyHeight
-      //
-        <view class="myTask_Boxactive_title">
-        每周任务
-        </view>
-      view.myTask_Boxactive_content
-        img.Boxactive_content_left(src="../../static/images/my/my_liulan.png")
-        view.Boxactive_content_right
-          view.Boxactive_content_rightBox
-            view.Boxactive_content_rightBox_left
-              view.Boxactive_content_rightBox_leftTitle
-                | 活动浏览
-                view
-                  | 积分
-                  span +10
-              view.Boxactive_content_rightBox_leftdetail 浏览活动页面获得积分奖励
-            view.Boxactive_content_rightBox_right 去浏览
+view
+  swiper.banner(autoplay,loop)
+    swiper-item(v-for="(item,index) in swiperImg",:key="index")
+      view.banner__img.img-box
+        img(:src="item")
+  
+  view.task-container
+    view.card
+      view.card-title
+        view 每日任务
+        view 积分
+          span.card-title__score +5
+      view.task-list
+        view.task
+          view.img-box.task__img
+            img
+          view.task-content
+            view.task-content__name 每日签到
+            view.task-content__condition 打卡签到获得惊喜积分+5
+          view.task__btn 去签到
+    view.card
+      view.card-title
+        view 每周任务
+      view.task-list
+        view.task
+          view.img-box.task__img
+            img
+          view.task-content
+            view.task-content__name 订单奖励
+            view.task-content__condition 会员全渠道消费
+          view.task__btn 领任务
+        view.task
+          view.img-box.task__img
+            img
+          view.task-content
+            view.task-content__name 活动浏览
+            view.task-content__condition 浏览活动页面获得积分奖励+10
+          view.task__btn 去浏览
 </template>
 
 <script>
@@ -67,16 +47,16 @@ export default {
   data() {
     return {
       swiperImg: [
-        "../../static/images/223.jpg",
-        "../../static/images/224.jpg",
-        "../../static/images/223.jpg",
-        "../../static/images/223.jpg",
-        "../../static/images/224.jpg",
-        "../../static/images/223.jpg",
+        '../../static/images/223.jpg',
+        '../../static/images/224.jpg',
+        '../../static/images/223.jpg',
+        '../../static/images/223.jpg',
+        '../../static/images/224.jpg',
+        '../../static/images/223.jpg'
       ],
       current: 0,
       swiperCurrent: 0,
-      swiperAutoplay: true,
+      swiperAutoplay: true
     };
   },
   methods: {
@@ -85,168 +65,99 @@ export default {
     },
     goSignIn() {
       uni.navigateTo({
-        url: "/pages/my/mySignIn",
+        url: '/pages/my/mySignIn'
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less">
-.myTaskBox {
-  background: #f8f8f8;
-  min-height: 100vh;
+<style lang="less" scoped>
+.banner {
+  width: 100%;
+  height: 424rpx;
+  background-color: var(--theme--bg-main-color);
+}
 
-  // 轮播
-  .banner {
-    width: 720rpx;
-    height: 304rpx;
-    border-radius: 24rpx;
-    margin: 0 auto;
-    // margin-top: 20rpx;
-    padding-top: 10rpx;
+.banner__img {
+  width: 100%;
+  height: 100%;
+}
 
-    .swiper {
-      height: 304rpx;
-      border-radius: 24rpx;
+.task-container {
+  position: absolute;
+  top: 380rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 690rpx;
+}
 
-      .swiper_item {
-        width: 720rpx;
-        height: 304rpx;
-        border-radius: 24rpx;
+.card {
+  box-shadow: var(--theme--box-shadow);
+  border-radius: var(--theme--border-radius);
+  background-color: white;
+  padding: 0 44rpx;
+}
 
-        img {
-          width: 720rpx;
-          height: 304rpx;
-          // border-radius: 24rpx;
-        }
+.card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 88rpx;
+  font-size: var(--theme--font-size-s);
+}
 
-        span {
-          
-        }
-      }
-    }
-  }
+.card-title__score {
+  color: var(--theme--main-color);
+}
 
-  // 每日任务
-  .myTask_Boxactive {
-    background-color: #007aff;
-    margin: 25rpx auto;
-    width: 720rpx;
-    height: 262rpx;
-    background: #ffffff;
-    box-shadow: 0rpx 4rpx 10rpx 4rpx rgba(218, 218, 218, 0.5);
-    border-radius: 24rpx;
+.task {
+  display: flex;
+  border-top: 2rpx solid #dde0e1;
+  padding: 26rpx 0 40rpx;
+}
 
-    .myTask_Boxactive_title {
-      padding: 25rpx;
-      width: 120rpx;
-      height: 42rpx;
-      font-size: 30rpx;
-      
-      color: #0d0d0d;
-      line-height: 42rpx;
-    }
+.task__img {
+  width: 40rpx;
+  height: 40rpx;
+  background-color: var(--theme--bg-main-color);
+}
 
-    .myTask_Boxactive_content {
-      width: 670rpx;
-      margin: 0 auto;
-      display: flex;
+.task-content {
+  flex-grow: 1;
+  width: 50%;
+  margin-left: 20rpx;
+  color: var(--theme--font-main-color);
+}
 
-      .Boxactive_content_left {
-        width: 46rpx;
-        height: 46rpx;
-        margin-top: 20rpx;
-      }
+.task-content__name {
+  font-size: var(--theme--font-size-m);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-      .Boxactive_content_right {
-        margin-top: 8rpx;
+.task-content__condition {
+  font-size: var(--theme--font-size-s);
+  margin-top: 20rpx;
+  font-weight: var(--theme--font-weight-light);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 
-        .Boxactive_content_rightBox {
-          margin-left: 20rpx;
-          width: 600rpx;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
+.task__btn {
+  align-self: center;
+  border-radius: var(--theme--border-radius);
+  background-color: var(--theme--main-color);
+  height: 46rpx;
+  line-height: 46rpx;
+  font-size: var(--theme--font-size-s);
+  padding: 0 24rpx;
+  margin-left: 20rpx;
+}
 
-          .Boxactive_content_rightBox_left {
-            .Boxactive_content_rightBox_leftTitle {
-              width: 275rpx;
-              height: 42rpx;
-              font-size: 30rpx;
-              
-              color: #0d0d0d;
-              line-height: 42rpx;
-              display: flex;
-              justify-content: space-between;
-
-              view {
-                width: 100rpx;
-                height: 32rpx;
-                font-size: 22rpx;
-                
-                
-                color: #0d0d0d;
-                line-height: 55rpx;
-
-                span {
-                  color: #9fcdff;
-                }
-              }
-            }
-
-            .Boxactive_content_rightBox_leftdetail {
-              width: 290rpx;
-              height: 32rpx;
-              font-size: 22rpx;
-              
-              
-              color: #ababab;
-              line-height: 32rpx;
-            }
-          }
-
-          .Boxactive_content_rightBox_right {
-            width: 144rpx;
-            height: 60rpx;
-            background: #9fcdff;
-            border-radius: 50rpx;
-            text-align: center;
-            line-height: 60rpx;
-            font-size: 26rpx;
-            
-            
-            color: #ffffff;
-          }
-        }
-      }
-    }
-  }
-
-  // 每周任务
-  .myTask_weeklybox {
-    width: 720rpx;
-    height: 450rpx;
-    background: #ffffff;
-    box-shadow: 0rpx 4rpx 10rpx 4rpx rgba(211, 211, 211, 0.5);
-    border-radius: 24rpx;
-    margin: 5rpx auto;
-
-    .weekly {
-      margin: 0rpx auto;
-      padding: 10px 0;
-      border-radius: 10rpx 10rpx 0rpx 0rpx;
-      height: 180rpx;
-      border-bottom: 1rpx solid #f7f7f7;
-
-      .weekly_title {
-      }
-    }
-
-    .weeklyHeight {
-      height: 80rpx;
-      box-shadow: 0rpx 0rpx 0rpx 0rpx;
-    }
-  }
+.card + .card {
+  margin-top: 30rpx;
 }
 </style>

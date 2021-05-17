@@ -52,24 +52,38 @@ view.my_box
   view.my_vip_content
     view.my_vip_content_box
       view.my_vip_content_namebox(@click="goVipCode")
+        view.menu__img.img-box
+          img
         span 会员码
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox(@click="goOrderList()")
+        view.menu__img.img-box
+          img
         span 我的订单
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox
+        view.menu__img.img-box
+          img
         span 消费历史
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox
+        view.menu__img.img-box
+          img
         span 积分兑换
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox
+        view.menu__img.img-box
+          img
         span 卡券兑换
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox(@click="goCover")
+        view.menu__img.img-box
+          img
         span MARS封面
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox(@click="goMore")
+        view.menu__img.img-box
+          img
         span 更多
         img(src="../../static/images/111.png")
 </template>
@@ -196,7 +210,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .my_box {
   background-color: #f8f8f8;
 
@@ -432,6 +446,8 @@ export default {
           height: 40rpx;
           font-size: var(--theme--font-size-s);
           line-height: 40rpx;
+          flex-grow:1;
+          margin-left: 20rpx;
         }
 
         image {
@@ -538,5 +554,11 @@ export default {
       }
     }
   }
+}
+
+.menu__img{
+  width: 40rpx;
+  height: 40rpx;
+  background-color: var(--theme--bg-main-color);
 }
 </style>

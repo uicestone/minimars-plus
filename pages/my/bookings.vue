@@ -1,21 +1,8 @@
 <template lang="pug">
 .orderLlist
-  div(
-    style='\
-  width: 100%;\
-  display: flex;\
-  justify-content: center;\
-  flex-wrap: wrap;\
-  '
-  )
+  div
+    custom-tabs(:tabs="tabs",:activeIndex.sync="active")
     div(style="width: 100%")
-      tabs(
-        :list="tabsList",
-        linecolor="#4A5BED",
-        itemcolor="#405BE6",
-        v-model="active",
-        @input="tabsChange"
-      )
     // 已点餐
     view.one(v-show="list1 == 0")
       view.haveOrder_box(v-if="QRCodeHide")
@@ -23,9 +10,12 @@
         view.haveOrder_scan_box
           view.haveOrder_scan
             view.haveOrder_scan-code
-            view.haveOrder_scan_content 您还没有点餐 快去点点东西吧
+            view.haveOrder_scan_content 
+              | 您还没有点餐
+              br
+              | 快去点点东西吧
             view.haveOrder_scan_btn
-              span 去点单
+              | 去点单 ORDER 
       view.accomplish_border(v-if="QRCodeHide == false")
         view.accomplish_box(v-for="(i, t) in ReservedOrders", :key="t")
           view.accomplish_top
@@ -159,34 +149,50 @@
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import tabs from "@/components/tabs/tabs.vue";
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import tabs from '@/components/tabs/tabs.vue';
+import cutomsTabs from '../../components/custom-tabs/tabs.vue';
 export default {
   components: {
     tabs,
     uniPopup,
+    'custom-tabs': cutomsTabs
   },
   data() {
     return {
+      tabs: [
+        {
+          name: '已点餐'
+        },
+        {
+          name: '已预约'
+        },
+        {
+          name: '已完成'
+        },
+        {
+          name: '已取消'
+        }
+      ],
       orderlists: [],
       list1: 0,
       tabsList: [
         {
-          title: "已点餐",
+          title: '已点餐'
         },
         {
-          title: "已预约",
+          title: '已预约'
         },
         {
-          title: "已完成",
+          title: '已完成'
         },
         {
-          title: "已取消",
-        },
+          title: '已取消'
+        }
       ],
       active: 0,
       ReservedOrders: [], //已取消   已完成  已预约
-      QRCodeHide: true, //点餐二维码显示隐藏
+      QRCodeHide: true //点餐二维码显示隐藏
     };
   },
   onLoad(option) {
@@ -194,27 +200,27 @@ export default {
       this.active = 1;
       this.list1 = 1;
     }
-    this.getdetail("food");
+    this.getdetail('food');
     this.list1 = 0;
   },
   methods: {
     tabsChange(e) {
       if (this.active == 0) {
-        console.log("已点餐");
-        this.getdetail("food");
+        console.log('已点餐');
+        this.getdetail('food');
         this.list1 = 0;
       } else if (this.active == 1) {
-        this.getdetail("play", "booked"); //已预约this
+        this.getdetail('play', 'booked'); //已预约this
         this.list1 = 1;
-        console.log("已预约");
+        console.log('已预约');
       } else if (this.active == 2) {
-        this.getdetail("play", "finishedd"); //已完成
+        this.getdetail('play', 'finishedd'); //已完成
         this.list1 = 2;
-        console.log("已完成");
+        console.log('已完成');
       } else if (this.active == 3) {
-        this.getdetail("play", "canceled"); //已取消
+        this.getdetail('play', 'canceled'); //已取消
         this.list1 = 3;
-        console.log("已取消");
+        console.log('已取消');
       }
     },
     open() {
@@ -228,47 +234,47 @@ export default {
       if (status) {
         info = {
           type,
-          status,
+          status
         };
       } else {
         info = {
-          type,
+          type
         };
       }
-      this.$axios.getRequest("/booking", info).then((res) => {
+      this.$axios.getRequest('/booking', info).then(res => {
         this.ReservedOrders = res; //获取订单列表
         //判断数组是否有长度
         if (this.ReservedOrders.length) {
           this.QRCodeHide = false;
-          console.log("数组有长度，二维码隐藏");
+          console.log('数组有长度，二维码隐藏');
         } else {
           this.QRCodeHide = true;
-          console.log("数组为空，二维码显示");
+          console.log('数组为空，二维码显示');
         }
 
         // console.log(this.ReservedOrders,"this.ReservedOrders")
         res.forEach((r, index) => {
-          if (r.status == "pending") {
-            r.status = "待付款";
-          } else if (r.status == "booked") {
-            r.status = "已确认";
-          } else if (r.status == "in_service") {
-            r.status = "已入场";
-          } else if (r.status == "pending_refund") {
-            r.status = "待撤销";
-          } else if (r.status == "finished") {
-            r.status = "已完成";
-          } else if (r.status == "canceled") {
-            r.status = "已取消";
+          if (r.status == 'pending') {
+            r.status = '待付款';
+          } else if (r.status == 'booked') {
+            r.status = '已确认';
+          } else if (r.status == 'in_service') {
+            r.status = '已入场';
+          } else if (r.status == 'pending_refund') {
+            r.status = '待撤销';
+          } else if (r.status == 'finished') {
+            r.status = '已完成';
+          } else if (r.status == 'canceled') {
+            r.status = '已取消';
           }
         });
       });
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .orderLlist {
   width: 750rpx;
   min-height: 100vh;
@@ -285,39 +291,27 @@ export default {
           width: 300rpx;
           height: 300rpx;
           margin: 0 auto;
-          background: #efefef;
-          margin-bottom: 30rpx;
+          background: var(--theme--bg-main-color);
+          border-radius: var(--theme--border-radius);
         }
 
         .haveOrder_scan_content {
           width: 168rpx;
           height: 68rpx;
-          font-size: 24rpx;
-          
-          
-          color: #666666;
-          line-height: 34rpx;
-          margin: 0 auto;
+          font-size: var(--theme--font-size-s);
+          line-height: 42rpx;
+          margin: 52rpx auto 0;
         }
 
         .haveOrder_scan_btn {
-          width: 276rpx;
+          width: 322rpx;
           height: 114rpx;
-          background: #9fcdff;
-          box-shadow: 0rpx 4rpx 4rpx 2rpx rgba(0, 0, 0, 0.05);
-          border-radius: 57rpx;
+          background: var(--theme--main-color);
+          border-radius: var(--theme--border-radius);
           margin: 0 auto;
-          margin-top: 50rpx;
-
-          span {
-            width: 108rpx;
-            height: 50rpx;
-            font-size: 36rpx;
-           
-            
-            color: #ffffff;
-            line-height: 100rpx;
-          }
+          margin-top: 86rpx;
+          font-size: var(--theme--font-size-m);
+          line-height: 114rpx;
         }
       }
     }
@@ -344,14 +338,13 @@ export default {
             .accomplish_top_title {
               .accomplish_top_titlename {
                 font-size: 30rpx;
-                
+
                 color: #222222;
               }
 
               span {
                 font-size: 20rpx;
-                
-                
+
                 color: #666666;
               }
             }
@@ -360,8 +353,7 @@ export default {
               width: 128rpx;
               height: 36rpx;
               font-size: 26rpx;
-              
-              
+
               color: #666666;
               line-height: 125rpx;
 
@@ -413,8 +405,7 @@ export default {
               width: 72rpx;
               height: 34rpx;
               font-size: 24rpx;
-              
-              
+
               color: #666666;
               line-height: 34rpx;
             }
@@ -423,7 +414,7 @@ export default {
               width: 114rpx;
               height: 48rpx;
               font-size: 22rpx;
-              
+
               color: #222222;
               line-height: 32rpx;
 
@@ -454,8 +445,7 @@ export default {
       view {
         height: 44rpx;
         font-size: 32rpx;
-        
-        
+
         color: #666666;
         line-height: 44rpx;
       }
@@ -464,7 +454,7 @@ export default {
     .appointment_box_name {
       height: 84rpx;
       font-size: 30rpx;
-      
+
       color: #222222;
       line-height: 42rpx;
 
@@ -497,7 +487,7 @@ export default {
           width: 150rpx;
           height: 42rpx;
           font-size: 30rpx;
-          
+
           color: #222222;
           line-height: 42rpx;
         }
@@ -511,7 +501,7 @@ export default {
           width: 162rpx;
           height: 42rpx;
           font-size: 30rpx;
-          
+
           color: #0d0d0d;
           line-height: 42rpx;
         }
@@ -546,8 +536,7 @@ export default {
                 width: 90rpx;
                 height: 42rpx;
                 font-size: 30rpx;
-                
-                
+
                 color: #0d0d0d;
                 line-height: 42rpx;
               }
@@ -556,7 +545,7 @@ export default {
                 width: 40rpx;
                 height: 42rpx;
                 font-size: 26rpx;
-                
+
                 color: #999999;
                 line-height: 75rpx;
               }
@@ -565,7 +554,7 @@ export default {
             .listdetail_box_content_titlebox_right {
               height: 42rpx;
               font-size: 30rpx;
-              
+
               color: #0d0d0d;
               line-height: 42rpx;
             }
@@ -594,14 +583,13 @@ export default {
           .accomplish_top_title {
             .accomplish_top_titlename {
               font-size: 30rpx;
-              
+
               color: #222222;
             }
 
             span {
               font-size: 20rpx;
-              
-              
+
               color: #666666;
             }
           }
@@ -610,8 +598,7 @@ export default {
             width: 128rpx;
             height: 36rpx;
             font-size: 26rpx;
-            
-            
+
             color: #666666;
             line-height: 125rpx;
 
@@ -663,8 +650,7 @@ export default {
             width: 72rpx;
             height: 34rpx;
             font-size: 24rpx;
-            
-            
+
             color: #666666;
             line-height: 34rpx;
           }
@@ -673,7 +659,7 @@ export default {
             width: 114rpx;
             height: 48rpx;
             font-size: 22rpx;
-            
+
             color: #222222;
             line-height: 32rpx;
 
