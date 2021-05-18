@@ -11,10 +11,8 @@ view.foodchooseBox
           view.foodchooseBox_top_one_title
             view.foodchooseBox_top_one_name {{ item.name }}
             view.foodchooseBox_top_one_moneybox
-              view.foodchooseBox_top_one_money
-                | ￥
-                span {{ item.buyPrice }}
               view.foodchooseBox_top_one_number x{{ item.numbers }}
+              view.foodchooseBox_top_one_money rmb {{ item.buyPrice }}
         view.foodchooseBox_top_one(
           v-for="(item, index) in replacebox",
           :key="index"
@@ -29,18 +27,16 @@ view.foodchooseBox
               view.foodchooseBox_top_one_number x1
         view.foodchooseBox_top-box_discounts
           view.foodchooseBox_top-box_discounts_left
-            view 优惠券
             img.discounts_leftimg(
               src="../../static/images/orderFood/fooddiscounts.png"
             )
+            view 优惠券
           view.foodchooseBox_top-box_discounts_right
             view 无可用优惠券
             img.discounts_rightimg(src="../../static/images/111.png")
         view.foodchooseBox_top-box_count
-          view 共一件 合计
-          view
-            | ¥
-            span {{ totalPrice }}
+          view 共{{sum}}件
+          view 合计 rmb {{ totalPrice }}
     // 超值换购
     view.bargain_buy
       //
@@ -129,55 +125,73 @@ view.foodchooseBox
       </view>
       </view>
     // 立即支付
-    view.payNowBox
-      view.payNow(@click="createdOred")
-        view.payNow_btn 立即支付
+    view.orderFood_choose(@click="createdOred")
+      view.orderFood_choose-left
+        img.orderFood_choose-left_img(
+          src="../../static/images/orderFood/shopcar.png"
+        )
+        view.orderFood_choose-left-line
+        view.orderFood_choose-left_money
+          | rmb {{ totalPrice }}
+      view.orderFood_choose-right
+        view.orderFood_choose-right-choose 确认下单
+        img(src="../../static/images/orderFood/white_right.png")
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
 export default {
   components: {
-    uniPopup,
+    uniPopup
   },
   data() {
     return {
       wxSelected: false,
       foods: [
         {
-          buyadd: true,
+          buyadd: true
         },
         {
-          buyadd: true,
+          buyadd: true
         },
         {
-          buyadd: true,
-        },
+          buyadd: true
+        }
       ],
       replacebox: [],
       selectshop: [],
       totalPrice: 0,
       cardList: [],
       order: {
-        type: "food",
-        store: "",
-        tableId: "",
-        items: [],
-      },
+        type: 'food',
+        store: '',
+        tableId: '',
+        items: []
+      }
     };
+  },
+  computed: {
+    sum() {
+      // 商品总数
+      let num = 0;
+      this.selectshop.forEach(item => {
+        num += item.numbers;
+      });
+      return num;
+    }
   },
   onLoad(option) {
     this.selectshop = JSON.parse(option.selectshop);
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
-    this.selectshop.forEach((j) => {
+    this.selectshop.forEach(j => {
       this.order.items.push({
         productUid: j.uid,
-        quntity: j.numbers,
+        quntity: j.numbers
       });
     });
     console.log(this.order);
-    this.selectshop.forEach((i) => {
+    this.selectshop.forEach(i => {
       this.totalPrice += i.buyPrice * i.numbers;
     });
     // this.getCardList()
@@ -185,29 +199,29 @@ export default {
   methods: {
     //创建订单
     createdOred() {
-      this.$axios.postRequest("/booking", this.order).then((res) => {
+      this.$axios.postRequest('/booking', this.order).then(res => {
         if (res.payments[0].payArgs) {
           //唤起微信支付
           uni.requestPayment({
-            provider: "wxpay",
+            provider: 'wxpay',
             timeStamp: res.payments[0].payArgs.timeStamp,
             nonceStr: res.payments[0].payArgs.nonceStr,
             package: res.payments[0].payArgs.package,
-            signType: "MD5",
+            signType: 'MD5',
             paySign: res.payments[0].payArgs.paySign,
-            success: function (res) {
-              console.log("success:" + JSON.stringify(res));
+            success: function(res) {
+              console.log('success:' + JSON.stringify(res));
               uni.showToast({
-                title: "支付成功",
-                duration: 2000,
+                title: '支付成功',
+                duration: 2000
               });
               uni.redirectTo({
-                url: "../my/myOrderlist", // 购买成功,跳到我的订单
+                url: '../my/myOrderlist' // 购买成功,跳到我的订单
               });
             },
-            fail: function (err) {
-              console.log("fail:" + JSON.stringify(err));
-            },
+            fail: function(err) {
+              console.log('fail:' + JSON.stringify(err));
+            }
           });
         }
       });
@@ -215,21 +229,21 @@ export default {
     //获取卡列表
     getCardList() {
       this.$axios
-        .getRequest("/card-type", {
-          type: "coupon",
+        .getRequest('/card-type', {
+          type: 'coupon'
         })
-        .then((res) => {
+        .then(res => {
           if (res.length > 0) {
-            res.forEach((i) => {
+            res.forEach(i => {
               this.cardList.push(i);
             });
             this.$axios
-              .getRequest("/card-type", {
-                type: "balance",
+              .getRequest('/card-type', {
+                type: 'balance'
               })
-              .then((result) => {
+              .then(result => {
                 if (res.length > 0) {
-                  res.forEach((j) => {
+                  res.forEach(j => {
                     this.cardList.push(j);
                   });
                 }
@@ -237,12 +251,12 @@ export default {
             console.log(this.cardList);
           } else {
             this.$axios
-              .getRequest("/card-type", {
-                type: "balance",
+              .getRequest('/card-type', {
+                type: 'balance'
               })
-              .then((result) => {
+              .then(result => {
                 if (res.length > 0) {
-                  res.forEach((item) => {
+                  res.forEach(item => {
                     this.cardList.push(item);
                   });
                 }
@@ -271,35 +285,32 @@ export default {
     },
     goadd(index) {
       this.replacebox.push({
-        id: 1,
+        id: 1
       });
       this.foods[index].buyadd = false;
     },
     goMinus(index) {
       this.replacebox.splice(0, 1);
       this.foods[index].buyadd = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .foodchooseBox {
   width: 750rpx;
   background: #f8f8f8;
   min-height: 100vh;
-  // background: #00ff00;
   padding-top: 20rpx;
-  // border: 1px solid red;
 
   .foodchooseBox_content {
     .foodchooseBox_top {
       margin-bottom: 30rpx;
-      min-height: 434rpx;
       background: #ffffff;
 
       .foodchooseBox_top-box {
-        width: 700rpx;
+        width: 654rpx;
         margin: 0 auto;
         padding-top: 20rpx;
 
@@ -310,50 +321,44 @@ export default {
 
           // 图片
           .topimg {
-            width: 120rpx;
-            height: 120rpx;
-            border-radius: 20rpx;
+            width: 100rpx;
+            height: 100rpx;
+            border-radius: var(--theme--border-radius);
           }
 
           .foodchooseBox_top_one_title {
-            margin-top: 10rpx;
             width: 550rpx;
+            flex: 1;
             display: flex;
             justify-content: space-between;
+            flex-direction: column;
+            height: 100rpx;
+            margin-left: 60rpx;
 
             .foodchooseBox_top_one_name {
-              width: 240rpx;
+              width: 100%;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+              overflow: hidden;
               height: 42rpx;
-              font-size: 30rpx;
-             
-              
-              color: #222222;
+              font-size: var(--theme--font-size-m);
+              color: var(--theme--font-main-color);
               line-height: 42rpx;
             }
 
             .foodchooseBox_top_one_moneybox {
-              text-align: right;
+              display: flex;
+              align-items: center;
+              justify-content: space-between;
 
               .foodchooseBox_top_one_money {
-                width: 74rpx;
-                height: 42rpx;
-                font-size: 18rpx;
-                
-                color: #222222;
-                line-height: 26rpx;
-
-                span {
-                  font-size: 26rpx;
-                }
+                font-size: var(--theme--font-size-m);
+                color: var(--theme--font-main-color);
               }
 
               .foodchooseBox_top_one_number {
-                width: 30rpx;
-                height: 36rpx;
-                font-size: 26rpx;
-                
-                color: #222222;
-                line-height: 36rpx;
+                font-size: var(--theme--font-size-s);
+                color: var(--theme--font-deputy-color);
                 float: right;
               }
             }
@@ -369,10 +374,11 @@ export default {
           height: 100rpx;
 
           .foodchooseBox_top-box_discounts_left {
-            width: 150rpx;
+            width: 130rpx;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            font-size: var(--theme--font-size-s);
 
             .discounts_leftimg {
               width: 40rpx;
@@ -381,18 +387,16 @@ export default {
           }
 
           .foodchooseBox_top-box_discounts_right {
-            width: 200rpx;
+            width: 170rpx;
             display: flex;
             justify-content: space-around;
             align-items: center;
 
             view {
               align-items: center;
-              width: 144rpx;
               height: 34rpx;
-              font-size: 24rpx;
-              
-              color: #bdbdbd;
+              font-size: var(--theme--font-size-s);
+              color: var(--theme--font-deputy-color);
               line-height: 34rpx;
             }
 
@@ -404,29 +408,20 @@ export default {
         }
 
         .foodchooseBox_top-box_count {
-          float: right;
-          width: 245rpx;
+          width: 100%;
           display: flex;
-          align-items: center;
-          justify-content: space-between;
+          align-items: flex-end;
+          flex-direction: column;
+          justify-content: center;
           height: 120rpx;
 
           view {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            height: 34rpx;
-            font-size: 24rpx;
-            
+            font-size: var(--theme--font-size-m);
+            line-height: 40rpx;
             color: #0d0d0d;
-
-            span {
-              margin: 0 10rpx;
-              font-size: 40rpx;
-             
-              
-              color: #222222;
-            }
           }
         }
       }
@@ -446,8 +441,7 @@ export default {
         width: 104rpx;
         height: 36rpx;
         font-size: 26rpx;
-       
-        
+
         color: #fff;
         line-height: 36rpx;
       }
@@ -516,8 +510,7 @@ export default {
               .bargain_buybox_content_title {
                 text-align: center;
                 font-size: 22rpx;
-               
-                
+
                 color: #222222;
                 line-height: 32rpx;
               }
@@ -530,7 +523,7 @@ export default {
 
                 .bargain_buybox_content_detail_left {
                   font-size: 30rpx;
-                  
+
                   color: #222222;
                   line-height: 26rpx;
 
@@ -544,7 +537,7 @@ export default {
                   width: 80rpx;
                   text-align: center;
                   font-size: 30rpx;
-                  
+
                   color: #bfbfbf;
                   position: relative;
 
@@ -604,8 +597,7 @@ export default {
             width: 208rpx;
             height: 36rpx;
             font-size: 26rpx;
-           
-            
+
             color: #222222;
             line-height: 36rpx;
             margin: 15rpx 0 10rpx 0;
@@ -615,7 +607,7 @@ export default {
             width: 360rpx;
             height: 56rpx;
             font-size: 20rpx;
-            
+
             color: #bdbdbd;
             line-height: 28rpx;
           }
@@ -638,7 +630,7 @@ export default {
               width: 88rpx;
               height: 50rpx;
               font-size: 22rpx;
-              
+
               color: #9fcdff;
               line-height: 50rpx;
               margin-left: 10rpx;
@@ -652,7 +644,7 @@ export default {
               width: 80rpx;
               text-align: center;
               font-size: 30rpx;
-              
+
               color: #bfbfbf;
               position: relative;
 
@@ -705,8 +697,7 @@ export default {
           padding: 20rpx 0;
           height: 36rpx;
           font-size: 26rpx;
-         
-          
+
           color: #6b6b6b;
           line-height: 36rpx;
         }
@@ -716,8 +707,7 @@ export default {
             width: 78rpx;
             height: 36rpx;
             font-size: 26rpx;
-           
-            
+
             color: #222222;
             line-height: 36rpx;
             margin-top: 40rpx;
@@ -728,8 +718,7 @@ export default {
             width: 195rpx;
             height: 34rpx;
             font-size: 24rpx;
-           
-            
+
             color: #bdbdbd;
             line-height: 34rpx;
             margin-bottom: 20rpx;
@@ -767,8 +756,7 @@ export default {
           .wxModeOfPayment_left {
             width: 104rpx;
             font-size: 26rpx;
-           
-            
+
             color: #222222;
           }
 
@@ -788,30 +776,65 @@ export default {
     }
 
     // 立即支付
-    .payNowBox {
-      margin: 10rpx 0;
+    .orderFood_choose {
+      z-index: 1;
       position: fixed;
-      bottom: 0;
-      width: 750rpx;
+      bottom: calc(env(safe-area-inset-bottom) + 20rpx);
+      width: 594rpx;
+      height: 102rpx;
+      background: var(--theme--deputy-color);
+      box-shadow: var(--theme--box-shadow);
+      border-radius: var(--theme--border-radius);
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 0 36rpx;
+      display: flex;
+      justify-content: space-between;
 
-      .payNow {
-        margin: 0 auto;
-        width: 600rpx;
-        height: 114rpx;
-        background: #9fcdff;
-        box-shadow: 0rpx 4rpx 4rpx 2rpx rgba(0, 0, 0, 0.05);
-        border-radius: 57rpx;
-        margin: 0 auto;
+      .orderFood_choose-left {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
 
-        .payNow_btn {
-          width: 120rpx;
+        .orderFood_choose-left_img {
+          width: 40rpx;
+          height: 40rpx;
+          z-index: 1;
+          margin-right: 30rpx;
+        }
+
+        .orderFood_choose-left-line {
+          width: 2rpx;
+          height: 32rpx;
+          background-color: #ffffff;
+        }
+
+        .orderFood_choose-left_money {
           height: 42rpx;
-          font-size: 30rpx;
-          
+          font-size: var(--theme--font-size-m);
+          color: #ffffff;
+          line-height: 45rpx;
+          margin-left: 26rpx;
+        }
+      }
+
+      .orderFood_choose-right {
+        display: flex;
+        align-items: center;
+        margin-right: 15rpx;
+        justify-content: space-around;
+
+        .orderFood_choose-right-choose {
+          height: 42rpx;
+          font-size: var(--theme--font-size-m);
           color: #ffffff;
           line-height: 42rpx;
-          margin: 0 auto;
-          padding-top: 35rpx;
+          margin-right: 11rpx;
+        }
+
+        image {
+          width: 17rpx;
+          height: 18rpx;
         }
       }
     }

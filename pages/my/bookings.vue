@@ -1,10 +1,10 @@
 <template lang="pug">
 .orderLlist
   div
-    custom-tabs(:tabs="tabs",:activeIndex.sync="active")
+    custom-tabs(:tabs="tabs",:activeIndex.sync="active",@onselect="changeTab")
     div(style="width: 100%")
     // 已点餐
-    view.one(v-show="list1 == 0")
+    view.one(v-show="active == 0")
       view.haveOrder_box(v-if="QRCodeHide")
         // scan a QR code
         view.haveOrder_scan_box
@@ -17,68 +17,57 @@
             view.haveOrder_scan_btn
               | 去点单 ORDER 
       view.accomplish_border(v-if="QRCodeHide == false")
-        view.accomplish_box(v-for="(i, t) in ReservedOrders", :key="t")
-          view.accomplish_top
-            view.accomplish_top_title_box
-              view.accomplish_top_title
-                view.accomplish_top_titlename {{ i.store.name }}
-                span.accomplish_top_date {{ i.updatedAt }}
-              view.accomplish_top_btn_box
-                | {{ i.status }}
-                img.accomplish_top_btn(src="../../static/images/111.png")
-          view.accomplish_contentbox(@click="open()")
-            view.accomplish_contentbox_left
-              scroll-view.modeOf_Payment-box(scroll-x="true")
-                view.modeOf_Payment_scroll
-                  view.modeOf_Payment_box(
-                    v-for="(item, index) in i.items",
-                    :key="index"
-                  )
-                    img(:src="item.productImageUrl")
-            view.accomplish_contentbox_right
-              view 共{{ i.items.length }}件
-              view.accomplish_contentbox_right_money
-                | ￥
-                span 0
+        
+        view.order(v-for="(i, t) in ReservedOrders", :key="t")
+          view.order-title
+            view.order__date {{ i.updatedAt }}
+            view.order__status {{ i.status }}
+          view.order-content
+            view.order__shop {{ i.store.name }}
+            view.order__list
+              view.order__goods
+                view.img-box.order__goods__item(
+                      v-for="(item, index) in i.items.slice(0,4)",
+                      :key="index"
+                    )
+                  img(:src="item.productImageUrl")
+              view.order__total
+                view.order__total__num 共{{ i.items.length }}件
+                view.order__total__price rmb 0
+          
     // 已预约
-    view.one(v-show="list1 == 1")
-      view.appointment_box(
+    view.one(v-show="active == 1")
+      view.order(
         v-for="(item, index) in ReservedOrders",
         :key="index"
       )
-        view.appointment_box_title
-          view {{ item.date }}
-          view(style="font-size: 28rpx") {{ item.status }}
-        view.appointment_box_name
-          view.appointment_box_nameTitle {{ item.title }}
-          |
-          | {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
+        view.order-title
+          view.order__date {{ item.date }}
+          view.order__status {{ item.status }}
+        view.order-content
+          view.order__shop {{ item.title }}
+          view.order__text {{ item.kidsCount }}儿童; {{ item.adultsCount }}成人
+          
     // 已完成
-    view.one(v-show="list1 == 2")
+    view.one(v-show="active == 2")
       view.accomplish_border
-        view.accomplish_box(
-          v-for="(item, index) in ReservedOrders",
-          :key="index"
-        )
-          view.accomplish_top
-            view.accomplish_top_title_box
-              view.accomplish_top_title
-                view.accomplish_top_titlename {{ item.title }}
-                span.accomplish_top_date {{ item.date }}
-              view.accomplish_top_btn_box
-                | {{ item.status }}
-                img.accomplish_top_btn(src="../../static/images/111.png")
-          view.accomplish_contentbox(@click="open()")
-            view.accomplish_contentbox_left
-              scroll-view.modeOf_Payment-box(scroll-x="true")
-                view.modeOf_Payment_scroll
-                  view.modeOf_Payment_box
-                    img(src="../../static/images/224.jpg")
-            view.accomplish_contentbox_right
-              view 共一件
-              view.accomplish_contentbox_right_money
-                | ￥
-                span 395.9
+      
+        view.order(v-for="(i, t) in ReservedOrders", :key="t")
+          view.order-title
+            view.order__date {{ i.updatedAt }}
+            view.order__status {{ i.status }}
+          view.order-content
+            view.order__shop {{ i.store.name }}
+            view.order__list
+              view.order__goods
+                view.img-box.order__goods__item(
+                      v-for="(item, index) in i.items.slice(0,4)",
+                      :key="index"
+                    )
+                  img(:src="item.productImageUrl")
+              view.order__total
+                view.order__total__num 共{{ i.items.length }}件
+                view.order__total__price rmb 0
         // two
         //
           <view class="accomplish_box">
@@ -112,40 +101,41 @@
           </view>
           </view>
           </view>
-          详情  弹框
-        uni-popup(ref="popup", type="center")
-          view.gift_box
-            view.gift_box_clear
-              view.gift_box_clear_left 长宁天山店
-              img.gift_box_clear_right(
-                src="../../static/images/clear.png",
-                @click="close()"
-              )
-            view.listdetail_box(v-for="(item, index) in 3", :key="index")
-              view.listdetail_box_content
-                img.listdetail_box_contentimg(
-                  src="../../static/images/224.jpg"
-                )
-                view.listdetail_box_content_titlebox
-                  view.listdetail_box_content_titlebox_left
-                    view.listdetail_box_content_titlebox_left_name 猪肋排
-                    view.listdetail_box_content_titlebox_left_number X 1
-                  view.listdetail_box_content_titlebox_right ¥ 140
-            view.gift_box_clear.count_box
-              view.gift_box_clear_left
-              view.count_box_right 总计 ¥ 560
-    view.one(v-show="list1 == 3")
-      view.appointment_box(
+          
+    view.one(v-show="active == 3")
+      view.order(
         v-for="(item, index) in ReservedOrders",
         :key="index"
       )
-        view.appointment_box_title
-          view {{ item.date }}
-          view(style="font-size: 28rpx") {{ item.status }}
-        view.appointment_box_name
-          view.appointment_box_nameTitle {{ item.title }}
-          |
-          | {{ item.kidsCount }}小孩{{ item.adultsCount }}大人
+        view.order-title
+          view.order__date {{ item.date }}
+          view.order__status {{ item.status }}
+        view.order-content
+          view.order__shop {{ item.title }}
+          view.order__text {{ item.kidsCount }}儿童; {{ item.adultsCount }}成人
+    
+    <!-- 详情  弹框 -->
+    uni-popup(ref="popup", type="center")
+      view.gift_box
+        view.gift_box_clear
+          view.gift_box_clear_left 长宁天山店
+          img.gift_box_clear_right(
+            src="../../static/images/clear.png",
+            @click="close()"
+          )
+        view.listdetail_box(v-for="(item, index) in 3", :key="index")
+          view.listdetail_box_content
+            img.listdetail_box_contentimg(
+              src="../../static/images/224.jpg"
+            )
+            view.listdetail_box_content_titlebox
+              view.listdetail_box_content_titlebox_left
+                view.listdetail_box_content_titlebox_left_name 猪肋排
+                view.listdetail_box_content_titlebox_left_number X 1
+              view.listdetail_box_content_titlebox_right ¥ 140
+        view.gift_box_clear.count_box
+          view.gift_box_clear_left
+          view.count_box_right 总计 ¥ 560
 </template>
 
 <script>
@@ -175,21 +165,6 @@ export default {
         }
       ],
       orderlists: [],
-      list1: 0,
-      tabsList: [
-        {
-          title: '已点餐'
-        },
-        {
-          title: '已预约'
-        },
-        {
-          title: '已完成'
-        },
-        {
-          title: '已取消'
-        }
-      ],
       active: 0,
       ReservedOrders: [], //已取消   已完成  已预约
       QRCodeHide: true //点餐二维码显示隐藏
@@ -198,28 +173,23 @@ export default {
   onLoad(option) {
     if (option.active) {
       this.active = 1;
-      this.list1 = 1;
     }
     this.getdetail('food');
-    this.list1 = 0;
   },
   methods: {
-    tabsChange(e) {
-      if (this.active == 0) {
+    // 切换tab
+    changeTab(e) {
+      if (e.index == 0) {
         console.log('已点餐');
         this.getdetail('food');
-        this.list1 = 0;
-      } else if (this.active == 1) {
+      } else if (e.index == 1) {
         this.getdetail('play', 'booked'); //已预约this
-        this.list1 = 1;
         console.log('已预约');
-      } else if (this.active == 2) {
+      } else if (e.index == 2) {
         this.getdetail('play', 'finishedd'); //已完成
-        this.list1 = 2;
         console.log('已完成');
-      } else if (this.active == 3) {
+      } else if (e.index == 3) {
         this.getdetail('play', 'canceled'); //已取消
-        this.list1 = 3;
         console.log('已取消');
       }
     },
@@ -469,100 +439,6 @@ export default {
 
   //已完成
   .accomplish_border {
-    // 详情弹框
-    .gift_box {
-      width: 602rpx;
-      min-height: 808rpx;
-      background: #ffffff;
-      border-radius: 38rpx;
-
-      .gift_box_clear {
-        padding-top: 30rpx;
-        width: 540rpx;
-        margin: 35rpx auto;
-        display: flex;
-        justify-content: space-between;
-
-        .gift_box_clear_left {
-          width: 150rpx;
-          height: 42rpx;
-          font-size: 30rpx;
-
-          color: #222222;
-          line-height: 42rpx;
-        }
-
-        .gift_box_clear_right {
-          width: 40rpx;
-          height: 40rpx;
-        }
-
-        .count_box_right {
-          width: 162rpx;
-          height: 42rpx;
-          font-size: 30rpx;
-
-          color: #0d0d0d;
-          line-height: 42rpx;
-        }
-      }
-
-      .count_box {
-        padding-bottom: 25rpx;
-      }
-
-      .listdetail_box {
-        width: 540rpx;
-        margin: 0 auto;
-
-        .listdetail_box_content {
-          margin-top: 40rpx;
-          display: flex;
-          justify-content: space-between;
-
-          .listdetail_box_contentimg {
-            width: 100rpx;
-            height: 100rpx;
-            border-radius: 20rpx;
-          }
-
-          .listdetail_box_content_titlebox {
-            width: 410rpx;
-            display: flex;
-            justify-content: space-between;
-
-            .listdetail_box_content_titlebox_left {
-              .listdetail_box_content_titlebox_left_name {
-                width: 90rpx;
-                height: 42rpx;
-                font-size: 30rpx;
-
-                color: #0d0d0d;
-                line-height: 42rpx;
-              }
-
-              .listdetail_box_content_titlebox_left_number {
-                width: 40rpx;
-                height: 42rpx;
-                font-size: 26rpx;
-
-                color: #999999;
-                line-height: 75rpx;
-              }
-            }
-
-            .listdetail_box_content_titlebox_right {
-              height: 42rpx;
-              font-size: 30rpx;
-
-              color: #0d0d0d;
-              line-height: 42rpx;
-            }
-          }
-        }
-      }
-    }
-
     .accomplish_box {
       margin-top: 20rpx;
       width: 710rpx;
@@ -672,4 +548,172 @@ export default {
     }
   }
 }
+
+.gift_box {
+  width: 602rpx;
+  min-height: 808rpx;
+  background: #ffffff;
+  border-radius: 38rpx;
+
+  .gift_box_clear {
+    padding-top: 30rpx;
+    width: 540rpx;
+    margin: 35rpx auto;
+    display: flex;
+    justify-content: space-between;
+
+    .gift_box_clear_left {
+      width: 150rpx;
+      height: 42rpx;
+      font-size: 30rpx;
+
+      color: #222222;
+      line-height: 42rpx;
+    }
+
+    .gift_box_clear_right {
+      width: 40rpx;
+      height: 40rpx;
+    }
+
+    .count_box_right {
+      width: 162rpx;
+      height: 42rpx;
+      font-size: 30rpx;
+
+      color: #0d0d0d;
+      line-height: 42rpx;
+    }
+  }
+
+  .count_box {
+    padding-bottom: 25rpx;
+  }
+
+  .listdetail_box {
+    width: 540rpx;
+    margin: 0 auto;
+
+    .listdetail_box_content {
+      margin-top: 40rpx;
+      display: flex;
+      justify-content: space-between;
+
+      .listdetail_box_contentimg {
+        width: 100rpx;
+        height: 100rpx;
+        border-radius: 20rpx;
+      }
+
+      .listdetail_box_content_titlebox {
+        width: 410rpx;
+        display: flex;
+        justify-content: space-between;
+
+        .listdetail_box_content_titlebox_left {
+          .listdetail_box_content_titlebox_left_name {
+            width: 90rpx;
+            height: 42rpx;
+            font-size: 30rpx;
+
+            color: #0d0d0d;
+            line-height: 42rpx;
+          }
+
+          .listdetail_box_content_titlebox_left_number {
+            width: 40rpx;
+            height: 42rpx;
+            font-size: 26rpx;
+
+            color: #999999;
+            line-height: 75rpx;
+          }
+        }
+
+        .listdetail_box_content_titlebox_right {
+          height: 42rpx;
+          font-size: 30rpx;
+
+          color: #0d0d0d;
+          line-height: 42rpx;
+        }
+      }
+    }
+  }
+}
+
+.order {
+  width: 690rpx;
+  border-radius: var(--theme--border-radius);
+  box-shadow: var(--theme--box-shadow);
+  margin: 30rpx auto 0;
+  padding: 0 36rpx;
+  box-sizing: border-box;
+}
+
+.order-title {
+  display: flex;
+  align-items: center;
+  height: 90rpx;
+  justify-content: space-between;
+  border-bottom: 2rpx solid #d9dcdd;
+  font-size: var(--theme--font-size-s);
+}
+
+.order__status {
+  font-weight: var(--theme--font-weight-light);
+}
+
+.order-content::after {
+  content: '';
+  display: table-cell;
+}
+
+.order__shop {
+  margin-top: 34rpx;
+  font-size: var(--theme--font-size-m);
+}
+
+.order__list {
+  display: flex;
+  align-items: center;
+  margin-top: 32rpx;
+  margin-bottom: 34rpx;
+}
+
+.order__goods {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.order__goods__item {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: var(--theme--border-radius);
+  background-color: var(--theme--bg-main-color);
+}
+
+.order__goods__item + .order__goods__item {
+  margin-left: 16rpx;
+}
+
+.order__total {
+  font-size: var(--theme--font-size-s);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  height: 100rpx;
+}
+
+.order__total__num {
+  margin-bottom: 20rpx;
+}
+
+.order__text{
+  margin-bottom: 40rpx;
+  margin-top: 20rpx;
+}
 </style>
+ 

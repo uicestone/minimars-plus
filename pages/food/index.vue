@@ -56,23 +56,22 @@ view.orderFood_box
                 ) {{ item2.description }}
                 view.right_title_content-right-money_box
                   view.right_title_content-right-money_box_money
-                    | ￥
-                    span {{ item2.buyPrice }}
+                    | rmb {{ item2.buyPrice }}
                   view.right_title_content-right-money_box_add(
                     v-if="item2.numbers == 0"
                   )
                     view
                     view
                     view(@click="foodAdd(item2)")
-                      img.foodAdd_img(src="../../static/images/add.png")
+                      img.foodAdd_img(src="../../static/images/add_deputy.png")
                   view.right_title_content-right-money_box_add(
                     v-if="item2.numbers > 0"
                   )
                     view(@click="foodreduce(item2)")
-                      img.foodreduce_img(src="../../static/images/minus.png")
+                      img.foodreduce_img(src="../../static/images/minus_deputy.png")
                     view {{ item2.numbers }}
                     view(@click="foodAdd(item2)")
-                      img.foodAdd_img(src="../../static/images/add.png")
+                      img.foodAdd_img(src="../../static/images/add_deputy.png")
       // 详情
       uni-popup(ref="popup", type="center", :tabbar="true")
         view.gift_box
@@ -88,10 +87,9 @@ view.orderFood_box
             view.gift_box_top_content-box {{ item.description }}
           view.gift_box_top_footer
             view.gift_box_top_footer-left
-              | ￥
-              span {{ item.buyPrice }}
+              | rmb {{ item.buyPrice }}
             view.gift_box_top_footer-right(@click="unpopAdd(index)")
-              img(src="../../static/images/add.png")
+              img(src="../../static/images/add_deputy.png")
       // 加购选择
       view.orderFood_choose(v-if="settlement == 1")
         view.orderFood_choose-left
@@ -100,22 +98,21 @@ view.orderFood_box
           )
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
-            | ￥
-            span {{ playMoney }}
+            | rmb {{ playMoney }}
         view.orderFood_choose-right(@click="goChoose()")
           view.orderFood_choose-right-choose 选好了
           img(src="../../static/images/orderFood/white_right.png")
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import foodMenu from "@/components/food-menu.vue";
-import { sync } from "vuex-pathify";
+import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import foodMenu from '@/components/food-menu.vue';
+import { sync } from 'vuex-pathify';
 
 export default {
   components: {
     uniPopup,
-    foodMenu,
+    foodMenu
   },
   data() {
     return {
@@ -134,36 +131,36 @@ export default {
       // 购物车显示隐藏
       settlement: 0,
       tabBars: [],
-      clickId: "",
+      clickId: '',
       change: 0,
       topList: [],
       isLeftClick: false,
       // 弹框得到索引
-      unpooIndex: "",
-      unpooIndex2: "",
+      unpooIndex: '',
+      unpooIndex2: '',
       item: {},
-      storeCode: "",
-      storeId: "",
-      tableId: "",
+      storeCode: '',
+      storeId: '',
+      tableId: ''
     };
   },
   onLoad(option) {
-    console.log("food/index:onLoad", option);
+    console.log('food/index:onLoad', option);
     this.getbanner();
     if (option.s && option.t) {
       this.storeCode = option.s;
       this.tableId = option.t;
     } else {
       uni.scanCode({
-        success: (res) => {
-          console.log("scan type:" + res.scanType);
-          console.log("scan result:" + res.result);
+        success: res => {
+          console.log('scan type:' + res.scanType);
+          console.log('scan result:' + res.result);
         },
-        fail: function (res) {
+        fail: function(res) {
           uni.switchTab({
-            url: "../index/index",
+            url: '../index/index'
           });
-        },
+        }
       });
     }
   },
@@ -177,12 +174,12 @@ export default {
   },
   methods: {
     async getMenu() {
-      const storeMenu = await this.$axios.getRequest("/store-menu", {
+      const storeMenu = await this.$axios.getRequest('/store-menu', {
         storeCode: this.storeCode,
-        tableId: this.tableId,
+        tableId: this.tableId
       });
-      storeMenu.menu.forEach((i) => {
-        i.products.forEach((j) => {
+      storeMenu.menu.forEach(i => {
+        i.products.forEach(j => {
           j.numbers = 0;
         });
       });
@@ -191,8 +188,8 @@ export default {
       this.storeId = storeMenu.store.id;
     },
     async getbanner() {
-      this.bannerPosts = await this.$axios.getRequest("/post", {
-        tag: "food",
+      this.bannerPosts = await this.$axios.getRequest('/post', {
+        tag: 'food'
       });
     },
     // 轮播
@@ -225,8 +222,8 @@ export default {
       this.settlement = 1;
       //总价格
       this.playMoney = 0;
-      this.tabBars.forEach((item) => {
-        item.products.forEach((j) => {
+      this.tabBars.forEach(item => {
+        item.products.forEach(j => {
           this.playMoney += j.numbers * j.buyPrice;
         });
       });
@@ -254,8 +251,8 @@ export default {
       item2.numbers++;
       //总价格
       this.playMoney = 0;
-      this.tabBars.forEach((item) => {
-        item.products.forEach((j) => {
+      this.tabBars.forEach(item => {
+        item.products.forEach(j => {
           this.playMoney += j.numbers * j.buyPrice;
         });
       });
@@ -263,8 +260,8 @@ export default {
 
     goChoose() {
       let selectshop = []; //选中的餐品
-      this.tabBars.forEach((item) => {
-        item.products.forEach((items) => {
+      this.tabBars.forEach(item => {
+        item.products.forEach(items => {
           if (items.numbers > 0) {
             selectshop.push(items);
           }
@@ -272,18 +269,12 @@ export default {
       });
       console.log(selectshop);
       uni.navigateTo({
-        url:
-          "./order?selectshop=" +
-          JSON.stringify(selectshop) +
-          "&tableId=" +
-          this.tableId +
-          "&storeId=" +
-          this.storeId,
+        url: './order?selectshop=' + JSON.stringify(selectshop) + '&tableId=' + this.tableId + '&storeId=' + this.storeId
       });
     },
     // 鼠标点击
     setid(index) {
-      this.clickId = "po" + index;
+      this.clickId = 'po' + index;
       this.change = index;
       this.isLeftClick = true;
     },
@@ -302,7 +293,7 @@ export default {
         this.calcSize();
       }
       let scrollTop = e.detail.scrollTop;
-      let tabs = this.tabBars.filter((item) => item.top <= scrollTop).reverse();
+      let tabs = this.tabBars.filter(item => item.top <= scrollTop).reverse();
       if (tabs.length > 0) {
         this.change = tabs[0].uid;
       }
@@ -310,14 +301,14 @@ export default {
     //计算右侧栏每个tab的高度等信息
     calcSize() {
       let h = 0;
-      this.tabBars.forEach((item) => {
-        let view = uni.createSelectorQuery().select("#po" + item.uid);
+      this.tabBars.forEach(item => {
+        let view = uni.createSelectorQuery().select('#po' + item.uid);
         view
           .fields(
             {
-              size: true,
+              size: true
             },
-            (data) => {
+            data => {
               item.top = h;
               h += data.height;
               item.bottom = h;
@@ -326,12 +317,12 @@ export default {
           .exec();
       });
       this.isLeftClick = true;
-    },
-  },
+    }
+  }
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .orderFood_box {
   display: flex;
 
@@ -350,13 +341,11 @@ export default {
       }
 
       .orderFood_left_title {
-        width: 132rpx;
-        height: 93rpx;
+        width: 80rpx;
+        height: 100rpx;
         border-bottom: 1px solid #d1d1d1;
-        // text-align: center;
-        padding-top: 10rpx 0 10rpx 0;
         line-height: 25rpx;
-        // padding-top: 25rpx;
+        margin: 0 auto;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -365,8 +354,7 @@ export default {
           // width: 132rpx;
           // height: 60rpx;
           font-size: 20rpx;
-          
-          
+
           color: #555555;
           white-space: wrap;
         }
@@ -381,18 +369,14 @@ export default {
 
     // 轮播
     .orderFood_right_banner {
-      width: 554rpx;
-      // height: 256rpx;
-      height: 22.5vh;
+      width: 100%;
+      height: 270rpx;
       background: #f0f0f0;
-      border-radius: 20rpx;
-      margin: 10rpx auto;
 
       .swiper {
-        width: 554rpx;
-        // height: 256rpx;
-        height: 22.5vh;
-        border-radius: 20rpx;
+        width: 100%;
+        height: 100%;
+        border-radius: var(--theme--border-radius);
 
         .swiper_item {
           width: 554rpx;
@@ -411,29 +395,21 @@ export default {
 
     .orderFood_right_content_box {
       width: 554rpx;
-      height: 75vh;
-      // height: 77vh;
-      margin: 10rpx auto;
-      // margin: 0 auto;
-      margin-top: 10rpx;
+      height: calc(100vh - 270rpx);
+      margin: 0 auto;
 
       .orderFood_right_content_scroll {
-        // height: 76.5vh;
-        height: 75vh;
+        height: 100%;
 
         .orderFood_right_content {
           margin-top: 20rpx;
           padding-bottom: 90rpx;
 
           .name {
-            color: #0d0d0d;
-            line-height: 34rpx;
             margin: 40rpx 0;
-            width: 400rpx;
-            height: 34rpx;
-            line-height: 34rpx;
-            font-size: 24rpx;
-            color: #0d0d0d;
+            display: block;
+            font-size: var(--theme--font-size-s);
+            color: var(--theme--font-main-color);
           }
 
           .orderFood_right_title_content {
@@ -463,10 +439,7 @@ export default {
               .right_title_content-right-title {
                 width: 100%;
                 height: 36rpx;
-                font-size: 26rpx;
-               
-                
-                color: #222222;
+                font-size: var(--theme--font-size-m);
                 line-height: 36rpx;
                 margin-bottom: 5rpx;
               }
@@ -474,9 +447,9 @@ export default {
               .right_title_content-right-detail {
                 width: 360rpx;
                 height: 56rpx;
-                font-size: 20rpx;
-                
-                color: #bdbdbd;
+                font-size: var(--theme--font-size-s);
+                color: var(--theme--font-deputy-color);
+                font-weight: var(--theme--font-weight-light);
                 line-height: 28rpx;
                 overflow: hidden;
               }
@@ -490,17 +463,8 @@ export default {
                 position: absolute;
                 bottom: 0;
                 .right_title_content-right-money_box_money {
-                  width: 74rpx;
                   height: 42rpx;
-                  font-size: 18rpx;
-                  
-                  color: #222222;
-                  // line-height: 26rpx;
-
-                  span {
-                    font-size: 30rpx;
-                    color: #222222;
-                  }
+                  font-size: var(--theme--font-size-m);
                 }
 
                 .right_title_content-right-money_box_add {
@@ -510,6 +474,7 @@ export default {
                   width: 120rpx;
                   height: 40rpx;
                   line-height: 26rpx;
+                  font-size: var(--theme--font-size-m);
 
                   .foodreduce_img {
                     width: 37rpx;
@@ -532,7 +497,7 @@ export default {
         width: 640rpx;
         height: 952rpx;
         background: #ffffff;
-        border-radius: 20rpx;
+        border-radius: var(--theme--border-radius);
 
         .gift_box_top {
           position: relative;
@@ -545,8 +510,8 @@ export default {
 
           .gift_box_top-close {
             position: absolute;
-            top: 10rpx;
-            right: 30rpx;
+            top: 36rpx;
+            right: 36rpx;
 
             image {
               width: 40rpx;
@@ -563,21 +528,17 @@ export default {
           .gift_box_top_content-title {
             width: 100%;
             height: 36rpx;
-            font-size: 26rpx;
-           
-            
-            color: #222222;
+            font-size: var(--theme--font-size-m);
+            color: var(--theme--font-main-color);
             line-height: 36rpx;
             margin: 15rpx 0 10rpx 0;
           }
 
           .gift_box_top_content-box {
-            width: 360rpx;
             height: 56rpx;
-            font-size: 20rpx;
-            
-            color: #bdbdbd;
-            line-height: 28rpx;
+            font-size: var(--theme--font-size-s);
+            color: var(--theme--font-main-color);
+            line-height: 42rpx;
           }
         }
 
@@ -594,9 +555,8 @@ export default {
           .gift_box_top_footer-left {
             width: 88rpx;
             height: 50rpx;
-            font-size: 22rpx;
-            
-            color: #9fcdff;
+            font-size: var(--theme--font-size-m);
+            color: var(--theme--bg-main-color);
             line-height: 65rpx;
             margin-left: 10rpx;
 
@@ -624,18 +584,18 @@ export default {
     z-index: 1;
     position: fixed;
     bottom: 20rpx;
-    right: 70rpx;
-    width: 600rpx;
-    height: 114rpx;
-    background: #9fcdff;
-    box-shadow: 0px 4rpx 4rpx 2rpx rgba(0, 0, 0, 0.05);
-    border-radius: 57rpx;
+    width: 594rpx;
+    height: 102rpx;
+    background: var(--theme--deputy-color);
+    box-shadow: var(--theme--box-shadow);
+    border-radius: var(--theme--border-radius);
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0 36rpx;
     display: flex;
     justify-content: space-between;
 
     .orderFood_choose-left {
-      width: 140rpx;
-      margin-left: 15rpx;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -644,25 +604,21 @@ export default {
         width: 40rpx;
         height: 40rpx;
         z-index: 1;
+        margin-right: 30rpx;
       }
 
       .orderFood_choose-left-line {
-        width: 4rpx;
-        height: 38rpx;
+        width: 2rpx;
+        height: 32rpx;
         background-color: #ffffff;
       }
 
       .orderFood_choose-left_money {
-        width: 74rpx;
         height: 42rpx;
-        font-size: 18rpx;
-        
+        font-size: var(--theme--font-size-m);
         color: #ffffff;
         line-height: 45rpx;
-
-        span {
-          font-size: 25rpx;
-        }
+        margin-left: 26rpx;
       }
     }
 
@@ -670,16 +626,14 @@ export default {
       display: flex;
       align-items: center;
       margin-right: 15rpx;
-      width: 120rpx;
       justify-content: space-around;
 
       .orderFood_choose-right-choose {
-        width: 90rpx;
         height: 42rpx;
-        font-size: 30rpx;
-        
+        font-size: var(--theme--font-size-m);
         color: #ffffff;
         line-height: 42rpx;
+        margin-right: 11rpx;
       }
 
       image {
