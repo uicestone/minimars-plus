@@ -243,6 +243,11 @@
       },
       {
         "name": "MARS 活动", //模式名称
+        "path": "pages/booking/events", //启动页面，必选
+        "query": "" //启动参数，在页面的onLoad函数里面得到
+      },
+      {
+        "name": "MARS 活动 详情", //模式名称
         "path": "pages/booking/eventDetail", //启动页面，必选
         "query": "" //启动参数，在页面的onLoad函数里面得到
       },
@@ -270,6 +275,16 @@
         "name": "点餐 下单", //模式名称
         "path": "pages/food/order", //启动页面，必选
         "query": "selectshop=[{\"uid\":\"688790641950333260\",\"categoryUid\":\"1599199104939329336\",\"name\":\"粉桃香柚（冷）\",\"barcode\":\"20\",\"buyPrice\":24,\"sellPrice\":36,\"sellPrice2\":36,\"stock\":999752,\"maxStock\":0,\"minStock\":0,\"pinyin\":\"ftxy（l）\",\"customerPrice\":36,\"description\":\"Peach grapefruit tea\",\"isCustomerDiscount\":1,\"supplierUid\":0,\"enable\":1,\"productionDate\":\"2020-10-08 20:17:20\",\"createdDatetime\":\"2021-01-07 13:07:36\",\"updatedDatetime\":\"2021-02-01 21:32:13\",\"attribute1\":\"n\",\"attribute2\":\"\",\"attribute3\":\"\",\"attribute6\":\"\",\"attribute8\":\"\",\"attribute9\":\"\",\"attribute10\":\"\",\"imageUrl\":\"http://pospalstoreimg.area35.pospal.cn:80/productImages/4106786/9123a2a1-32e9-4a51-8ca7-3a20c5d0b4bb.jpg\",\"numbers\":2}]&tableId=A区.A1&storeId=5e723574768573042a9c141a"
+      },
+      {
+        "name": "会员码", //模式名称
+        "path": "pages/my/code", //启动页面，必选
+        "query": ""
+      },
+      {
+        "name": "更多", //模式名称
+        "path": "pages/my/more", //启动页面，必选
+        "query": ""
       }
     ]
   }

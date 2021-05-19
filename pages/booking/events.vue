@@ -1,5 +1,5 @@
 <template lang="pug">
-view.marsActivityBox_box
+<!-- view.marsActivityBox_box
   view.marsActivityBox_title_box
     view.marsActivityBox_title-left
       | 选择门店
@@ -25,18 +25,36 @@ view.marsActivityBox_box
         view.coupebox_contentimgBox_content
           view.coupebox_contentimgBox_content_title 圣诞树DIY
           view.coupebox_contentimgBox_content_data 2020.12.19
-          view.coupebox_contentimgBox_content_detail 3岁-10岁
+          view.coupebox_contentimgBox_content_detail 3岁-10岁 -->
+  view
+    view.tabs
+      custom-tabs(:tabs="tabs",@onselect="selectTab",activeIndex="1")
+    view.list
+      view.item
+        custom-card
+          view 圣诞树
+          view 3岁-10岁
+    custom-pop(ref="storePicker")
+      view(slot="header") 门店选择 STORES
+      custom-picker(slot="body",:options="[doorlist]",labelKey="name",@onchange="selectStore")
 </template>
 
 <script>
 import { sync } from "vuex-pathify";
-
+import customTabs from '../../components/custom-tabs/tabs.vue';
+import customCard from '../../components/custom-card-box/card-box.vue';
+import customPop from '../../components/custom-popup/popup.vue';
+import customPicker from '../../components/custom-picker/picker.vue';
 export default {
+  components: {
+    'custom-tabs': customTabs,
+    'custom-card': customCard,
+    'custom-pop': customPop,
+    'custom-picker': customPicker
+  },
   data() {
     return {
-      doorname: 0,
       store: "",
-
       doorlist: [
         {
           id: 1,
@@ -59,16 +77,28 @@ export default {
   },
   computed: {
     user: sync("auth/user"),
-  },
-  onShow() {
-    if (user.store) {
-      this.store = user.store.name;
-    } else {
-      this.store = "";
+    tabs(){
+      return [
+        {
+          id: 1,
+          name: '门店选择',
+          customClick: true,
+          showArrow: true,
+          arrowTowards: 'bottom'
+        },
+        {
+          id: 2,
+          name: this.store
+        }
+      ]
     }
   },
-  created() {
-    console.log(this.doorlist);
+  onShow() {
+    if (this.user.store) {
+      this.store = this.user.store.name;
+    } else {
+      this.store = this.doorlist[0].name;
+    }
   },
   methods: {
     goDetail() {
@@ -76,133 +106,38 @@ export default {
         url: "./eventDetail",
       });
     },
-    goDoorname() {
-      if (this.doorname == 1) {
-        this.doorname = 0;
-      } else {
-        this.doorname = 1;
+    
+    selectStore(e){
+      this.store=e.value[0].name
+    },
+    
+    // 选择门店
+    selectTab(e) {
+      if (e.item.id === 1) {
+        this.$refs.storePicker.open();
       }
-    },
-    godoor(door) {
-      // console.log(door.name)
-      this.store = door.name;
-    },
+    }
   },
 };
 </script>
 
-<style lang="less">
-.marsActivityBox_box {
-  width: 750rpx;
-  min-height: 100vh;
-  background: #f8f8f8;
+<style lang="less" scoped>
+page {
+  background-color: #f8f8f8;
+}
 
-  .marsActivityBox_title_box {
-    width: 750rpx;
-    height: 80rpx;
-    background: #ffffff;
-    display: flex;
-    position: relative;
+.list {
+  padding-bottom: 30rpx;
+  padding-bottom: env(safe-area-inset-bottom);
+}
 
-    .marsActivityBox_title-left {
-      margin-left: 35rpx;
-      margin-top: 15rpx;
-      display: flex;
-      align-items: center;
-      width: 180rpx;
-      height: 42rpx;
-      font-size: 30rpx;
-      color: #676767;
-      line-height: 42rpx;
+.item {
+  width: 690rpx;
+  margin: 30rpx auto 0;
+}
 
-      .marsActivityBox_title-leftimg {
-        width: 42rpx;
-        height: 52rpx;
-        margin-left: 10rpx;
-      }
-    }
-
-    .marsActivityBox_title-right {
-      border-bottom: 6rpx solid #9fcdff;
-      margin-top: 15rpx;
-      // width: 530rpx;
-      height: 42rpx;
-      font-size: 30rpx;
-      color: #0d0d0d;
-      line-height: 42rpx;
-      border-radius: 6rpx;
-    }
-    // 门店名称
-    .storeNameBox {
-      position: absolute;
-      left: 33rpx;
-      top: 80rpx;
-      width: 338rpx;
-      min-height: 275rpx;
-      background: #ffffff;
-      border-radius: 20rpx 20rpx 30rpx 30rpx;
-      z-index: 1;
-      line-height: 68rpx;
-      text-align: center;
-
-      view {
-        border-bottom: 1rpx solid #f1f0f4;
-        width: 280rpx;
-        margin: 0 auto;
-      }
-    }
-  }
-
-  .marsCoupon_contentbox {
-    width: 682rpx;
-    margin: 20rpx auto;
-
-    .coupebox_content {
-      display: flex;
-      justify-content: space-between;
-      flex-wrap: wrap;
-
-      .coupebox_contentimgBox {
-        margin: 20rpx 0;
-        width: 320rpx;
-        height: 360rpx;
-        border-radius: 20rpx;
-        position: relative;
-
-        image {
-          width: 320rpx;
-          height: 360rpx;
-          border-radius: 20rpx;
-        }
-
-        .coupebox_contentimgBox_content {
-          position: absolute;
-          bottom: 0;
-          width: 320rpx;
-          height: 110rpx;
-          background: rgba(0, 0, 0, 0.5);
-          border-radius: 0px 0px 20px 20px;
-          color: #fff;
-          text-align: center;
-          border-radius: 0 0 20rpx 20rpx;
-
-          .coupebox_contentimgBox_content_title {
-            margin-top: 5rpx;
-          }
-
-          .coupebox_contentimgBox_content_title,
-          .coupebox_contentimgBox_content_data {
-            font-size: 24rpx;
-            color: #ffffff;
-          }
-
-          .coupebox_contentimgBox_content_detail {
-            font-size: 20rpx;
-            color: #ffffff;
-          }
-        }
-      }
-    }
-  }
+.tabs{
+  position: sticky;
+  top: 0;
 }
 </style>

@@ -29,10 +29,10 @@ export default {
     user: sync("auth/user"),
   },
   onShow() {
-    this.name = thisuser.name;
-    this.avatar = thisuser.avatarUrl;
+    this.name = this.user.name;
+    this.avatar = this.user.avatarUrl;
     this.srcQRcode =
-      "https://mini-mars.codeispoetry.tech/api/qrcode-image/" + thisuser.id;
+      "https://mini-mars.codeispoetry.tech/api/qrcode-image/" + this.user.id;
   },
   methods: {
     gomy() {
@@ -44,7 +44,7 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 .myvipcode_box {
   width: 750rpx;
   background-color: #f0f2f5;
@@ -91,23 +91,22 @@ export default {
   }
 
   .myvipcode_box_content {
-    width: 300rpx;
-    // min-height: 100vh;
+    width: 322rpx;
     margin: 350rpx auto;
-
+    
     .myvipcode_box_content_img {
-      width: 300rpx;
-      height: 300rpx;
+      width: 322rpx;
+      height: 322rpx;
+      border-radius: var(--theme--border-radius);
+      background-color: var(--theme--bg-main-color);
     }
 
     .myvipcode_box_content_title {
-      width: 294rpx;
-      height: 34rpx;
-      font-size: 24rpx;
-      
-      
-      color: #bdbdbd;
-      line-height: 34rpx;
+      font-size: var(--theme--font-size-s);
+      display: block;
+      margin-top: 56rpx;
+      width: 100%;
+      text-align: center;
     }
   }
 }
