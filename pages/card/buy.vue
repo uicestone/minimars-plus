@@ -6,7 +6,7 @@ view.buycards_box
     span.card-title {{ cardType.title }}
   view.buycards_contentall
     view.buycards_content
-      view.buycards_content-title 充值金额选择
+      view.buycards_content-title 充值金额选择 RECHARGE
       view.buycards_content-Bigbox
         view.buycards_content-box
           view.buycards_content-boxone(
@@ -174,15 +174,6 @@ export default {
       border-radius: var(--theme--border-radius);
       background-color: var(--theme--bg-main-color);
       margin: 0 auto;
-
-      span {
-        width: 218rpx;
-        height: 40rpx;
-        font-size: 28rpx;
-
-        color: #0d0d0d;
-        line-height: 40rpx;
-      }
     }
   }
 
@@ -202,11 +193,10 @@ export default {
       .buycards_content-title {
         padding-top: 32rpx;
         margin-bottom: 32rpx;
-        width: 176rpx;
+        width: 100%;
+        text-align: center;
         height: 40rpx;
-        font-size: 28rpx;
-
-        color: #0d0d0d;
+        font-size: var(--theme--font-size-m);
         line-height: 40rpx;
       }
 
@@ -236,13 +226,6 @@ export default {
                 width: 40rpx;
                 height: 40rpx;
                 background: var(--theme--main-color);
-
-                span {
-                  font-size: 30rpx;
-                  color: var(--theme--font-main-color);
-                  line-height: 40rpx;
-                  z-index: 1;
-                }
               }
 
               .buycards_contentBody-right {
@@ -269,6 +252,10 @@ export default {
                 background-size: 100%;
                 border-radius: 140rpx;
               }
+            }
+            
+            span{
+              white-space: nowrap;
             }
           }
         }

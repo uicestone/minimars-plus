@@ -265,8 +265,8 @@ export default {
     }
 
     view {
-      font-size: 24rpx;
-      
+      font-size: var(--theme--font-size-s);
+      font-weight: var(--theme--font-weight-light);
       color: var(--theme--font-deputy-color);
       margin-left: 20rpx;
       display: flex;
@@ -319,8 +319,6 @@ export default {
       justify-content: space-between;
 
       .integrate_left {
-        font-size: 29rpx;
-
         span {
           font-size: var(--theme--font-size-m);
           line-height: 34px;

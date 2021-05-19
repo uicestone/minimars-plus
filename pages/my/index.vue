@@ -382,9 +382,6 @@ export default {
 
               .modeOf_PaymentBox_right {
                 width: 420rpx;
-                font-size: 30rpx;
-                
-                color: #0d0d0d;
 
                 .modeOf_PaymentBox_right_content {
                   height: 80rpx;
@@ -414,9 +411,6 @@ export default {
 
         span {
           margin-left: 50rpx;
-          font-size: 30rpx;
-          
-          color: #0d0d0d;
           line-height: 42rpx;
         }
       }
@@ -483,74 +477,6 @@ export default {
       .login_box_clear_right {
         width: 40rpx;
         height: 40rpx;
-      }
-    }
-
-    .login_contentBox {
-      width: 672rpx;
-      margin: 0 auto;
-
-      .login_box_title {
-        padding-top: 20rpx;
-        // width: 264rpx;
-        height: 60rpx;
-        font-size: 44rpx;
-        
-        color: #000000;
-        line-height: 60rpx;
-        padding-bottom: 36rpx;
-      }
-
-      .login_box_content {
-        width: 672rpx;
-        height: 88rpx;
-        font-size: 32rpx;
-        
-        
-        color: #848484;
-        line-height: 44rpx;
-        text-align: left;
-      }
-
-      .login_box_btn {
-        width: 681rpx;
-        height: 102rpx;
-        background: #9fcdff;
-        box-shadow: 0rpx 10rpx 30rpx 0rpx rgba(215, 215, 215, 0.3);
-        border-radius: 52rpx;
-
-        .login_box_btn_box {
-          margin-top: 50rpx;
-          width: 681rpx;
-          height: 102rpx;
-
-          button::after {
-            border: none;
-          }
-
-          padding: 0;
-          background-color: #9fcdff;
-          line-height: 102px;
-          border-radius: 52rpx;
-          display: flex;
-          justify-content: center;
-          // margin: 65px 222rpx;
-
-          .login_box_btn_img {
-            width: 50rpx;
-            height: 50rpx;
-            color: #ffffff;
-            padding-top: 25rpx;
-            padding-right: 13rpx;
-          }
-
-          .login_box_btn_name {
-            font-size: 32rpx;
-            
-            color: #ffffff;
-            line-height: 100rpx;
-          }
-        }
       }
     }
   }

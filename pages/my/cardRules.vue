@@ -17,9 +17,7 @@ export default {
   .cardsKnow {
     margin-top: 40rpx;
     text-align: center;
-    font-size: 28rpx;
-    
-    color: #3f3f3f;
+    font-size: var(--theme--font-size-m);
   }
 }
 </style>

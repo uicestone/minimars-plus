@@ -101,40 +101,12 @@ export default {
     justify-content: space-between;
     margin-bottom: 40rpx;
 
-    .cardbag_box-left {
-      display: flex;
-      justify-content: space-between;
-      width: 322rpx;
-      height: 34rpx;
-      font-size: 24rpx;
-      color: #919191;
-      line-height: 34rpx;
-    }
-
     .clickcard {
       color: #9fcdff;
     }
 
     .noclickcard {
       color: #919191;
-    }
-
-    .cardbag_box-right {
-      width: 260rpx;
-      height: 40rpx;
-      font-size: 28rpx;
-
-      color: #3f3f3f;
-      line-height: 40rpx;
-      display: flex;
-      align-items: center;
-
-      image {
-        width: 34rpx;
-        height: 28rpx;
-        margin-right: 10rpx;
-        // background: #666666;
-      }
     }
   }
 
@@ -177,8 +149,6 @@ export default {
 
         // 激活/赠送
         .cardbag_card_box-content-times {
-          font-size: 22rpx;
-          color: #a4a4a4;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -188,7 +158,7 @@ export default {
 
     // 历史卡券
     .mycards_footer {
-      height: 28rpx;
+      height: 28rpx;  
       font-size: var(--theme--font-size-s);
       line-height: 28rpx;
       position: absolute;

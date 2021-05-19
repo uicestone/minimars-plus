@@ -341,7 +341,7 @@ export default {
       }
 
       .orderFood_left_title {
-        width: 80rpx;
+        width: 90rpx;
         height: 100rpx;
         border-bottom: 1px solid #d1d1d1;
         line-height: 25rpx;
@@ -351,11 +351,8 @@ export default {
         align-items: center;
 
         span {
-          // width: 132rpx;
-          // height: 60rpx;
-          font-size: 20rpx;
-
-          color: #555555;
+          font-size: var(--theme--font-size-s);
+          font-weight: var(--theme--font-weight-light);
           white-space: wrap;
         }
       }
@@ -559,10 +556,6 @@ export default {
             color: var(--theme--bg-main-color);
             line-height: 65rpx;
             margin-left: 10rpx;
-
-            span {
-              font-size: 30rpx;
-            }
           }
 
           .gift_box_top_footer-right {

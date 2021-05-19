@@ -507,14 +507,6 @@ export default {
             .bargain_buybox_content_detail {
               margin-top: 10rpx;
 
-              .bargain_buybox_content_title {
-                text-align: center;
-                font-size: 22rpx;
-
-                color: #222222;
-                line-height: 32rpx;
-              }
-
               .bargain_buybox_content_detail_box {
                 display: flex;
                 justify-content: space-around;
