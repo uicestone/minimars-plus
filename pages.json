@@ -88,6 +88,12 @@
       }
     },
     {
+      "path": "pages/mall/index",
+      "style": {
+        "navigationBarTitleText": "ZOOJOO商城"
+      }
+    },
+    {
       "path": "pages/my/cards",
       "style": {
         "navigationBarTitleText": "MARS卡包",
@@ -169,7 +175,7 @@
         "text": "票务"
       },
       {
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/mall/index",
         "iconPath": "static/images/tabbarShopping.png",
         "selectedIconPath": "static/images/tabbarShopping1.png",
         "text": "商城"

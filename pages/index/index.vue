@@ -78,13 +78,6 @@ export default {
       return this.user && this.user.points ? this.user.points : "-";
     },
   },
-  onTabItemTap(data) {
-    if (data.text === "商城") {
-      uni.navigateToMiniProgram({
-        appId: config.mallAppId,
-      });
-    }
-  },
   async onShow() {
     console.log("index:onShow");
     // await this.$onLaunched;
