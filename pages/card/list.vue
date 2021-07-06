@@ -1,6 +1,7 @@
 <template lang="pug">
 view.marsCardbox
-  view.header
+  view.header.img-box
+    img(src="../../static/images/coupon/card-list-banner.png")
   view.marsCard_contentbox
     view.marsCard_contentbox-content(v-for="(i, j) in cardTypes", :key="j")
       view.contentbox-contentTitle {{ i.title }}

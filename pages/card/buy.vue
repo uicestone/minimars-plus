@@ -18,7 +18,7 @@ view.buycards_box
                 span {{ item.count }}
               view.buycards_contentBody-right(@click="goaddMoney(item._id)")
                 img(src="../../static/images/add.png")
-              view.buycards_contentBody-image(@click="open(item)")
+              view.buycards_contentBody-image(@click="open(item)") {{item.balance}}
             span rmb {{ item.balance }}
           uni-popup(ref="popup", type="bottom", :tabbar="false")
             view.login_box
@@ -248,13 +248,18 @@ export default {
                 margin: 0 auto;
                 width: 140rpx;
                 height: 140rpx;
-                background: url(../../static/images/index/indexRecharge.png) no-repeat;
                 background-size: 100%;
                 border-radius: 140rpx;
+                background-color: #d8dbdc;
+                line-height: 140rpx;
+                font-size: 40rpx;
+                font-weight: 900;
+                color: white;
+                -webkit-text-stroke: 1px var(--theme--font-main-color);
               }
             }
-            
-            span{
+
+            span {
               white-space: nowrap;
             }
           }

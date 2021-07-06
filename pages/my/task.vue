@@ -14,7 +14,7 @@ view
       view.task-list
         view.task
           view.img-box.task__img
-            img
+            img(src="../../static/images/my/task/task-daily.png")
           view.task-content
             view.task-content__name 每日签到
             view.task-content__condition 打卡签到获得惊喜积分+5
@@ -25,14 +25,14 @@ view
       view.task-list
         view.task
           view.img-box.task__img
-            img
+            img(src="../../static/images/my/task/task-gift.png")
           view.task-content
             view.task-content__name 订单奖励
             view.task-content__condition 会员全渠道消费
           view.task__btn 领任务
         view.task
           view.img-box.task__img
-            img
+            img(src="../../static/images/my/task/task-bookmark.png")
           view.task-content
             view.task-content__name 活动浏览
             view.task-content__condition 浏览活动页面获得积分奖励+10
@@ -46,14 +46,7 @@ export default {
   },
   data() {
     return {
-      swiperImg: [
-        '../../static/images/223.jpg',
-        '../../static/images/224.jpg',
-        '../../static/images/223.jpg',
-        '../../static/images/223.jpg',
-        '../../static/images/224.jpg',
-        '../../static/images/223.jpg'
-      ],
+      swiperImg: ['../../static/images/my/task/task-center-banner.png'],
       current: 0,
       swiperCurrent: 0,
       swiperAutoplay: true
@@ -120,7 +113,7 @@ export default {
 .task__img {
   width: 40rpx;
   height: 40rpx;
-  background-color: var(--theme--bg-main-color);
+  // background-color: var(--theme--bg-main-color);
 }
 
 .task-content {

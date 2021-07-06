@@ -1,7 +1,7 @@
 <template lang="pug">
 view.my_box
   view.my_header-top(@click="goMarsCover()")
-    img(:src="imgulr", mode="aspectFill")
+    img(:src="imgUrl", mode="aspectFill")
   view.my_header_title_box
     view.my_header_titleBox
       view.my_header_title {{ nickname }}
@@ -13,15 +13,15 @@ view.my_box
           img(:src="heading", mode="aspectFill")
       view.my_marsMember_content-box
         view.my_marsMember-one
-          img(src="../../static/images/my/my_jifen.png")
+          img(mode="aspectFit",src="../../static/images/my/my-points.png")
           view {{ points }}
           span MARS积分
         view.my_marsMember-one(@click="goCardBag")
-          img(src="../../static/images/my/my_youhui.png")
+          img(mode="aspectFit",src="../../static/images/my/my-coupon.png")
           view {{ couPonNumber }}
           span MARS优惠券
         view.my_marsMember-one(@click="goCardBag")
-          img(src="../../static/images/my/my_card.png")
+          img(mode="aspectFit",src="../../static/images/my/my-points.png")
           view {{ allCardBag }}
           span MARS卡包
   view.vip
@@ -53,37 +53,37 @@ view.my_box
     view.my_vip_content_box
       view.my_vip_content_namebox(@click="goVipCode")
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-code.png")
         span 会员码
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox(@click="goOrderList")
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-bookings.png")
         span 我的订单
         img(src="../../static/images/111.png")
       //- view.my_vip_content_namebox(@click="go")
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-payments.png")
         span 消费历史
         img(src="../../static/images/111.png")
       //- view.my_vip_content_namebox
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-points-gift.png")
         span 积分兑换
         img(src="../../static/images/111.png")
       //- view.my_vip_content_namebox
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-card-exchange.png")
         span 卡券兑换
         img(src="../../static/images/111.png")
       //- view.my_vip_content_namebox(@click="goCover")
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-card.png")
         span MARS封面
         img(src="../../static/images/111.png")
       view.my_vip_content_namebox(@click="goMore")
         view.menu__img.img-box
-          img
+          img(src="../../static/images/my/my-more.png")
         span 更多
         img(src="../../static/images/111.png")
 </template>
@@ -96,9 +96,9 @@ export default {
       heading: "",
       UserInformation: [], //用户信息
       showbanner: "",
-      imgulr: "", //封面图
+      imgUrl: "", //封面图
       nickname: "",
-      defaulturl: "../../static/images/my/my_bj.png",
+      defaultUrl: "../../static/images/my/my-banner.png",
       couPonNumber: 0, //卡券数量
       allCardBag: 0, //卡包内数量
       points: 0, //积分
@@ -107,7 +107,7 @@ export default {
   },
   onShow() {
     if (!this.nickname) {
-      this.imgulr = this.defaulturl;
+      this.imgUrl = this.defaultUrl;
     }
     this.user();
     this.getCoupon();
@@ -136,11 +136,11 @@ export default {
       this.$axios.getRequest("/auth/user").then((res) => {
         this.UserInformation = res;
         this.points = res.points;
-        let defaulturl = "../../static/images/my/my_bj.png";
+        let defaultUrl = "../../static/images/my/my-banner.png";
         if (this.UserInformation.currentCover) {
-          this.imgulr = this.UserInformation.currentCover.posterUrl;
+          this.imgUrl = this.UserInformation.currentCover.posterUrl;
         } else {
-          this.imgulr = defaulturl;
+          this.imgUrl = defaultUrl;
         }
         // console.log(res.currentCover,"res.currentCover")
         if (res.currentCover) {
@@ -219,6 +219,7 @@ export default {
     image {
       width: 750rpx;
       height: 500rpx;
+      background-color: white;
     }
   }
 
@@ -231,8 +232,6 @@ export default {
 
     .my_header_titleBox {
       opacity: 0.7;
-      // background: #D8D8D8;
-      background-color: rgba(216, 216, 216, 0.6);
       width: 750rpx;
       height: 160rpx;
 
@@ -441,7 +440,7 @@ export default {
           margin-left: 20rpx;
         }
 
-        image {
+        >image {
           width: 10rpx;
           height: 20rpx;
           margin-right: 30rpx;
@@ -482,6 +481,6 @@ export default {
 .menu__img{
   width: 40rpx;
   height: 40rpx;
-  background-color: var(--theme--bg-main-color);
+  // background-color: var(--theme--bg-main-color);
 }
 </style>

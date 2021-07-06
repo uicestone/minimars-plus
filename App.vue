@@ -86,4 +86,12 @@ html {
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('~@/static/fonts/Gotham-Ultra.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 </style>

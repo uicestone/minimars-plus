@@ -8,7 +8,7 @@ view.marsCoupon_box
       view.menu(v-for="(i, index) in menu", :key="index", @click="goCard(index)")
         view.img-box.menu__bg
           img.image(:src="i.img", mode="aspectFill")
-        view.menu__name {{i.name}}
+        <!-- view.menu__name {{i.name}} -->
 </template>
 
 <script>
@@ -18,19 +18,19 @@ export default {
       menu: [
         {
           name: '时效卡',
-          img: '../../static/images/index/cardPickerThree.png'
+          img: '../../static/images/coupon/card-period.png'
         },
         {
           name: '礼品卡',
-          img: '../../static/images/index/cardPickerTwo.png'
+          img: '../../static/images/coupon/card-balance.png'
         },
         {
           name: '限定卡',
-          img: '../../static/images/index/cardPickerOne.png'
+          img: '../../static/images/coupon/card-times.png'
         },
         {
           name: '活动套餐',
-          img: '../../static/images/index/cardPickerFour.png'
+          img: '../../static/images/coupon/card-coupon.png'
         }
       ]
     };
@@ -99,13 +99,13 @@ export default {
   overflow: hidden;
 }
 
-.menu::after{
-  content:"点击进入 >";
-  position: absolute;
-  right: 42rpx;
-  bottom:34rpx;
-  font-size: var(--theme--font-size-m);
-}
+// .menu::after{
+//   content:"点击进入 >";
+//   position: absolute;
+//   right: 42rpx;
+//   bottom:34rpx;
+//   font-size: var(--theme--font-size-m);
+// }
 
 .menu__bg {
   width: 100%;

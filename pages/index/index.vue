@@ -38,12 +38,14 @@ view.index_box
     view 您有预约{{ latestBooking.status | statusLabel }}，请及时查看
   // MARS商城
   view.shoppingMall_box
-    view.shoppingMall.shoppingImgBox(@click="goMall")
-      view.shoppingMall_title
-        // MARS商城
-    view.shoppingMall.activeImgBox(@click="goEvent")
+    view.shoppingMall.shoppingImgBox.img-box(@click="goMall")
+      img(src="../../static/images/index/home-entry-mall.png")
+      // MARS商城
+    view.shoppingMall.activeImgBox.img-box(@click="goEvent")
+      img(src="../../static/images/index/home-entry-event.png")
       // MARS活动
-    view.shoppingMall.cardImgBox(@click="goCard")
+    view.shoppingMall.cardImgBox.img-box(@click="goCard")
+      img(src="../../static/images/index/home-entry-card.png")
       // MARS卡券
   // 我的积分
   view.integrate_box
@@ -60,8 +62,8 @@ view.index_box
 </template>
 
 <script>
-import config from "../../utils/config";
-import { sync } from "vuex-pathify";
+import config from '../../utils/config';
+import { sync } from 'vuex-pathify';
 
 export default {
   data() {
@@ -69,17 +71,17 @@ export default {
       swiperCurrent: 0,
       swiperAutoplay: true,
       bannerPosts: [], //轮播图
-      latestBooking: null,
+      latestBooking: null
     };
   },
   computed: {
-    user: sync("auth/user"),
+    user: sync('auth/user'),
     points() {
-      return this.user && this.user.points ? this.user.points : "-";
-    },
+      return this.user && this.user.points ? this.user.points : '-';
+    }
   },
   async onShow() {
-    console.log("index:onShow");
+    console.log('index:onShow');
     // await this.$onLaunched;
     this.swiperAutoplay = true;
   },
@@ -88,7 +90,7 @@ export default {
   },
   async onLoad() {
     // await this.$onLaunched;
-    console.log("index:onLoad");
+    console.log('index:onLoad');
     uni.showLoading({ mask: true });
     await this.getBanner();
     uni.hideLoading();
@@ -99,19 +101,19 @@ export default {
     },
     goBookingCreate() {
       uni.navigateTo({
-        url: "../booking/create",
+        url: '../booking/create'
       });
     },
     // 跳转卡券页面
     goCard() {
       uni.navigateTo({
-        url: "../card/index",
+        url: '../card/index'
       });
     },
     // 跳转活动页面
     goEvent() {
       uni.navigateTo({
-        url: "../booking/events",
+        url: '../booking/events'
       });
     },
     goMall() {
@@ -119,40 +121,40 @@ export default {
     },
     goFood() {
       uni.switchTab({
-        url: "../food/index",
+        url: '../food/index'
       });
     },
     // banner图
     async getBanner() {
-      this.bannerPosts = await this.$axios.getRequest("/post", {
-        tag: "home-banner",
+      this.bannerPosts = await this.$axios.getRequest('/post', {
+        tag: 'home-banner'
       });
     },
 
     // 获取你的订单,查看详情
     async getLatestBooking() {
-      const bookings = await this.$axios.getRequest("/booking", {
-        type: "play",
-        status: "booking,in_service,pending,pending_refund",
-        limit: 1,
+      const bookings = await this.$axios.getRequest('/booking', {
+        type: 'play',
+        status: 'booking,in_service,pending,pending_refund',
+        limit: 1
       });
       if (bookings.length) {
         this.latestBooking = bookings[0];
       }
-    },
+    }
   },
   watch: {
     user(user) {
       if (user.id) {
         this.getLatestBooking();
       }
-    },
+    }
   },
   filters: {
     statusLabel(status) {
       return config.bookingStatusName[status];
-    },
-  },
+    }
+  }
 };
 </script>
 

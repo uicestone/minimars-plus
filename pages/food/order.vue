@@ -28,7 +28,7 @@ view.foodchooseBox
         view.foodchooseBox_top-box_discounts
           view.foodchooseBox_top-box_discounts_left
             img.discounts_leftimg(
-              src="../../static/images/orderFood/fooddiscounts.png"
+              src="../../static/images/orderFood/food-coupon.png"
             )
             view 优惠券
           view.foodchooseBox_top-box_discounts_right
@@ -128,7 +128,7 @@ view.foodchooseBox
     view.orderFood_choose(@click="createdOred")
       view.orderFood_choose-left
         img.orderFood_choose-left_img(
-          src="../../static/images/orderFood/shopcar.png"
+          src="../../static/images/orderFood/food-cart.png"
         )
         view.orderFood_choose-left-line
         view.orderFood_choose-left_money

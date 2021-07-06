@@ -9,7 +9,8 @@
         // scan a QR code
         view.haveOrder_scan_box
           view.haveOrder_scan
-            view.haveOrder_scan-code
+            view.img-box.haveOrder_scan-code
+              img(src="../../static/images/orderFood/no-food-booking.png",mode="heightFix")
             view.haveOrder_scan_content 
               | 您还没有点餐
               br
@@ -261,8 +262,9 @@ export default {
           width: 300rpx;
           height: 300rpx;
           margin: 0 auto;
-          background: var(--theme--bg-main-color);
+          // background: var(--theme--bg-main-color);
           border-radius: var(--theme--border-radius);
+          overflow: visible;
         }
 
         .haveOrder_scan_content {
