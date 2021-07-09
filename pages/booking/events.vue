@@ -29,14 +29,20 @@
   view
     view.tabs
       custom-tabs(:tabs="tabs",@onselect="selectTab",activeIndex="1")
-    view.list
-      view.item
-        custom-card
-          view 圣诞树
-          view 3岁-10岁
+    view.select
+      view.img-box.select__img
+        img(src="../../static/images/events/event-no-store.png")
+      view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
+    //- view.list
+    //-   view.item
+    //-     custom-card
+    //-       view 圣诞树
+    //-       view 3岁-10岁
     custom-pop(ref="storePicker")
       view(slot="header") 门店选择 STORES
       custom-picker(slot="body",:options="[doorlist]",labelKey="name",@onchange="selectStore")
+    
+    
 </template>
 
 <script>
