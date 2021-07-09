@@ -19,55 +19,28 @@ view.index_box
       view.buy_ticketsBox
         view.buy_tickets(@click="goOrder")
           img(
-            src="../../static/images/ticketing/ticketing_one.png",
+            src="../../static/images/integration/events.png",
             mode="aspectFit"
           )
-          span 单次门票
+          span 活动兑换
         view.buy_tickets_Food(@click="goBuyCard")
           img(
-            src="../../static/images/ticketing/ticketing_vip.png",
+            src="../../static/images/integration/goods.png",
             mode="aspectFit"
           )
-          span 礼品卡购买
+          span 商品兑换
 </template>
 
 <script>
 export default {
   data() {
     return {
-      bannerPosts: ['../../static/images/ticketing/ticketing_banner.png'],
+      bannerPosts: ['../../static/images/integration/banner.png'],
       current: 0,
       swiperCurrent: 0,
       swiperAutoplay: true,
     };
-  },
-  onLoad() {
-  },
-  onHide() {
-    this.swiperAutoplay = false;
-  },
-  methods: {
-    async getBanner() {
-      this.bannerPosts = await this.$axios.getRequest("/post", {
-        tag: "booking-banner",
-      });
-    },
-
-    changeSwiper(e) {
-      this.swiperCurrent = e.detail.current;
-    },
-    // 礼品卡购买
-    goBuyCard() {
-      uni.navigateTo({
-        url: "../card/index",
-      });
-    },
-    goOrder() {
-      uni.navigateTo({
-        url: "../booking/create",
-      });
-    },
-  },
+  }
 };
 </script>
 
@@ -79,24 +52,15 @@ export default {
   .banner {
     position: relative;
     width: 750rpx;
-    height: 550rpx;
+    height: 424rpx;
     background: #d8d8d8;
 
     .swiper {
-      height: 550rpx;
-      line-height: 140rpx;
+      height: 100%;
 
       .swiper_item {
-        width: 750rpx;
-        height: 550rpx;
-
-        img {
-          width: 750rpx;
-          height: 550rpx;
-        }
-
-        span {
-        }
+        width: 100vw;
+        height: 100%;
       }
     }
   }
@@ -105,7 +69,7 @@ export default {
   .buy_ticketsBox {
     height: 560rpx;
     position: absolute;
-    top: 240px;
+    top: 386rpx;
     margin-top: 0rpx;
     right: 30rpx;
     width: 690rpx;
@@ -147,3 +111,4 @@ export default {
   }
 }
 </style>
+

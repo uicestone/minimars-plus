@@ -33,6 +33,7 @@
       view.img-box.select__img
         img(src="../../static/images/events/event-no-store.png")
       view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
+      view.select__btn 门店选择
     //- view.list
     //-   view.item
     //-     custom-card
@@ -145,5 +146,36 @@ page {
 .tabs{
   position: sticky;
   top: 0;
+}
+
+.select{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+}
+
+.select__img
+{
+  width:454rpx;
+  height:334rpx;
+}
+
+.select__text{
+  font-size:var(--theme--font-size-s);
+  white-space:pre-wrap;
+  margin-top:80rpx;
+  text-align:center;
+  line-height:42rpx;
+}
+
+.select__btn{
+  width:424rpx;
+  height:102rpx;
+  line-height:102rpx;
+  text-align:center;
+  background-color:var(--theme--main-color);
+  border-radius:var(--theme--border-radius);
+  margin-top:114rpx;
 }
 </style>

@@ -156,8 +156,26 @@
       "style": {
         "navigationBarTitleText": ""
       }
+    },
+    {
+      "path": "pages/card/exchange",
+      "style": {
+        "navigationBarTitleText": "卡券兑换"
+      }
+    },
+    {
+      "path": "pages/integration/exchange",
+      "style": {
+        "navigationBarTitleText": "积分兑换"
+      }
+    },
+    {
+      "path": "pages/my/record",
+      "style": {
+        "navigationBarTitleText": "消费历史"
+      }
     }
-  ],
+    ],
   "tabBar": {
     "color": "#BDBDBD",
     "selectedColor": "#333333",
@@ -291,6 +309,21 @@
       {
         "name": "更多", //模式名称
         "path": "pages/my/more", //启动页面，必选
+        "query": ""
+      },
+      {
+        "name": "卡券兑换", //模式名称
+        "path": "pages/card/exchange", //启动页面，必选
+        "query": ""
+      },
+      {
+        "name": "积分兑换", //模式名称
+        "path": "pages/integration/exchange", //启动页面，必选
+        "query": ""
+      },
+      {
+        "name": "消费历史", //模式名称
+        "path": "pages/my/record", //启动页面，必选
         "query": ""
       }
     ]
