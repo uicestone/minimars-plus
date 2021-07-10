@@ -93,9 +93,7 @@ view.orderFood_box
       // 加购选择
       view.orderFood_choose(v-if="settlement == 1")
         view.orderFood_choose-left
-          img.orderFood_choose-left_img(
-            src="../../static/images/orderFood/food-cart.png"
-          )
+          <!-- img.orderFood_choose-left_img(src="../../static/images/orderFood/shopcar.png") -->
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
             | rmb {{ playMoney }}

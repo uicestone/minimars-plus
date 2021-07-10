@@ -58,7 +58,7 @@ page {
   --theme--font-size-l: 36rpx;
   --theme--font-main-color: #646a6d;
   --theme--font-deputy-color: #aaaeaf;
-  --theme--bg-main-color: #d9dcdd;
+  --theme--bg-main-color: #edeeef;
   --theme--font-weight-light: 300;
   --theme--font-weight-medium: 500;
   --theme--border-radius: 20rpx;
