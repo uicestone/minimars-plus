@@ -21,59 +21,50 @@
     {
       "path": "pages/food/order",
       "style": {
-        "navigationBarTitleText": "点餐",
-        "navigationBarBackgroundColor": "#6F7074",
-        "navigationBarTextStyle": "#ffffff"
+        "navigationBarTitleText": "点餐"
       }
     },
     {
       "path": "pages/my/index",
       "style": {
-        "navigationBarTitleText": "我的",
-        "navigationBarBackgroundColor": "#ffffff"
+        "navigationBarTitleText": "我的"
       }
     },
 
     {
       "path": "pages/booking/create",
       "style": {
-        "navigationBarTitleText": "预约",
-        "navigationBarBackgroundColor": "#D8D8D8"
+        "navigationBarTitleText": "预约"
       }
     },
     {
       "path": "pages/booking/calendar",
       "style": {
-        "navigationBarTitleText": "选择日期",
-        "navigationBarBackgroundColor": "#FFFFFF"
+        "navigationBarTitleText": "选择日期"
       }
     },
     {
       "path": "pages/card/index",
       "style": {
-        "navigationBarTitleText": "MARS卡券",
-        "navigationBarBackgroundColor": "#FFFFFF"
+        "navigationBarTitleText": "MARS卡券"
       }
     },
     {
       "path": "pages/booking/events",
       "style": {
-        "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF"
+        "navigationBarTitleText": "MARS活动"
       }
     },
     {
       "path": "pages/booking/eventDetail",
       "style": {
-        "navigationBarTitleText": "MARS活动",
-        "navigationBarBackgroundColor": "#FFFFFF"
+        "navigationBarTitleText": "MARS活动"
       }
     },
     {
       "path": "pages/card/list",
       "style": {
-        "navigationBarTitleText": "礼品卡",
-        "navigationBarBackgroundColor": "#D8D8D8"
+        "navigationBarTitleText": "礼品卡"
       }
     },
     {
@@ -97,8 +88,7 @@
     {
       "path": "pages/my/cards",
       "style": {
-        "navigationBarTitleText": "MARS卡包",
-        "navigationBarBackgroundColor": "#FFFFFF"
+        "navigationBarTitleText": "MARS卡包"
       }
     },
     {
@@ -216,7 +206,7 @@
   "globalStyle": {
     "navigationBarTextStyle": "black",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor":"#FFFFFF",
     "backgroundColor": "#F8F8F8"
   },
   "condition": { //模式配置，仅开发期间生效

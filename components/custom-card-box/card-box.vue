@@ -1,13 +1,21 @@
 <template lang="pug">
   view.item
     view.img-box.item__img
-      img
+      img(:src="img",:mode="imgMode")
     view.item-content
       slot
 </template>
 
 <script>
-export default {};
+export default {
+  props:{
+    img:String,
+    imgMode:{
+      type:String,
+      default:"aspectFill"
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -35,6 +43,9 @@ export default {};
 .item-content > view {
   width: 50%;
   display: inline-block;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .item-content > view:nth-of-type(2n) {

@@ -1,7 +1,8 @@
 <template lang="pug">
 view.marsCoupon_box
   view.marsCoupon_header
-    view Hi！小刀DAGGER
+    view Hi！
+      open-data(type="userNickName")
     view 这是你的卡券。
   view.marsCoupon_contentbox
     view.coupebox_content
@@ -12,6 +13,7 @@ view.marsCoupon_box
 </template>
 
 <script>
+import { get } from 'vuex-pathify';
 export default {
   data() {
     return {

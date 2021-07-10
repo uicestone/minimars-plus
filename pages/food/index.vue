@@ -152,7 +152,7 @@ export default {
     }
   },
   async onShow() {
-    console.log("food/index:onShow");
+    console.log('food/index:onShow');
     if (this.isScanning) return;
     try {
       this.isScanning = true;
@@ -162,7 +162,7 @@ export default {
       await this.getMenu();
       uni.hideLoading();
     } catch (e) {
-      uni.showToast({ title: e, icon: "none" });
+      uni.showToast({ title: e, icon: 'none' });
     }
   },
   onHide() {
@@ -172,27 +172,27 @@ export default {
     scanTableCode() {
       return new Promise((resolve, reject) => {
         uni.scanCode({
-          success: (res) => {
+          success: res => {
             // console.log(res.scanType, res.path, res.result);
             if (res.path) {
               const [, s, t] = res.path.match(/s=(.*)&t=(.*)/);
               console.log(s, t);
               if (!s || !t) {
-                return reject("无效点餐二维码");
+                return reject('无效点餐二维码');
               }
               this.storeCode = s;
               this.tableId = t;
               resolve();
             } else {
-              reject("无效点餐二维码");
+              reject('无效点餐二维码');
             }
           },
-          fail: function (res) {
-            reject("扫码失败");
+          fail: function(res) {
+            reject('扫码失败');
             uni.switchTab({
-              url: "../index/index",
+              url: '../index/index'
             });
-          },
+          }
         });
       });
     },
@@ -360,23 +360,47 @@ export default {
 
       .active {
         background-color: #ffffff;
-        border-left: 7rpx solid #9fcdff;
+        
+        &::before{
+          content: "";
+          width: 7rpx;
+          height: 100%;
+          background-color: #9fcdff;
+          position: absolute;
+          left: 0;
+          top: 0;
+        }
+        
+        &::after{
+          display: none;
+        }
       }
 
       .orderFood_left_title {
-        width: 90rpx;
         height: 100rpx;
-        border-bottom: 1px solid #d1d1d1;
         line-height: 25rpx;
         margin: 0 auto;
         display: flex;
         justify-content: center;
         align-items: center;
+        padding: 0 20rpx;
+        position: relative;
 
         span {
           font-size: var(--theme--font-size-s);
           font-weight: var(--theme--font-weight-light);
           white-space: wrap;
+        }
+
+        &::after {
+          content: '';
+          width: 90rpx;
+          left: 50%;
+          transform: translateX(-50%);
+          bottom: 0;
+          height: 2rpx;
+          background-color: #d1d1d1;
+          position: absolute;
         }
       }
     }
@@ -399,9 +423,8 @@ export default {
         border-radius: var(--theme--border-radius);
 
         .swiper_item {
-          width: 554rpx;
-          // height: 256rpx;
-          height: 22.5vh;
+          width: 100%;
+          height: 100%;
           border-radius: 20rpx;
 
           image {

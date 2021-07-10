@@ -19,7 +19,7 @@ view.buycards_box
               view.buycards_contentBody-right(@click="goaddMoney(item._id)")
                 img(src="../../static/images/add.png")
               view.buycards_contentBody-image(@click="open(item)") {{item.balance}}
-            span rmb {{ item.balance }}
+            span rmb {{ item.price }}
           uni-popup(ref="popup", type="bottom", :tabbar="false")
             view.login_box
               view.img-box.pop__close.cover-mask--small(@click="close()")
