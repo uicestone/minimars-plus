@@ -127,7 +127,7 @@
         view.listdetail_box(v-for="(item, index) in 3", :key="index")
           view.listdetail_box_content
             img.listdetail_box_contentimg(
-              src="../../static/images/224.jpg"
+              src="../../static/images/my/my-banner.png"
             )
             view.listdetail_box_content_titlebox
               view.listdetail_box_content_titlebox_left

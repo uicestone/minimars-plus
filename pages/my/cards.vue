@@ -4,7 +4,7 @@ view.cardbag
   view.cardbag_card(v-show="activeIndex == 0")
     view.cardbag_card_box
       view.img-box.cadbag__img
-        img(src="../../static/images/224.jpg", mode="aspectFill")
+        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | MarsBabe卡 rmb 3800
@@ -14,7 +14,7 @@ view.cardbag
   view.cardbag_card(v-show="activeIndex == 1")
     view.cardbag_card_box
       view.img-box.cadbag__img
-        img(src="../../static/images/224.jpg", mode="aspectFill")
+        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | Mars圣诞卡
@@ -24,7 +24,7 @@ view.cardbag
           view.cardbag__btn 赠送好友
     view.cardbag_card_box
       view.img-box.cadbag__img
-        img(src="../../static/images/224.jpg", mode="aspectFill")
+        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | Mars圣诞卡

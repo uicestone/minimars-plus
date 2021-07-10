@@ -1,7 +1,7 @@
 <template lang="pug">
 view.marsActivityBox
   view.marsActivity_header.img-box
-    img(src="../../static/images/224.jpg", mode="aspectFill")
+    img(src="../../static/images/my/my-banner.png", mode="aspectFill")
   view.marsActivity_titleBox
     view.header
         view.name 圣诞树DIY

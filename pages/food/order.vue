@@ -17,7 +17,7 @@ view.foodchooseBox
           v-for="(item, index) in replacebox",
           :key="index"
         )
-          img.topimg(src="../../static/images/224.jpg")
+          img.topimg(src="../../static/images/my/my-banner.png")
           view.foodchooseBox_top_one_title
             view.foodchooseBox_top_one_name 火龙果蓝莓奶昔
             view.foodchooseBox_top_one_moneybox
@@ -72,7 +72,7 @@ view.foodchooseBox
       uni-popup(ref="popup", type="center")
         view.gift_box
           view.gift_box_top
-            img(src="../../static/images/224.jpg", mode="aspectFill")
+            img(src="../../static/images/my/my-banner.png", mode="aspectFill")
             view.gift_box_top-close
               img.gift_box_clear_right(
                 src="../../static/images/clear.png",
