@@ -68,7 +68,9 @@ view.orderFood_box
                     v-if="item2.numbers > 0"
                   )
                     view(@click="foodreduce(item2)")
-                      img.foodreduce_img(src="../../static/images/minus_deputy.png")
+                      img.foodreduce_img(
+                        src="../../static/images/minus_deputy.png"
+                      )
                     view {{ item2.numbers }}
                     view(@click="foodAdd(item2)")
                       img.foodAdd_img(src="../../static/images/add_deputy.png")
@@ -88,12 +90,14 @@ view.orderFood_box
           view.gift_box_top_footer
             view.gift_box_top_footer-left
               | rmb {{ item.buyPrice }}
-            view.gift_box_top_footer-right(@click="unpopAdd(index)")
+            view.img-box.gift_box_top_footer-right(@click="unpopAdd(index)")
               img(src="../../static/images/add_deputy.png")
       // 加购选择
       view.orderFood_choose(v-if="settlement == 1")
         view.orderFood_choose-left
-          <!-- img.orderFood_choose-left_img(src="../../static/images/orderFood/shopcar.png") -->
+          view.img-box.orderFood_choose-left_img
+            img(src="../../static/images/orderFood/food-cart.png")
+            view.cart__num {{ goodsSum }}
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
             | rmb {{ playMoney }}
@@ -103,14 +107,14 @@ view.orderFood_box
 </template>
 
 <script>
-import uniPopup from '@/components/uni-popup/uni-popup.vue';
-import foodMenu from '@/components/food-menu.vue';
-import { sync } from 'vuex-pathify';
+import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import foodMenu from "@/components/food-menu.vue";
+import { sync } from "vuex-pathify";
 
 export default {
   components: {
     uniPopup,
-    foodMenu
+    foodMenu,
   },
   data() {
     return {
@@ -130,21 +134,33 @@ export default {
       // 购物车显示隐藏
       settlement: 0,
       tabBars: [],
-      clickId: '',
+      clickId: "",
       change: 0,
       topList: [],
       isLeftClick: false,
       // 弹框得到索引
-      unpooIndex: '',
-      unpooIndex2: '',
+      unpooIndex: "",
+      unpooIndex2: "",
       item: {},
-      storeCode: '',
-      storeId: '',
-      tableId: ''
+      storeCode: "",
+      storeId: "",
+      tableId: "",
     };
   },
+  computed: {
+    // 商品总数
+    goodsSum() {
+      let sum = 0;
+      this.tabBars.forEach((tab) => {
+        tab.products.forEach((item) => {
+          sum += item.numbers;
+        });
+      });
+      return sum;
+    },
+  },
   onLoad(option) {
-    console.log('food/index:onLoad', option);
+    console.log("food/index:onLoad", option);
     this.getbanner();
     if (option.s && option.t) {
       this.storeCode = option.s;
@@ -152,7 +168,7 @@ export default {
     }
   },
   async onShow() {
-    console.log('food/index:onShow');
+    console.log("food/index:onShow");
     if (this.isScanning) return;
     try {
       this.isScanning = true;
@@ -162,7 +178,7 @@ export default {
       await this.getMenu();
       uni.hideLoading();
     } catch (e) {
-      uni.showToast({ title: e, icon: 'none' });
+      uni.showToast({ title: e, icon: "none" });
     }
   },
   onHide() {
@@ -172,37 +188,37 @@ export default {
     scanTableCode() {
       return new Promise((resolve, reject) => {
         uni.scanCode({
-          success: res => {
+          success: (res) => {
             // console.log(res.scanType, res.path, res.result);
             if (res.path) {
               const [, s, t] = res.path.match(/s=(.*)&t=(.*)/);
               console.log(s, t);
               if (!s || !t) {
-                return reject('无效点餐二维码');
+                return reject("无效点餐二维码");
               }
               this.storeCode = s;
               this.tableId = t;
               resolve();
             } else {
-              reject('无效点餐二维码');
+              reject("无效点餐二维码");
             }
           },
-          fail: function(res) {
-            reject('扫码失败');
+          fail: function (res) {
+            reject("扫码失败");
             uni.switchTab({
-              url: '../index/index'
+              url: "../index/index",
             });
-          }
+          },
         });
       });
     },
     async getMenu() {
-      const storeMenu = await this.$axios.getRequest('/store-menu', {
+      const storeMenu = await this.$axios.getRequest("/store-menu", {
         storeCode: this.storeCode,
-        tableId: this.tableId
+        tableId: this.tableId,
       });
-      storeMenu.menu.forEach(i => {
-        i.products.forEach(j => {
+      storeMenu.menu.forEach((i) => {
+        i.products.forEach((j) => {
           j.numbers = 0;
         });
       });
@@ -211,8 +227,8 @@ export default {
       this.storeId = storeMenu.store.id;
     },
     async getbanner() {
-      this.bannerPosts = await this.$axios.getRequest('/post', {
-        tag: 'food'
+      this.bannerPosts = await this.$axios.getRequest("/post", {
+        tag: "food",
       });
     },
     // 轮播
@@ -245,8 +261,8 @@ export default {
       this.settlement = 1;
       //总价格
       this.playMoney = 0;
-      this.tabBars.forEach(item => {
-        item.products.forEach(j => {
+      this.tabBars.forEach((item) => {
+        item.products.forEach((j) => {
           this.playMoney += j.numbers * j.buyPrice;
         });
       });
@@ -274,8 +290,8 @@ export default {
       item2.numbers++;
       //总价格
       this.playMoney = 0;
-      this.tabBars.forEach(item => {
-        item.products.forEach(j => {
+      this.tabBars.forEach((item) => {
+        item.products.forEach((j) => {
           this.playMoney += j.numbers * j.buyPrice;
         });
       });
@@ -283,8 +299,8 @@ export default {
 
     goChoose() {
       let selectshop = []; //选中的餐品
-      this.tabBars.forEach(item => {
-        item.products.forEach(items => {
+      this.tabBars.forEach((item) => {
+        item.products.forEach((items) => {
           if (items.numbers > 0) {
             selectshop.push(items);
           }
@@ -292,12 +308,18 @@ export default {
       });
       console.log(selectshop);
       uni.navigateTo({
-        url: './order?selectshop=' + JSON.stringify(selectshop) + '&tableId=' + this.tableId + '&storeId=' + this.storeId
+        url:
+          "./order?selectshop=" +
+          JSON.stringify(selectshop) +
+          "&tableId=" +
+          this.tableId +
+          "&storeId=" +
+          this.storeId,
       });
     },
     // 鼠标点击
     setid(index) {
-      this.clickId = 'po' + index;
+      this.clickId = "po" + index;
       this.change = index;
       this.isLeftClick = true;
     },
@@ -316,7 +338,7 @@ export default {
         this.calcSize();
       }
       let scrollTop = e.detail.scrollTop;
-      let tabs = this.tabBars.filter(item => item.top <= scrollTop).reverse();
+      let tabs = this.tabBars.filter((item) => item.top <= scrollTop).reverse();
       if (tabs.length > 0) {
         this.change = tabs[0].uid;
       }
@@ -324,14 +346,14 @@ export default {
     //计算右侧栏每个tab的高度等信息
     calcSize() {
       let h = 0;
-      this.tabBars.forEach(item => {
-        let view = uni.createSelectorQuery().select('#po' + item.uid);
+      this.tabBars.forEach((item) => {
+        let view = uni.createSelectorQuery().select("#po" + item.uid);
         view
           .fields(
             {
-              size: true
+              size: true,
             },
-            data => {
+            (data) => {
               item.top = h;
               h += data.height;
               item.bottom = h;
@@ -340,8 +362,8 @@ export default {
           .exec();
       });
       this.isLeftClick = true;
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -360,8 +382,8 @@ export default {
 
       .active {
         background-color: #ffffff;
-        
-        &::before{
+
+        &::before {
           content: "";
           width: 7rpx;
           height: 100%;
@@ -370,8 +392,8 @@ export default {
           left: 0;
           top: 0;
         }
-        
-        &::after{
+
+        &::after {
           display: none;
         }
       }
@@ -393,7 +415,7 @@ export default {
         }
 
         &::after {
-          content: '';
+          content: "";
           width: 90rpx;
           left: 50%;
           transform: translateX(-50%);
@@ -594,24 +616,16 @@ export default {
           display: flex;
           justify-content: space-between;
           align-items: center;
+          padding: 0 34rpx;
+          box-sizing: border-box;
 
           .gift_box_top_footer-left {
-            width: 88rpx;
-            height: 50rpx;
             font-size: var(--theme--font-size-m);
-            color: var(--theme--bg-main-color);
-            line-height: 65rpx;
-            margin-left: 10rpx;
           }
 
           .gift_box_top_footer-right {
-            margin-right: 10rpx;
-            margin-top: 30rpx;
-
-            image {
-              width: 40rpx;
-              height: 40rpx;
-            }
+            width: 40rpx;
+            height: 40rpx;
           }
         }
       }
@@ -644,6 +658,23 @@ export default {
         height: 40rpx;
         z-index: 1;
         margin-right: 30rpx;
+        overflow: visible;
+
+        .cart__num {
+          display: block;
+          width: 20rpx;
+          height: 20rpx;
+          background-color: #646a6d;
+          font-size: 14rpx;
+          line-height: 20rpx;
+          text-align: center;
+          color: white;
+          position: absolute;
+          z-index: 1;
+          right: -10rpx;
+          top: -4rpx;
+          border-radius: 50%;
+        }
       }
 
       .orderFood_choose-left-line {

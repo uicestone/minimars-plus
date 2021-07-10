@@ -8,9 +8,10 @@ view.my_box
     // MARS会员
     view.my_marsMember_box
       view.my_marsMemberheader
-        view.my_marsMembertitle MARS会员
+        view.my_marsMembertitle Hi！
+          open-data(type='userNickName')
         view.my_marsMember_headerimg
-          img(:src="heading", mode="aspectFill")
+          open-data(type='userAvatarUrl')
       view.my_marsMember_content-box
         view.my_marsMember-one
           img(mode="aspectFit",src="../../static/images/my/my-points.png")
@@ -280,6 +281,7 @@ export default {
           height: 140rpx;
           background: #bababa;
           border-radius: 140rpx;
+          overflow: hidden;
 
           image {
             width: 140rpx;
