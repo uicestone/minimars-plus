@@ -40,7 +40,7 @@ export default {
       console.log('goCard index:', index);
       if (index === 0) {
         uni.navigateTo({
-          url: '/pages/card/list?type=times'
+          url: '/pages/card/list?type=period'
         });
       } else if (index === 1) {
         uni.navigateTo({
@@ -48,7 +48,7 @@ export default {
         });
       } else if (index === 2) {
         uni.navigateTo({
-          url: '/pages/card/list?type=period'
+          url: '/pages/card/list?type=times'
         });
       } else if (index === 3) {
         uni.navigateTo({
