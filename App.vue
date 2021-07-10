@@ -1,6 +1,7 @@
 <script>
 import { sync } from 'vuex-pathify';
 import wechatLogin from '@/utils/wechatLogin';
+import loadFont from "@/utils/loadFont";
 
 export default {
   computed: {
@@ -13,6 +14,11 @@ export default {
 
     try {
       uni.showLoading({ mask: true });
+      await Promise.all([
+        loadFont("Gotham", 300, "Gotham-Light.woff2"),
+        loadFont("Gotham", 500, "Gotham-Medium.woff2"),
+        loadFont("Gotham", 900, "Gotham-Ultra.woff2")
+      ])
       if (!this.auth.token) {
         const auth = await wechatLogin();
         Object.assign(this.auth, auth);
@@ -71,27 +77,4 @@ html {
   font-family: Gotham, 'PingFang SC', sans-serif;
 }
 
-@font-face {
-  font-family: 'Gotham';
-  src: url('~@/static/fonts/Gotham-Light.woff2') format('woff2'), url('~@/static/fonts/Gotham-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('~@/static/fonts/Gotham-Medium.woff2') format('woff2'), url('~@/static/fonts/Gotham-Medium.woff') format('woff');
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gotham';
-  src: url('~@/static/fonts/Gotham-Ultra.woff') format('woff');
-  font-weight: 900;
-  font-style: normal;
-  font-display: swap;
-}
 </style>

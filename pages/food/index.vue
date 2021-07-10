@@ -94,7 +94,7 @@ view.orderFood_box
       view.orderFood_choose(v-if="settlement == 1")
         view.orderFood_choose-left
           img.orderFood_choose-left_img(
-            src="../../static/images/orderFood/shopcar.png"
+            src="../../static/images/orderFood/food-cart.png"
           )
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
