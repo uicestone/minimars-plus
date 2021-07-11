@@ -43,7 +43,7 @@ view.myOrder_box
         view.modeOf_Payment_box_name
           | {{ item.title }}
           view.payment-box__price
-            | RMB {{ item.price }}
+            //- | rmb {{ item.price }}
       view.modeOf_Payment_box.payment-box--add(@click="goBuyCards")
         view.payment-box__img.img-box
           view.payment-box__img--add.img-box
@@ -457,7 +457,7 @@ page {
         }
 
         .disabled {
-          opacity: 0.5;
+          opacity: 0.2;
         }
 
         .modeOf_Payment_box_btn {
