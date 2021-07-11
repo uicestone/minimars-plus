@@ -3,12 +3,12 @@ view.orderFood_box
   view.orderFood_left
     scroll-view.orderFood_left_scroll(scroll-y="true", show-scrollbar="true")
       view.orderFood_left_title(
-        v-for="(item, index) in tabBars",
-        :key="index",
-        @click="setid(item.uid)",
-        :class="item.uid == change ? 'active' : ''"
+        v-for="(category, index) in categories",
+        :key="category.uid",
+        @click="scrollToCategory(category.uid)",
+        :class="category.uid === change ? 'active' : ''"
       )
-        span {{ item.name }}
+        span {{ category.name }}
   view.orderFood_right
     // 轮播
     view.orderFood_right_banner
@@ -24,7 +24,6 @@ view.orderFood_box
       )
         swiper-item(v-for="item in bannerPosts", :key="item.id")
           img.swiper_item(:src="item.posterUrl", mode="aspectFill")
-    // 特色推荐
     view.orderFood_right_content_box
       scroll-view.orderFood_right_content_scroll(
         :scroll-y="true",
@@ -36,72 +35,72 @@ view.orderFood_box
         // :lower-threshold="200" :upper-threshold="200" :scroll-with-animation="true"
         view.orderFood_right_content
           view(
-            v-for="(item, index) in tabBars",
-            :key="index",
-            :id="'po' + item.uid"
+            v-for="category in categories",
+            :key="category.uid",
+            :id="'po' + category.uid"
           )
-            text.name.orderFood_right_title {{ item.name }}
+            text.name.orderFood_right_title {{ category.name }}
             view.orderFood_right_title_content(
-              v-for="(item2, index2) in item.products",
-              :key="index2"
+              v-for="product in category.products",
+              :key="product.uid"
             )
               view.orderFood_right_title_content-left(
-                @click="open(index, index2, item2)"
+                @click="open(product)"
               )
-                img(:src="item2.imageUrl")
+                img(:src="product.imageUrl")
               view.orderFood_right_title_content-right
-                view.right_title_content-right-title {{ item2.name }}
+                view.right_title_content-right-title {{ product.name }}
                 view.right_title_content-right-detail(
-                  @click="open(index, index2, item2)"
-                ) {{ item2.description }}
+                  @click="open(product)"
+                ) {{ product.description }}
                 view.right_title_content-right-money_box
                   view.right_title_content-right-money_box_money
-                    | rmb {{ item2.buyPrice }}
+                    | rmb {{ product.sellPrice }}
                   view.right_title_content-right-money_box_add(
-                    v-if="item2.numbers == 0"
+                    v-if="!getCartItem(product)"
                   )
                     view
                     view
-                    view(@click="foodAdd(item2)")
+                    view(@click="foodAdd(product)")
                       img.foodAdd_img(src="../../static/images/add_deputy.png")
                   view.right_title_content-right-money_box_add(
-                    v-if="item2.numbers > 0"
+                    v-else
                   )
-                    view(@click="foodreduce(item2)")
+                    view(@click="foodReduce(product)")
                       img.foodreduce_img(
                         src="../../static/images/minus_deputy.png"
                       )
-                    view {{ item2.numbers }}
-                    view(@click="foodAdd(item2)")
+                    view {{ getCartItem(product).numbers }}
+                    view(@click="foodAdd(product)")
                       img.foodAdd_img(src="../../static/images/add_deputy.png")
       // 详情
       uni-popup(ref="popup", type="center", :tabbar="true")
-        view.gift_box
+        view.gift_box(v-if="popupProduct")
           view.gift_box_top
-            img(:src="item.imageUrl", mode="aspectFill")
+            img(:src="popupProduct.imageUrl", mode="aspectFill")
             view.gift_box_top-close
               img.gift_box_clear_right(
                 src="../../static/images/clear.png",
                 @click="close()"
               )
           view.gift_box_top_content
-            view.gift_box_top_content-title {{ item.name }}
-            view.gift_box_top_content-box {{ item.description }}
+            view.gift_box_top_content-title {{ popupProduct.name }}
+            view.gift_box_top_content-box {{ popupProduct.description }}
           view.gift_box_top_footer
             view.gift_box_top_footer-left
-              | rmb {{ item.buyPrice }}
-            view.img-box.gift_box_top_footer-right(@click="unpopAdd(index)")
+              | rmb {{ popupProduct.sellPrice }}
+            view.img-box.gift_box_top_footer-right(@click="addInPopup(index)")
               img(src="../../static/images/add_deputy.png")
       // 加购选择
-      view.orderFood_choose(v-if="settlement == 1")
+      view.orderFood_choose(v-if="foodCart.length > 0")
         view.orderFood_choose-left
           view.img-box.orderFood_choose-left_img
             img(src="../../static/images/orderFood/food-cart.png")
             view.cart__num {{ goodsSum }}
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
-            | rmb {{ playMoney }}
-        view.orderFood_choose-right(@click="goChoose()")
+            | rmb {{ totalPrice }}
+        view.orderFood_choose-right(@click="goOrder")
           view.orderFood_choose-right-choose 选好了
           img(src="../../static/images/orderFood/white_right.png")
 </template>
@@ -119,49 +118,32 @@ export default {
   data() {
     return {
       isScanning: false,
-      // 购物车价钱
-      playMoney: 0,
-      change: 0,
-      swiperHeight: 0,
       swiperAutoplay: true,
-      menuWidth: 0,
-      foodWidth: 0,
-      tabIndexShow: 0,
-      tabIndex: 0,
       bannerPosts: [],
-      current: 0,
-      swiperCurrent: 0,
-      // 购物车显示隐藏
-      settlement: 0,
-      tabBars: [],
+      categories: [],
       clickId: "",
       change: 0,
-      topList: [],
       isLeftClick: false,
       // 弹框得到索引
-      unpooIndex: "",
-      unpooIndex2: "",
-      item: {},
+      popupProduct: null,
       storeCode: "",
       storeId: "",
       tableId: "",
     };
   },
   computed: {
+    foodCart: sync("booking/foodCart"),
     // 商品总数
     goodsSum() {
-      let sum = 0;
-      this.tabBars.forEach((tab) => {
-        tab.products.forEach((item) => {
-          sum += item.numbers;
-        });
-      });
-      return sum;
+      return this.foodCart.reduce((sum, item) => sum + item.numbers ,0);
     },
+    totalPrice() {
+      return this.foodCart.reduce((total, item) => +(total + item.sellPrice * item.numbers).toFixed(10), 0);
+    }
   },
   onLoad(option) {
     console.log("food/index:onLoad", option);
-    this.getbanner();
+    this.getBanner();
     if (option.s && option.t) {
       this.storeCode = option.s;
       this.tableId = option.t;
@@ -171,10 +153,15 @@ export default {
     console.log("food/index:onShow");
     if (this.isScanning) return;
     try {
-      await this.scanTableCode();
-      uni.showLoading();
-      await this.getMenu();
-      uni.hideLoading();
+      if (!this.storeCode || !this.tableId) {
+        await this.scanTableCode();
+      }
+      if (!this.categories.length) {
+        uni.showLoading();
+        await this.getMenu();
+        this.change = this.categories[0].uid;
+        uni.hideLoading();
+      }
     } catch (e) {
       uni.showToast({ title: e, icon: "none" });
     }
@@ -223,11 +210,10 @@ export default {
           j.numbers = 0;
         });
       });
-      this.tabBars = storeMenu.menu;
-      this.tableId = storeMenu.tableId;
+      this.categories = storeMenu.menu;
       this.storeId = storeMenu.store.id;
     },
-    async getbanner() {
+    async getBanner() {
       this.bannerPosts = await this.$axios.getRequest("/post", {
         tag: "food",
       });
@@ -237,101 +223,67 @@ export default {
       this.swiperCurrent = e.detail.current;
     },
     // 弹框打开,关闭
-    open(index, index2, item) {
-      this.item = item;
-      this.unpooIndex = index;
-      this.unpooIndex2 = index2;
+    open(product) {
+      this.popupProduct = product;
       this.$refs.popup.open();
       wx.hideTabBar();
     },
     close() {
+      this.popupProduct = null;
       this.$refs.popup.close();
       wx.showTabBar();
     },
     // 弹框加
-    unpopAdd() {
-      this.tabBars.forEach((item, k) => {
-        if (k == this.unpooIndex) {
-          item.products.forEach((j, l) => {
-            if (l == this.unpooIndex2) {
-              j.numbers++;
-            }
-          });
-        }
-      });
-      this.settlement = 1;
-      //总价格
-      this.playMoney = 0;
-      this.tabBars.forEach((item) => {
-        item.products.forEach((j) => {
-          this.playMoney += j.numbers * j.buyPrice;
-        });
-      });
-      this.$refs.popup.close();
-      wx.showTabBar();
+    addInPopup() {
+      this.foodAdd(this.popupProduct);
+      this.close();
+    },
+    getCartItem(product) {
+      return this.foodCart.find(item => item.uid === product.uid);
     },
     // 购物车数量加减
-    foodreduce(item2) {
-      item2.numbers--;
-      this.playMoney = this.playMoney - item2.buyPrice;
-      if (this.playMoney == 0) {
-        this.settlement = 0;
-      }
-    },
-    foodAdd(item2) {
-      for (let i = 0; i < this.tabBars.length; i++) {
-        for (let j = 0; j < this.tabBars[i].products.length; j++) {
-          if (item2.numbers == 0) {
-            this.settlement = 1;
-            break;
-          }
+    foodReduce(product) {
+      const itemInCart = this.foodCart.find(item => item.uid === product.uid);
+      if (itemInCart) {
+        itemInCart.numbers--;
+        if (itemInCart.numbers <=0) {
+          this.foodCart = this.foodCart.filter(item => item.uid !== product.uid);
         }
       }
-      //count
-      item2.numbers++;
-      //总价格
-      this.playMoney = 0;
-      this.tabBars.forEach((item) => {
-        item.products.forEach((j) => {
-          this.playMoney += j.numbers * j.buyPrice;
-        });
-      });
     },
-
-    goChoose() {
-      let selectshop = []; //选中的餐品
-      this.tabBars.forEach((item) => {
-        item.products.forEach((items) => {
-          if (items.numbers > 0) {
-            selectshop.push(items);
-          }
-        });
-      });
-      console.log(selectshop);
+    foodAdd(product) {
+      const itemInCart = this.foodCart.find(item => item.uid === product.uid);
+      if (itemInCart) {
+        itemInCart.numbers++;
+      } else {
+        this.foodCart.push(
+          {...product, numbers: 1}
+        );
+      }
+    },
+    goOrder() {
       uni.navigateTo({
         url:
-          "./order?selectshop=" +
-          JSON.stringify(selectshop) +
-          "&tableId=" +
-          this.tableId +
-          "&storeId=" +
-          this.storeId,
+          "./order?" +
+          "tableId=" + this.tableId +
+          "&storeId=" + this.storeId,
       });
     },
     // 鼠标点击
-    setid(index) {
-      this.clickId = "po" + index;
-      this.change = index;
+    scrollToCategory(catUid) {
+      this.clickId = "po" + catUid;
+      console.log(this.clickId);
+      this.change = catUid;
       this.isLeftClick = true;
     },
 
     // 滚动到底部
     scrolltolower() {
-      this.change = this.tabBars[this.tabBars.length - 1].uid;
+      this.change = this.categories[this.categories.length - 1].uid;
     },
     // 滚动到顶部
     scrolltoupper() {
-      this.change = this.tabBars[0].uid;
+      this.change = this.categories[0].uid;
     },
     //右侧栏滚动
     asideScroll(e) {
@@ -339,7 +291,7 @@ export default {
         this.calcSize();
       }
       let scrollTop = e.detail.scrollTop;
-      let tabs = this.tabBars.filter((item) => item.top <= scrollTop).reverse();
+      let tabs = this.categories.filter((item) => item.top <= scrollTop).reverse();
       if (tabs.length > 0) {
         this.change = tabs[0].uid;
       }
@@ -347,7 +299,7 @@ export default {
     //计算右侧栏每个tab的高度等信息
     calcSize() {
       let h = 0;
-      this.tabBars.forEach((item) => {
+      this.categories.forEach((item) => {
         let view = uni.createSelectorQuery().select("#po" + item.uid);
         view
           .fields(

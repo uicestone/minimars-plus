@@ -4,15 +4,15 @@ view.foodchooseBox
     view.foodchooseBox_top
       view.foodchooseBox_top-box
         view.foodchooseBox_top_one(
-          v-for="(item, index) in selectshop",
+          v-for="(item, index) in foodCart",
           :key="index"
         )
           img.topimg(:src="item.imageUrl")
           view.foodchooseBox_top_one_title
             view.foodchooseBox_top_one_name {{ item.name }}
             view.foodchooseBox_top_one_moneybox
-              view.foodchooseBox_top_one_number x{{ item.numbers }}
-              view.foodchooseBox_top_one_money rmb {{ item.buyPrice }}
+              view.foodchooseBox_top_one_number ×{{ item.numbers }}
+              view.foodchooseBox_top_one_money rmb {{ item.sellPrice }}
         view.foodchooseBox_top_one(
           v-for="(item, index) in replacebox",
           :key="index"
@@ -125,7 +125,7 @@ view.foodchooseBox
       </view>
       </view>
     // 立即支付
-    view.orderFood_choose(@click="createdOred")
+    view.orderFood_choose(@click="createOrder")
       view.orderFood_choose-left
         img.orderFood_choose-left_img(
           src="../../static/images/orderFood/food-cart.png"
@@ -141,6 +141,8 @@ view.foodchooseBox
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import payment from "../../utils/payment.js";
+import { sync } from "vuex-pathify";
+
 export default {
   components: {
     uniPopup,
@@ -161,7 +163,6 @@ export default {
       ],
       replacebox: [],
       selectshop: [],
-      totalPrice: 0,
       cardList: [],
       order: {
         type: "food",
@@ -172,52 +173,34 @@ export default {
     };
   },
   computed: {
+    foodCart: sync("booking/foodCart"),
     sum() {
-      // 商品总数
-      let num = 0;
-      this.selectshop.forEach((item) => {
-        num += item.numbers;
-      });
-      return num;
+      return this.foodCart.reduce((sum, item) => sum + item.numbers ,0);
     },
+    totalPrice() {
+      return this.foodCart.reduce((total, item) => +(total + item.sellPrice * item.numbers).toFixed(10), 0);
+    }
   },
   onLoad(option) {
-    this.selectshop = JSON.parse(option.selectshop);
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
-    this.selectshop.forEach((j) => {
-      this.order.items.push({
-        productUid: j.uid,
-        quntity: j.numbers,
-      });
-    });
-    console.log(this.order);
-    this.selectshop.forEach((i) => {
-      this.totalPrice += i.buyPrice * i.numbers;
-    });
-    // this.getCardList()
+    this.order.items = this.foodCart.map(item => ({productUid: item.uid, quantity: item.numbers}));
   },
   methods: {
     //创建订单
-    createdOred() {
-      let toBookings = function () {
+    async createOrder() {
+      try {
+        await payment(this.order);
+        this.foodCart = [];
         uni.redirectTo({
           url: "../my/bookings",
         });
-      };
-
-      payment(this.order)
-        .then(toBookings)
-        .catch((msg) => {
-          if (!msg) {
-            toBookings();
-          } else {
-            uni.showToast({
-              title: msg,
-              icon: "none",
-            });
-          }
+      } catch (err) {
+        uni.showToast({
+          title: err,
+          icon: "none",
         });
+      }
     },
 
     //获取卡列表
