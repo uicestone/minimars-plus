@@ -1,27 +1,126 @@
 <template lang="pug">
 view.marsActivityBox
   view.marsActivity_header.img-box
-    img(src="../../static/images/my/my-banner.png", mode="aspectFill")
+    img(:src="detail.posterUrl", mode="aspectFill")
   view.marsActivity_titleBox
     view.header
-        view.name 圣诞树DIY
-        view.rule
-          view.date 2021.12.19
-          view.age 3-10岁
-    view.richtext 111
+      view.name {{ detail.title }}
+      view.rule
+        view.date {{ detail.date }}
+        view.age {{ detail.kidAgeRange }}
+    view.richtext
+      rich-text(:nodes="detail.content")
+  view.btn 立即预约 MAKE Appointment
+
+  uni-popup(ref="popup", type="center")
+    view.popup-box
+      view.popup-conent
+        view.flex-x.center.popup-goods
+          view.img-box.popup-goods__img
+            img(:src="detail.posterUrl", mode="aspectFill")
+          view.grow.flex-y.between.popup-goods__content
+            view.popup-goods__name {{ detail.title }}
+            view.flex-x.center.between.popup-goods__detail
+              view.popup-goods__condition *入场门票需另购
+              view.popup-goods__price rmb {{ detail.price }}
+        view.storesToChoose_choose
+          view.title
+            img(src="../../static/images/index/index_orderOne.png")
+            view 门店确认 STORE
+          view.content(@click="showShopPop")
+            span {{ store }}
+          view.title
+            img(src="../../static/images/index/index_orderTwo.png")
+            view 活动时间 TIME
+          view.content(@click="showCalendarPop")
+            span {{ date[0] }}
+          view.title
+            img(src="../../static/images/index/index_orderThree.png")
+            view 报名人数 attendance
+          view.content(@click="showPeoplePop")
+            span 儿童
+            view.flex-x.center.popup-control
+              view.img-box.popup-control__btn
+                img(src="../../static/images/add.png")
+              view.popup__num 11
+              view.img-box.popup-control__btn
+                img(src="../../static/images/minus.png")
+      view.flex-x.center.between.popup-bottom
+        view.popup-bottom__btn 积分支付
+        view.popup-bottom__btn 微信支付
+
+    // 日期选择
+  custom-popup(ref="calendarPop")
+    view.pop-header(slot="header")
+      view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(
+        @click="changeMonth(-1)"
+      )
+      view {{ currentMonth }}
+      view.pop-header__arrow.pop-header__arrow--right.cover-mask--medium(
+        @click="changeMonth(+1)"
+      )
+    view.calendar__body(slot="body")
+      custom-calendar(
+        :markDays.sync="date",
+        :displayMonth.sync="calendarDisplayMonth",
+        ref="calendar"
+      )
 </template>
 
 <script>
+import moment from "moment";
+
+import customPopup from "../../components/custom-popup/popup";
+import customPicker from "../../components/custom-picker/picker";
+import customCalendar from "../../components/custom-calendar/calendar";
+
 export default {
-  data() {
-    return {};
+  components: {
+    "custom-popup": customPopup,
+    "custom-picker": customPicker,
+    "custom-calendar": customCalendar,
   },
-  methods: {},
+  computed: {
+    currentMonth() {
+      return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月");
+    },
+  },
+  data() {
+    return {
+      detail: null,
+      date: "",
+      calendarDisplayMonth: moment().format("YYYY-MM-DD"),
+    };
+  },
+  onLoad(params) {
+    this.getDetail(params.id);
+    this.$refs.popup.open();
+  },
+  methods: {
+    async getDetail(id) {
+      const detail = await this.$axios.getRequest("/event/" + id);
+      detail.content = getApp().fixRichTextImg(detail.content);
+      detail.date = moment(detail.date).format("YYYY.MM.DD");
+      this.detail = detail;
+    },
+
+    // 显示日历弹窗
+    showCalendarPop() {
+      this.$refs.calendarPop.open();
+    },
+
+    // 选择月份
+    changeMonth(n) {
+      this.$refs.calendar.addMonth(n);
+    },
+  },
 };
 </script>
 
 <style lang="less" scoped>
 .marsActivityBox {
+  overflow-y: scroll;
+
   .marsActivity_header {
     width: 750rpx;
     height: 782rpx;
@@ -29,33 +128,31 @@ export default {
   }
   .marsActivity_titleBox {
     border-radius: var(--theme--border-radius) var(--theme--border-radius) 0 0;
-    position: fixed;
-    bottom: 0;
-    height: calc(100vh - 720rpx);
     width: 100%;
-    top: 720rpx;
     background-color: white;
     padding: 56rpx 66rpx;
     box-sizing: border-box;
+    margin-top: -30rpx;
+    position: absolute;
   }
 }
 
-.header{
+.header {
   border-bottom: 2rpx solid #e4e7e7;
 }
 
-.header::after{
+.header::after {
   content: "";
   display: table-cell;
 }
 
-.name{
+.name {
   font-size: var(--theme--font-size-m);
-  line-height: var(--theme--font-size-m);  
+  line-height: var(--theme--font-size-m);
   margin-bottom: 22rpx;
 }
 
-.rule{
+.rule {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -65,13 +162,165 @@ export default {
   margin-bottom: 54rpx;
 }
 
-.richtext{
+.richtext {
   font-size: var(--theme--font-size-s);
   line-height: 42rpx;
   color: var(--theme--font-main-color);
-  padding: 32rpx 0;
+  padding: 32rpx 0 160rpx;
   overflow-y: scroll;
-  height: calc(100vh - 720rpx - 115rpx - 132rpx);
   box-sizing: border-box;
+}
+
+.btn {
+  width: 594rpx;
+  height: 102rpx;
+  background-color: var(--theme--main-color);
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: calc(30rpx + env(safe-area-inset-bottom));
+  border-radius: var(--theme--border-radius);
+  text-align: center;
+  line-height: 102rpx;
+}
+
+.popup-box {
+  width: 596rpx;
+  background-color: white;
+  border-radius: var(--theme--border-radius);
+  overflow: hidden;
+}
+
+.popup-conent {
+  width: 526rpx;
+  margin: 0 auto;
+}
+
+.popup-goods {
+  height: 190rpx;
+  border-bottom: 2rpx solid #dcdfe0;
+}
+
+.popup-goods__img {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: var(--theme--border-radius);
+  margin-right: 50rpx;
+  background-color: var(--theme--bg-main-color);
+}
+
+.popup-goods__content {
+  height: 100rpx;
+}
+
+.popup-goods__condition {
+  font-size: var(--theme--font-size-s);
+  color: var(--theme--font-deputy-color);
+}
+
+.storesToChoose_choose {
+  padding: 30rpx 0;
+  .title {
+    display: flex;
+    margin-top: 20rpx;
+
+    image {
+      width: 40rpx;
+      height: 40rpx;
+    }
+
+    view {
+      margin-left: 16rpx;
+      height: 40rpx;
+      font-size: var(--theme--font-size-m);
+      color: var(--theme--font-deputy-color);
+      line-height: 40rpx;
+    }
+  }
+
+  .content {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    border-radius: var(--theme--border-radius);
+    border: 2rpx solid #aaaeaf;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15rpx;
+    font-size: var(--theme--font-size-m);
+    color: var(--theme--font-main-color);
+
+    span {
+      width: 550rpx;
+      margin-left: 30rpx;
+    }
+
+    > image {
+      width: 31rpx;
+      height: 31rpx;
+      margin-right: 25rpx;
+      margin-top: 28rpx;
+    }
+  }
+}
+
+.popup-bottom {
+  height: 114rpx;
+  background-color: var(--theme--bg-main-color);
+  padding: 0 38rpx;
+  box-sizing: border-box;
+}
+
+.popup-bottom__btn {
+  width: 190rpx;
+  height: 46rpx;
+  background-color: var(--theme--main-color);
+  border-radius: 23rpx;
+  text-align: center;
+  line-height: 46rpx;
+  font-size: var(--theme--font-size-s);
+}
+
+.popup-control {
+  margin-right: 26rpx;
+}
+
+.popup-control__btn {
+  width: 40rpx;
+  height: 40rpx;
+}
+
+.popup__num {
+  width: 80rpx;
+  margin: 0 4rpx;
+  text-align: center;
+}
+
+.pop-header,
+.pop-header,
+.pop-header {
+  font-size: var(--theme--font-size-normal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.pop-header__arrow {
+  width: 20rpx;
+  height: 20rpx;
+  background: url("../../static/images/booking/calendar_arrow.png") no-repeat
+    center;
+  background-size: contain;
+}
+
+.pop-header__arrow--left {
+  transform: rotate(-90deg);
+  margin-right: 40rpx;
+}
+
+.pop-header__arrow--right {
+  transform: rotate(90deg);
+  margin-left: 40rpx;
 }
 </style>

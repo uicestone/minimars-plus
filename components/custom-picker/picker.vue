@@ -1,3 +1,11 @@
+<!--
+ * @Descripttion: 
+ * @version: 1.0
+ * @Author: horiz0n_Z
+ * @Date: 2021-05-13 21:22:40
+ * @LastEditors: horiz0n_Z
+ * @LastEditTime: 2021-07-11 13:10:55
+-->
 <template>
   <picker-view class="picker" indicator-class="picker__item--select" mask-class="picker__mask" @change="onChange">
     <picker-view-column v-for="(option,optionIndex) in options" :key="optionIndex">
@@ -37,6 +45,10 @@
           value.push(this.options[index][item])
         })
         this.$emit("onchange",{value})
+      },
+
+      select(e){
+        console.log(e)
       }
     }
   }

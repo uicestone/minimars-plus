@@ -1,24 +1,26 @@
 <script>
-import { sync } from 'vuex-pathify';
-import wechatLogin from '@/utils/wechatLogin';
+import { sync } from "vuex-pathify";
+import wechatLogin from "@/utils/wechatLogin";
 import loadFont from "@/utils/loadFont";
 
 export default {
   computed: {
-    auth: sync('auth')
+    auth: sync("auth"),
   },
   async onLaunch() {
-    console.log('App Launch');
+    console.log("App Launch");
     //全局配置
-    this.config = await this.$axios.getRequest('/config');
+    this.config = await this.$axios.getRequest("/config");
 
     try {
       uni.showLoading({ mask: true });
       await Promise.all([
         loadFont("Gotham", 300, "Gotham-Light.woff2"),
         loadFont("Gotham", 500, "Gotham-Medium.woff2"),
-        loadFont("Gotham", 900, "Gotham-Ultra.woff2")
-      ])
+        loadFont("Gotham", 900, "Gotham-Ultra.woff2"),
+      ]).catch((res) => {
+        uni.hideLoading();
+      });
       if (!this.auth.token) {
         const auth = await wechatLogin();
         Object.assign(this.auth, auth);
@@ -27,29 +29,38 @@ export default {
         this.auth.user = user;
       }
       // this.$launched();
+
       uni.hideLoading();
     } catch (e) {
       console.error(e);
     }
   },
   onShow() {
-    console.log('App Show');
+    console.log("App Show");
   },
   onHide() {
-    console.log('App Hide');
+    console.log("App Hide");
   },
   methods: {
     async getAuthUser() {
-      const user = await this.$axios.getRequest('/auth/user');
-      console.log('Get auth user:', user);
+      const user = await this.$axios.getRequest("/auth/user");
+      console.log("Get auth user:", user);
       return user;
-    }
-  }
+    },
+
+    // 自适应富文本内图片宽度
+    fixRichTextImg(content) {
+      return content.replace(
+        /\<img/gi,
+        '<img style="max-width:100%;height:auto;display:block;"'
+      );
+    },
+  },
 };
 </script>
 
 <style>
-@import url('./utils/all.min.css');
+@import url("./utils/all.min.css");
 page {
   --theme--main-color: #92ffac;
   --theme--deputy-color: #b9dcfc;
@@ -74,6 +85,6 @@ html {
   font-weight: var(--theme--font-weight-medium);
   font-size: var(--theme--font-size-m);
   color: var(--theme--font-main-color);
-  font-family: Gotham, 'PingFang SC', sans-serif;
+  font-family: Gotham, "PingFang SC", sans-serif;
 }
 </style>

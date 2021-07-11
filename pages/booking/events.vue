@@ -28,41 +28,48 @@
           view.coupebox_contentimgBox_content_detail 3岁-10岁 -->
   view
     view.tabs
-      custom-tabs(:tabs="tabs",@onselect="selectTab",activeIndex="1")
-    view.select
+      custom-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
+    view.select(v-if="!store.id")
       view.img-box.select__img
         img(src="../../static/images/events/event-no-store.png")
       view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
-      view.select__btn 门店选择
-    //- view.list
-    //-   view.item
-    //-     custom-card
-    //-       view 圣诞树
-    //-       view 3岁-10岁
+      view.select__btn(@click="$refs.storePicker.open()") 门店选择
+    view.list(v-else)
+      view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
+        custom-card(:img="i.posterUrl")
+          view {{ i.title }}
+          view {{ i.kidAgeRange }}
     custom-pop(ref="storePicker")
       view(slot="header") 门店选择 STORES
-      custom-picker(slot="body",:options="[doorlist]",labelKey="name",@onchange="selectStore")
-    
-    
+      custom-picker(
+        slot="body",
+        :options="[doorlist]",
+        labelKey="name",
+        @onchange="selectStore"
+      )
 </template>
 
 <script>
-import { sync } from "vuex-pathify";
-import customTabs from '../../components/custom-tabs/tabs.vue';
-import customCard from '../../components/custom-card-box/card-box.vue';
-import customPop from '../../components/custom-popup/popup.vue';
-import customPicker from '../../components/custom-picker/picker.vue';
+import { get } from "vuex-pathify";
+import customTabs from "../../components/custom-tabs/tabs.vue";
+import customCard from "../../components/custom-card-box/card-box.vue";
+import customPop from "../../components/custom-popup/popup.vue";
+import customPicker from "../../components/custom-picker/picker.vue";
 export default {
   components: {
-    'custom-tabs': customTabs,
-    'custom-card': customCard,
-    'custom-pop': customPop,
-    'custom-picker': customPicker
+    "custom-tabs": customTabs,
+    "custom-card": customCard,
+    "custom-pop": customPop,
+    "custom-picker": customPicker,
   },
   data() {
     return {
       store: "",
       doorlist: [
+        {
+          id: 0,
+          name: "请选择门店",
+        },
         {
           id: 1,
           name: "杨浦黄兴店",
@@ -80,50 +87,60 @@ export default {
           name: "长宁天山店",
         },
       ],
+
+      list: [],
     };
   },
   computed: {
-    user: sync("auth/user"),
-    tabs(){
+    user: get("auth/user"),
+    tabs() {
       return [
         {
           id: 1,
-          name: '门店选择',
+          name: "门店选择",
           customClick: true,
           showArrow: true,
-          arrowTowards: 'bottom'
+          arrowTowards: "bottom",
         },
         {
           id: 2,
-          name: this.store
-        }
-      ]
-    }
+          name: this.store.id ? this.store.name : "",
+        },
+      ];
+    },
   },
   onShow() {
     if (this.user.store) {
-      this.store = this.user.store.name;
+      this.store = this.user.store;
     } else {
-      this.store = this.doorlist[0].name;
+      this.store = this.doorlist[0];
     }
   },
+  onLoad() {},
   methods: {
-    goDetail() {
-      uni.navigateTo({
-        url: "./eventDetail",
+    async getList() {
+      this.list = await this.$axios.getRequest("/event", {
+        store: this.store.id,
       });
     },
-    
-    selectStore(e){
-      this.store=e.value[0].name
+
+    goDetail(id) {
+      uni.navigateTo({
+        url: "./eventDetail?id=" + id,
+      });
     },
-    
+
+    selectStore(e) {
+      this.store = e.value[0];
+      if (this.store.id) this.getList();
+    },
+
     // 选择门店
     selectTab(e) {
       if (e.item.id === 1) {
         this.$refs.storePicker.open();
       }
-    }
+    },
   },
 };
 </script>
@@ -143,39 +160,40 @@ page {
   margin: 30rpx auto 0;
 }
 
-.tabs{
+.tabs {
   position: sticky;
   top: 0;
+  z-index: 1;
+  background-color: white;
 }
 
-.select{
-  position:absolute;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
+.select {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
-.select__img
-{
-  width:454rpx;
-  height:334rpx;
+.select__img {
+  width: 454rpx;
+  height: 334rpx;
 }
 
-.select__text{
-  font-size:var(--theme--font-size-s);
-  white-space:pre-wrap;
-  margin-top:80rpx;
-  text-align:center;
-  line-height:42rpx;
+.select__text {
+  font-size: var(--theme--font-size-s);
+  white-space: pre-wrap;
+  margin-top: 80rpx;
+  text-align: center;
+  line-height: 42rpx;
 }
 
-.select__btn{
-  width:424rpx;
-  height:102rpx;
-  line-height:102rpx;
-  text-align:center;
-  background-color:var(--theme--main-color);
-  border-radius:var(--theme--border-radius);
-  margin-top:114rpx;
+.select__btn {
+  width: 424rpx;
+  height: 102rpx;
+  line-height: 102rpx;
+  text-align: center;
+  background-color: var(--theme--main-color);
+  border-radius: var(--theme--border-radius);
+  margin-top: 114rpx;
 }
 </style>
