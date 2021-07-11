@@ -123,7 +123,7 @@ export default {
           tag: "store",
         })
         .then((res) => {
-          console.log(res, "文章列表");
+          // console.log(res, "文章列表");
           this.storeDynamic = res;
         });
     },
@@ -163,14 +163,14 @@ export default {
           type: "coupon",
         })
         .then((res) => {
-          console.log(res.length, "优惠券");
+          // console.log(res.length, "优惠券");
           this.couPonNumber = res.length;
         });
     },
     // 卡包
     getCardBag() {
       this.$axios.getRequest("/card").then((res) => {
-        console.log(res.length, "卡包");
+        // console.log(res.length, "卡包");
         this.allCardBag = res.length;
       });
     },
