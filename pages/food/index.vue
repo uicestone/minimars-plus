@@ -171,9 +171,7 @@ export default {
     console.log("food/index:onShow");
     if (this.isScanning) return;
     try {
-      this.isScanning = true;
       await this.scanTableCode();
-      this.isScanning = false;
       uni.showLoading();
       await this.getMenu();
       uni.hideLoading();
@@ -186,9 +184,11 @@ export default {
   },
   methods: {
     scanTableCode() {
+      this.isScanning = true;
       return new Promise((resolve, reject) => {
         uni.scanCode({
           success: (res) => {
+            this.isScanning = false;
             // console.log(res.scanType, res.path, res.result);
             if (res.path) {
               const [, s, t] = res.path.match(/s=(.*)&t=(.*)/);
@@ -203,7 +203,8 @@ export default {
               reject("无效点餐二维码");
             }
           },
-          fail: function (res) {
+          fail: (res) => {
+            this.isScanning = false;
             reject("扫码失败");
             uni.switchTab({
               url: "../index/index",
