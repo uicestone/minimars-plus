@@ -298,7 +298,9 @@ export default {
       } else {
         this.selectedCardIndex = index;
         this.booking.card = card.id;
-        this.showCardContent(card);
+        if (card.content) {
+          this.showCardContent(card);
+        }
       }
       this.getPrice();
     },
