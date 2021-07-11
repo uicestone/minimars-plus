@@ -12,10 +12,10 @@ export default function payment(params = {}, type = '') {
 
     return new Promise((resolve, reject) => {
         axios.postRequest('/booking' + (type ? `?paymentGateway=${type}` : ''), params).then(res => {
-            const wxpayQuery = res.payments.find(e => e == "wechatpay")
-            if (wxpayQuery) {
-                uniwx.requestPayment({
-                    ...wxpayQuery,
+            const wechatPayment = res.payments.find(p => p.gateway === "wechatpay")
+            if (wechatPayment) {
+                uni.requestPayment({
+                    ...wechatPayment.payArgs,
                     signType: 'MD5',
                     success: function (res) {
                         resolve()
