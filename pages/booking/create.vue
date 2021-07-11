@@ -53,8 +53,9 @@ view.myOrder_box
           
     // 订单支付
     view.pay-bar
-      view.pay-bar__text 还需支付：{{ price }} 元
-      // 
+      view.pay-bar__text
+        view 还需支付：{{ price }} 元
+        view.pay-bar__balance(v-if="balancePrice") 其中余额支付：{{ balancePrice }} 元
       view.pay-bar__btn(@click="pay")
           | 订单支付 PAYMENT
   
@@ -143,6 +144,9 @@ export default {
     },
     currentMonth() {
       return moment(this.calendarDisplayMonth).format('YYYY 年 MM 月');
+    },
+    balancePrice() {
+      return Math.min(this.user.balance || 0, this.price);
     }
   },
   onLoad(option) {
@@ -160,7 +164,7 @@ export default {
     this.booking.date = this.date[0];
 
     this.goStore();
-    this.goCard();
+    this.getCards();
     this.getPrice();
   },
 
@@ -182,15 +186,15 @@ export default {
         }
       });
     },
-    // 卡片
-    goCard() {
-      this.$axios.getRequest('/card').then(res => {
+    // 获取用户的可用卡
+    getCards() {
+      this.$axios.getRequest('/card?status=activated').then(res => {
         this.cards = res;
       });
     },
     // 去购卡
     goBuyCards() {
-      this.goCard();
+      this.getCards();
       uni.navigateTo({
         url: '../card/index'
       });
@@ -270,7 +274,7 @@ export default {
     selectStore(e) {
       this.store = e.value[0].name;
       this.getStore();
-      this.goCard();
+      this.getCards();
       this.getPrice();
     },
 
@@ -494,6 +498,11 @@ page {
       .pay-bar__text {
         color: var(--theme--font-main-color);
         margin-left: 40rpx;
+      }
+
+      .pay-bar__balance {
+        font-size: var(--theme--font-size-s);
+        font-weight: var(--theme--font-weight-light);
       }
 
       .pay-bar__btn {
