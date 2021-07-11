@@ -6,14 +6,17 @@ import loadFont from "@/utils/loadFont";
 export default {
   computed: {
     auth: sync("auth"),
+    config: sync('config'),
   },
   async onLaunch() {
     console.log("App Launch");
-    //全局配置
-    this.config = await this.$axios.getRequest("/config");
-
     try {
       uni.showLoading({ mask: true });
+      
+      //全局配置
+      this.config.common = await this.$axios.getRequest('/config');
+      this.config.stores = await this.$axios.getRequest('/store');
+
       await Promise.all([
         loadFont("Gotham", 300, "Gotham-Light.woff2"),
         loadFont("Gotham", 500, "Gotham-Medium.woff2"),

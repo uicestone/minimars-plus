@@ -93,6 +93,7 @@ export default {
   },
   computed: {
     user: get("auth/user"),
+    stores: get("config/stores"),
     tabs() {
       return [
         {
