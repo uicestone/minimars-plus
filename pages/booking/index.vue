@@ -35,14 +35,13 @@ view.index_box
 export default {
   data() {
     return {
-      bannerPosts: ['../../static/images/ticketing/ticketing_banner.png'],
+      bannerPosts: ["../../static/images/ticketing/ticketing_banner.png"],
       current: 0,
       swiperCurrent: 0,
       swiperAutoplay: true,
     };
   },
-  onLoad() {
-  },
+  onLoad() {},
   onHide() {
     this.swiperAutoplay = false;
   },

@@ -6,59 +6,63 @@ view.marsCoupon_box
     view 这是你的卡券。
   view.marsCoupon_contentbox
     view.coupebox_content
-      view.menu(v-for="(i, index) in menu", :key="index", @click="goCard(index)")
+      view.menu(
+        v-for="(i, index) in menu",
+        :key="index",
+        @click="goCard(index)"
+      )
         view.img-box.menu__bg
           img.image(:src="i.img", mode="aspectFill")
         <!-- view.menu__name {{i.name}} -->
 </template>
 
 <script>
-import { get } from 'vuex-pathify';
+import { get } from "vuex-pathify";
 export default {
   data() {
     return {
       menu: [
         {
-          name: '时效卡',
-          img: '../../static/images/coupon/card-period.png'
+          name: "时效卡",
+          img: "../../static/images/coupon/card-period.png",
         },
         {
-          name: '礼品卡',
-          img: '../../static/images/coupon/card-balance.png'
+          name: "礼品卡",
+          img: "../../static/images/coupon/card-balance.png",
         },
         {
-          name: '限定卡',
-          img: '../../static/images/coupon/card-times.png'
+          name: "限定卡",
+          img: "../../static/images/coupon/card-times.png",
         },
         {
-          name: '活动套餐',
-          img: '../../static/images/coupon/card-coupon.png'
-        }
-      ]
+          name: "活动套餐",
+          img: "../../static/images/coupon/card-coupon.png",
+        },
+      ],
     };
   },
   methods: {
     goCard(index) {
-      console.log('goCard index:', index);
+      console.log("goCard index:", index);
       if (index === 0) {
         uni.navigateTo({
-          url: '/pages/card/list?type=period'
+          url: "/pages/card/list?type=period",
         });
       } else if (index === 1) {
         uni.navigateTo({
-          url: '/pages/card/list?type=balance'
+          url: "/pages/card/list?type=balance",
         });
       } else if (index === 2) {
         uni.navigateTo({
-          url: '/pages/card/list?type=times'
+          url: "/pages/card/list?type=times",
         });
       } else if (index === 3) {
         uni.navigateTo({
-          url: '/pages/card/list?type=coupon'
+          url: "/pages/card/list?type=coupon",
         });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

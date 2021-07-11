@@ -35,12 +35,12 @@ view.index_box
 export default {
   data() {
     return {
-      bannerPosts: ['../../static/images/integration/banner.png'],
+      bannerPosts: ["../../static/images/integration/banner.png"],
       current: 0,
       swiperCurrent: 0,
       swiperAutoplay: true,
     };
-  }
+  },
 };
 </script>
 

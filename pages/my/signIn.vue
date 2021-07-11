@@ -1,18 +1,22 @@
 <template lang="pug">
 view
-  swiper.banner(autoplay,loop)
-    swiper-item(v-for="(item,index) in swiperImg",:key="index")
+  swiper.banner(autoplay, loop)
+    swiper-item(v-for="(item, index) in swiperImg", :key="index")
       view.banner__img.img-box
         img(:src="item")
   view.container
     view.list
-      view.item(v-for="(item,index) in signinImg",:key="index",:class="signInDays>index?'item--active':''")
-        view.item__name {{item.name}}
+      view.item(
+        v-for="(item, index) in signinImg",
+        :key="index",
+        :class="signInDays > index ? 'item--active' : ''"
+      )
+        view.item__name {{ item.name }}
         view.img-box.item__img
-          img(v-if="!item.text",:src="item.img")
-          view.item__text(v-else) {{item.text}}
+          img(v-if="!item.text", :src="item.img")
+          view.item__text(v-else) {{ item.text }}
     view.btn 今日签到 SIGN IN NOW
-    
+
   view.intro 签到说明
 </template>
 
@@ -20,41 +24,41 @@ view
 export default {
   data() {
     return {
-      swiperImg: ['../../static/images/my/sign/task-daily-banner.png'],
+      swiperImg: ["../../static/images/my/sign/task-daily-banner.png"],
       signinImg: [
         {
-          name: '第一天',
-          text: '1'
+          name: "第一天",
+          text: "1",
         },
         {
-          name: '第二天',
-          text: '2'
+          name: "第二天",
+          text: "2",
         },
         {
-          name: '第三天',
-          text: '3'
+          name: "第三天",
+          text: "3",
         },
         {
-          name: '第四天',
-          text: '4'
+          name: "第四天",
+          text: "4",
         },
         {
-          name: '第五天',
-          text: '5'
+          name: "第五天",
+          text: "5",
         },
         {
-          name: '第六天',
-          text: '6'
+          name: "第六天",
+          text: "6",
         },
         {
-          name: '第七天',
-          img: '../../static/images/my/task/task-goal.png'
-        }
+          name: "第七天",
+          img: "../../static/images/my/task/task-goal.png",
+        },
       ],
-      signInDays: 1
+      signInDays: 1,
     };
   },
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -117,9 +121,9 @@ export default {
   margin-top: 28rpx;
 }
 
-.item__img>img{
+.item__img > img {
   width: 60%;
-  height:60%;
+  height: 60%;
 }
 
 .item__text {
@@ -131,7 +135,7 @@ export default {
   text-shadow: 0 0 4rpx var(--theme--font-main-color);
 }
 
-.item--active .item__text{
+.item--active .item__text {
   color: var(--theme--main-color);
 }
 

@@ -9,20 +9,20 @@ view.my_box
     view.my_marsMember_box
       view.my_marsMemberheader
         view.my_marsMembertitle Hi！
-          open-data(type='userNickName')
+          open-data(type="userNickName")
         view.my_marsMember_headerimg
-          open-data(type='userAvatarUrl')
+          open-data(type="userAvatarUrl")
       view.my_marsMember_content-box
         view.my_marsMember-one
-          img(mode="aspectFit",src="../../static/images/my/my-points.png")
+          img(mode="aspectFit", src="../../static/images/my/my-points.png")
           view {{ points }}
           span MARS积分
         view.my_marsMember-one(@click="goCardBag")
-          img(mode="aspectFit",src="../../static/images/my/my-coupon.png")
+          img(mode="aspectFit", src="../../static/images/my/my-coupon.png")
           view {{ couPonNumber }}
           span MARS优惠券
         view.my_marsMember-one(@click="goCardBag")
-          img(mode="aspectFit",src="../../static/images/my/my-points.png")
+          img(mode="aspectFit", src="../../static/images/my/my-points.png")
           view {{ allCardBag }}
           span MARS卡包
   view.vip
@@ -240,7 +240,7 @@ export default {
         margin: 0 auto;
         width: 680rpx;
         height: 100rpx;
-        font-size: var(--theme--font-size-l );
+        font-size: var(--theme--font-size-l);
         color: #ffffff;
         line-height: 100rpx;
       }
@@ -438,11 +438,11 @@ export default {
           height: 40rpx;
           font-size: var(--theme--font-size-s);
           line-height: 40rpx;
-          flex-grow:1;
+          flex-grow: 1;
           margin-left: 20rpx;
         }
 
-        >image {
+        > image {
           width: 10rpx;
           height: 20rpx;
           margin-right: 30rpx;
@@ -480,7 +480,7 @@ export default {
   }
 }
 
-.menu__img{
+.menu__img {
   width: 40rpx;
   height: 40rpx;
   // background-color: var(--theme--bg-main-color);

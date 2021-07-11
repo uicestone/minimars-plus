@@ -1,17 +1,17 @@
 function loadFont(family, weight, filename) {
-  return new Promise((resolve,reject)=>{
+  return new Promise((resolve, reject) => {
     uni.loadFontFace({
       family: family,
       desc: {
-        weight
+        weight,
       },
       source: `url("https://s.mini-mars.com/fonts/${filename}")`,
       success() {
         resolve();
       },
-      fail(){
+      fail() {
         reject();
-      }
+      },
     });
   });
 }

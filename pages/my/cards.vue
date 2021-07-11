@@ -1,6 +1,10 @@
 <template lang="pug">
 view.cardbag
-  custom-tabs(:tabs="tabs",:activeIndex.sync="activeIndex",@onselect="selectTab")
+  custom-tabs(
+    :tabs="tabs",
+    :activeIndex.sync="activeIndex",
+    @onselect="selectTab"
+  )
   view.cardbag_card(v-show="activeIndex == 0")
     view.cardbag_card_box
       view.img-box.cadbag__img
@@ -39,53 +43,53 @@ view.cardbag
 </template>
 
 <script>
-import customTabs from '../../components/custom-tabs/tabs.vue';
+import customTabs from "../../components/custom-tabs/tabs.vue";
 export default {
   data() {
     return {
       tabs: [
         {
           id: 1,
-          name: '可使用（1）'
+          name: "可使用（1）",
         },
         {
           id: 2,
-          name: '未激活（2）'
+          name: "未激活（2）",
         },
         {
           id: 3,
-          name: '获得更多礼品卡',
+          name: "获得更多礼品卡",
           showArrow: true,
-          customClick: true
-        }
+          customClick: true,
+        },
       ],
       activeIndex: 0,
-      count: ''
+      count: "",
     };
   },
   components: {
-    'custom-tabs': customTabs
+    "custom-tabs": customTabs,
   },
   methods: {
     selectTab(e) {
       console.log(e);
       if (e.item.id === 3) {
         wx.navigateTo({
-          url: '/pages/card/index'
+          url: "/pages/card/index",
         });
       }
     },
     gouseCade() {
       uni.navigateTo({
-        url: '/pages/my/cardRules'
+        url: "/pages/my/cardRules",
       });
     },
     goRceived() {
       uni.navigateTo({
-        url: '/pages/my/cardTransfers'
+        url: "/pages/my/cardTransfers",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="less" scoped>
@@ -158,7 +162,7 @@ export default {
 
     // 历史卡券
     .mycards_footer {
-      height: 28rpx;  
+      height: 28rpx;
       font-size: var(--theme--font-size-s);
       line-height: 28rpx;
       position: absolute;

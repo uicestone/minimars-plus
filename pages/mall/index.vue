@@ -1,7 +1,7 @@
 <template lang="pug">
 view
   view.img-box.bg
-    img(src="../../static/images/mall/mall-redirecting.png",mode="aspectFill")
+    img(src="../../static/images/mall/mall-redirecting.png", mode="aspectFill")
 </template>
 
 <script>
@@ -18,8 +18,8 @@ export default {
 </script>
 
 <style scoped>
-  .bg{
-    width: 100%;
-    height: 100vh;
-  }
+.bg {
+  width: 100%;
+  height: 100vh;
+}
 </style>

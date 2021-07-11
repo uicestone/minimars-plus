@@ -42,8 +42,7 @@ export default {
           width: 150rpx;
           height: 40rpx;
           font-size: 30rpx;
-          
-          
+
           color: #0d0d0d;
           line-height: 40rpx;
         }

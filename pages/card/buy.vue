@@ -18,7 +18,7 @@ view.buycards_box
                 span {{ item.count }}
               view.buycards_contentBody-right(@click="goaddMoney(item._id)")
                 img(src="../../static/images/add.png")
-              view.buycards_contentBody-image(@click="open(item)") {{item.balance}}
+              view.buycards_contentBody-image(@click="open(item)") {{ item.balance }}
             span rmb {{ item.price }}
           uni-popup(ref="popup", type="bottom", :tabbar="false")
             view.login_box
@@ -50,27 +50,27 @@ view.buycards_box
 </template>
 
 <script>
-import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import uniPopup from "@/components/uni-popup/uni-popup.vue";
 export default {
   components: {
-    uniPopup
+    uniPopup,
   },
   data() {
     return {
-      slug: '',
+      slug: "",
       cardType: {
-        title: '',
-        price: '',
-        content: '',
-        balancePriceGroups: []
+        title: "",
+        price: "",
+        content: "",
+        balancePriceGroups: [],
       },
-      content: '',
+      content: "",
       balancePriceGroups: [], //充值金额选择
       balanceItem: {
         balance: 0,
-        price: 0
+        price: 0,
       }, //弹框的模块
-      cover: ''
+      cover: "",
     };
   },
   onLoad(option) {
@@ -84,55 +84,55 @@ export default {
     // 卡片详情
     async getCardType() {
       this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
-      this.content = this.cardType.content || '';
+      this.content = this.cardType.content || "";
       this.content = this.content
         .replace(/<p([ >])/g, '<p class="p"$1')
         .replace(/<ol([ >])/g, '<ol class="ol"$1')
         .replace(/<ul([ >])/g, '<ul class="ul"$1');
-      this.cardType.balancePriceGroups.forEach(group => {
+      this.cardType.balancePriceGroups.forEach((group) => {
         this.balancePriceGroups.push({ ...group, count: 0, total: 0 });
       });
     },
     // 创建订单
     async pay() {
       let neworder = [];
-      this.balancePriceGroups.forEach(i => {
+      this.balancePriceGroups.forEach((i) => {
         neworder.push({
           balance: i.balance,
-          count: i.count
+          count: i.count,
         });
       });
-      const card = await this.$axios.postRequest('/card', {
+      const card = await this.$axios.postRequest("/card", {
         slug: this.slug,
-        balanceGroups: neworder
+        balanceGroups: neworder,
       });
       if (card.payments[0].payArgs) {
         //唤起微信支付
         uni.requestPayment({
-          provider: 'wxpay',
+          provider: "wxpay",
           timeStamp: card.payments[0].payArgs.timeStamp,
           nonceStr: card.payments[0].payArgs.nonceStr,
           package: card.payments[0].payArgs.package,
-          signType: 'MD5',
+          signType: "MD5",
           paySign: card.payments[0].payArgs.paySign,
-          success: function(res) {
-            console.log('success:' + JSON.stringify(res));
+          success: function (res) {
+            console.log("success:" + JSON.stringify(res));
             uni.showToast({
-              title: '支付成功',
-              duration: 2000
+              title: "支付成功",
+              duration: 2000,
             });
             uni.redirectTo({
-              url: '../my/cards' // 购买成功,跳到我的卡包
+              url: "../my/cards", // 购买成功,跳到我的卡包
             });
           },
-          fail: function(err) {
-            console.log('fail:' + JSON.stringify(err));
-          }
+          fail: function (err) {
+            console.log("fail:" + JSON.stringify(err));
+          },
         });
       }
     },
     open(item) {
-      console.log(item, 'item');
+      console.log(item, "item");
       this.balanceItem = item;
       this.$refs.popup.open();
     },
@@ -140,21 +140,27 @@ export default {
       this.$refs.popup.close();
     },
     goaddMoney(id) {
-      this.balancePriceGroups.forEach(i => {
+      this.balancePriceGroups.forEach((i) => {
         if (id == i._id) {
           i.count = i.count + 1;
         }
       });
-    }
+    },
   },
   computed: {
     totalCount() {
-      return this.balancePriceGroups.reduce((count, group) => count + group.count, 0);
+      return this.balancePriceGroups.reduce(
+        (count, group) => count + group.count,
+        0
+      );
     },
     price() {
-      return this.balancePriceGroups.reduce((price, group) => +(price + group.count * group.price).toFixed(6), 0);
-    }
-  }
+      return this.balancePriceGroups.reduce(
+        (price, group) => +(price + group.count * group.price).toFixed(6),
+        0
+      );
+    },
+  },
 };
 </script>
 
@@ -268,7 +274,8 @@ export default {
         // 使用须知
         .login_box {
           width: 750rpx;
-          border-radius: var(--theme--border-radius) var(--theme--border-radius) 0rpx 0rpx;
+          border-radius: var(--theme--border-radius) var(--theme--border-radius)
+            0rpx 0rpx;
           padding: 60rpx 66rpx 48rpx;
           box-sizing: border-box;
           background-color: white;

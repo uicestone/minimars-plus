@@ -44,15 +44,11 @@ view.orderFood_box
               v-for="product in category.products",
               :key="product.uid"
             )
-              view.orderFood_right_title_content-left(
-                @click="open(product)"
-              )
+              view.orderFood_right_title_content-left(@click="open(product)")
                 img(:src="product.imageUrl")
               view.orderFood_right_title_content-right
                 view.right_title_content-right-title {{ product.name }}
-                view.right_title_content-right-detail(
-                  @click="open(product)"
-                ) {{ product.description }}
+                view.right_title_content-right-detail(@click="open(product)") {{ product.description }}
                 view.right_title_content-right-money_box
                   view.right_title_content-right-money_box_money
                     | rmb {{ product.sellPrice }}
@@ -63,9 +59,7 @@ view.orderFood_box
                     view
                     view(@click="foodAdd(product)")
                       img.foodAdd_img(src="../../static/images/add_deputy.png")
-                  view.right_title_content-right-money_box_add(
-                    v-else
-                  )
+                  view.right_title_content-right-money_box_add(v-else)
                     view(@click="foodReduce(product)")
                       img.foodreduce_img(
                         src="../../static/images/minus_deputy.png"
@@ -135,11 +129,14 @@ export default {
     foodCart: sync("booking/foodCart"),
     // 商品总数
     goodsSum() {
-      return this.foodCart.reduce((sum, item) => sum + item.numbers ,0);
+      return this.foodCart.reduce((sum, item) => sum + item.numbers, 0);
     },
     totalPrice() {
-      return this.foodCart.reduce((total, item) => +(total + item.sellPrice * item.numbers).toFixed(10), 0);
-    }
+      return this.foodCart.reduce(
+        (total, item) => +(total + item.sellPrice * item.numbers).toFixed(10),
+        0
+      );
+    },
   },
   onLoad(option) {
     console.log("food/index:onLoad", option);
@@ -239,34 +236,32 @@ export default {
       this.close();
     },
     getCartItem(product) {
-      return this.foodCart.find(item => item.uid === product.uid);
+      return this.foodCart.find((item) => item.uid === product.uid);
     },
     // 购物车数量加减
     foodReduce(product) {
-      const itemInCart = this.foodCart.find(item => item.uid === product.uid);
+      const itemInCart = this.foodCart.find((item) => item.uid === product.uid);
       if (itemInCart) {
         itemInCart.numbers--;
-        if (itemInCart.numbers <=0) {
-          this.foodCart = this.foodCart.filter(item => item.uid !== product.uid);
+        if (itemInCart.numbers <= 0) {
+          this.foodCart = this.foodCart.filter(
+            (item) => item.uid !== product.uid
+          );
         }
       }
     },
     foodAdd(product) {
-      const itemInCart = this.foodCart.find(item => item.uid === product.uid);
+      const itemInCart = this.foodCart.find((item) => item.uid === product.uid);
       if (itemInCart) {
         itemInCart.numbers++;
       } else {
-        this.foodCart.push(
-          {...product, numbers: 1}
-        );
+        this.foodCart.push({ ...product, numbers: 1 });
       }
     },
     goOrder() {
       uni.navigateTo({
         url:
-          "./order?" +
-          "tableId=" + this.tableId +
-          "&storeId=" + this.storeId,
+          "./order?" + "tableId=" + this.tableId + "&storeId=" + this.storeId,
       });
     },
     // 鼠标点击
@@ -291,7 +286,9 @@ export default {
         this.calcSize();
       }
       let scrollTop = e.detail.scrollTop;
-      let tabs = this.categories.filter((item) => item.top <= scrollTop).reverse();
+      let tabs = this.categories
+        .filter((item) => item.top <= scrollTop)
+        .reverse();
       if (tabs.length > 0) {
         this.change = tabs[0].uid;
       }

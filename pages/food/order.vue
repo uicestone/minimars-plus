@@ -175,16 +175,22 @@ export default {
   computed: {
     foodCart: sync("booking/foodCart"),
     sum() {
-      return this.foodCart.reduce((sum, item) => sum + item.numbers ,0);
+      return this.foodCart.reduce((sum, item) => sum + item.numbers, 0);
     },
     totalPrice() {
-      return this.foodCart.reduce((total, item) => +(total + item.sellPrice * item.numbers).toFixed(10), 0);
-    }
+      return this.foodCart.reduce(
+        (total, item) => +(total + item.sellPrice * item.numbers).toFixed(10),
+        0
+      );
+    },
   },
   onLoad(option) {
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
-    this.order.items = this.foodCart.map(item => ({productUid: item.uid, quantity: item.numbers}));
+    this.order.items = this.foodCart.map((item) => ({
+      productUid: item.uid,
+      quantity: item.numbers,
+    }));
   },
   methods: {
     //创建订单

@@ -1,6 +1,6 @@
 <template lang="pug">
 view.list
-  view.item(v-for="item in 4",:key="item")
+  view.item(v-for="item in 4", :key="item")
     custom-card
       view.item-content__name MARS BABY卡 rmb 3,000
       view.item-content__status 未收卡
@@ -9,15 +9,15 @@ view.list
 </template>
 
 <script>
-import customCard from '../../components/custom-card-box/card-box.vue';
+import customCard from "../../components/custom-card-box/card-box.vue";
 export default {
   components: {
-    'custom-card': customCard
+    "custom-card": customCard,
   },
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 
@@ -31,7 +31,7 @@ page {
   padding-bottom: env(safe-area-inset-bottom);
 }
 
-.item{
+.item {
   width: 690rpx;
   margin: 30rpx auto 0;
 }

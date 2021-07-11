@@ -93,7 +93,7 @@ export default {
   .myvipcode_box_content {
     width: 322rpx;
     margin: 350rpx auto;
-    
+
     .myvipcode_box_content_img {
       width: 322rpx;
       height: 322rpx;

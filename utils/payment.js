@@ -8,30 +8,32 @@
  */
 import axios from "./request.js";
 
-export default function payment(params = {}, type = '') {
-
-    return new Promise((resolve, reject) => {
-        axios.postRequest('/booking' + (type ? `?paymentGateway=${type}` : ''), params).then(res => {
-            const wechatPayment = res.payments.find(p => p.gateway === "wechatpay")
-            if (wechatPayment) {
-                uni.requestPayment({
-                    ...wechatPayment.payArgs,
-                    signType: 'MD5',
-                    success: function (res) {
-                        resolve()
-                    },
-                    fail: function () {
-                        // fail
-                        reject()
-                    },
-                })
-            } else if (res.status === 'pending') {
-                reject("订单创建失败")
-            } else {
-                resolve()
-            }
-        }).catch(msg=>{
-            
-        })
-    });
+export default function payment(params = {}, type = "") {
+  return new Promise((resolve, reject) => {
+    axios
+      .postRequest("/booking" + (type ? `?paymentGateway=${type}` : ""), params)
+      .then((res) => {
+        const wechatPayment = res.payments.find(
+          (p) => p.gateway === "wechatpay"
+        );
+        if (wechatPayment) {
+          uni.requestPayment({
+            ...wechatPayment.payArgs,
+            signType: "MD5",
+            success: function (res) {
+              resolve();
+            },
+            fail: function () {
+              // fail
+              reject();
+            },
+          });
+        } else if (res.status === "pending") {
+          reject("订单创建失败");
+        } else {
+          resolve();
+        }
+      })
+      .catch((msg) => {});
+  });
 }

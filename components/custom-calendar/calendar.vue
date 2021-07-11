@@ -35,11 +35,11 @@ export default {
     markDays: {
       type: Array,
       default: () => {
-        return [moment().format('YYYY-MM-DD')];
+        return [moment().format("YYYY-MM-DD")];
       },
     },
-    multiSelect:Boolean, // 支持多选
-    displayMonth:String, // 当前显示月 YYYY-MM-DD
+    multiSelect: Boolean, // 支持多选
+    displayMonth: String, // 当前显示月 YYYY-MM-DD
     // 是否展开
     open: {
       type: Boolean,
@@ -63,17 +63,17 @@ export default {
       positionTop: 0,
       monthOpen: true,
       headerBar: true, // 月份切换按钮
-      
-      syncMarkDays:[],
-      syncDisplayMonth:""
+
+      syncMarkDays: [],
+      syncDisplayMonth: "",
     };
   },
   mounted() {
-    this.syncMarkDays=[].concat(this.markDays)
-    this.syncDisplayMonth=this.displayMonth
-    if(this.syncMarkDays.length>0&&!this.displayMonth){
-      this.syncDisplayMonth=this.syncMarkDays[0];
-      this.$emit("update:displayMonth",this.syncDisplayMonth)
+    this.syncMarkDays = [].concat(this.markDays);
+    this.syncDisplayMonth = this.displayMonth;
+    if (this.syncMarkDays.length > 0 && !this.displayMonth) {
+      this.syncDisplayMonth = this.syncMarkDays[0];
+      this.$emit("update:displayMonth", this.syncDisplayMonth);
     }
     this.days = this.calcCalendarDays();
     !this.open && this.toggle();
@@ -217,26 +217,28 @@ export default {
         date: date,
         week: formatWeek,
       };
-      
-      let resultDays=[].concat(this.syncMarkDays)
-      
-      if (moment().isAfter(date,'day')&&this.disabledAfter) return false
-      
+
+      let resultDays = [].concat(this.syncMarkDays);
+
+      if (moment().isAfter(date, "day") && this.disabledAfter) return false;
+
       // 不支持多选
-      if (!this.multiSelect&&resultDays.length>0)resultDays=[]
-      
+      if (!this.multiSelect && resultDays.length > 0) resultDays = [];
+
       // 支持多选已选中
-      if(this.multiSelect&&resultDays.includes(date))resultDays.splice(resultDays.indexOf(date),1)
-      else resultDays.push(response.date)
-      
-      
-      this.syncMarkDays=resultDays
-      this.$emit('update:markDays',this.syncMarkDays)
+      if (this.multiSelect && resultDays.includes(date))
+        resultDays.splice(resultDays.indexOf(date), 1);
+      else resultDays.push(response.date);
+
+      this.syncMarkDays = resultDays;
+      this.$emit("update:markDays", this.syncMarkDays);
       this.$emit("onDayClick", response);
     },
     addMonth(n) {
-      this.syncDisplayMonth = moment(this.syncDisplayMonth).add(n, "month").format("YYYY-MM-DD");
-      this.$emit("update:displayMonth",this.syncDisplayMonth)
+      this.syncDisplayMonth = moment(this.syncDisplayMonth)
+        .add(n, "month")
+        .format("YYYY-MM-DD");
+      this.$emit("update:displayMonth", this.syncDisplayMonth);
       this.days = this.calcCalendarDays();
     },
   },
@@ -265,9 +267,9 @@ export default {
       .week-day {
         font-weight: 300;
       }
-      
+
       .week-day:first-child,
-      .week-day:last-child{
+      .week-day:last-child {
         font-weight: normal;
       }
 
@@ -395,6 +397,5 @@ export default {
       }
     }
   }
-
 }
 </style>

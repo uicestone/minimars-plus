@@ -8,13 +8,13 @@ view.myOrder_box
           img(src="../../static/images/index/index_orderOne.png")
           view 门店选择
         view.content(@click="showShopPop")
-          span {{store}} 
+          span {{ store }}
           img(src="../../static/images/search.png")
         view.title
           img(src="../../static/images/index/index_orderTwo.png")
           view 到访时间
         view.content(@click="showCalendarPop")
-          span {{date[0]}}
+          span {{ date[0] }}
           img.content_right(src="../../static/images/right.png")
         view.title
           img(src="../../static/images/index/index_orderThree.png")
@@ -50,38 +50,56 @@ view.myOrder_box
             img(src="../../static/images/booking/create_add.png")
         view.modeOf_Payment_box_name
           | 点击购买新卡
-          
+
     // 订单支付
     view.pay-bar
       view.pay-bar__text
         view 还需支付：{{ price }} 元
         view.pay-bar__balance(v-if="balancePrice") 其中余额支付：{{ balancePrice }} 元
       view.pay-bar__btn(@click="pay")
-          | 订单支付 PAYMENT
-  
+        | 订单支付 PAYMENT
+
   // 门店选择
   custom-popup(ref="shopPop")
     view.pop-header(slot="header") 门店选择 STORES
     view(slot="body")
-      custom-picker(valueKey="id",labelKey="name",:options="[stores]",@onchange="selectStore")
-  
+      custom-picker(
+        valueKey="id",
+        labelKey="name",
+        :options="[stores]",
+        @onchange="selectStore"
+      )
+
   // 日期选择
   custom-popup(ref="calendarPop")
     view.pop-header(slot="header")
-      view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(@click="changeMonth(-1)")
-      view {{currentMonth}}
-      view.pop-header__arrow.pop-header__arrow--right.cover-mask--medium(@click="changeMonth(+1)")
+      view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(
+        @click="changeMonth(-1)"
+      )
+      view {{ currentMonth }}
+      view.pop-header__arrow.pop-header__arrow--right.cover-mask--medium(
+        @click="changeMonth(+1)"
+      )
     view.calendar__body(slot="body")
-      custom-calendar(:markDays.sync="date",:displayMonth.sync="calendarDisplayMonth",ref="calendar")
-  
+      custom-calendar(
+        :markDays.sync="date",
+        :displayMonth.sync="calendarDisplayMonth",
+        ref="calendar"
+      )
+
   // 进场人数选择
   custom-popup(ref="peoplePop")
     view.pop-header(slot="header")
       view.people-pop__title 儿童 KIDS
       view.people-pop__title 成人 ADULTS
     view(slot="body")
-      custom-picker(valueKey="value",labelKey="label",:options="adultsKidsValues",@onchange="selectAdultsKidsCount")
-      
+      custom-picker(
+        valueKey="value",
+        labelKey="label",
+        :options="adultsKidsValues",
+        @onchange="selectAdultsKidsCount"
+      )
+
   // 礼品卡  弹框
   uni-popup(ref="cardContentPopup", type="center")
     view.gift_box
@@ -101,60 +119,69 @@ view.myOrder_box
 </template>
 
 <script>
-import { sync } from 'vuex-pathify';
-import moment from 'moment';
+import { sync } from "vuex-pathify";
+import moment from "moment";
 
-import customPopup from '../../components/custom-popup/popup';
-import customPicker from '../../components/custom-picker/picker';
-import customCalendar from '../../components/custom-calendar/calendar';
+import customPopup from "../../components/custom-popup/popup";
+import customPicker from "../../components/custom-picker/picker";
+import customCalendar from "../../components/custom-calendar/calendar";
 
 export default {
   components: {
-    'custom-popup': customPopup,
-    'custom-picker': customPicker,
-    'custom-calendar': customCalendar
+    "custom-popup": customPopup,
+    "custom-picker": customPicker,
+    "custom-calendar": customCalendar,
   },
   data() {
     return {
-      store: '',
+      store: "",
       index: 0,
       stores: [],
       price: 0,
-      adultsKidsValues: [[...Array(10).keys()].map(n => ({ label: n + 1, value: n + 1 })), [...Array(10).keys()].map(n => ({ label: n + 1, value: n + 1 }))],
-      date: [moment().format('YYYY-MM-DD')],
-      calendarDisplayMonth: moment().format('YYYY-MM-DD'),
+      adultsKidsValues: [
+        [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
+        [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
+      ],
+      date: [moment().format("YYYY-MM-DD")],
+      calendarDisplayMonth: moment().format("YYYY-MM-DD"),
       selectedCardIndex: -1,
       booking: {
-        type: 'play',
-        store: ' ', //门店ID
-        date: '', //到访时间
+        type: "play",
+        store: " ", //门店ID
+        date: "", //到访时间
         kidsCount: 1, //儿童人数
         adultsCount: 1, //成人人数
-        card: '' //礼品卡ID
+        card: "", //礼品卡ID
       },
       cards: [], //礼品卡
-      cardContent: '', //礼品卡使用说明
-      cardId: ''
+      cardContent: "", //礼品卡使用说明
+      cardId: "",
     };
   },
   computed: {
-    user: sync('auth/user'),
+    user: sync("auth/user"),
     adultsKidsText() {
-      return this.booking.kidsCount + ' 儿童' + '，' + this.booking.adultsCount + ' 成人';
+      return (
+        this.booking.kidsCount +
+        " 儿童" +
+        "，" +
+        this.booking.adultsCount +
+        " 成人"
+      );
     },
     currentMonth() {
-      return moment(this.calendarDisplayMonth).format('YYYY 年 MM 月');
+      return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月");
     },
     balancePrice() {
       return Math.min(this.user.balance || 0, this.price);
-    }
+    },
   },
   onLoad(option) {
     if (this.user.store) {
       this.store = this.user.store.name;
       this.booking.store = this.store.id;
     } else {
-      this.store = '';
+      this.store = "";
     }
 
     if (option.date) {
@@ -171,7 +198,7 @@ export default {
   methods: {
     // 门店
     goStore() {
-      this.$axios.getRequest('/store').then(res => {
+      this.$axios.getRequest("/store").then((res) => {
         this.stores = res;
         this.store = res[0].name;
         this.booking.store = res[0].id;
@@ -179,7 +206,7 @@ export default {
     },
     // 获取门店ID
     getStore() {
-      this.stores.forEach(item => {
+      this.stores.forEach((item) => {
         if (item.name == this.store) {
           this.booking.store = item.id;
           this.getPrice();
@@ -188,7 +215,7 @@ export default {
     },
     // 获取用户的可用卡
     getCards() {
-      this.$axios.getRequest('/card?status=activated').then(res => {
+      this.$axios.getRequest("/card?status=activated").then((res) => {
         this.cards = res;
       });
     },
@@ -196,12 +223,12 @@ export default {
     goBuyCards() {
       this.getCards();
       uni.navigateTo({
-        url: '../card/index'
+        url: "../card/index",
       });
     },
     // 计算价格
     getPrice() {
-      this.$axios.postRequest('/booking-price', this.booking).then(res => {
+      this.$axios.postRequest("/booking-price", this.booking).then((res) => {
         this.price = res.price;
       });
     },
@@ -209,43 +236,43 @@ export default {
     // 订单支付
     async pay() {
       this.booking.date = this.date[0]; //时间
-      this.booking.type = 'play';
+      this.booking.type = "play";
       uni.showLoading();
-      const booking = await this.$axios.postRequest('/booking', this.booking);
+      const booking = await this.$axios.postRequest("/booking", this.booking);
       uni.hideLoading();
       if (booking.payments[0].payArgs) {
         //唤起微信支付
         uni.requestPayment({
-          provider: 'wxpay',
+          provider: "wxpay",
           timeStamp: booking.payments[0].payArgs.timeStamp,
           nonceStr: booking.payments[0].payArgs.nonceStr,
           package: booking.payments[0].payArgs.package,
-          signType: 'MD5',
+          signType: "MD5",
           paySign: booking.payments[0].payArgs.paySign,
-          success: function(res) {
-            console.log('success:' + JSON.stringify(res));
+          success: function (res) {
+            console.log("success:" + JSON.stringify(res));
             uni.showToast({
-              title: '预约成功',
-              duration: 2000
+              title: "预约成功",
+              duration: 2000,
             });
-            uni.redirectTo({ url: '../my/bookings' });
+            uni.redirectTo({ url: "../my/bookings" });
           },
-          fail: function(err) {
-            console.log('fail:' + JSON.stringify(err));
-          }
+          fail: function (err) {
+            console.log("fail:" + JSON.stringify(err));
+          },
         });
       } else {
         this.goOrder(); //跳转订单
         uni.showToast({
-          title: '预约成功',
-          duration: 2000
+          title: "预约成功",
+          duration: 2000,
         });
       }
     },
     // 跳转订单页面
     goOrder() {
       uni.redirectTo({
-        url: '../my/bookings?active=1'
+        url: "../my/bookings?active=1",
       });
     },
 
@@ -262,7 +289,7 @@ export default {
     //日历
     goCalendar() {
       uni.navigateTo({
-        url: './calendar'
+        url: "./calendar",
       });
     },
 
@@ -316,8 +343,8 @@ export default {
     },
     closeCardContent() {
       this.$refs.cardContentPopup.close();
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -327,7 +354,6 @@ page {
 }
 
 .myOrder_box {
-
   // 门店选择
   .myOrder_top {
     position: relative;
@@ -605,7 +631,8 @@ page {
 .pop-header__arrow {
   width: 20rpx;
   height: 20rpx;
-  background: url('../../static/images/booking/calendar_arrow.png') no-repeat center;
+  background: url("../../static/images/booking/calendar_arrow.png") no-repeat
+    center;
   background-size: contain;
 }
 

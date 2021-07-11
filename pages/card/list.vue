@@ -2,7 +2,7 @@
 view.marsCardbox
   view.header.img-box
     img(src="../../static/images/coupon/card-list-banner.png")
-  view.marsCard_contentbox(v-if="type=='balance'")
+  view.marsCard_contentbox(v-if="type == 'balance'")
     view.marsCard_contentbox-content(v-for="(i, j) in cardTypes", :key="j")
       view.contentbox-contentTitle {{ i.title }}
       scroll-view.modeOf_Payment-box(scroll-x="true")
@@ -26,22 +26,26 @@ view.marsCardbox
       //- view.marsCard_footerBox
         view.marsCard_footer 使用须知
   view.marsCard_contentbox(v-else)
-    view.card--row(v-for="(i, j) in cardTypes", :key="j", @click="gobuyCards(i)")
+    view.card--row(
+      v-for="(i, j) in cardTypes",
+      :key="j",
+      @click="gobuyCards(i)"
+    )
       card(:img="i.posterDensedUrl")
-        view {{i.title}}
-        view rmb {{i.price}}
+        view {{ i.title }}
+        view rmb {{ i.price }}
 </template>
 
 <script>
-import customCard from '../../components/custom-card-box/card-box.vue';
+import customCard from "../../components/custom-card-box/card-box.vue";
 export default {
   components: {
-    card: customCard
+    card: customCard,
   },
   data() {
     return {
-      type: '',
-      cardTypes: []
+      type: "",
+      cardTypes: [],
     };
   },
   onShow() {
@@ -54,40 +58,40 @@ export default {
   methods: {
     // 卡片类型列表
     async getCardTypes() {
-      this.cardTypes = await this.$axios.getRequest('/card-type', {
+      this.cardTypes = await this.$axios.getRequest("/card-type", {
         type: this.type,
-        limit: -1
+        limit: -1,
       });
     },
     gobuyCardsCover(i, item) {
-      if (this.type == 'balance') {
+      if (this.type == "balance") {
         uni.navigateTo({
-          url: '/pages/card/buy?slug=' + i.slug + '&cover=' + item
+          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + item,
         });
       } else {
         uni.navigateTo({
-          url: '/pages/card/buyTimes?slug=' + i.slug + '&cover=' + item
+          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + item,
         });
       }
     },
     gobuyCards(i) {
-      console.log('gobuyCards:', i.slug);
-      if (this.type == 'balance') {
+      console.log("gobuyCards:", i.slug);
+      if (this.type == "balance") {
         uni.navigateTo({
-          url: '/pages/card/buy?slug=' + i.slug + '&cover=' + i.posterUrl
+          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + i.posterUrl,
         });
       } else {
         uni.navigateTo({
-          url: '/pages/card/buyTimes?slug=' + i.slug + '&cover=' + i.posterUrl
+          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + i.posterUrl,
         });
       }
     },
     gobuyXDCards() {
       uni.navigateTo({
-        url: '/pages/card/buyTimes'
+        url: "/pages/card/buyTimes",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

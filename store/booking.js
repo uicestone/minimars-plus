@@ -3,7 +3,7 @@ import moment from "moment";
 
 const state = {
   newBookingDate: moment().format("YYYY-MM-DD"),
-  foodCart: []
+  foodCart: [],
 };
 
 const mutations = make.mutations(state);

@@ -241,7 +241,7 @@ export default {
         width: 120rpx;
         height: 42rpx;
         font-size: 30rpx;
-        
+
         color: #0d0d0d;
         margin-left: 10rpx;
         margin-top: 20rpx;
@@ -272,8 +272,7 @@ export default {
 
           .allcover_box_recommend_content_name {
             font-size: 24rpx;
-            
-            
+
             color: #666666;
             margin-left: 10rpx;
             margin-top: 10rpx;
@@ -327,8 +326,7 @@ export default {
         width: 214rpx;
         height: 36rpx;
         font-size: 26rpx;
-        
-        
+
         color: #0d0d0d;
         line-height: 36rpx;
         margin: 10rpx auto;
@@ -345,8 +343,7 @@ export default {
           margin: 40rpx auto;
           text-align: center;
           font-size: 26rpx;
-         
-          
+
           color: #ffffff;
         }
       }

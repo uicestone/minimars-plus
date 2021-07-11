@@ -154,7 +154,7 @@ export default {
 
         .login_box_btn_name {
           font-size: var(--theme--font-size-m);
-          color:var(--theme--font-main-color);
+          color: var(--theme--font-main-color);
           line-height: 100rpx;
         }
       }

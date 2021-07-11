@@ -1,8 +1,8 @@
 import { make } from "vuex-pathify";
 
 const state = {
-  common:{},
-  stores:[]
+  common: {},
+  stores: [],
 };
 
 const mutations = make.mutations(state);

@@ -259,7 +259,7 @@ export default {
   .calendar-wrapper {
     color: #000000;
     font-size: 28rpx;
-    
+
     text-align: center;
     background-color: #ffffff;
     padding-bottom: 10rpx;
@@ -273,7 +273,6 @@ export default {
       height: 88rpx;
       color: #afd7ff;
       font-size: 25rpx;
-      
 
       .header_left {
         .header_data {
@@ -450,7 +449,6 @@ export default {
   // 到访时间
   .visiting_time {
     font-size: 35rpx;
-    
 
     .visiting_time_box {
       border-top: 5rpx solid #eeeeee;
@@ -501,7 +499,7 @@ export default {
           height: 40rpx;
           font-size: 30rpx;
           text-align: center;
-          
+
           color: #ffffff;
           line-height: 40rpx;
           padding-top: 10rpx;

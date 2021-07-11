@@ -1,10 +1,10 @@
 <template lang="pug">
 view
-  swiper.banner(autoplay,loop)
-    swiper-item(v-for="(item,index) in swiperImg",:key="index")
+  swiper.banner(autoplay, loop)
+    swiper-item(v-for="(item, index) in swiperImg", :key="index")
       view.banner__img.img-box
         img(:src="item")
-  
+
   view.task-container
     view.card
       view.card-title
@@ -46,10 +46,10 @@ export default {
   },
   data() {
     return {
-      swiperImg: ['../../static/images/my/task/task-center-banner.png'],
+      swiperImg: ["../../static/images/my/task/task-center-banner.png"],
       current: 0,
       swiperCurrent: 0,
-      swiperAutoplay: true
+      swiperAutoplay: true,
     };
   },
   methods: {
@@ -58,10 +58,10 @@ export default {
     },
     goSignIn() {
       uni.navigateTo({
-        url: '/pages/my/mySignIn'
+        url: "/pages/my/mySignIn",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

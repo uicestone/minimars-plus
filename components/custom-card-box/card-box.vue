@@ -1,20 +1,20 @@
 <template lang="pug">
-  view.item
-    view.img-box.item__img
-      img(:src="img",:mode="imgMode")
-    view.item-content
-      slot
+view.item
+  view.img-box.item__img
+    img(:src="img", :mode="imgMode")
+  view.item-content
+    slot
 </template>
 
 <script>
 export default {
-  props:{
-    img:String,
-    imgMode:{
-      type:String,
-      default:"aspectFill"
-    }
-  }
+  props: {
+    img: String,
+    imgMode: {
+      type: String,
+      default: "aspectFill",
+    },
+  },
 };
 </script>
 
