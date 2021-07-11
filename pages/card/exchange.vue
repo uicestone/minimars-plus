@@ -19,8 +19,7 @@ view.container
       view.confirm 确认 CONFIRM
 </template>
 
-<script>
-</script>
+<script></script>
 
 <style scoped>
 .container {
