@@ -1,7 +1,11 @@
 <template lang="pug">
 .orderLlist
   div
-    custom-tabs(:tabs="tabs",:activeIndex.sync="active",@onselect="changeTab")
+    custom-tabs(
+      :tabs="tabs",
+      :activeIndex.sync="active",
+      @onselect="changeTab"
+    )
     div(style="width: 100%")
     // 已点餐
     view.one(v-show="active == 0")
@@ -10,15 +14,17 @@
         view.haveOrder_scan_box
           view.haveOrder_scan
             view.img-box.haveOrder_scan-code
-              img(src="../../static/images/orderFood/no-food-booking.png",mode="heightFix")
+              img(
+                src="../../static/images/orderFood/no-food-booking.png",
+                mode="heightFix"
+              )
             view.haveOrder_scan_content 
               | 您还没有点餐
               br
               | 快去点点东西吧
             view.haveOrder_scan_btn
-              | 去点单 ORDER 
+              | 去点单 ORDER
       view.accomplish_border(v-if="QRCodeHide == false")
-        
         view.order(v-for="(i, t) in ReservedOrders", :key="t")
           view.order-title
             view.order__date {{ i.updatedAt }}
@@ -28,31 +34,27 @@
             view.order__list
               view.order__goods
                 view.img-box.order__goods__item(
-                      v-for="(item, index) in i.items.slice(0,4)",
-                      :key="index"
-                    )
+                  v-for="(item, index) in i.items.slice(0, 4)",
+                  :key="index"
+                )
                   img(:src="item.productImageUrl")
               view.order__total
                 view.order__total__num 共{{ i.items.length }}件
                 view.order__total__price rmb 0
-          
+
     // 已预约
     view.one(v-show="active == 1")
-      view.order(
-        v-for="(item, index) in ReservedOrders",
-        :key="index"
-      )
+      view.order(v-for="(item, index) in ReservedOrders", :key="index")
         view.order-title
           view.order__date {{ item.date }}
           view.order__status {{ item.status }}
         view.order-content
           view.order__shop {{ item.title }}
           view.order__text {{ item.kidsCount }}儿童; {{ item.adultsCount }}成人
-          
+
     // 已完成
     view.one(v-show="active == 2")
       view.accomplish_border
-      
         view.order(v-for="(i, t) in ReservedOrders", :key="t")
           view.order-title
             view.order__date {{ i.updatedAt }}
@@ -62,9 +64,9 @@
             view.order__list
               view.order__goods
                 view.img-box.order__goods__item(
-                      v-for="(item, index) in i.items.slice(0,4)",
-                      :key="index"
-                    )
+                  v-for="(item, index) in i.items.slice(0, 4)",
+                  :key="index"
+                )
                   img(:src="item.productImageUrl")
               view.order__total
                 view.order__total__num 共{{ i.items.length }}件
@@ -102,12 +104,9 @@
           </view>
           </view>
           </view>
-          
+
     view.one(v-show="active == 3")
-      view.order(
-        v-for="(item, index) in ReservedOrders",
-        :key="index"
-      )
+      view.order(v-for="(item, index) in ReservedOrders", :key="index")
         view.order-title
           view.order__date {{ item.date }}
           view.order__status {{ item.status }}
@@ -140,58 +139,57 @@
 </template>
 
 <script>
-import uniPopup from '@/components/uni-popup/uni-popup.vue';
-import tabs from '@/components/tabs/tabs.vue';
-import cutomsTabs from '../../components/custom-tabs/tabs.vue';
+import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import tabs from "@/components/tabs/tabs.vue";
+import cutomsTabs from "../../components/custom-tabs/tabs.vue";
 export default {
   components: {
     tabs,
     uniPopup,
-    'custom-tabs': cutomsTabs
+    "custom-tabs": cutomsTabs,
   },
   data() {
     return {
       tabs: [
         {
-          name: '已点餐'
+          name: "已点餐",
         },
         {
-          name: '已预约'
+          name: "已预约",
         },
         {
-          name: '已完成'
+          name: "已完成",
         },
         {
-          name: '已取消'
-        }
+          name: "已取消",
+        },
       ],
       orderlists: [],
       active: 0,
       ReservedOrders: [], //已取消   已完成  已预约
-      QRCodeHide: true //点餐二维码显示隐藏
+      QRCodeHide: true, //点餐二维码显示隐藏
     };
   },
   onLoad(option) {
-    if (option.active) {
-      this.active = 1;
-    }
-    this.getdetail('food');
+    let active = option.active || 0;
+    this.active = option.active;
+    this.changeTab({ index: active });
   },
   methods: {
     // 切换tab
     changeTab(e) {
       if (e.index == 0) {
-        console.log('已点餐');
-        this.getdetail('food');
+        console.log("已点餐");
+        this.getdetail("food");
       } else if (e.index == 1) {
-        this.getdetail('play', 'booked'); //已预约this
-        console.log('已预约');
+        this.getdetail("play", "booked"); //已预约this
+        console.log("已预约");
       } else if (e.index == 2) {
-        this.getdetail('play', 'finishedd'); //已完成
-        console.log('已完成');
+        this.getdetail("play", "finishedd"); //已完成
+        console.log("已完成");
       } else if (e.index == 3) {
-        this.getdetail('play', 'canceled'); //已取消
-        console.log('已取消');
+        this.getdetail("play", "canceled"); //已取消
+        console.log("已取消");
       }
     },
     open() {
@@ -205,43 +203,43 @@ export default {
       if (status) {
         info = {
           type,
-          status
+          status,
         };
       } else {
         info = {
-          type
+          type,
         };
       }
-      this.$axios.getRequest('/booking', info).then(res => {
+      this.$axios.getRequest("/booking", info).then((res) => {
         this.ReservedOrders = res; //获取订单列表
         //判断数组是否有长度
         if (this.ReservedOrders.length) {
           this.QRCodeHide = false;
-          console.log('数组有长度，二维码隐藏');
+          console.log("数组有长度，二维码隐藏");
         } else {
           this.QRCodeHide = true;
-          console.log('数组为空，二维码显示');
+          console.log("数组为空，二维码显示");
         }
 
         // console.log(this.ReservedOrders,"this.ReservedOrders")
         res.forEach((r, index) => {
-          if (r.status == 'pending') {
-            r.status = '待付款';
-          } else if (r.status == 'booked') {
-            r.status = '已确认';
-          } else if (r.status == 'in_service') {
-            r.status = '已入场';
-          } else if (r.status == 'pending_refund') {
-            r.status = '待撤销';
-          } else if (r.status == 'finished') {
-            r.status = '已完成';
-          } else if (r.status == 'canceled') {
-            r.status = '已取消';
+          if (r.status == "pending") {
+            r.status = "待付款";
+          } else if (r.status == "booked") {
+            r.status = "已确认";
+          } else if (r.status == "in_service") {
+            r.status = "已入场";
+          } else if (r.status == "pending_refund") {
+            r.status = "待撤销";
+          } else if (r.status == "finished") {
+            r.status = "已完成";
+          } else if (r.status == "canceled") {
+            r.status = "已取消";
           }
         });
       });
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -668,7 +666,7 @@ export default {
 }
 
 .order-content::after {
-  content: '';
+  content: "";
   display: table-cell;
 }
 
@@ -714,7 +712,7 @@ export default {
   margin-bottom: 20rpx;
 }
 
-.order__text{
+.order__text {
   margin-bottom: 40rpx;
   margin-top: 20rpx;
 }

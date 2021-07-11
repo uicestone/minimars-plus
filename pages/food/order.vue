@@ -35,7 +35,7 @@ view.foodchooseBox
             view 无可用优惠券
             img.discounts_rightimg(src="../../static/images/111.png")
         view.foodchooseBox_top-box_count
-          view 共{{sum}}件
+          view 共{{ sum }}件
           view 合计 rmb {{ totalPrice }}
     // 超值换购
     view.bargain_buy
@@ -139,59 +139,60 @@ view.foodchooseBox
 </template>
 
 <script>
-import uniPopup from '@/components/uni-popup/uni-popup.vue';
+import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import payment from "../../utils/payment.js";
 export default {
   components: {
-    uniPopup
+    uniPopup,
   },
   data() {
     return {
       wxSelected: false,
       foods: [
         {
-          buyadd: true
+          buyadd: true,
         },
         {
-          buyadd: true
+          buyadd: true,
         },
         {
-          buyadd: true
-        }
+          buyadd: true,
+        },
       ],
       replacebox: [],
       selectshop: [],
       totalPrice: 0,
       cardList: [],
       order: {
-        type: 'food',
-        store: '',
-        tableId: '',
-        items: []
-      }
+        type: "food",
+        store: "",
+        tableId: "",
+        items: [],
+      },
     };
   },
   computed: {
     sum() {
       // 商品总数
       let num = 0;
-      this.selectshop.forEach(item => {
+      this.selectshop.forEach((item) => {
         num += item.numbers;
       });
       return num;
-    }
+    },
   },
   onLoad(option) {
     this.selectshop = JSON.parse(option.selectshop);
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
-    this.selectshop.forEach(j => {
+    this.selectshop.forEach((j) => {
       this.order.items.push({
         productUid: j.uid,
-        quntity: j.numbers
+        quntity: j.numbers,
       });
     });
     console.log(this.order);
-    this.selectshop.forEach(i => {
+    this.selectshop.forEach((i) => {
       this.totalPrice += i.buyPrice * i.numbers;
     });
     // this.getCardList()
@@ -199,51 +200,44 @@ export default {
   methods: {
     //创建订单
     createdOred() {
-      this.$axios.postRequest('/booking', this.order).then(res => {
-        if (res.payments[0].payArgs) {
-          //唤起微信支付
-          uni.requestPayment({
-            provider: 'wxpay',
-            timeStamp: res.payments[0].payArgs.timeStamp,
-            nonceStr: res.payments[0].payArgs.nonceStr,
-            package: res.payments[0].payArgs.package,
-            signType: 'MD5',
-            paySign: res.payments[0].payArgs.paySign,
-            success: function(res) {
-              console.log('success:' + JSON.stringify(res));
-              uni.showToast({
-                title: '支付成功',
-                duration: 2000
-              });
-              uni.redirectTo({
-                url: '../my/myOrderlist' // 购买成功,跳到我的订单
-              });
-            },
-            fail: function(err) {
-              console.log('fail:' + JSON.stringify(err));
-            }
-          });
-        }
-      });
+      let toBookings = function () {
+        uni.redirectTo({
+          url: "../my/bookings",
+        });
+      };
+
+      payment(this.order)
+        .then(toBookings)
+        .catch((msg) => {
+          if (!msg) {
+            toBookings();
+          } else {
+            uni.showToast({
+              title: msg,
+              icon: "none",
+            });
+          }
+        });
     },
+
     //获取卡列表
     getCardList() {
       this.$axios
-        .getRequest('/card-type', {
-          type: 'coupon'
+        .getRequest("/card-type", {
+          type: "coupon",
         })
-        .then(res => {
+        .then((res) => {
           if (res.length > 0) {
-            res.forEach(i => {
+            res.forEach((i) => {
               this.cardList.push(i);
             });
             this.$axios
-              .getRequest('/card-type', {
-                type: 'balance'
+              .getRequest("/card-type", {
+                type: "balance",
               })
-              .then(result => {
+              .then((result) => {
                 if (res.length > 0) {
-                  res.forEach(j => {
+                  res.forEach((j) => {
                     this.cardList.push(j);
                   });
                 }
@@ -251,12 +245,12 @@ export default {
             console.log(this.cardList);
           } else {
             this.$axios
-              .getRequest('/card-type', {
-                type: 'balance'
+              .getRequest("/card-type", {
+                type: "balance",
               })
-              .then(result => {
+              .then((result) => {
                 if (res.length > 0) {
-                  res.forEach(item => {
+                  res.forEach((item) => {
                     this.cardList.push(item);
                   });
                 }
@@ -285,15 +279,15 @@ export default {
     },
     goadd(index) {
       this.replacebox.push({
-        id: 1
+        id: 1,
       });
       this.foods[index].buyadd = false;
     },
     goMinus(index) {
       this.replacebox.splice(0, 1);
       this.foods[index].buyadd = true;
-    }
-  }
+    },
+  },
 };
 </script>
 

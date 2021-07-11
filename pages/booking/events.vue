@@ -43,7 +43,7 @@
       view(slot="header") 门店选择 STORES
       custom-picker(
         slot="body",
-        :options="[doorlist]",
+        :options="[options]",
         labelKey="name",
         @onchange="selectStore"
       )
@@ -51,6 +51,7 @@
 
 <script>
 import { get } from "vuex-pathify";
+import store from "vuex";
 import customTabs from "../../components/custom-tabs/tabs.vue";
 import customCard from "../../components/custom-card-box/card-box.vue";
 import customPop from "../../components/custom-popup/popup.vue";
@@ -65,35 +66,15 @@ export default {
   data() {
     return {
       store: "",
-      doorlist: [
-        {
-          id: 0,
-          name: "请选择门店",
-        },
-        {
-          id: 1,
-          name: "杨浦黄兴店",
-        },
-        {
-          id: 2,
-          name: "浦东金桥店",
-        },
-        {
-          id: 3,
-          name: "静安江宁店",
-        },
-        {
-          id: 4,
-          name: "长宁天山店",
-        },
-      ],
-
       list: [],
     };
   },
   computed: {
     user: get("auth/user"),
     stores: get("config/stores"),
+    options() {
+      return [{ id: 0, name: "请选择门店" }, ...this.stores];
+    },
     tabs() {
       return [
         {
@@ -111,10 +92,13 @@ export default {
     },
   },
   onShow() {
+    setTimeout(() => {
+      console.log(this.options);
+    }, 1000);
     if (this.user.store) {
       this.store = this.user.store;
     } else {
-      this.store = this.doorlist[0];
+      this.store = { id: 0, name: "请选择门店" };
     }
   },
   onLoad() {},

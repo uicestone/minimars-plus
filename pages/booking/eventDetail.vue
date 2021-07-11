@@ -10,7 +10,7 @@ view.marsActivityBox
         view.age {{ detail.kidAgeRange }}
     view.richtext
       rich-text(:nodes="detail.content")
-  view.btn 立即预约 MAKE Appointment
+  view.btn(@click="$refs.popup.open()") 立即预约 MAKE Appointment
 
   uni-popup(ref="popup", type="center")
     view.popup-box
@@ -28,7 +28,7 @@ view.marsActivityBox
             img(src="../../static/images/index/index_orderOne.png")
             view 门店确认 STORE
           view.content(@click="showShopPop")
-            span {{ store }}
+            span {{ store.name }}
           view.title
             img(src="../../static/images/index/index_orderTwo.png")
             view 活动时间 TIME
@@ -37,17 +37,17 @@ view.marsActivityBox
           view.title
             img(src="../../static/images/index/index_orderThree.png")
             view 报名人数 attendance
-          view.content(@click="showPeoplePop")
+          view.content
             span 儿童
             view.flex-x.center.popup-control
-              view.img-box.popup-control__btn
-                img(src="../../static/images/add.png")
-              view.popup__num 11
-              view.img-box.popup-control__btn
+              view.img-box.popup-control__btn(@click="setNum(-1)")
                 img(src="../../static/images/minus.png")
+              view.popup__num {{ num }}
+              view.img-box.popup-control__btn(@click="setNum(+1)")
+                img(src="../../static/images/add.png")
       view.flex-x.center.between.popup-bottom
-        view.popup-bottom__btn 积分支付
-        view.popup-bottom__btn 微信支付
+        view.popup-bottom__btn(@click="pay('points')") 积分支付
+        view.popup-bottom__btn(@click="pay()") 微信支付
 
     // 日期选择
   custom-popup(ref="calendarPop")
@@ -65,11 +65,23 @@ view.marsActivityBox
         :displayMonth.sync="calendarDisplayMonth",
         ref="calendar"
       )
+
+  // 门店选择
+  custom-popup(ref="shopPop")
+    view.pop-header(slot="header") 门店选择 STORES
+    view(slot="body")
+      custom-picker(
+        valueKey="id",
+        labelKey="name",
+        :options="[storeOptions]",
+        @onchange="selectStore"
+      )
 </template>
 
 <script>
 import moment from "moment";
-
+import { get } from "vuex-pathify";
+import payment from "../../utils/payment.js";
 import customPopup from "../../components/custom-popup/popup";
 import customPicker from "../../components/custom-picker/picker";
 import customCalendar from "../../components/custom-calendar/calendar";
@@ -84,17 +96,40 @@ export default {
     currentMonth() {
       return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月");
     },
+    stores: get("config/stores"),
+    storeOptions() {
+      return [
+        {
+          id: 0,
+          name: "请选择门店",
+        },
+        ...this.stores,
+      ];
+    },
+
+    eventQuery() {
+      return {
+        type: "event",
+        store: this.store.id ? this.store.id : "",
+        event: this.detail.id,
+        kidsCount: this.num,
+        date: this.date[0],
+      };
+    },
   },
   data() {
     return {
-      detail: null,
-      date: "",
+      detail: {},
+      date: [moment().format("YYYY-MM-DD")], // 选中日期
       calendarDisplayMonth: moment().format("YYYY-MM-DD"),
+      store: {
+        name: "请选择门店",
+      },
+      num: 1, // 数量
     };
   },
   onLoad(params) {
     this.getDetail(params.id);
-    this.$refs.popup.open();
   },
   methods: {
     async getDetail(id) {
@@ -112,6 +147,50 @@ export default {
     // 选择月份
     changeMonth(n) {
       this.$refs.calendar.addMonth(n);
+    },
+
+    // 显示门店弹窗
+    showShopPop() {
+      this.$refs.shopPop.open();
+    },
+
+    selectStore(e) {
+      this.store = e.value[0];
+    },
+
+    // 设置数量
+    setNum(n) {
+      let num = this.num + n;
+      if (num < 1) num = 1;
+      this.num = num;
+    },
+
+    // 支付
+    pay(type = "") {
+      if (!this.store.id)
+        return uni.showToast({
+          title: "请先选择门店",
+          icon: "none",
+        });
+
+      let toBookings = function () {
+        uni.redirectTo({
+          url: "../my/bookings?active=1",
+        });
+      };
+
+      payment(this.eventQuery, type)
+        .then(toBookings)
+        .catch((msg) => {
+          if (!msg) {
+            toBookings();
+          } else {
+            uni.showToast({
+              title: msg,
+              icon: "none",
+            });
+          }
+        });
     },
   },
 };
