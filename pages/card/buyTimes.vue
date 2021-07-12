@@ -13,7 +13,7 @@ view.buycards_box
               src="../../static/images/minus.png",
               @click="() => { if (number > 1) number--; }"
             )
-{{ number }}
+          text {{ number }}
           view.img-box.add.cover-mask--small
             img(src="../../static/images/add.png", @click="number++")
   // 购买须知
