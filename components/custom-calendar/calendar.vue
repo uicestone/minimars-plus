@@ -59,7 +59,9 @@ export default {
     maxDate: {
       type: String,
       default: "",
-    }
+    },
+    // 是否可选
+    canSelect: { type: Boolean, default: true },
   },
   data() {
     return {
@@ -225,10 +227,14 @@ export default {
 
       let resultDays = [].concat(this.syncMarkDays);
 
+      // 禁止点击
+      if (!this.canSelect) return false;
+
       if (moment().isAfter(date, "day") && this.disabledAfter) return false;
-      
+
       // 支持最大日期
-      if (moment(date).isAfter(this.maxDate, "day") && this.maxDate) return false;
+      if (moment(date).isAfter(this.maxDate, "day") && this.maxDate)
+        return false;
 
       // 不支持多选
       if (!this.multiSelect && resultDays.length > 0) resultDays = [];

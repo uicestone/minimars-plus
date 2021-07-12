@@ -27,7 +27,7 @@
       view.accomplish_border(v-if="QRCodeHide == false")
         view.order(v-for="(i, t) in ReservedOrders", :key="t")
           view.order-title
-            view.order__date {{ i.updatedAt }}
+            view.order__date {{ i.updatedAt | dateFormatter }}
             view.order__status {{ i.status }}
           view.order-content
             view.order__shop {{ i.store.name }}
@@ -57,7 +57,7 @@
       view.accomplish_border
         view.order(v-for="(i, t) in ReservedOrders", :key="t")
           view.order-title
-            view.order__date {{ i.updatedAt }}
+            view.order__date {{ i.updatedAt | dateFormatter }}
             view.order__status {{ i.status }}
           view.order-content
             view.order__shop {{ i.store.name }}
@@ -142,11 +142,19 @@
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import tabs from "@/components/tabs/tabs.vue";
 import cutomsTabs from "../../components/custom-tabs/tabs.vue";
+import moment from "moment";
 export default {
   components: {
     tabs,
     uniPopup,
     "custom-tabs": cutomsTabs,
+  },
+  filters: {
+    dateFormatter: function (value) {
+      if (!value) return "";
+      value = moment(value).format("YYYY-MM-DD h:mm:ss");
+      return value;
+    },
   },
   data() {
     return {

@@ -106,6 +106,9 @@ export default {
   }
 
   .marsCard_contentbox {
+    padding-bottom: 30rpx;
+    padding-bottom: env(safe-area-inset-bottom);
+
     .marsCard_contentbox-content {
       .contentbox-contentTitle {
         width: 650rpx;

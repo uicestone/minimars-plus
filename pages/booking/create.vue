@@ -122,6 +122,8 @@ view.myOrder_box
 import { sync } from "vuex-pathify";
 import moment from "moment";
 
+import payment from "../../utils/payment";
+
 import customPopup from "../../components/custom-popup/popup";
 import customPicker from "../../components/custom-picker/picker";
 import customCalendar from "../../components/custom-calendar/calendar";
@@ -238,36 +240,21 @@ export default {
       this.booking.date = this.date[0]; //时间
       this.booking.type = "play";
       uni.showLoading();
-      const booking = await this.$axios.postRequest("/booking", this.booking);
-      uni.hideLoading();
-      if (booking.payments[0].payArgs) {
-        //唤起微信支付
-        uni.requestPayment({
-          provider: "wxpay",
-          timeStamp: booking.payments[0].payArgs.timeStamp,
-          nonceStr: booking.payments[0].payArgs.nonceStr,
-          package: booking.payments[0].payArgs.package,
-          signType: "MD5",
-          paySign: booking.payments[0].payArgs.paySign,
-          success: function (res) {
-            console.log("success:" + JSON.stringify(res));
+      payment(this.booking)
+        .then(() => {
+          uni.hideLoading();
+          this.goOrder();
+        })
+        .catch((msg) => {
+          if (!msg) {
+            // this.goOrder();
+          } else {
             uni.showToast({
-              title: "预约成功",
-              duration: 2000,
+              title: msg,
+              icon: "none",
             });
-            uni.redirectTo({ url: "../my/bookings" });
-          },
-          fail: function (err) {
-            console.log("fail:" + JSON.stringify(err));
-          },
+          }
         });
-      } else {
-        this.goOrder(); //跳转订单
-        uni.showToast({
-          title: "预约成功",
-          duration: 2000,
-        });
-      }
     },
     // 跳转订单页面
     goOrder() {

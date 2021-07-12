@@ -115,10 +115,12 @@ export default {
   }
 
   .cardbag_card {
+    padding-bottom: 30rpx;
+    padding-bottom: env(safe-area-inset-bottom);
+
     .cardbag_card_box {
       width: 690rpx;
       box-shadow: 0rpx 4rpx 14rpx 6rpx rgba(222, 221, 221, 0.5);
-      border-radius: ;
       margin: 0 auto;
       position: relative;
       margin-top: 30rpx;

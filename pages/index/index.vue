@@ -31,7 +31,7 @@ view.index_box
             mode="aspectFit"
           )
           span 点餐
-  view(style="width: 690rpx; height: 290rpx; margin-bottom:30rpx")
+  view(style="width: 690rpx; height: 290rpx; margin-bottom: 30rpx")
   // 消息提示框
   view.message_box(v-if="latestBooking")
     img(src="../../static/images/index/looks.png")
@@ -72,6 +72,8 @@ export default {
       swiperAutoplay: true,
       bannerPosts: [], //轮播图
       latestBooking: null,
+
+      init: false, // 初始化完成
     };
   },
   computed: {
@@ -84,6 +86,8 @@ export default {
     console.log("index:onShow");
     // await this.$onLaunched;
     this.swiperAutoplay = true;
+
+    if (this.init) this.getLatestBooking();
   },
   onHide() {
     this.swiperAutoplay = false;
@@ -146,6 +150,7 @@ export default {
   watch: {
     user(user) {
       if (user.id) {
+        this.init = true;
         this.getLatestBooking();
       }
     },

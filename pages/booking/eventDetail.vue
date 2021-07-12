@@ -123,11 +123,13 @@ export default {
     return {
       detail: {},
       date: [moment().format("YYYY-MM-DD")], // 选中日期
+      dateLock: false, // 锁定日期
       calendarDisplayMonth: moment().format("YYYY-MM-DD"),
       maxDate: moment().add(13, "days").format("YYYY-MM-DD"),
       store: {
         name: "请选择门店",
       },
+      storeLock: false, // 锁定门店
       num: 1, // 数量
     };
   },
@@ -137,13 +139,27 @@ export default {
   methods: {
     async getDetail(id) {
       const detail = await this.$axios.getRequest("/event/" + id);
-      if(detail.content) detail.content = getApp().fixRichTextImg(detail.content);
-      detail.date = moment(detail.date).format("YYYY.MM.DD");
+
+      if (detail.content)
+        detail.content = getApp().fixRichTextImg(detail.content);
+
+      if (detail.date) {
+        // 活动固定日期
+        detail.date = moment(detail.date).format("YYYY.MM.DD");
+        this.dateLock = true;
+      }
+
+      if (detail.store) {
+        // 固定门店
+        this.store = detail.store;
+        this.storeLock = true;
+      }
       this.detail = detail;
     },
 
     // 显示日历弹窗
     showCalendarPop() {
+      if (this.dateLock) return false;
       this.$refs.calendarPop.open();
     },
 
@@ -154,6 +170,7 @@ export default {
 
     // 显示门店弹窗
     showShopPop() {
+      if (this.storeLock) return false;
       this.$refs.shopPop.open();
     },
 
