@@ -92,9 +92,6 @@ export default {
     },
   },
   onShow() {
-    setTimeout(() => {
-      console.log(this.options);
-    }, 1000);
     if (this.user.store) {
       this.store = this.user.store;
       this.getList()
