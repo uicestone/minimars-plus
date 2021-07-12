@@ -97,6 +97,7 @@ export default {
     }, 1000);
     if (this.user.store) {
       this.store = this.user.store;
+      this.getList()
     } else {
       this.store = { id: 0, name: "请选择门店" };
     }
