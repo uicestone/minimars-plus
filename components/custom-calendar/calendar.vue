@@ -55,6 +55,11 @@ export default {
       type: Boolean,
       default: false,
     },
+    // 最大可选日期
+    maxDate: {
+      type: String,
+      default: "",
+    }
   },
   data() {
     return {
@@ -221,6 +226,9 @@ export default {
       let resultDays = [].concat(this.syncMarkDays);
 
       if (moment().isAfter(date, "day") && this.disabledAfter) return false;
+      
+      // 支持最大日期
+      if (moment(date).isAfter(this.maxDate, "day") && this.maxDate) return false;
 
       // 不支持多选
       if (!this.multiSelect && resultDays.length > 0) resultDays = [];

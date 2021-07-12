@@ -63,7 +63,9 @@ view.marsActivityBox
       custom-calendar(
         :markDays.sync="date",
         :displayMonth.sync="calendarDisplayMonth",
-        ref="calendar"
+        ref="calendar",
+        disabledAfter,
+        :maxDate="maxDate"
       )
 
   // 门店选择
@@ -122,6 +124,7 @@ export default {
       detail: {},
       date: [moment().format("YYYY-MM-DD")], // 选中日期
       calendarDisplayMonth: moment().format("YYYY-MM-DD"),
+      maxDate: moment().add(13, "days").format("YYYY-MM-DD"),
       store: {
         name: "请选择门店",
       },
@@ -134,7 +137,7 @@ export default {
   methods: {
     async getDetail(id) {
       const detail = await this.$axios.getRequest("/event/" + id);
-      detail.content = getApp().fixRichTextImg(detail.content);
+      if(detail.content) detail.content = getApp().fixRichTextImg(detail.content);
       detail.date = moment(detail.date).format("YYYY.MM.DD");
       this.detail = detail;
     },
