@@ -210,7 +210,7 @@ export default {
     // 获取用户的可用卡
     getCards() {
       this.$axios.getRequest("/card?status=activated").then((res) => {
-        this.cards = res;
+        this.cards = res.filter((card) => card.type !== "coupon");
       });
     },
     // 去购卡
