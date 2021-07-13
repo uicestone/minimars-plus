@@ -6,24 +6,29 @@ import loadFont from "@/utils/loadFont";
 export default {
   computed: {
     auth: sync("auth"),
-    config: sync('config'),
+    config: sync("config"),
   },
   async onLaunch() {
     console.log("App Launch");
     try {
       uni.showLoading({ mask: true });
-      
-      //全局配置
-      this.config.common = await this.$axios.getRequest('/config');
-      this.config.stores = await this.$axios.getRequest('/store');
 
-      await Promise.all([
+      const [config, stores] = await Promise.all([
+        this.$axios.getRequest("/config"),
+        this.$axios.getRequest("/store"),
+      ]);
+
+      this.config.common = config;
+      this.config.stores = stores;
+
+      Promise.allSettled([
         loadFont("Gotham", 300, "Gotham-Light.woff2"),
         loadFont("Gotham", 500, "Gotham-Medium.woff2"),
         loadFont("Gotham", 900, "Gotham-Ultra.woff2"),
       ]).catch((res) => {
-        uni.hideLoading();
+        //
       });
+
       if (!this.auth.token) {
         const auth = await wechatLogin();
         Object.assign(this.auth, auth);
