@@ -8,7 +8,7 @@ view.myOrder_box
           img(src="../../static/images/index/index_orderOne.png")
           view 门店选择
         view.content(@click="showShopPop")
-          span {{ store }}
+          span {{ selectedStoreName }}
           img(src="../../static/images/search.png")
         view.title
           img(src="../../static/images/index/index_orderTwo.png")
@@ -119,7 +119,7 @@ view.myOrder_box
 </template>
 
 <script>
-import { sync } from "vuex-pathify";
+import { sync, get } from "vuex-pathify";
 import moment from "moment";
 
 import payment from "../../utils/payment";
@@ -136,9 +136,7 @@ export default {
   },
   data() {
     return {
-      store: "",
       index: 0,
-      stores: [],
       price: 0,
       adultsKidsValues: [
         [...Array(10).keys()].map((n) => ({ label: n + 1, value: n + 1 })),
@@ -161,7 +159,12 @@ export default {
     };
   },
   computed: {
+    stores: get("config/stores"),
     user: sync("auth/user"),
+    selectedStoreName() {
+      const store = this.stores.find((s) => s.id === this.booking.store);
+      return store ? store.name : "";
+    },
     adultsKidsText() {
       return (
         this.booking.kidsCount +
@@ -178,43 +181,32 @@ export default {
       return Math.min(this.user.balance || 0, this.price);
     },
   },
+  watch: {
+    stores: {
+      handler(v, p) {
+        if ((!p || !p.length) && v.length) {
+          const localStore = uni.getStorageSync("booking.store");
+          if (localStore) {
+            this.booking.store = localStore;
+            return;
+          }
+          if (this.user.store) {
+            this.booking.store = this.user.store.id;
+            return;
+          }
+          this.booking.store = this.stores[0].id;
+        }
+      },
+      immediate: true,
+    },
+  },
   onLoad(option) {
-    if (this.user.store) {
-      this.store = this.user.store.name;
-      this.booking.store = this.store.id;
-    } else {
-      this.store = "";
-    }
-
-    if (option.date) {
-      this.date = [option.date];
-    }
-
     this.booking.date = this.date[0];
-
-    this.goStore();
     this.getCards();
     this.getPrice();
   },
 
   methods: {
-    // 门店
-    goStore() {
-      this.$axios.getRequest("/store").then((res) => {
-        this.stores = res;
-        this.store = res[0].name;
-        this.booking.store = res[0].id;
-      });
-    },
-    // 获取门店ID
-    getStore() {
-      this.stores.forEach((item) => {
-        if (item.name == this.store) {
-          this.booking.store = item.id;
-          this.getPrice();
-        }
-      });
-    },
     // 获取用户的可用卡
     getCards() {
       this.$axios.getRequest("/card?status=activated").then((res) => {
@@ -286,10 +278,7 @@ export default {
     },
 
     selectStore(e) {
-      this.store = e.value[0].name;
-      this.getStore();
-      this.getCards();
-      this.getPrice();
+      this.booking.store = e.value[0].id;
     },
 
     // 显示人数弹窗
