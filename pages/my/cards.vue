@@ -5,36 +5,29 @@ view.cardbag
     :activeIndex.sync="activeIndex",
     @onselect="selectTab"
   )
-  view.cardbag_card(v-show="activeIndex == 0")
-    view.cardbag_card_box
+  view.cardbag_card(v-show="activeIndex === 0")
+    view.cardbag_card_box(v-for="card in activatedCards", :key="card.id")
       view.img-box.cadbag__img
-        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
+        img(
+          :src="card.posterDenseUrl || '../../static/images/my/my-banner.png'",
+          mode="aspectFill"
+        )
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
-          | MarsBabe卡 rmb 3800
-        view.cardbag_card_box-content-time 2021.5.18到期
+          | {{ card.title }} rmb {{ card.price }}
+        view.cardbag_card_box-content-time {{ card.createdAt | date }} - {{ card.expiresAt | date }}
     view.mycards_footer 历史卡券
   // 未激活
-  view.cardbag_card(v-show="activeIndex == 1")
-    view.cardbag_card_box
+  view.cardbag_card(v-show="activeIndex === 1")
+    view.cardbag_card_box(v-for="card in validCards", :key="card.id")
       view.img-box.cadbag__img
         img(src="../../static/images/my/my-banner.png", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
-          | Mars圣诞卡
-          span ¥ 3800
+          | {{ card.title }} rmb {{ card.price }}
         view.cardbag_card_box-content-times
           view.cardbag__btn 自用激活
           view.cardbag__btn 赠送好友
-    view.cardbag_card_box
-      view.img-box.cadbag__img
-        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
-      view.cardbag_card_box-content
-        view.cardbag_card_box-content-money
-          | Mars圣诞卡
-          span ¥ 3800
-        view.cardbag_card_box-content-times
-          view.cardbag__btn.cardbag__btn--highlight 待领取
     // 底部，礼品卡使用须知
     view.mycards_footer-use
       view.mycards_footer-use_left(@click="gouseCade()") 礼品卡使用须知
@@ -44,17 +37,32 @@ view.cardbag
 
 <script>
 import customTabs from "../../components/custom-tabs/tabs.vue";
+import moment from "moment";
+
 export default {
   data() {
     return {
-      tabs: [
+      activeIndex: 0,
+      count: "",
+      cards: [],
+    };
+  },
+  computed: {
+    activatedCards() {
+      return this.cards.filter((c) => c.status === "activated");
+    },
+    validCards() {
+      return this.cards.filter((c) => c.status === "valid");
+    },
+    tabs() {
+      return [
         {
           id: 1,
-          name: "可使用（1）",
+          name: `可使用（${this.activatedCards.length}）`,
         },
         {
           id: 2,
-          name: "未激活（2）",
+          name: `未激活（${this.validCards.length}）`,
         },
         {
           id: 3,
@@ -62,17 +70,14 @@ export default {
           showArrow: true,
           customClick: true,
         },
-      ],
-      activeIndex: 0,
-      count: "",
-    };
+      ];
+    },
   },
   components: {
     "custom-tabs": customTabs,
   },
   methods: {
     selectTab(e) {
-      console.log(e);
       if (e.item.id === 3) {
         wx.navigateTo({
           url: "/pages/card/index",
@@ -90,12 +95,22 @@ export default {
       });
     },
   },
+  filters: {
+    date(d) {
+      return moment(d).format("YYYY.M.D");
+    },
+  },
+  async onShow() {
+    this.cards = await this.$axios.getRequest("/card");
+  },
 };
 </script>
 <style lang="less" scoped>
 .cardbag {
   width: 750rpx;
+  min-height: 100vh;
   background: #f8f8f8;
+  position: relative;
 
   .cardbag_box {
     padding-top: 30rpx;
@@ -115,8 +130,8 @@ export default {
   }
 
   .cardbag_card {
-    padding-bottom: 30rpx;
     padding-bottom: env(safe-area-inset-bottom);
+    padding-bottom: 100rpx;
 
     .cardbag_card_box {
       width: 690rpx;
