@@ -15,15 +15,15 @@ view.my_box
       view.my_marsMember_content-box
         view.my_marsMember-one
           img(mode="aspectFit", src="../../static/images/my/my-points.png")
-          view {{ points }}
+          view {{ points || '-' }}
           span MARS积分
-        view.my_marsMember-one(@click="goCardBag")
+        view.my_marsMember-one(@click="goCardBag('coupon')")
           img(mode="aspectFit", src="../../static/images/my/my-coupon.png")
-          view {{ couPonNumber }}
+          view {{ couponCount || '-' }}
           span MARS优惠券
-        view.my_marsMember-one(@click="goCardBag")
+        view.my_marsMember-one(@click="goCardBag('type')")
           img(mode="aspectFit", src="../../static/images/my/my-points.png")
-          view {{ allCardBag }}
+          view {{ cardCount || '-' }}
           span MARS卡包
   view.vip
   view.my_centre
@@ -100,8 +100,8 @@ export default {
       imgUrl: "", //封面图
       nickname: "",
       defaultUrl: "../../static/images/my/my-banner.png",
-      couPonNumber: 0, //卡券数量
-      allCardBag: 0, //卡包内数量
+      couponCount: NaN, //卡券数量
+      cardCount: NaN, //卡包内数量
       points: 0, //积分
       storeDynamic: [], //门店动态
     };
@@ -111,8 +111,7 @@ export default {
       this.imgUrl = this.defaultUrl;
     }
     this.user();
-    this.getCoupon();
-    this.getCardBag();
+    this.getCards();
     this.getArticleList();
   },
   methods: {
@@ -156,27 +155,17 @@ export default {
     getphonenumber() {
       this.close();
     },
-    // 优惠券
-    getCoupon() {
-      this.$axios
-        .getRequest("/card", {
-          type: "coupon",
-        })
-        .then((res) => {
-          // console.log(res.length, "优惠券");
-          this.couPonNumber = res.length;
-        });
-    },
     // 卡包
-    getCardBag() {
-      this.$axios.getRequest("/card").then((res) => {
-        // console.log(res.length, "卡包");
-        this.allCardBag = res.length;
-      });
+    async getCards() {
+      const cards = await this.$axios.getRequest(
+        "/card?status=activated,valid"
+      );
+      this.couponCount = cards.filter((c) => c.type === "coupon").length;
+      this.cardCount = cards.filter((c) => c.type !== "coupon").length;
     },
-    goCardBag() {
+    goCardBag(type) {
       uni.navigateTo({
-        url: "/pages/my/cards",
+        url: "/pages/my/cards?type=" + type,
       });
     },
     goOrderList() {

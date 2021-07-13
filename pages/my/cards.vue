@@ -42,6 +42,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      type: "", // card / coupon
       activeIndex: 0,
       count: "",
       cards: [],
@@ -100,8 +101,18 @@ export default {
       return moment(d).format("YYYY.M.D");
     },
   },
+  onLoad(option) {
+    if (option.type === "coupon") {
+      this.type = "coupon";
+      uni.setNavigationBarTitle({ title: "MARS优惠券" });
+    } else {
+      this.type = "card";
+    }
+  },
   async onShow() {
-    this.cards = await this.$axios.getRequest("/card");
+    this.cards = await this.$axios.getRequest(
+      `/card?type=${this.type === "card" ? "times,period,balance" : "coupon"}`
+    );
   },
 };
 </script>
