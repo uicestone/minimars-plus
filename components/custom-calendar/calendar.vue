@@ -11,10 +11,10 @@
           view.days(:style="{ top: positionTop + 'rpx' }")
             view.item(v-for='(item, index) in days' :key='index')
               view.day(@click='selectOne(item, $event)' :class='{\
-              selected:\
-              date === `${item.text}`,\
+              selected:date === `${item.text}`,\
               selected: isMarkDay(item.year, item.month, item.date),\
               isWeekday: isWeekday(item),\
+              "day--lock": !checkDate(item.text),\
               }') {{ Number(item.date) }}
   </view>
 </template>
@@ -255,6 +255,15 @@ export default {
       this.$emit("update:displayMonth", this.syncDisplayMonth);
       this.days = this.calcCalendarDays();
     },
+
+    checkDate(date) {
+      if (this.disabledAfter && moment().isAfter(date, "day")) return false;
+
+      if (this.maxDate && moment(date).isAfter(this.maxDate, "day"))
+        return false;
+
+      return true;
+    },
   },
 };
 </script>
@@ -411,5 +420,9 @@ export default {
       }
     }
   }
+}
+
+.day--lock {
+  opacity: 0.3;
 }
 </style>

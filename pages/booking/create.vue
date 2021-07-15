@@ -84,7 +84,9 @@ view.myOrder_box
       custom-calendar(
         :markDays.sync="date",
         :displayMonth.sync="calendarDisplayMonth",
-        ref="calendar"
+        ref="calendar",
+        disabledAfter,
+        :maxDate="maxDate"
       )
 
   // 进场人数选择
@@ -144,6 +146,7 @@ export default {
       ],
       date: [moment().format("YYYY-MM-DD")],
       calendarDisplayMonth: moment().format("YYYY-MM-DD"),
+      maxDate: moment().add(13, "days").format("YYYY-MM-DD"),
       selectedCardIndex: -1,
       booking: {
         type: "play",
