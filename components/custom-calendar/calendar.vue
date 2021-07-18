@@ -65,7 +65,7 @@ export default {
   },
   data() {
     return {
-      weektext: ["SUN", "MON", "THUS", "WED", "THUR", "FRI", "SAT"],
+      weektext: ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"],
       days: [], // 当前月的日期数据
       positionTop: 0,
       monthOpen: true,
