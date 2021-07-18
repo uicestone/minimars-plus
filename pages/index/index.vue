@@ -12,7 +12,11 @@ view.index_box
       indicator-color="#B9B9B9",
       indicator-active-color="#9B9B9B"
     )
-      swiper-item(v-for="post in bannerPosts", :key="post.id")
+      swiper-item(
+        v-for="post in bannerPosts",
+        :key="post.id",
+        @click="goPost(post)"
+      )
         img.swiper_item(:src="post.posterUrl", mode="aspectFill")
     // 购票
     view
@@ -127,6 +131,10 @@ export default {
       uni.switchTab({
         url: "../food/index",
       });
+    },
+    goPost(post) {
+      if (!post.target) return;
+      uni.navigateTo({ url: "/pages/" + post.target });
     },
     // banner图
     async getBanner() {
