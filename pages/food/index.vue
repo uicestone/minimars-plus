@@ -5,6 +5,7 @@ view.orderFood_box
       view.orderFood_left_title(
         v-for="(category, index) in categories",
         :key="category.uid",
+        v-if="category.products.some((p) => p.stock && p.sellPrice)",
         @click="scrollToCategory(category.uid)",
         :class="category.uid === change ? 'active' : ''"
       )
@@ -37,12 +38,14 @@ view.orderFood_box
           view(
             v-for="category in categories",
             :key="category.uid",
+            v-if="category.products.some((p) => p.stock && p.sellPrice)",
             :id="'po' + category.uid"
           )
             text.name.orderFood_right_title {{ category.name }}
             view.orderFood_right_title_content(
               v-for="product in category.products",
-              :key="product.uid"
+              :key="product.uid",
+              v-if="product.stock && product.sellPrice"
             )
               view.orderFood_right_title_content-left(@click="open(product)")
                 img(:src="product.imageUrl")
