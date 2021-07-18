@@ -418,8 +418,8 @@ page {
       width: 690rpx;
       margin: 0 auto;
       font-size: var(--theme--font-size-m);
+      font-weight: var(--theme--font-weight-light);
       color: var(--theme--font-deputy-color);
-      margin-bottom: 20rpx;
       display: flex;
       align-items: center;
 
@@ -434,6 +434,7 @@ page {
     .modeOf_Payment_scroll {
       overflow-x: scroll;
       white-space: nowrap;
+      padding-top: 30rpx;
 
       .modeOf_Payment_box {
         display: inline-block;
@@ -451,6 +452,7 @@ page {
           border-radius: var(--theme--border-radius);
           position: relative;
           background-color: var(--theme--bg-main-color);
+          box-shadow: 2rpx 5rpx 25rpx 10rpx rgba(0, 0, 0, 0.15);
         }
 
         .payment-box__img--add {
@@ -480,7 +482,7 @@ page {
         .modeOf_Payment_box_name {
           font-size: var(--theme--font-size-s);
           color: var(--theme--font-main-color);
-          margin: 10rpx 0;
+          margin: 30rpx 0 0;
 
           .payment-box__price {
             font-size: var(--theme--font-size-m);
