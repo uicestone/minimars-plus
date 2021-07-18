@@ -5,7 +5,7 @@ view.orderFood_box
       view.orderFood_left_title(
         v-for="(category, index) in categories",
         :key="category.uid",
-        v-if="category.products.some((p) => p.stock && p.sellPrice)",
+        v-if="category.products.some((p) => p.stock > 0 && p.sellPrice > 0)",
         @click="scrollToCategory(category.uid)",
         :class="category.uid === change ? 'active' : ''"
       )
@@ -38,14 +38,14 @@ view.orderFood_box
           view(
             v-for="category in categories",
             :key="category.uid",
-            v-if="category.products.some((p) => p.stock && p.sellPrice)",
+            v-if="category.products.some((p) => p.stock > 0 && p.sellPrice > 0)",
             :id="'po' + category.uid"
           )
             text.name.orderFood_right_title {{ category.name }}
             view.orderFood_right_title_content(
               v-for="product in category.products",
               :key="product.uid",
-              v-if="product.stock && product.sellPrice"
+              v-if="product.stock > 0 && product.sellPrice > 0"
             )
               view.orderFood_right_title_content-left(@click="open(product)")
                 img(:src="product.imageUrl")
@@ -270,7 +270,6 @@ export default {
     // 鼠标点击
     scrollToCategory(catUid) {
       this.clickId = "po" + catUid;
-      console.log(this.clickId);
       this.change = catUid;
       this.isLeftClick = true;
     },
@@ -307,6 +306,7 @@ export default {
               size: true,
             },
             (data) => {
+              if (!data) return;
               item.top = h;
               h += data.height;
               item.bottom = h;
