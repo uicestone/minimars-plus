@@ -172,20 +172,20 @@ export default {
   .banner {
     position: relative;
     width: 750rpx;
-    height: calc(100vh - 780rpx);
+    height: 700rpx;
     background: var(--theme--bg-main-color);
 
     .swiper {
-      height: calc(100vh - 780rpx);
+      height: 100%;
       line-height: 140rpx;
 
       .swiper_item {
         width: 750rpx;
-        height: calc(100vh - 780rpx);
+        height: 100%;
 
         img {
           width: 750rpx;
-          height: calc(100vh - 780rpx);
+          height: 100%;
         }
 
         span {
