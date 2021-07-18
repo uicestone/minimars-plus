@@ -36,7 +36,8 @@ export default {
         const user = await this.getAuthUser();
         this.auth.user = user;
       }
-      // this.$launched();
+
+      this.$launched();
 
       uni.hideLoading();
     } catch (e) {

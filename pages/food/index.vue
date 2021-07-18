@@ -100,6 +100,7 @@ view.orderFood_box
         view.orderFood_choose-right(@click="goOrder")
           view.orderFood_choose-right-choose 选好了
           img(src="../../static/images/orderFood/white_right.png")
+  modal-get-phone-number
 </template>
 
 <script>
@@ -152,6 +153,7 @@ export default {
   async onShow() {
     console.log("food/index:onShow");
     if (this.isScanning) return;
+    await this.$onLaunched;
     try {
       if (!this.storeCode || !this.tableId) {
         await this.scanTableCode();
