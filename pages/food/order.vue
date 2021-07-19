@@ -133,6 +133,7 @@ view.foodchooseBox
         view.orderFood_choose-left-line
         view.orderFood_choose-left_money
           | rmb {{ totalPrice }}
+          text.balance-amount(v-if="balanceAmount") 其中余额：{{ balanceAmount }}
       view.orderFood_choose-right
         view.orderFood_choose-right-choose 确认下单
         img(src="../../static/images/orderFood/white_right.png")
@@ -173,6 +174,7 @@ export default {
     };
   },
   computed: {
+    user: sync("auth/user"),
     foodCart: sync("booking/foodCart"),
     sum() {
       return this.foodCart.reduce((sum, item) => sum + item.numbers, 0);
@@ -182,6 +184,9 @@ export default {
         (total, item) => +(total + item.sellPrice * item.numbers).toFixed(10),
         0
       );
+    },
+    balanceAmount() {
+      return Math.min(this.totalPrice, this.user.balance);
     },
   },
   onLoad(option) {
@@ -790,6 +795,10 @@ export default {
           color: #ffffff;
           line-height: 45rpx;
           margin-left: 26rpx;
+          .balance-amount {
+            font-size: var(--theme--font-size-s);
+            margin-left: 20rpx;
+          }
         }
       }
 
