@@ -40,7 +40,7 @@
                   img(:src="item.productImageUrl")
               view.order__total
                 view.order__total__num 共{{ i.items.length }}件
-                view.order__total__price rmb 0
+                view.order__total__price rmb {{ i.amountPaid || '-' }}
 
     // 已预约
     view.one(v-show="active == 1")
@@ -152,7 +152,7 @@ export default {
   filters: {
     dateFormatter: function (value) {
       if (!value) return "";
-      value = moment(value).format("YYYY-MM-DD h:mm:ss");
+      value = moment(value).format("YYYY-MM-DD HH:mm:ss");
       return value;
     },
   },
@@ -236,7 +236,7 @@ export default {
           } else if (r.status == "booked") {
             r.status = "已确认";
           } else if (r.status == "in_service") {
-            r.status = "已入场";
+            r.status = r.type === "food" ? "已点餐" : "已入场";
           } else if (r.status == "pending_refund") {
             r.status = "待撤销";
           } else if (r.status == "finished") {
