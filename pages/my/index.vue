@@ -82,7 +82,7 @@ view.my_box
           img(src="../../static/images/my/my-card.png")
         span MARS封面
         img(src="../../static/images/111.png")
-      view.my_vip_content_namebox(@click="goMore")
+      //- view.my_vip_content_namebox(@click="goMore")
         view.menu__img.img-box
           img(src="../../static/images/my/my-more.png")
         span 更多
@@ -408,7 +408,7 @@ export default {
   .my_vip_content {
     margin-top: 20rpx;
     width: 750rpx;
-    height: 800rpx;
+    // height: 800rpx;
     background: #ffffff;
 
     .my_vip_content_box {
