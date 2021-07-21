@@ -10,7 +10,7 @@ view.marsActivityBox
         view.age {{ detail.kidAgeRange }}
     view.richtext
       rich-text(:nodes="detail.content")
-  view.btn(@click="$refs.popup.open()") 立即预约 MAKE Appointment
+  view.btn(@click="$refs.popup.open()") 立即预约 MAKE APPOINTMENT
 
   uni-popup(ref="popup", type="center")
     view.popup-box
@@ -31,12 +31,12 @@ view.marsActivityBox
             span {{ store.name }}
           view.title
             img(src="../../static/images/index/index_orderTwo.png")
-            view 活动时间 TIME
+            view 活动日期 DATE
           view.content(@click="showCalendarPop")
             span {{ date[0] }}
           view.title
             img(src="../../static/images/index/index_orderThree.png")
-            view 报名人数 attendance
+            view 报名人数 ATTENDANCE
           view.content
             span 儿童
             view.flex-x.center.popup-control
@@ -46,8 +46,13 @@ view.marsActivityBox
               view.img-box.popup-control__btn(@click="setNum(+1)")
                 img(src="../../static/images/add.png")
       view.flex-x.center.between.popup-bottom
-        view.popup-bottom__btn(@click="pay('points')") 积分支付
-        view.popup-bottom__btn(@click="pay()") 微信支付
+        view
+          view.popup-bottom__btn(
+            v-if="![null, undefined].includes(detail.priceInPoints)",
+            @click="pay('points')"
+          ) 积分支付
+        view
+          view.popup-bottom__btn(v-if="detail.price", @click="pay()") 微信支付
 
     // 日期选择
   custom-popup(ref="calendarPop")

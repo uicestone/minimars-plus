@@ -1,57 +1,33 @@
 <template lang="pug">
-<!-- view.marsActivityBox_box
-  view.marsActivityBox_title_box
-    view.marsActivityBox_title-left
-      | 选择门店
-      img.marsActivityBox_title-leftimg(
-        src="../../static/images/index/index_select.png",
-        @click="goDoorname"
-      )
-    view.marsActivityBox_title-right {{ store }}
-    view.storeNameBox(v-if="doorname == 1")
-      view(
-        v-for="(door, index) in doorlist",
-        :key="index",
-        @click="godoor(door)"
-      ) {{ door.name }}
-  view.marsCoupon_contentbox
-    view.coupebox_content
-      view.coupebox_contentimgBox(
-        v-for="(item, index) in 7",
-        :key="index",
-        @click="goDetail"
-      )
-        img(src="../../static/images/224.jpg", mode="aspectFill")
-        view.coupebox_contentimgBox_content
-          view.coupebox_contentimgBox_content_title 圣诞树DIY
-          view.coupebox_contentimgBox_content_data 2020.12.19
-          view.coupebox_contentimgBox_content_detail 3岁-10岁 -->
-  view
-    view.tabs
-      custom-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
-    view.select(v-if="!store.id")
-      view.img-box.select__img
-        img(src="../../static/images/events/event-no-store.png")
-      view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
-      view.select__btn(@click="$refs.storePicker.open()") 门店选择
-    view.list(v-else)
-      view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
-        custom-card(:img="i.posterUrl")
-          view {{ i.title }}
-          view {{ i.kidAgeRange }}
-    custom-pop(ref="storePicker")
-      view(slot="header") 门店选择 STORES
-      custom-picker(
-        slot="body",
-        :options="[options]",
-        labelKey="name",
-        @onchange="selectStore"
-      )
+view
+  view.tabs
+    custom-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
+  view.select(v-if="!store.id")
+    view.img-box.select__img
+      img(src="../../static/images/events/event-no-store.png")
+    view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
+    view.select__btn(@click="$refs.storePicker.open()") 门店选择
+  view.list(v-else)
+    view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
+      custom-card(:img="i.posterDenseUrl || i.posterUrl")
+        view
+          text {{ i.title }}
+          text.date(v-if="i.date") {{ i.date | date }}
+        view {{ i.kidAgeRange }}
+  custom-pop(ref="storePicker")
+    view(slot="header") 门店选择 STORES
+    custom-picker(
+      slot="body",
+      :options="[options]",
+      labelKey="name",
+      @onchange="selectStore"
+    )
 </template>
 
 <script>
 import { get } from "vuex-pathify";
 import store from "vuex";
+import moment from "moment";
 import customTabs from "../../components/custom-tabs/tabs.vue";
 import customCard from "../../components/custom-card-box/card-box.vue";
 import customPop from "../../components/custom-popup/popup.vue";
@@ -94,7 +70,7 @@ export default {
   onShow() {
     if (this.user.store) {
       this.store = this.user.store;
-      this.getList()
+      this.getList();
     } else {
       this.store = { id: 0, name: "请选择门店" };
     }
@@ -125,6 +101,11 @@ export default {
       }
     },
   },
+  filters: {
+    date(d) {
+      return moment(d).format("YYYY.M.D");
+    },
+  },
 };
 </script>
 
@@ -141,6 +122,10 @@ page {
 .item {
   width: 690rpx;
   margin: 30rpx auto 0;
+  .date {
+    margin-left: 15rpx;
+    font-weight: var(--theme--font-weight-light);
+  }
 }
 
 .tabs {

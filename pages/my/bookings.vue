@@ -24,7 +24,7 @@
         v-if="!(active === 1 && i.status === 'in_service' && i.type === 'food')"
       )
         view.order-title
-          view.order__date {{ i.typeName }} {{ i.createdAt | dateFormatter }}
+          view.order__date {{ i.typeName }} {{ i.createdAt | date }}
           view.order__status {{ i.statusName }}
         view.order-content
           view.order__shop {{ i.title }}
@@ -85,7 +85,7 @@ export default {
     "custom-tabs": cutomsTabs,
   },
   filters: {
-    dateFormatter: function (value) {
+    date: function (value) {
       if (!value) return "";
       value = moment(value).format("YYYY-MM-DD HH:mm");
       return value;
