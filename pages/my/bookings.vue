@@ -2,7 +2,7 @@
 .orderList
   custom-tabs(:tabs="tabs", :activeIndex.sync="active", @onselect="changeTab")
 
-  view.order-list(v-for="n in 4", :key="n", v-show="active === n-1")
+  view.order-list
     view.haveOrder_box(v-if="active === 0 && !bookings.length")
       view.haveOrder_scan_box
         view.haveOrder_scan
