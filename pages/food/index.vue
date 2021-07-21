@@ -458,7 +458,7 @@ export default {
               min-height: 175rpx;
               .right_title_content-right-title {
                 width: 100%;
-                height: 36rpx;
+                // height: 36rpx;
                 font-size: var(--theme--font-size-m);
                 line-height: 36rpx;
                 margin-bottom: 5rpx;
