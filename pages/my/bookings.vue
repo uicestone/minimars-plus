@@ -1,141 +1,75 @@
 <template lang="pug">
-.orderLlist
-  div
-    custom-tabs(
-      :tabs="tabs",
-      :activeIndex.sync="active",
-      @onselect="changeTab"
-    )
-    div(style="width: 100%")
-    // 已点餐
-    view.one(v-show="active == 0")
-      view.haveOrder_box(v-if="QRCodeHide")
-        // scan a QR code
-        view.haveOrder_scan_box
-          view.haveOrder_scan
-            view.img-box.haveOrder_scan-code
-              img(
-                src="../../static/images/orderFood/no-food-booking.png",
-                mode="heightFix"
-              )
-            view.haveOrder_scan_content 
-              | 您还没有点餐
-              br
-              | 快去点点东西吧
-            view.haveOrder_scan_btn
-              | 去点单 ORDER
-      view.accomplish_border(v-if="QRCodeHide == false")
-        view.order(v-for="(i, t) in ReservedOrders", :key="t")
-          view.order-title
-            view.order__date {{ i.updatedAt | dateFormatter }}
-            view.order__status {{ i.status }}
-          view.order-content
-            view.order__shop {{ i.store.name }}
-            view.order__list
-              view.order__goods
-                view.img-box.order__goods__item(
-                  v-for="(item, index) in i.items.slice(0, 4)",
-                  :key="index"
-                )
-                  img(:src="item.productImageUrl")
-              view.order__total
-                view.order__total__num 共{{ i.items.length }}件
-                view.order__total__price rmb {{ i.amountPaid || '-' }}
+.orderList
+  custom-tabs(:tabs="tabs", :activeIndex.sync="active", @onselect="changeTab")
 
-    // 已预约
-    view.one(v-show="active == 1")
-      view.order(v-for="(item, index) in ReservedOrders", :key="index")
-        view.order-title
-          view.order__date {{ item.date }}
-          view.order__status {{ item.status }}
-        view.order-content
-          view.order__shop {{ item.title }}
-          view.order__text {{ item.kidsCount }}儿童; {{ item.adultsCount }}成人
-
-    // 已完成
-    view.one(v-show="active == 2")
-      view.accomplish_border
-        view.order(v-for="(i, t) in ReservedOrders", :key="t")
-          view.order-title
-            view.order__date {{ i.updatedAt | dateFormatter }}
-            view.order__status {{ i.status }}
-          view.order-content
-            view.order__shop {{ i.store.name }}
-            view.order__list
-              view.order__goods
-                view.img-box.order__goods__item(
-                  v-for="(item, index) in i.items.slice(0, 4)",
-                  :key="index"
-                )
-                  img(:src="item.productImageUrl")
-              view.order__total
-                view.order__total__num 共{{ i.items.length }}件
-                view.order__total__price rmb 0
-        // two
-        //
-          <view class="accomplish_box">
-          <view class="accomplish_top">
-          <view class="accomplish_top_title_box">
-          <view class="accomplish_top_title">
-          <view class="accomplish_top_titlename">
-          长宁天山店
-          </view>
-          <span class="accomplish_top_date">2020-12-18 18:24:29</span>
-          </view>
-          <view class="accomplish_top_btn_box">
-          已完成
-          <image src="../../static/images/111.png" class="accomplish_top_btn" />
-          </view>
-          </view>
-          </view>
-          <view class="accomplish_contentbox" @click="open()">
-          <view class="accomplish_contentbox_left">
-          <scroll-view scroll-x="true" class="modeOf_Payment-box">
-          <view class="modeOf_Payment_scroll">
-          <view class="modeOf_Payment_box" v-for="(item,index) in 3" :key="index">
-          <image src="../../static/images/224.jpg" />
-          </view>
-          </view>
-          </scroll-view>
-          </view>
-          <view class="accomplish_contentbox_right">
-          <view>共三件</view>
-          <view class="accomplish_contentbox_right_money">￥<span>395.9</span></view>
-          </view>
-          </view>
-          </view>
-
-    view.one(v-show="active == 3")
-      view.order(v-for="(item, index) in ReservedOrders", :key="index")
-        view.order-title
-          view.order__date {{ item.date }}
-          view.order__status {{ item.status }}
-        view.order-content
-          view.order__shop {{ item.title }}
-          view.order__text {{ item.kidsCount }}儿童; {{ item.adultsCount }}成人
-
-    // 详情  弹框
-    uni-popup(ref="popup", type="center")
-      view.gift_box
-        view.gift_box_clear
-          view.gift_box_clear_left 长宁天山店
-          img.gift_box_clear_right(
-            src="../../static/images/clear.png",
-            @click="close()"
-          )
-        view.listdetail_box(v-for="(item, index) in 3", :key="index")
-          view.listdetail_box_content
-            img.listdetail_box_contentimg(
-              src="../../static/images/my/my-banner.png"
+  view.order-list(v-for="n in 4", :key="n", v-show="active === n-1")
+    view.haveOrder_box(v-if="active === 0 && !bookings.length")
+      view.haveOrder_scan_box
+        view.haveOrder_scan
+          view.img-box.haveOrder_scan-code
+            img(
+              src="../../static/images/orderFood/no-food-booking.png",
+              mode="heightFix"
             )
-            view.listdetail_box_content_titlebox
-              view.listdetail_box_content_titlebox_left
-                view.listdetail_box_content_titlebox_left_name 猪肋排
-                view.listdetail_box_content_titlebox_left_number X 1
-              view.listdetail_box_content_titlebox_right ¥ 140
-        view.gift_box_clear.count_box
-          view.gift_box_clear_left
-          view.count_box_right 总计 ¥ 560
+          view.haveOrder_scan_content 
+            | 您还没有点餐
+            br
+            | 快去点点东西吧
+          view.haveOrder_scan_btn(@click="goFood")
+            | 去点单 ORDER
+    template(v-else)
+      view.order(
+        v-for="i in bookings",
+        :key="i.id",
+        v-if="!(active === 1 && i.status === 'in_service' && i.type === 'food')"
+      )
+        view.order-title
+          view.order__date {{ i.typeName }} {{ i.createdAt | dateFormatter }}
+          view.order__status {{ i.statusName }}
+        view.order-content
+          view.order__shop {{ i.title }}
+          //- view.order__text(v-if="i.kidsCount && i.adultsCount") {{ i.kidsCount }}儿童; {{ i.adultsCount }}成人
+          view.order__list
+            view.order__goods
+              view.img-box.order__goods__item(
+                v-for="(item, index) in i.items.slice(0, 4)",
+                :key="index"
+              )
+                img(:src="item.productImageUrl")
+            view.order__total
+              view.order__total__num(v-if="i.items && i.items.length") 共{{ i.items.length }}件
+              view.order__total__price(
+                v-if="i.coupon",
+                style="margin-bottom:20rpx"
+              ) {{ i.coupon.title }}
+              view.order__total__price(
+                v-if="i.card",
+                style="margin-bottom:20rpx"
+              ) {{ i.card.title }}
+              view.order__total__price rmb {{ i.amountPaid || '-' }}
+
+  // 详情  弹框
+  //- uni-popup(ref="popup", type="center")
+    view.gift_box
+      view.gift_box_clear
+        view.gift_box_clear_left 长宁天山店
+        img.gift_box_clear_right(
+          src="../../static/images/clear.png",
+          @click="close()"
+        )
+      view.listdetail_box(v-for="(item, index) in 3", :key="index")
+        view.listdetail_box_content
+          img.listdetail_box_contentimg(
+            src="../../static/images/my/my-banner.png"
+          )
+          view.listdetail_box_content_titlebox
+            view.listdetail_box_content_titlebox_left
+              view.listdetail_box_content_titlebox_left_name 猪肋排
+              view.listdetail_box_content_titlebox_left_number X 1
+            view.listdetail_box_content_titlebox_right ¥ 140
+      view.gift_box_clear.count_box
+        view.gift_box_clear_left
+        view.count_box_right 总计 ¥ 560
 </template>
 
 <script>
@@ -143,6 +77,7 @@ import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import tabs from "@/components/tabs/tabs.vue";
 import cutomsTabs from "../../components/custom-tabs/tabs.vue";
 import moment from "moment";
+import config from "../../utils/config";
 export default {
   components: {
     tabs,
@@ -152,7 +87,7 @@ export default {
   filters: {
     dateFormatter: function (value) {
       if (!value) return "";
-      value = moment(value).format("YYYY-MM-DD HH:mm:ss");
+      value = moment(value).format("YYYY-MM-DD HH:mm");
       return value;
     },
   },
@@ -161,44 +96,41 @@ export default {
       tabs: [
         {
           name: "已点餐",
+          query: { type: "food", status: "in_service" },
         },
         {
           name: "已预约",
+          query: { status: "booked,in_service" },
         },
         {
           name: "已完成",
+          query: { status: "finished" },
         },
         {
           name: "已取消",
+          query: { status: "canceled" },
         },
       ],
-      orderlists: [],
       active: 0,
-      ReservedOrders: [], //已取消   已完成  已预约
-      QRCodeHide: true, //点餐二维码显示隐藏
+      bookings: [],
     };
   },
   onLoad(option) {
-    let active = option.active || 0;
-    this.active = option.active;
-    this.changeTab({ index: active });
+    if (option.active !== undefined) {
+      this.active = option.active;
+    }
+  },
+  onShow() {
+    this.changeTab({ item: this.tabs[0] });
   },
   methods: {
     // 切换tab
     changeTab(e) {
-      if (e.index == 0) {
-        console.log("已点餐");
-        this.getdetail("food");
-      } else if (e.index == 1) {
-        this.getdetail("play", "booked"); //已预约this
-        console.log("已预约");
-      } else if (e.index == 2) {
-        this.getdetail("play", "finishedd"); //已完成
-        console.log("已完成");
-      } else if (e.index == 3) {
-        this.getdetail("play", "canceled"); //已取消
-        console.log("已取消");
-      }
+      if (!e.item) return;
+      uni.showLoading();
+      this.getBookings(e.item.query).then(() => {
+        uni.hideLoading();
+      });
     },
     open() {
       this.$refs.popup.open();
@@ -206,53 +138,38 @@ export default {
     close() {
       this.$refs.popup.close();
     },
-    getdetail(type, status) {
-      let info = {};
-      if (status) {
-        info = {
-          type,
-          status,
-        };
-      } else {
-        info = {
-          type,
-        };
-      }
-      this.$axios.getRequest("/booking", info).then((res) => {
-        this.ReservedOrders = res; //获取订单列表
-        //判断数组是否有长度
-        if (this.ReservedOrders.length) {
-          this.QRCodeHide = false;
-          console.log("数组有长度，二维码隐藏");
-        } else {
-          this.QRCodeHide = true;
-          console.log("数组为空，二维码显示");
-        }
-
-        // console.log(this.ReservedOrders,"this.ReservedOrders")
-        res.forEach((r, index) => {
-          if (r.status == "pending") {
-            r.status = "待付款";
-          } else if (r.status == "booked") {
-            r.status = "已确认";
-          } else if (r.status == "in_service") {
-            r.status = r.type === "food" ? "已点餐" : "已入场";
-          } else if (r.status == "pending_refund") {
-            r.status = "待撤销";
-          } else if (r.status == "finished") {
-            r.status = "已完成";
-          } else if (r.status == "canceled") {
-            r.status = "已取消";
-          }
-        });
+    async getBookings(query) {
+      this.bookings = await this.$axios.getRequest("/booking", {
+        limit: -1,
+        ...query,
       });
+
+      const typeName = {
+        play: "门票",
+        food: "点餐",
+        mall: "电商",
+        event: "活动",
+        gift: "礼品",
+        party: "派对",
+      };
+
+      this.bookings.forEach((b) => {
+        b.typeName = typeName[b.type];
+        b.statusName = config.bookingStatusName[b.status];
+        if (b.type === "food" && b.status == "in_service") {
+          b.statusName = "已点餐";
+        }
+      });
+    },
+    goFood() {
+      uni.navigateTo({ url: "../food/index" });
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.orderLlist {
+.orderList {
   width: 750rpx;
   min-height: 100vh;
   background-color: #f8f8f8;
@@ -650,6 +567,10 @@ export default {
   }
 }
 
+.order-list {
+  padding-bottom: calc(env(safe-area-inset-bottom) + 30rpx);
+}
+
 .order {
   width: 690rpx;
   border-radius: var(--theme--border-radius);
@@ -713,7 +634,7 @@ export default {
   flex-direction: column;
   justify-content: flex-end;
   align-items: flex-end;
-  height: 100rpx;
+  // height: 100rpx;
 }
 
 .order__total__num {
