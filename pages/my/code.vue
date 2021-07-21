@@ -1,7 +1,6 @@
 <template lang="pug">
 view.myvipcode_box
   view.myvipcodebox_header
-    // <image src="../../static/images/224.jpg" mode="aspectFill" class="header_img" />
     view.myvipcodeboxHeader_image(@click="gomy()")
       img.myvipcodeboxHeader_image_img(
         src="../../static/images/my/my_left.png"
@@ -16,6 +15,7 @@ view.myvipcode_box
 
 <script>
 import { sync } from "vuex-pathify";
+import config from "../../utils/config";
 
 export default {
   data() {
@@ -31,8 +31,7 @@ export default {
   onShow() {
     this.name = this.user.name;
     this.avatar = this.user.avatarUrl;
-    this.srcQRcode =
-      "https://mini-mars.codeispoetry.tech/api/qrcode-image/" + this.user.id;
+    this.srcQRcode = config.apiBaseUrl + "/qrcode-image/" + this.user.id;
   },
   methods: {
     gomy() {
