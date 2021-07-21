@@ -23,7 +23,7 @@ view.container
 
 <style scoped>
 .container {
-  background-color: #edeeef;
+  background-color: var(--theme--bg-main-color);
   width: 100%;
   height: 100vh;
 }
@@ -99,7 +99,7 @@ view.container
   width: 100%;
   height: 102rpx;
   line-height: 102rpx;
-  background-color: #edeeef;
+  background-color: var(--theme--bg-main-color);
   border-radius: var(--theme--border-radius);
   padding: 0 42rpx;
   box-sizing: border-box;

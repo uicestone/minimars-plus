@@ -79,7 +79,7 @@ export default {
     position: relative;
     width: 750rpx;
     height: 550rpx;
-    background: #d8d8d8;
+    background: var(--theme--bg-main-color);
 
     .swiper {
       height: 550rpx;

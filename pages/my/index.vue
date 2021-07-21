@@ -22,7 +22,7 @@ view.my_box
           view {{ couponCount || '-' }}
           span MARS优惠券
         view.my_marsMember-one(@click="goCardBag('type')")
-          img(mode="aspectFit", src="../../static/images/my/my-points.png")
+          img(mode="aspectFit", src="../../static/images/my/my-card.png")
           view {{ cardCount || '-' }}
           span MARS卡包
   view.vip
