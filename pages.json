@@ -64,7 +64,7 @@
     {
       "path": "pages/card/list",
       "style": {
-        "navigationBarTitleText": "礼品卡"
+        "navigationBarTitleText": "卡券列表"
       }
     },
     {

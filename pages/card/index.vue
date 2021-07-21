@@ -13,7 +13,6 @@ view.marsCoupon_box
       )
         view.img-box.menu__bg
           img.image(:src="i.img", mode="aspectFill")
-        <!-- view.menu__name {{i.name}} -->
 </template>
 
 <script>

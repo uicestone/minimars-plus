@@ -53,7 +53,14 @@ export default {
     this.getCardTypes();
   },
   onLoad(option) {
+    const typeName = {
+      period: "时效卡",
+      balance: "礼品卡",
+      times: "限定卡",
+      coupon: "活动套餐",
+    };
     this.type = option.type;
+    uni.setNavigationBarTitle({ title: typeName[this.type] });
   },
   methods: {
     // 卡片类型列表
