@@ -115,8 +115,7 @@ page {
 }
 
 .list {
-  padding-bottom: 30rpx;
-  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: calc(env(safe-area-inset-bottom) + 30rpx);
 }
 
 .item {
