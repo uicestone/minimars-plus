@@ -1,6 +1,6 @@
 <script>
 import { sync } from "vuex-pathify";
-import wechatLogin from "@/utils/wechatLogin";
+import { login as wechatLogin } from "@/utils/wechat";
 import loadFont from "@/utils/loadFont";
 
 export default {

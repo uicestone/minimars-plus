@@ -141,7 +141,7 @@ view.foodchooseBox
 
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import payment from "../../utils/payment.js";
+import { create as createBooking } from "../../utils/booking.js";
 import { sync } from "vuex-pathify";
 
 export default {
@@ -199,19 +199,9 @@ export default {
   },
   methods: {
     //创建订单
-    async createOrder() {
-      try {
-        await payment(this.order);
-        this.foodCart = [];
-        uni.redirectTo({
-          url: "../my/bookings",
-        });
-      } catch (err) {
-        uni.showToast({
-          title: err,
-          icon: "none",
-        });
-      }
+    createOrder() {
+      createBooking(this.order);
+      this.foodCart = [];
     },
 
     //获取卡列表

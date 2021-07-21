@@ -37,7 +37,7 @@ view.index_box
           span 点餐
   view(style="width: 690rpx; height: 290rpx; margin-bottom: 30rpx")
   // 消息提示框
-  view.message_box(v-if="latestBooking")
+  view.message_box(v-if="latestBooking", @click="checkLatestBooking")
     img(src="../../static/images/index/looks.png")
     view 您有预约{{ latestBooking.status | statusLabel }}，请及时查看
   // MARS商城
@@ -55,7 +55,8 @@ view.index_box
   view.integrate_box
     view.integrate
       view.integrate_left
-        span 我的积分 {{ points || '-' }}
+        span(v-if="user.balance", style="margin-right:20rpx") 我的余额 {{ user.balance }}
+        span 我的积分 {{ user.points || '-' }}
       view.integrate_right
         img.index_integralImg(
           src="../../static/images/index/index_integralImg.png",
@@ -68,6 +69,8 @@ view.index_box
 <script>
 import config from "../../utils/config";
 import { sync } from "vuex-pathify";
+import { createOrder } from "../../utils/wechat";
+import { paymentSuccess } from "../../utils/booking";
 
 export default {
   data() {
@@ -82,9 +85,6 @@ export default {
   },
   computed: {
     user: sync("auth/user"),
-    points() {
-      return this.user && this.user.points ? this.user.points : "-";
-    },
   },
   async onShow() {
     console.log("index:onShow");
@@ -154,6 +154,22 @@ export default {
         this.latestBooking = bookings[0];
       }
     },
+
+    async checkLatestBooking() {
+      if (!this.latestBooking) return;
+      if (this.latestBooking.status === "pending") {
+        const wechatPayment = this.latestBooking.payments.find(
+          (p) => p.gateway === "wechatpay" && !p.paid
+        );
+        if (wechatPayment) {
+          await createOrder(wechatPayment.payArgs);
+          const booking = await this.$axios.getRequest(
+            "/booking/" + this.latestBooking.id
+          );
+          paymentSuccess(booking);
+        }
+      }
+    },
   },
   watch: {
     user(user) {
@@ -194,9 +210,6 @@ export default {
         img {
           width: 750rpx;
           height: 100%;
-        }
-
-        span {
         }
       }
     }

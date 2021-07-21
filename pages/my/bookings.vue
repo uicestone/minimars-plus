@@ -121,7 +121,7 @@ export default {
     }
   },
   onShow() {
-    this.changeTab({ item: this.tabs[0] });
+    this.changeTab({ item: this.tabs[this.active] });
   },
   methods: {
     // 切换tab

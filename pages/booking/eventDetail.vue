@@ -83,7 +83,7 @@ view.marsActivityBox
 <script>
 import moment from "moment";
 import { get } from "vuex-pathify";
-import payment from "../../utils/payment.js";
+import { create as createBooking } from "../../utils/booking.js";
 import customPopup from "../../components/custom-popup/popup";
 import customPicker from "../../components/custom-picker/picker";
 import customCalendar from "../../components/custom-calendar/calendar";
@@ -186,31 +186,14 @@ export default {
     },
 
     // 支付
-    pay(type = "") {
+    async pay(type = "") {
       if (!this.store.id)
         return uni.showToast({
           title: "请先选择门店",
           icon: "none",
         });
 
-      let toBookings = function () {
-        uni.redirectTo({
-          url: "../my/bookings?active=1",
-        });
-      };
-
-      payment(this.eventQuery, type)
-        .then(toBookings)
-        .catch((msg) => {
-          if (!msg) {
-            toBookings();
-          } else {
-            uni.showToast({
-              title: msg,
-              icon: "none",
-            });
-          }
-        });
+      await createBooking(this.eventQuery, type);
     },
   },
 };

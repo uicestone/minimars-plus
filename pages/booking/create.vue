@@ -124,7 +124,7 @@ view.myOrder_box
 import { sync, get } from "vuex-pathify";
 import moment from "moment";
 
-import payment from "../../utils/payment";
+import { create as createBooking } from "../../utils/booking";
 
 import customPopup from "../../components/custom-popup/popup";
 import customPicker from "../../components/custom-picker/picker";
@@ -234,28 +234,7 @@ export default {
     async pay() {
       this.booking.date = this.date[0]; //时间
       this.booking.type = "play";
-      uni.showLoading();
-      payment(this.booking)
-        .then(() => {
-          uni.hideLoading();
-          this.goOrder();
-        })
-        .catch((msg) => {
-          if (!msg) {
-            // this.goOrder();
-          } else {
-            uni.showToast({
-              title: msg,
-              icon: "none",
-            });
-          }
-        });
-    },
-    // 跳转订单页面
-    goOrder() {
-      uni.redirectTo({
-        url: "../my/bookings?active=1",
-      });
+      await createBooking(this.booking);
     },
 
     // 显示日历弹窗

@@ -21,7 +21,7 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
 
 <script>
 import { sync } from "vuex-pathify";
-import wechatLogin from "@/utils/wechatLogin";
+import { login as wechatLogin } from "@/utils/wechat";
 
 export default {
   data() {

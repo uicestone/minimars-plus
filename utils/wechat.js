@@ -1,6 +1,6 @@
 import request from "./request";
 
-export default function wechatLogin() {
+export function login() {
   return new Promise((resolve, reject) => {
     uni.login({
       provider: "weixin",
@@ -16,6 +16,22 @@ export default function wechatLogin() {
       fail: (err) => {
         console.error("Wechat login error:", err);
         reject(err);
+      },
+    });
+  });
+}
+
+export function createOrder(payArgs) {
+  console.log("wechat:createOrder", payArgs);
+  return new Promise((resolve, reject) => {
+    uni.requestPayment({
+      ...payArgs,
+      signType: "MD5",
+      success: function (res) {
+        resolve();
+      },
+      fail: function (err) {
+        reject();
       },
     });
   });
