@@ -16,7 +16,7 @@ view.cardbag
         view.cardbag_card_box-content-money
           | {{ card.title }} rmb {{ card.price }}
         view.cardbag_card_box-content-time {{ card.createdAt | date }} - {{ card.expiresAt | date }}
-    view.mycards_footer 历史卡券
+    view.mycards_footer(@click="goHistoryCards") 历史卡券
   // 未激活
   view.cardbag_card(v-show="activeIndex === 1")
     view.cardbag_card_box(v-for="card in validCards", :key="card.id")
@@ -30,9 +30,9 @@ view.cardbag
           view.cardbag__btn 赠送好友
     // 底部，礼品卡使用须知
     view.mycards_footer-use
-      view.mycards_footer-use_left(@click="gouseCade()") 礼品卡使用须知
+      view.mycards_footer-use_left(@click="goRules()") 礼品卡使用须知
       view.mycards_footer-use_line
-      view.mycards_footer-use_right(@click="goRceived()") 卡券收赠记录
+      view.mycards_footer-use_right(@click="goTransferHistory()") 卡券收赠记录
 </template>
 
 <script>
@@ -85,12 +85,17 @@ export default {
         });
       }
     },
-    gouseCade() {
+    goHistoryCards() {
+      return uni.showToast({ title: "该功能即将上线", icon: "none" });
+    },
+    goRules() {
+      return uni.showToast({ title: "该功能即将上线", icon: "none" });
       uni.navigateTo({
         url: "/pages/my/cardRules",
       });
     },
-    goRceived() {
+    goTransferHistory() {
+      return uni.showToast({ title: "该功能即将上线", icon: "none" });
       uni.navigateTo({
         url: "/pages/my/cardTransfers",
       });
@@ -141,8 +146,7 @@ export default {
   }
 
   .cardbag_card {
-    padding-bottom: env(safe-area-inset-bottom);
-    padding-bottom: 100rpx;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 100rpx);
 
     .cardbag_card_box {
       width: 690rpx;
