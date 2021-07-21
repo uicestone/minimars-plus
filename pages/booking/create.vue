@@ -184,26 +184,18 @@ export default {
       return Math.min(this.user.balance || 0, this.price);
     },
   },
-  watch: {
-    stores: {
-      handler(v, p) {
-        if ((!p || !p.length) && v.length) {
-          const localStore = uni.getStorageSync("booking.store");
-          if (localStore) {
-            this.booking.store = localStore;
-            return;
-          }
-          if (this.user.store) {
-            this.booking.store = this.user.store.id;
-            return;
-          }
-          this.booking.store = this.stores[0].id;
-        }
-      },
-      immediate: true,
-    },
-  },
-  onLoad(option) {
+  async onLoad(option) {
+    await this.$onLaunched;
+
+    const localStore = uni.getStorageSync("booking.store");
+    if (localStore) {
+      this.booking.store = localStore;
+    } else if (this.user.store) {
+      this.booking.store = this.user.store.id;
+    } else {
+      this.booking.store = this.stores[0].id;
+    }
+
     this.booking.date = this.date[0];
     this.getCards();
     this.getPrice();
