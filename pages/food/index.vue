@@ -89,7 +89,7 @@ view.orderFood_box
             view.img-box.gift_box_top_footer-right(@click="addInPopup(index)")
               img(src="../../static/images/add_deputy.png")
       // 加购选择
-      view.orderFood_choose(v-if="foodCart.length > 0")
+      view.orderFood_choose(v-if="foodCart.length > 0", @click="goOrder")
         view.orderFood_choose-left
           view.img-box.orderFood_choose-left_img
             img(src="../../static/images/orderFood/food-cart.png")
@@ -97,7 +97,7 @@ view.orderFood_box
           view.orderFood_choose-left-line
           view.orderFood_choose-left_money
             | rmb {{ totalPrice }}
-        view.orderFood_choose-right(@click="goOrder")
+        view.orderFood_choose-right
           view.orderFood_choose-right-choose 选好了
           img(src="../../static/images/orderFood/white_right.png")
   modal-get-phone-number

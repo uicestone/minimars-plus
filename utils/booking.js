@@ -1,3 +1,4 @@
+import store from "../store/index.js";
 import axios from "./request.js";
 import { createOrder } from "./wechat.js";
 
@@ -20,7 +21,7 @@ export async function create(body = {}, paymentGateway = "") {
   paymentSuccess(booking);
 }
 
-export async function paymentSuccess(booking) {
+export function paymentSuccess(booking) {
   let toTab = 0;
   if (booking.type === "food" && booking.status === "in_service") {
     toTab = 0;
@@ -34,5 +35,8 @@ export async function paymentSuccess(booking) {
 
   uni.redirectTo({
     url: "/pages/my/bookings?active=" + toTab,
+    success() {
+      store.state.booking.foodCart = [];
+    },
   });
 }

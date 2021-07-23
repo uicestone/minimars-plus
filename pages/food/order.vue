@@ -125,7 +125,7 @@ view.foodchooseBox
       </view>
       </view>
     // 立即支付
-    view.orderFood_choose(@click="createOrder")
+    view.orderFood_choose
       view.orderFood_choose-left
         img.orderFood_choose-left_img(
           src="../../static/images/orderFood/food-cart.png"
@@ -134,7 +134,7 @@ view.foodchooseBox
         view.orderFood_choose-left_money
           | rmb {{ totalPrice }}
           text.balance-amount(v-if="balanceAmount") 其中余额：{{ balanceAmount }}
-      view.orderFood_choose-right
+      view.orderFood_choose-right(@click="createOrder")
         view.orderFood_choose-right-choose 确认下单
         img(src="../../static/images/orderFood/white_right.png")
 </template>
@@ -201,7 +201,6 @@ export default {
     //创建订单
     createOrder() {
       createBooking(this.order);
-      this.foodCart = [];
     },
 
     //获取卡列表
