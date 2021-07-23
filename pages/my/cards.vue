@@ -26,8 +26,8 @@ view.cardbag
         view.cardbag_card_box-content-money
           | {{ card.title }} rmb {{ card.price }}
         view.cardbag_card_box-content-times
-          view.cardbag__btn 自用激活
-          view.cardbag__btn 赠送好友
+          view.cardbag__btn(@click="activate(card)") 自用激活
+          view.cardbag__btn(@click="transfer(card)") 赠送好友
     // 底部，礼品卡使用须知
     view.mycards_footer-use
       view.mycards_footer-use_left(@click="goRules()") 礼品卡使用须知
@@ -78,6 +78,11 @@ export default {
     "custom-tabs": customTabs,
   },
   methods: {
+    async getCards() {
+      this.cards = await this.$axios.getRequest(
+        `/card?type=${this.type === "card" ? "times,period,balance" : "coupon"}`
+      );
+    },
     selectTab(e) {
       if (e.item.id === 3) {
         wx.navigateTo({
@@ -100,6 +105,14 @@ export default {
         url: "/pages/my/cardTransfers",
       });
     },
+    async activate(card) {
+      await this.$axios.putRequest(`/card/${card.id}`, { status: "activated" });
+      uni.showToast({ title: "卡券激活成功", icon: "none" });
+      await this.getCards();
+    },
+    transfer(card) {
+      return uni.showToast({ title: "该功能即将上线", icon: "none" });
+    },
   },
   filters: {
     date(d) {
@@ -115,9 +128,7 @@ export default {
     }
   },
   async onShow() {
-    this.cards = await this.$axios.getRequest(
-      `/card?type=${this.type === "card" ? "times,period,balance" : "coupon"}`
-    );
+    await this.getCards();
   },
 };
 </script>
