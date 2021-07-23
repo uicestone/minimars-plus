@@ -63,7 +63,7 @@ view.index_box
           mode=""
         )
   // modal-get-user-info
-  modal-get-phone-number
+  modal-get-phone-number(@set="onSetPhoneNumber")
 </template>
 
 <script>
@@ -81,10 +81,12 @@ export default {
       latestBooking: null,
 
       init: false, // 初始化完成
+      goAfterSetPhoneNumber: null,
     };
   },
   computed: {
     user: sync("auth/user"),
+    atStore: sync("auth/atStore"),
   },
   async onShow() {
     console.log("index:onShow");
@@ -96,12 +98,23 @@ export default {
   onHide() {
     this.swiperAutoplay = false;
   },
-  async onLoad() {
-    // await this.$onLaunched;
+  async onLoad(option = {}) {
     console.log("index:onLoad");
     uni.showLoading({ mask: true });
     await this.getBanner();
+    await this.$onLaunched;
     uni.hideLoading();
+    if (option.atStore) {
+      this.atStore = option.atStore;
+    }
+    if (option.cardSell) {
+      const url = "../card/buy?id=" + option.cardSell;
+      if (this.user.mobile) {
+        uni.navigateTo({ url });
+      } else {
+        this.goAfterSetPhoneNumber = url;
+      }
+    }
   },
   methods: {
     changeSwiper(e) {
@@ -168,6 +181,12 @@ export default {
           );
           paymentSuccess(booking);
         }
+      }
+    },
+
+    onSetPhoneNumber() {
+      if (this.goAfterSetPhoneNumber) {
+        uni.navigateTo({ url: this.goAfterSetPhoneNumber });
       }
     },
   },

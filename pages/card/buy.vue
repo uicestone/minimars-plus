@@ -51,6 +51,8 @@ view.buycards_box
 
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
+import { get } from "vuex-pathify";
+
 export default {
   components: {
     uniPopup,
@@ -58,6 +60,7 @@ export default {
   data() {
     return {
       slug: "",
+      id: "",
       cardType: {
         title: "",
         price: "",
@@ -76,6 +79,7 @@ export default {
   onLoad(option) {
     this.slug = option.slug;
     this.cover = option.cover;
+    this.id = option.id;
   },
   onShow() {
     this.getCardType();
@@ -83,7 +87,9 @@ export default {
   methods: {
     // 卡片详情
     async getCardType() {
-      this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
+      this.cardType = await this.$axios.getRequest(
+        `/card-type/${this.id || this.slug}`
+      );
       this.content = this.cardType.content || "";
       this.content = this.content
         .replace(/<p([ >])/g, '<p class="p"$1')
@@ -102,8 +108,12 @@ export default {
           count: i.count,
         });
       });
-      const card = await this.$axios.postRequest("/card", {
-        slug: this.slug,
+      let url = "/card";
+      if (this.atStore) {
+        url += `?atStore=${this.atStore}`;
+      }
+      const card = await this.$axios.postRequest(url, {
+        slug: this.cardType.slug,
         balanceGroups: neworder,
       });
       if (card.payments[0].payArgs) {
@@ -148,6 +158,7 @@ export default {
     },
   },
   computed: {
+    atStore: get("auth/atStore"),
     totalCount() {
       return this.balancePriceGroups.reduce(
         (count, group) => count + group.count,
@@ -285,7 +296,7 @@ export default {
             border-bottom: 2rpx solid #f5f6f6;
             display: flex;
             align-items: center;
-            xheight: 140rpx;
+            // xheight: 140rpx;
             margin: 0 auto;
 
             .buycardsBox_top_leftimg {

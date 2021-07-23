@@ -33,6 +33,8 @@ view.buycards_box
 </template>
 
 <script>
+import { get } from "vuex-pathify";
+
 export default {
   data() {
     return {
@@ -59,18 +61,25 @@ export default {
   methods: {
     // 订单支付
     async pay() {
-      let orderDetail = {};
+      let orderDetail = {
+        slug: this.cardType.slug,
+      };
+
       if (this.buyMultiple) {
-        orderDetail = {
-          slug: this.slug,
-          quantity: this.number,
-        };
-      } else {
-        orderDetail = {
-          slug: this.slug,
-        };
+        orderDetail.quantity = this.number;
       }
-      const card = await this.$axios.postRequest("/card", orderDetail);
+
+      if (this.atStore) {
+        orderDetail.atStore = this.atStore;
+      }
+
+      let url = "/card";
+
+      if (this.atStore) {
+        url += `?atStore=${this.atStore}`;
+      }
+
+      const card = await this.$axios.postRequest(url, orderDetail);
       if (card.payments[0].payArgs) {
         //唤起微信支付
         uni.requestPayment({
@@ -109,6 +118,7 @@ export default {
     },
   },
   computed: {
+    atStore: get("auth/atStore"),
     price() {
       return this.cardType.price * this.number;
     },

@@ -7,6 +7,7 @@ const state = {
   token: token || "",
   openid: "",
   session_key: "",
+  atStore: null,
 };
 
 const mutations = make.mutations(state);

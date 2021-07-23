@@ -48,6 +48,7 @@ export default {
       uni.setStorageSync("token", token);
       this.auth.token = token;
       this.auth.user = user;
+      this.$emit("set");
       this.close();
     },
     close() {
