@@ -2,7 +2,7 @@
 view.buycards_box
   view.buycards_top
     view.buycards_top_box
-      img(:src="cover", mode="aspectFill")
+      img(:src="cover || cardType.posterUrl", mode="aspectFill")
       view.cards_box
         view.cards_box-left
           | {{ cardType.title }}
@@ -27,41 +27,26 @@ view.buycards_box
         <view class="warm_prompt">
         温馨提示:
         </view>
-      view.buyQualifyCards_footer(@click="pay")
+      view.buyQualifyCards_footer(@click="createCard")
         view(style="text-align:center") 订单支付 PAYMENT
         view ￥{{ price }}
 </template>
 
 <script>
 import { get } from "vuex-pathify";
+import { create as createCard } from "../../utils/card";
 
 export default {
+  props: ["cardType", "cover", "content"],
   data() {
     return {
       buyMultiple: false,
       number: 1,
-      cardType: {
-        price: "",
-        title: "",
-        price: "",
-        content: "",
-      },
-      content: "",
-      slug: "",
-      cover: "",
     };
   },
-  onShow() {
-    this.getCardTypeDetail();
-  },
-  onLoad(option) {
-    this.slug = option.slug;
-    this.cover = option.cover;
-  },
   methods: {
-    // 订单支付
-    async pay() {
-      let orderDetail = {
+    async createCard() {
+      const orderDetail = {
         slug: this.cardType.slug,
       };
 
@@ -69,52 +54,7 @@ export default {
         orderDetail.quantity = this.number;
       }
 
-      if (this.atStore) {
-        orderDetail.atStore = this.atStore;
-      }
-
-      let url = "/card";
-
-      if (this.atStore) {
-        url += `?atStore=${this.atStore}`;
-      }
-
-      const card = await this.$axios.postRequest(url, orderDetail);
-      if (card.payments[0].payArgs) {
-        //唤起微信支付
-        uni.requestPayment({
-          provider: "wxpay",
-          timeStamp: card.payments[0].payArgs.timeStamp,
-          nonceStr: card.payments[0].payArgs.nonceStr,
-          package: card.payments[0].payArgs.package,
-          signType: "MD5",
-          paySign: card.payments[0].payArgs.paySign,
-          success: function (res) {
-            console.log("success:" + JSON.stringify(res));
-            uni.showToast({
-              title: "支付成功",
-              duration: 2000,
-            });
-            uni.redirectTo({
-              url: "../my/cards", // 购买成功,跳到我的卡包
-            });
-          },
-          fail: function (err) {
-            console.log("fail:" + JSON.stringify(err));
-          },
-        });
-      }
-    },
-    // 卡片详情
-    async getCardTypeDetail() {
-      this.cardType = await this.$axios.getRequest(`/card-type/${this.slug}`);
-      this.content = this.cardType.content || "";
-      this.content = this.content
-        .replace(/<p([ >])/g, '<p class="p"$1')
-        .replace(/<ol([ >])/g, '<ol class="ol"$1')
-        .replace(/<ul([ >])/g, '<ul class="ul"$1');
-
-      this.buyMultiple = this.cardType.type === "times";
+      await createCard(orderDetail, this.atStore);
     },
   },
   computed: {
@@ -122,6 +62,11 @@ export default {
     price() {
       return this.cardType.price * this.number;
     },
+  },
+  created() {
+    if (["times"].includes(this.cardType.type)) {
+      this.buyMultiple = true;
+    }
   },
 };
 </script>

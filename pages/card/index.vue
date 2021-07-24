@@ -3,7 +3,7 @@ view.marsCoupon_box
   view.marsCoupon_header
     view Hi！
       open-data(type="userNickName")
-    view 这是你的卡券。
+    view 快选购您心仪的卡券吧
   view.marsCoupon_contentbox
     view.coupebox_content
       view.menu(
@@ -42,7 +42,6 @@ export default {
   },
   methods: {
     goCard(index) {
-      console.log("goCard index:", index);
       if (index === 0) {
         uni.navigateTo({
           url: "/pages/card/list?type=period",

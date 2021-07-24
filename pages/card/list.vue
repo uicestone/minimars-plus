@@ -15,23 +15,13 @@ view.marsCardbox
             @click="gobuyCardsCover(i, item)"
           )
             img(:src="item", mode="aspectFill")
-        //
-          <view class="modeOf_Payment_scroll"  @click="gobuyCards(i)">
-          <view><image :src="i.posterUrl" class="yuanimage" /></view>
-          <view class="modeOf_Payment_box" v-for="(item,index) in i.posterUrls" :key="index">
-          <image :src="i.posterUrl" />
-          <image :src="item" mode="aspectFill" />
-          </view>
-          </view>
-      //- view.marsCard_footerBox
-        view.marsCard_footer 使用须知
   view.marsCard_contentbox(v-else)
     view.card--row(
       v-for="(i, j) in cardTypes",
       :key="j",
       @click="gobuyCards(i)"
     )
-      card(:img="i.posterDensedUrl")
+      card(:img="i.posterDenseUrl || i.posterUrl")
         view {{ i.title }}
         view rmb {{ i.price }}
 </template>
@@ -71,31 +61,13 @@ export default {
       });
     },
     gobuyCardsCover(i, item) {
-      if (this.type == "balance") {
-        uni.navigateTo({
-          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + item,
-        });
-      } else {
-        uni.navigateTo({
-          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + item,
-        });
-      }
+      uni.navigateTo({
+        url: "/pages/card/buy?slug=" + i.slug + "&cover=" + item,
+      });
     },
     gobuyCards(i) {
-      console.log("gobuyCards:", i.slug);
-      if (this.type == "balance") {
-        uni.navigateTo({
-          url: "/pages/card/buy?slug=" + i.slug + "&cover=" + i.posterUrl,
-        });
-      } else {
-        uni.navigateTo({
-          url: "/pages/card/buyTimes?slug=" + i.slug + "&cover=" + i.posterUrl,
-        });
-      }
-    },
-    gobuyXDCards() {
       uni.navigateTo({
-        url: "/pages/card/buyTimes",
+        url: "/pages/card/buy?slug=" + i.slug + "&cover=" + i.posterUrl,
       });
     },
   },

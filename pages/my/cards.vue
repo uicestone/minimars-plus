@@ -9,7 +9,7 @@ view.cardbag
     view.cardbag_card_box(v-for="card in activatedCards", :key="card.id")
       view.img-box.cadbag__img
         img(
-          :src="card.posterDenseUrl || '../../static/images/my/my-banner.png'",
+          :src="card.posterDenseUrl || '/static/images/my/my-banner.png'",
           mode="aspectFill"
         )
       view.cardbag_card_box-content
@@ -22,7 +22,7 @@ view.cardbag
   view.cardbag_card(v-show="activeIndex === 1")
     view.cardbag_card_box(v-for="card in validCards", :key="card.id")
       view.img-box.cadbag__img
-        img(src="../../static/images/my/my-banner.png", mode="aspectFill")
+        img(src="/static/images/my/my-banner.png", mode="aspectFill")
       view.cardbag_card_box-content
         view.cardbag_card_box-content-money
           | {{ card.title }} rmb {{ card.price }}
@@ -120,7 +120,7 @@ export default {
       return moment(d).format("YYYY.M.D");
     },
   },
-  onLoad(option) {
+  onLoad(option = {}) {
     if (option.type === "coupon") {
       this.type = "coupon";
       uni.setNavigationBarTitle({ title: "MARS优惠券" });
