@@ -48,7 +48,7 @@ view.orderFood_box
               v-if="product.stock > 0 && product.sellPrice > 0"
             )
               view.orderFood_right_title_content-left(@click="open(product)")
-                img(:src="product.imageUrl")
+                img(:src="product.imageUrl", mode="aspectFill")
               view.orderFood_right_title_content-right
                 view.right_title_content-right-title {{ product.name }}
                 view.right_title_content-right-detail(@click="open(product)") {{ product.description }}
@@ -458,10 +458,11 @@ export default {
               min-height: 175rpx;
               .right_title_content-right-title {
                 width: 100%;
-                // height: 36rpx;
+                max-height: 72rpx;
                 font-size: var(--theme--font-size-m);
                 line-height: 36rpx;
                 margin-bottom: 5rpx;
+                overflow: hidden;
               }
 
               .right_title_content-right-detail {
@@ -543,11 +544,12 @@ export default {
         }
 
         .gift_box_top_content {
-          margin-left: 25rpx;
+          padding: 0 40rpx;
+          text-align: justify;
 
           .gift_box_top_content-title {
             width: 100%;
-            height: 36rpx;
+            // height: 36rpx;
             font-size: var(--theme--font-size-m);
             color: var(--theme--font-main-color);
             line-height: 36rpx;
@@ -555,7 +557,7 @@ export default {
           }
 
           .gift_box_top_content-box {
-            height: 56rpx;
+            // height: 56rpx;
             font-size: var(--theme--font-size-s);
             color: var(--theme--font-main-color);
             line-height: 42rpx;
