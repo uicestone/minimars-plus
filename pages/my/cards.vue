@@ -16,7 +16,7 @@ view.cardbag
         view.cardbag_card_box-content-money
           text(v-if="card.type === 'times'", style="margin-right:20rpx") 剩余 {{ card.timesLeft }}
           text {{ card.title }}
-        view.cardbag_card_box-content-time {{ card.createdAt | date }} - {{ card.expiresAt | date }}
+        view.cardbag_card_box-content-time {{ card.start || card.createdAt | date }} - {{ card.expiresAt | date }}
     view.mycards_footer(@click="goHistoryCards") 历史卡券
   // 未激活
   view.cardbag_card(v-show="activeIndex === 1")
