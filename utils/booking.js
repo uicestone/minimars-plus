@@ -11,7 +11,12 @@ export async function create(body = {}, paymentGateway = "") {
   uni.hideLoading();
   const wechatPayment = booking.payments.find((p) => p.gateway === "wechatpay");
   if (wechatPayment) {
-    await createOrder(wechatPayment.payArgs);
+    try {
+      await createOrder(wechatPayment.payArgs);
+    } catch (e) {
+      await axios.putRequest("/booking/" + booking.id, { status: "canceled" });
+      throw e;
+    }
   } else if (booking.status === "pending") {
     uni.showToast({
       title: "订单创建失败",

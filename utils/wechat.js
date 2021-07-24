@@ -33,7 +33,7 @@ export function createOrder(payArgs) {
         resolve();
       },
       fail: function (err) {
-        reject();
+        reject(err.errMsg);
       },
     });
   });
