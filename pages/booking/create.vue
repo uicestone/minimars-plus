@@ -121,7 +121,7 @@ view.myOrder_box
 </template>
 
 <script>
-import { sync, get } from "vuex-pathify";
+import { sync, get, call } from "vuex-pathify";
 import moment from "moment";
 
 import { create as createBooking } from "../../utils/booking";
@@ -184,9 +184,8 @@ export default {
       return Math.min(this.user.balance || 0, this.price);
     },
   },
-  async onLoad(option) {
-    await this.$onLaunched;
-
+  async onShow() {
+    this.getAuth();
     const localStore = uni.getStorageSync("booking.store");
     if (localStore) {
       this.booking.store = localStore;
@@ -200,8 +199,8 @@ export default {
     this.getCards();
     this.getPrice();
   },
-
   methods: {
+    getAuth: call("auth/get"),
     // 获取用户的可用卡
     getCards() {
       this.$axios.getRequest("/card?status=activated").then((res) => {

@@ -1,3 +1,4 @@
+import config from "./config";
 import request from "./request";
 
 export function login() {
@@ -11,6 +12,7 @@ export function login() {
         });
         console.log("Wechat login auth:", auth);
         uni.setStorageSync("token", auth.token);
+        config.token = auth.token;
         resolve(auth);
       },
       fail: (err) => {

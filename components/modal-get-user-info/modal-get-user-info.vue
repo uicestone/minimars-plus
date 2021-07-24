@@ -22,6 +22,7 @@ uni-popup(ref="getUserInfoPopup", type="bottom", :tabbar="true")
 
 <script>
 import { sync } from "vuex-pathify";
+import config from "../../utils/config";
 
 export default {
   data() {
@@ -48,6 +49,7 @@ export default {
             }
           );
           uni.setStorageSync("token", token);
+          config.token = token;
           this.auth.token = token;
           this.auth.user = user;
           this.close();

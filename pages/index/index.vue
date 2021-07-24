@@ -68,19 +68,18 @@ view.index_box
 
 <script>
 import config from "../../utils/config";
-import { sync } from "vuex-pathify";
+import { sync, call } from "vuex-pathify";
 import { createOrder } from "../../utils/wechat";
 import { paymentSuccess } from "../../utils/booking";
 
 export default {
   data() {
     return {
+      loaded: false,
       swiperCurrent: 0,
       swiperAutoplay: true,
       bannerPosts: [], //轮播图
       latestBooking: null,
-
-      init: false, // 初始化完成
       goAfterSetPhoneNumber: null,
     };
   },
@@ -90,10 +89,10 @@ export default {
   },
   async onShow() {
     console.log("index:onShow");
-    // await this.$onLaunched;
+    if (this.loaded) this.getAuth();
+    await this.$onLaunched;
     this.swiperAutoplay = true;
-
-    if (this.init) this.getLatestBooking();
+    this.getLatestBooking();
   },
   onHide() {
     this.swiperAutoplay = false;
@@ -103,6 +102,7 @@ export default {
     uni.showLoading({ mask: true });
     await this.getBanner();
     await this.$onLaunched;
+    this.loaded = true;
     uni.hideLoading();
     if (option.atStore) {
       this.atStore = option.atStore;
@@ -117,6 +117,7 @@ export default {
     }
   },
   methods: {
+    getAuth: call("auth/get"),
     changeSwiper(e) {
       this.swiperCurrent = e.detail.current;
     },
@@ -187,14 +188,6 @@ export default {
     onSetPhoneNumber() {
       if (this.goAfterSetPhoneNumber) {
         uni.navigateTo({ url: this.goAfterSetPhoneNumber });
-      }
-    },
-  },
-  watch: {
-    user(user) {
-      if (user.id) {
-        this.init = true;
-        this.getLatestBooking();
       }
     },
   },

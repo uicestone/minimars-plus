@@ -22,6 +22,7 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
 <script>
 import { sync } from "vuex-pathify";
 import { login as wechatLogin } from "@/utils/wechat";
+import config from "../../utils/config";
 
 export default {
   data() {
@@ -46,6 +47,7 @@ export default {
         }
       );
       uni.setStorageSync("token", token);
+      config.token = token;
       this.auth.token = token;
       this.auth.user = user;
       this.$emit("set");

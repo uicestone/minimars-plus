@@ -11,4 +11,5 @@ export default {
     finished: "已完成",
     canceled: "已取消",
   },
+  token: null,
 };

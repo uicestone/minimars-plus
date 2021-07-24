@@ -108,7 +108,7 @@ view.orderFood_box
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import foodMenu from "@/components/food-menu.vue";
-import { sync } from "vuex-pathify";
+import { sync, call } from "vuex-pathify";
 
 export default {
   components: {
@@ -117,6 +117,7 @@ export default {
   },
   data() {
     return {
+      loaded: false,
       isScanning: false,
       swiperAutoplay: true,
       bannerPosts: [],
@@ -154,6 +155,7 @@ export default {
   },
   async onShow() {
     console.log("food/index:onShow");
+    if (this.loaded) this.getAuth();
     if (this.isScanning) return;
     await this.$onLaunched;
     try {
@@ -174,6 +176,7 @@ export default {
     this.swiperAutoplay = false;
   },
   methods: {
+    getAuth: call("auth/get"),
     scanTableCode() {
       this.isScanning = true;
       return new Promise((resolve, reject) => {

@@ -1,6 +1,9 @@
 import { make } from "vuex-pathify";
+import config from "../utils/config.js";
+import axios from "../utils/request.js";
 
 const token = uni.getStorageSync("token");
+config.token = token;
 
 const state = {
   user: {},
@@ -10,10 +13,17 @@ const state = {
   atStore: null,
 };
 
+const actions = {
+  async get() {
+    state.user = await axios.getRequest("/auth/user");
+  },
+};
+
 const mutations = make.mutations(state);
 
 export default {
   namespaced: true,
   state,
   mutations,
+  actions,
 };

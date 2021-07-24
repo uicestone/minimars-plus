@@ -1,5 +1,4 @@
 import config from "./config";
-import store from "../store";
 const baseUrl = config.apiBaseUrl;
 
 function onSuccess(res, resolve, reject) {
@@ -39,7 +38,7 @@ function getRequest(url, data) {
       dataType: "json", //请求类型是   json  固定的
       header: {
         "content-type": "application/json",
-        Authorization: store.state.auth.token,
+        Authorization: config.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);
@@ -60,7 +59,7 @@ function postRequest(url, data) {
       method: "POST",
       header: {
         "content-type": "application/json",
-        Authorization: store.state.auth.token,
+        Authorization: config.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);
@@ -81,7 +80,7 @@ function putRequest(url, data) {
       method: "PUT",
       header: {
         "content-type": "application/json",
-        Authorization: store.state.auth.token,
+        Authorization: config.token,
       },
       success: function (res) {
         onSuccess(res, resolve, reject);
