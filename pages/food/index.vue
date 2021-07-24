@@ -10,6 +10,8 @@ view.orderFood_box
         :class="category.uid === change ? 'active' : ''"
       )
         span {{ category.name }}
+        span.num(v-if="getCatCartNum(category)") {{ getCatCartNum(category) }}
+
   view.orderFood_right
     // 轮播
     view.orderFood_right_banner
@@ -240,6 +242,11 @@ export default {
       this.foodAdd(this.popupProduct);
       this.close();
     },
+    getCatCartNum(category) {
+      return this.foodCart
+        .filter((i) => i.categoryUid === category.uid)
+        .reduce((sum, i) => sum + i.numbers, 0);
+    },
     getCartItem(product) {
       return this.foodCart.find((item) => item.uid === product.uid);
     },
@@ -369,6 +376,27 @@ export default {
           white-space: wrap;
         }
 
+        .num {
+          display: block;
+          width: 30rpx;
+          height: 30rpx;
+          font-size: 20rpx;
+          line-height: 0;
+          /* text-align: center; */
+          color: #64656d;
+          position: absolute;
+          z-index: 1;
+          right: 0rpx;
+          top: 20rpx;
+          border-radius: 50%;
+          background: var(--theme--deputy-color);
+          font-weight: var(--theme--font-weight-normal);
+          /* opacity: 0.8; */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+
         &::after {
           content: "";
           width: 90rpx;
@@ -392,7 +420,7 @@ export default {
     .orderFood_right_banner {
       width: 100%;
       height: 270rpx;
-      background: #f0f0f0;
+      // background: #f0f0f0;
 
       .swiper {
         width: 100%;
