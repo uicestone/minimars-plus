@@ -23,7 +23,10 @@ export async function create(body = {}, paymentGateway = "") {
 
 export function paymentSuccess(booking) {
   let toTab = 0;
-  if (booking.type === "food" && booking.status === "in_service") {
+  if (
+    booking.type === "food" &&
+    !["finished", "in_service"].includes(booking.status)
+  ) {
     toTab = 0;
   } else if (["in_service", "booked"].includes(booking.status)) {
     toTab = 1;
