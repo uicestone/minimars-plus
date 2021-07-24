@@ -13,10 +13,10 @@ view.foodchooseBox
             view.foodchooseBox_top_one_moneybox
               view.foodchooseBox_top_one_number ×{{ item.numbers }}
               view.foodchooseBox_top_one_money rmb {{ item.sellPrice }}
-        view.foodchooseBox_top_one(
+        //- view.foodchooseBox_top_one(
           v-for="(item, index) in replacebox",
           :key="index"
-        )
+        //- )
           img.topimg(src="../../static/images/my/my-banner.png")
           view.foodchooseBox_top_one_title
             view.foodchooseBox_top_one_name 火龙果蓝莓奶昔
@@ -32,13 +32,17 @@ view.foodchooseBox
             )
             view 优惠券
           view.foodchooseBox_top-box_discounts_right
-            view 无可用优惠券
-            img.discounts_rightimg(src="../../static/images/111.png")
+            //- view 无可用优惠券
+            //- img.discounts_rightimg(src="../../static/images/111.png")
+            view 暂不支持，请到吧台核销餐饮优惠券
         view.foodchooseBox_top-box_count
           view 共{{ sum }}件
           view 合计 rmb {{ totalPrice }}
+    view.remarks
+      view.title 订单备注
+      textarea(v-model="order.remarks")
     // 超值换购
-    view.bargain_buy
+    //- view.bargain_buy
       //
         <view class="bargain_buy_title">
         超值换购
@@ -170,6 +174,7 @@ export default {
         store: "",
         tableId: "",
         items: [],
+        remarks: "",
       },
     };
   },
@@ -364,7 +369,7 @@ export default {
           }
 
           .foodchooseBox_top-box_discounts_right {
-            width: 170rpx;
+            // width: 170rpx;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -401,6 +406,21 @@ export default {
             color: #0d0d0d;
           }
         }
+      }
+    }
+
+    .remarks {
+      .title {
+        margin-left: 50rpx;
+        margin-bottom: 15rpx;
+      }
+
+      textarea {
+        background: white;
+        width: 100%;
+        padding: 20rpx 50rpx;
+        height: 200rpx;
+        box-sizing: border-box;
       }
     }
 
