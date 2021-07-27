@@ -20,7 +20,7 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
 </template>
 
 <script>
-import { sync } from "vuex-pathify";
+import { sync, call } from "vuex-pathify";
 import { login as wechatLogin } from "@/utils/wechat";
 import config from "../../utils/config";
 
@@ -32,6 +32,7 @@ export default {
     auth: sync("auth"),
   },
   methods: {
+    mobileSet: call("auth/mobileSet"),
     async getPhoneNumber(e) {
       Object.assign(this.auth, await wechatLogin());
       const openid = this.auth.openid;
@@ -50,6 +51,7 @@ export default {
       config.token = token;
       this.auth.token = token;
       this.auth.user = user;
+      this.mobileSet();
       this.$emit("set");
       this.close();
     },
@@ -66,6 +68,8 @@ export default {
     "auth.user"(user) {
       if (user.id && !user.mobile) {
         this.open();
+      } else {
+        this.mobileSet();
       }
     },
   },
