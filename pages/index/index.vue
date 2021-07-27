@@ -63,14 +63,15 @@ view.index_box
           mode=""
         )
   // modal-get-user-info
-  modal-get-phone-number(@set="onSetPhoneNumber")
+  modal-get-phone-number
 </template>
 
 <script>
-import config from "../../utils/config";
-import { sync, call } from "vuex-pathify";
-import { createOrder } from "../../utils/wechat";
-import { paymentSuccess } from "../../utils/booking";
+import { sync, call, get } from "vuex-pathify";
+import config from "@/utils/config";
+import { createOrder } from "@/utils/wechat";
+import { paymentSuccess } from "@/utils/booking";
+import { alert } from "@/utils/modal";
 
 export default {
   data() {
@@ -80,10 +81,10 @@ export default {
       swiperAutoplay: true,
       bannerPosts: [], //轮播图
       latestBooking: null,
-      goAfterSetPhoneNumber: null,
     };
   },
   computed: {
+    onMobileSet: get("auth/onMobileSet"),
     user: sync("auth/user"),
     atStore: sync("auth/atStore"),
   },
@@ -108,12 +109,16 @@ export default {
       this.atStore = option.atStore;
     }
     if (option.cardSell) {
-      const url = "../card/buy?id=" + option.cardSell;
-      if (this.user.mobile) {
-        uni.navigateTo({ url });
-      } else {
-        this.goAfterSetPhoneNumber = url;
-      }
+      await this.onMobileSet;
+      uni.navigateTo({ url: "../card/buy?id=" + option.cardSell });
+    }
+    if (option.giftCode) {
+      await this.onMobileSet;
+      const card = await this.$axios.postRequest("/card", {
+        giftCode: option.giftCode,
+      });
+      await alert(`您已成功受赠卡券：`, `${card.title}，点击立即查看`);
+      uni.navigateTo({ url: "../my/cards" });
     }
   },
   methods: {
@@ -182,12 +187,6 @@ export default {
           );
           paymentSuccess(booking);
         }
-      }
-    },
-
-    onSetPhoneNumber() {
-      if (this.goAfterSetPhoneNumber) {
-        uni.navigateTo({ url: this.goAfterSetPhoneNumber });
       }
     },
   },
