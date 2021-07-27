@@ -162,7 +162,7 @@ export default {
       });
     },
     goFood() {
-      uni.navigateTo({ url: "../food/index" });
+      uni.switchTab({ url: "../food/index" });
     },
   },
 };

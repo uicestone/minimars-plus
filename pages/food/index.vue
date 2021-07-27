@@ -148,7 +148,7 @@ export default {
   onLoad(option) {
     console.log("food/index:onLoad", option);
     this.getBanner();
-    if (option.s && option.t) {
+    if (option.s !== undefined && option.t) {
       this.storeCode = option.s;
       this.tableId = option.t;
     }
@@ -159,7 +159,7 @@ export default {
     if (this.isScanning) return;
     await this.$onLaunched;
     try {
-      if (!this.storeCode || !this.tableId) {
+      if (this.storeCode === undefined || !this.tableId) {
         await this.scanTableCode();
       }
       if (!this.categories.length) {
@@ -187,7 +187,7 @@ export default {
             if (res.path) {
               const [, s, t] = res.path.match(/s=(.*)&t=(.*)/);
               console.log(s, t);
-              if (!s || !t) {
+              if (s === undefined || !t) {
                 return reject("无效点餐二维码");
               }
               this.storeCode = s;
