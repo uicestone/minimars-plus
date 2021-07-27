@@ -99,6 +99,12 @@
       }
     },
     {
+      "path": "pages/my/cardHistory",
+      "style": {
+        "navigationBarTitleText": "历史卡券"
+      }
+    },
+    {
       "path": "pages/my/bookings",
       "style": {
         "navigationBarTitleText": "我的订单"
