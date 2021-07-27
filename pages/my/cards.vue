@@ -17,7 +17,10 @@ view.cardbag
           text(v-if="card.type === 'times'", style="margin-right:20rpx") 剩余 {{ card.timesLeft }}
           text {{ card.title }}
         view.cardbag_card_box-content-time {{ card.start || card.createdAt | date }} - {{ card.expiresAt | date }}
-    view.mycards_footer(@click="goHistoryCards") 历史卡券
+    view.mycards_footer-use
+      view.mycards_footer-use_left(@click="goHistoryCards") 历史卡券
+      view.mycards_footer-use_line
+      view.mycards_footer-use_right(@click="goTransferHistory") 卡券收赠记录
   // 未激活
   view.cardbag_card(v-show="activeIndex === 1")
     view.cardbag_card_box(v-for="card in validCards", :key="card.id")
@@ -31,9 +34,9 @@ view.cardbag
           view.cardbag__btn(@click="transfer(card)") 赠送好友
     // 底部，礼品卡使用须知
     view.mycards_footer-use
-      view.mycards_footer-use_left(@click="goRules()") 礼品卡使用须知
+      view.mycards_footer-use_left(@click="goHistoryCards") 历史卡券
       view.mycards_footer-use_line
-      view.mycards_footer-use_right(@click="goTransferHistory()") 卡券收赠记录
+      view.mycards_footer-use_right(@click="goTransferHistory") 卡券收赠记录
 </template>
 
 <script>
@@ -101,7 +104,7 @@ export default {
       });
     },
     goTransferHistory() {
-      return uni.showToast({ title: "该功能即将上线", icon: "none" });
+      // return uni.showToast({ title: "该功能即将上线", icon: "none" });
       uni.navigateTo({
         url: "/pages/my/cardTransfers",
       });
@@ -222,12 +225,12 @@ export default {
       font-size: var(--theme--font-size-s);
       margin: 0 auto;
       display: flex;
-      justify-content: space-around;
+      justify-content: center;
       align-items: center;
       height: 28rpx;
       position: absolute;
-      bottom: 20rpx;
-      left: 195rpx;
+      bottom: calc(20rpx + env(safe-area-inset-bottom));
+      width: 100%;
 
       .mycards_footer-use_line {
         background-color: var(--theme--font-deputy-color);
