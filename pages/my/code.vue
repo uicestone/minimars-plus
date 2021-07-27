@@ -1,7 +1,7 @@
 <template lang="pug">
 view.myvipcode_box
   view.myvipcodebox_header
-    view.myvipcodeboxHeader_image(@click="gomy()")
+    view.myvipcodeboxHeader_image(@click="back()")
       img.myvipcodeboxHeader_image_img(
         src="../../static/images/my/my_left.png"
       )
@@ -34,10 +34,8 @@ export default {
     this.srcQRcode = config.apiBaseUrl + "/qrcode-image/" + this.user.id;
   },
   methods: {
-    gomy() {
-      uni.switchTab({
-        url: "/pages/my/my",
-      });
+    back() {
+      uni.navigateBack();
     },
   },
 };
