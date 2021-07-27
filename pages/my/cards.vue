@@ -5,38 +5,38 @@ view.cardbag
     :activeIndex.sync="activeIndex",
     @onselect="selectTab"
   )
-  view.cardbag_card(v-show="activeIndex === 0")
-    view.cardbag_card_box(v-for="card in activatedCards", :key="card.id")
-      view.img-box.cadbag__img
+  view.card(v-show="activeIndex === 0")
+    view.box(v-for="card in activatedCards", :key="card.id")
+      view.img-box
         img(
           :src="card.posterDenseUrl || '/static/images/my/my-banner.png'",
           mode="aspectFill"
         )
-      view.cardbag_card_box-content
-        view.cardbag_card_box-content-money
+      view.content
+        view.money
           text(v-if="card.type === 'times'", style="margin-right:20rpx") 剩余 {{ card.timesLeft }}
           text {{ card.title }}
-        view.cardbag_card_box-content-time {{ card.start || card.createdAt | date }} - {{ card.expiresAt | date }}
-    view.mycards_footer-use
-      view.mycards_footer-use_left(@click="goHistoryCards") 历史卡券
-      view.mycards_footer-use_line
-      view.mycards_footer-use_right(@click="goTransferHistory") 卡券收赠记录
+        view.time {{ card.start || card.createdAt | date }} - {{ card.expiresAt | date }}
+    view.footer-links
+      view.left(@click="goHistoryCards") 历史卡券
+      view.divider
+      view.right(@click="goTransferHistory") 卡券收赠记录
   // 未激活
-  view.cardbag_card(v-show="activeIndex === 1")
-    view.cardbag_card_box(v-for="card in validCards", :key="card.id")
-      view.img-box.cadbag__img
+  view.card(v-show="activeIndex === 1")
+    view.box(v-for="card in validCards", :key="card.id")
+      view.img-box
         img(src="/static/images/my/my-banner.png", mode="aspectFill")
-      view.cardbag_card_box-content
-        view.cardbag_card_box-content-money
+      view.content
+        view.money
           | {{ card.title }} rmb {{ card.price }}
-        view.cardbag_card_box-content-times
-          view.cardbag__btn(@click="activate(card)") 自用激活
-          view.cardbag__btn(@click="transfer(card)") 赠送好友
+        view.action
+          view.btn(@click="activate(card)") 自用激活
+          view.btn(@click="transfer(card)") 赠送好友
     // 底部，礼品卡使用须知
-    view.mycards_footer-use
-      view.mycards_footer-use_left(@click="goHistoryCards") 历史卡券
-      view.mycards_footer-use_line
-      view.mycards_footer-use_right(@click="goTransferHistory") 卡券收赠记录
+    view.footer-links
+      view.left(@click="goHistoryCards") 历史卡券
+      view.divider
+      view.right(@click="goTransferHistory") 卡券收赠记录
 </template>
 
 <script>
@@ -84,7 +84,9 @@ export default {
   methods: {
     async getCards() {
       this.cards = await this.$axios.getRequest(
-        `/card?type=${this.type === "card" ? "times,period,balance" : "coupon"}`
+        `/card?limit=-1&type=${
+          this.type === "card" ? "times,period,balance" : "coupon"
+        }`
       );
     },
     selectTab(e) {
@@ -95,18 +97,18 @@ export default {
       }
     },
     goHistoryCards() {
-      return uni.showToast({ title: "该功能即将上线", icon: "none" });
+      uni.navigateTo({ url: "./cardHistory" });
     },
     goRules() {
       return uni.showToast({ title: "该功能即将上线", icon: "none" });
       uni.navigateTo({
-        url: "/pages/my/cardRules",
+        url: "./cardRules",
       });
     },
     goTransferHistory() {
-      // return uni.showToast({ title: "该功能即将上线", icon: "none" });
+      return uni.showToast({ title: "该功能即将上线", icon: "none" });
       uni.navigateTo({
-        url: "/pages/my/cardTransfers",
+        url: "./cardTransfers",
       });
     },
     async activate(card) {
@@ -160,10 +162,10 @@ export default {
     }
   }
 
-  .cardbag_card {
+  .card {
     padding-bottom: calc(env(safe-area-inset-bottom) + 100rpx);
 
-    .cardbag_card_box {
+    .box {
       width: 690rpx;
       box-shadow: 0rpx 4rpx 14rpx 6rpx rgba(222, 221, 221, 0.5);
       margin: 0 auto;
@@ -172,7 +174,12 @@ export default {
       border-radius: var(--theme--border-radius);
       overflow: hidden;
 
-      .cardbag_card_box-content {
+      .img-box {
+        width: 100%;
+        height: 232rpx;
+      }
+
+      .content {
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -183,7 +190,7 @@ export default {
         background: #ffffff;
         border-radius: 0rpx 0rpx 16rpx 16rpx;
 
-        .cardbag_card_box-content-money {
+        .money {
           max-width: 50%;
           overflow: hidden;
           text-overflow: ellipsis;
@@ -193,34 +200,41 @@ export default {
         }
 
         //时间
-        .cardbag_card_box-content-time {
+        .time {
           height: 32rpx;
           font-size: var(--theme--font-size-s);
         }
 
         // 激活/赠送
-        .cardbag_card_box-content-times {
+        .action {
           display: flex;
           align-items: center;
           justify-content: space-between;
+          .btn {
+            width: 130rpx;
+            height: 46rpx;
+            text-align: center;
+            font-size: var(--theme--font-size-s);
+            border: 2rpx solid var(--theme--font-main-color);
+            border-radius: var(--theme--border-radius);
+            line-height: 46rpx;
+            color: var(--theme--font-main-color);
+          }
+
+          .btn + .btn {
+            margin-left: 20rpx;
+          }
+
+          .btn--highlight {
+            background-color: var(--theme--main-color);
+            border-color: var(--theme--main-color);
+          }
         }
       }
     }
 
-    // 历史卡券
-    .mycards_footer {
-      height: 28rpx;
-      font-size: var(--theme--font-size-s);
-      line-height: 28rpx;
-      position: absolute;
-      bottom: 20rpx;
-      right: 350rpx;
-      padding-bottom: env(safe-area-inset-bottom);
-      color: var(--theme--font-deputy-color);
-    }
-
     // 礼品卡使用须知
-    .mycards_footer-use {
+    .footer-links {
       color: var(--theme--font-deputy-color);
       font-size: var(--theme--font-size-s);
       margin: 0 auto;
@@ -232,48 +246,23 @@ export default {
       bottom: calc(20rpx + env(safe-area-inset-bottom));
       width: 100%;
 
-      .mycards_footer-use_line {
+      .divider {
         background-color: var(--theme--font-deputy-color);
         width: 2rpx;
         height: 20rpx;
         margin: 0 28rpx;
       }
 
-      .mycards_footer-use_left {
+      .left {
         height: 28rpx;
         line-height: 28rpx;
       }
 
-      .mycards_footer-use_right {
+      .right {
         height: 28rpx;
         line-height: 28rpx;
       }
     }
   }
-}
-
-.cadbag__img {
-  width: 100%;
-  height: 232rpx;
-}
-
-.cardbag__btn {
-  width: 130rpx;
-  height: 46rpx;
-  text-align: center;
-  font-size: var(--theme--font-size-s);
-  border: 2rpx solid var(--theme--font-main-color);
-  border-radius: var(--theme--border-radius);
-  line-height: 46rpx;
-  color: var(--theme--font-main-color);
-}
-
-.cardbag__btn + .cardbag__btn {
-  margin-left: 20rpx;
-}
-
-.cardbag__btn--highlight {
-  background-color: var(--theme--main-color);
-  border-color: var(--theme--main-color);
 }
 </style>

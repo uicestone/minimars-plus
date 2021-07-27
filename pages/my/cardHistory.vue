@@ -25,12 +25,11 @@ export default {
       cards: [],
     };
   },
-  components: {
-    "custom-tabs": customTabs,
-  },
   methods: {
     async getCards() {
-      this.cards = await this.$axios.getRequest(`/card?status=expired`);
+      this.cards = await this.$axios.getRequest(
+        `/card?limit=-1&status=expired`
+      );
     },
   },
   filters: {
