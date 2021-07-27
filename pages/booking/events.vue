@@ -103,7 +103,7 @@ export default {
   },
   filters: {
     date(d) {
-      return moment(d).format("YYYY.M.D");
+      return moment(d).format("Y.M.D");
     },
   },
 };
