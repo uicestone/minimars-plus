@@ -15,6 +15,7 @@ const state = {
 
 const actions = {
   async get() {
+    if (!state.token) return;
     state.user = await axios.getRequest("/auth/user");
   },
 };
