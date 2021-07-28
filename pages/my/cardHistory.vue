@@ -2,11 +2,10 @@
 view.cardbag
   view.card
     view.box(v-for="card in cards", :key="card.id")
-      view.img-box
-        img(
-          :src="card.posterDenseUrl || '/static/images/my/my-banner.png'",
-          mode="aspectFill"
-        )
+      img(
+        :src="card.posterDenseUrl || card.posterUrl || '/static/images/my/my-banner.png'",
+        mode="widthFix"
+      )
       view.content
         view.title
           text {{ card.title }}
@@ -59,12 +58,13 @@ export default {
       margin: 0 auto;
       position: relative;
       margin-top: 30rpx;
-      border-radius: var(--theme--border-radius);
+      // border-radius: var(--theme--border-radius);
       overflow: hidden;
 
-      .img-box {
+      image {
         width: 100%;
-        height: 232rpx;
+        display: block;
+        // max-height: 400rpx;
       }
 
       .content {
