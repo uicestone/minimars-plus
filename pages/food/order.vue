@@ -11,8 +11,8 @@ view.foodchooseBox
           view.foodchooseBox_top_one_title
             view.foodchooseBox_top_one_name {{ item.name }}
             view.foodchooseBox_top_one_moneybox
-              view.foodchooseBox_top_one_number ×{{ item.numbers }}
-              view.foodchooseBox_top_one_money rmb {{ item.sellPrice }}
+              view.foodchooseBox_top_one_number ×{{ item.numbers }} {{ item.comment || '' }}
+              view.foodchooseBox_top_one_money rmb {{ ((item.sellPrice + item.extraPrice) * item.numbers) | round(2) }}
         //- view.foodchooseBox_top_one(
           v-for="(item, index) in replacebox",
           :key="index"
@@ -186,7 +186,11 @@ export default {
     },
     totalPrice() {
       return this.foodCart.reduce(
-        (total, item) => +(total + item.sellPrice * item.numbers).toFixed(10),
+        (total, item) =>
+          +(
+            total +
+            (item.sellPrice + (item.extraPrice || 0)) * item.numbers
+          ).toFixed(10),
         0
       );
     },
@@ -200,6 +204,7 @@ export default {
     this.order.items = this.foodCart.map((item) => ({
       productUid: item.uid,
       quantity: item.numbers,
+      comment: item.comment,
     }));
   },
   methods: {

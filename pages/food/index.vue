@@ -1,8 +1,8 @@
 <template lang="pug">
 view.orderFood_box
-  view.orderFood_left
-    scroll-view.orderFood_left_scroll(scroll-y="true", show-scrollbar="true")
-      view.orderFood_left_title(
+  view.left
+    scroll-view.scroll(scroll-y="true", show-scrollbar="true")
+      view.title(
         v-for="(category, index) in categories",
         :key="category.uid",
         v-if="category.products.some((p) => p.stock > 0 && p.sellPrice > 0)",
@@ -12,9 +12,9 @@ view.orderFood_box
         span {{ category.name }}
         span.num(v-if="getCatCartNum(category)") {{ getCatCartNum(category) }}
 
-  view.orderFood_right
+  view.right
     // 轮播
-    view.orderFood_right_banner
+    view.banner
       swiper.swiper(
         :autoplay="swiperAutoplay",
         :interval="3000",
@@ -26,9 +26,9 @@ view.orderFood_box
         indicator-active-color="#9B9B9B"
       )
         swiper-item(v-for="item in bannerPosts", :key="item.id")
-          img.swiper_item(:src="item.posterUrl", mode="aspectFill")
-    view.orderFood_right_content_box
-      scroll-view.orderFood_right_content_scroll(
+          img.item(:src="item.posterUrl", mode="aspectFill")
+    view.content-box
+      scroll-view.scroll(
         :scroll-y="true",
         :scroll-into-view="clickId",
         @scroll="asideScroll",
@@ -36,59 +36,66 @@ view.orderFood_box
         @scrolltoupper="scrolltoupper"
       )
         // :lower-threshold="200" :upper-threshold="200" :scroll-with-animation="true"
-        view.orderFood_right_content
+        view.content
           view(
             v-for="category in categories",
             :key="category.uid",
             v-if="category.products.some((p) => p.stock > 0 && p.sellPrice > 0)",
             :id="'po' + category.uid"
           )
-            text.name.orderFood_right_title {{ category.name }}
-            view.orderFood_right_title_content(
+            text.name {{ category.name }}
+            view.content(
               v-for="product in category.products",
               :key="product.uid",
               v-if="product.stock > 0 && product.sellPrice > 0"
             )
-              view.orderFood_right_title_content-left(@click="open(product)")
+              view.left(@click="open(product)")
                 img(:src="product.imageUrl", mode="aspectFill")
-              view.orderFood_right_title_content-right
-                view.right_title_content-right-title {{ product.name }}
-                view.right_title_content-right-detail(@click="open(product)") {{ product.description }}
-                view.right_title_content-right-money_box
-                  view.right_title_content-right-money_box_money
+              view.right
+                view.title {{ product.name }}
+                view.detail(@click="open(product)") {{ product.description }}
+                view.money-box
+                  view.money
                     | rmb {{ product.sellPrice }}
-                  view.right_title_content-right-money_box_add(
-                    v-if="!getCartItem(product)"
-                  )
+                  view.add(v-if="!getCartItem(product)")
                     view
                     view
                     view(@click="foodAdd(product)")
-                      img.foodAdd_img(src="../../static/images/add_deputy.png")
-                  view.right_title_content-right-money_box_add(v-else)
+                      img.foodAdd-img(src="../../static/images/add_deputy.png")
+                  view.add(v-else)
                     view(@click="foodReduce(product)")
-                      img.foodreduce_img(
+                      img.foodreduce-img(
                         src="../../static/images/minus_deputy.png"
                       )
                     view {{ getCartItem(product).numbers }}
                     view(@click="foodAdd(product)")
-                      img.foodAdd_img(src="../../static/images/add_deputy.png")
+                      img.foodAdd-img(src="../../static/images/add_deputy.png")
       // 详情
       uni-popup(ref="popup", type="center", :tabbar="true")
-        view.gift_box(v-if="popupProduct")
-          view.gift_box_top
+        view.detail-popup(v-if="popupProduct")
+          view.top
             img(:src="popupProduct.imageUrl", mode="aspectFill")
-            view.gift_box_top-close
-              img.gift_box_clear_right(
-                src="../../static/images/clear.png",
-                @click="close()"
-              )
-          view.gift_box_top_content
-            view.gift_box_top_content-title {{ popupProduct.name }}
-            view.gift_box_top_content-box {{ popupProduct.description }}
-          view.gift_box_top_footer
-            view.gift_box_top_footer-left
-              | rmb {{ popupProduct.sellPrice }}
-            view.img-box.gift_box_top_footer-right(@click="addInPopup(index)")
+            view.close
+              img(src="../../static/images/clear.png", @click="close()")
+          view.content
+            view.title {{ popupProduct.name }}
+            view.box {{ popupProduct.description }}
+          view.flavors
+            view.group(
+              v-for="group in popupProduct.flavorGroups",
+              :key="group.uid"
+            )
+              text.name {{ group.name }}：
+              text.flavor(
+                v-for="flavor in group.flavors",
+                :key="flavor.uid",
+                @click="chooseFlavor(popupProduct, group, flavor)",
+                :class="{ selected: isFlavorChosen(popupProduct, group, flavor) }"
+              ) {{ flavor.name }}
+          view.footer
+            view.left
+              | rmb {{ (popupProduct.sellPrice + getFlavorExtraPrice(popupProduct)) | round(2) }}
+            view.img-box.right(@click="addInPopup(index)")
               img(src="../../static/images/add_deputy.png")
       // 加购选择
       view.orderFood_choose(v-if="foodCart.length > 0", @click="goOrder")
@@ -130,6 +137,7 @@ export default {
       storeCode: "",
       storeId: "",
       tableId: "",
+      flavorChosen: {},
     };
   },
   computed: {
@@ -140,7 +148,11 @@ export default {
     },
     totalPrice() {
       return this.foodCart.reduce(
-        (total, item) => +(total + item.sellPrice * item.numbers).toFixed(10),
+        (total, item) =>
+          +(
+            total +
+            (item.sellPrice + (item.extraPrice || 0)) * item.numbers
+          ).toFixed(10),
         0
       );
     },
@@ -242,7 +254,7 @@ export default {
     },
     // 弹框加
     addInPopup() {
-      this.foodAdd(this.popupProduct);
+      this.foodAdd(this.popupProduct, true);
       this.close();
     },
     getCatCartNum(category) {
@@ -265,13 +277,49 @@ export default {
         }
       }
     },
-    foodAdd(product) {
-      const itemInCart = this.foodCart.find((item) => item.uid === product.uid);
+    foodAdd(product, inPopup = false) {
+      if (product.flavorGroups?.length && !inPopup) {
+        return this.open(product);
+      }
+      const flavors = Object.values(this.flavorChosen?.[product.uid] || {});
+      const comment = flavors.map((f) => f.name).join(" ") || "";
+      const itemInCart = this.foodCart.find(
+        (item) => item.uid === product.uid && item.comment === comment
+      );
       if (itemInCart) {
         itemInCart.numbers++;
       } else {
-        this.foodCart.push({ ...product, numbers: 1 });
+        this.foodCart.push({
+          ...product,
+          numbers: 1,
+          comment,
+          extraPrice: flavors.reduce(
+            (p, f) => +(p + f.extraPrice || 0).toFixed(10),
+            0
+          ),
+        });
       }
+    },
+    chooseFlavor(product, group, flavor) {
+      const productFlavorGroupValues = this.flavorChosen[product.uid] || {};
+      productFlavorGroupValues[group.uid] = this.isFlavorChosen(
+        product,
+        group,
+        flavor
+      )
+        ? ""
+        : flavor;
+      console.log(productFlavorGroupValues);
+      this.$set(this.flavorChosen, product.uid, {
+        ...productFlavorGroupValues,
+      });
+    },
+    isFlavorChosen(product, group, flavor) {
+      return this.flavorChosen[product.uid]?.[group.uid]?.name === flavor.name;
+    },
+    getFlavorExtraPrice(product) {
+      const flavors = Object.values(this.flavorChosen[product.uid] || {});
+      return flavors.reduce((p, f) => +(p + f.extraPrice || 0).toFixed(10), 0);
     },
     goOrder() {
       uni.navigateTo({
@@ -336,13 +384,13 @@ export default {
 .orderFood_box {
   display: flex;
 
-  .orderFood_left {
+  > .left {
     width: 132rpx;
     // background: #FFFFFF;
     background: #f7f7f7;
     height: 100vh;
 
-    .orderFood_left_scroll {
+    .scroll {
       height: 100vh;
 
       .active {
@@ -363,7 +411,7 @@ export default {
         }
       }
 
-      .orderFood_left_title {
+      .title {
         height: 100rpx;
         line-height: 25rpx;
         margin: 0 auto;
@@ -415,12 +463,12 @@ export default {
   }
 
   // 右边
-  .orderFood_right {
+  .right {
     width: 620rpx;
     // height: 100vh;
 
     // 轮播
-    .orderFood_right_banner {
+    .banner {
       width: 100%;
       height: 270rpx;
       // background: #f0f0f0;
@@ -430,7 +478,7 @@ export default {
         height: 100%;
         border-radius: var(--theme--border-radius);
 
-        .swiper_item {
+        .item {
           width: 100%;
           height: 100%;
           border-radius: 20rpx;
@@ -444,15 +492,15 @@ export default {
       }
     }
 
-    .orderFood_right_content_box {
+    .content-box {
       width: 554rpx;
       height: calc(100vh - 270rpx);
       margin: 0 auto;
 
-      .orderFood_right_content_scroll {
+      .scroll {
         height: 100%;
 
-        .orderFood_right_content {
+        .content {
           margin-top: 20rpx;
           padding-bottom: 90rpx;
 
@@ -463,7 +511,7 @@ export default {
             color: var(--theme--font-main-color);
           }
 
-          .orderFood_right_title_content {
+          .content {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20rpx;
@@ -471,7 +519,7 @@ export default {
             min-height: 168rpx;
             position: relative;
 
-            .orderFood_right_title_content-left {
+            > .left {
               width: 160rpx;
               height: 160rpx;
               border-radius: 20rpx;
@@ -483,11 +531,11 @@ export default {
               }
             }
 
-            .orderFood_right_title_content-right {
+            .right {
               width: 360rpx;
               position: relative;
               min-height: 175rpx;
-              .right_title_content-right-title {
+              .title {
                 width: 100%;
                 max-height: 72rpx;
                 font-size: var(--theme--font-size-m);
@@ -496,7 +544,7 @@ export default {
                 overflow: hidden;
               }
 
-              .right_title_content-right-detail {
+              .detail {
                 width: 360rpx;
                 height: 56rpx;
                 font-size: var(--theme--font-size-s);
@@ -506,7 +554,7 @@ export default {
                 overflow: hidden;
               }
 
-              .right_title_content-right-money_box {
+              .money-box {
                 width: 360rpx;
                 display: flex;
                 justify-content: space-between;
@@ -514,12 +562,12 @@ export default {
                 // margin-top: 30rpx;
                 position: absolute;
                 bottom: 0;
-                .right_title_content-right-money_box_money {
+                .money {
                   height: 42rpx;
                   font-size: var(--theme--font-size-m);
                 }
 
-                .right_title_content-right-money_box_add {
+                .add {
                   display: flex;
                   justify-content: space-between;
                   align-items: center;
@@ -528,12 +576,12 @@ export default {
                   line-height: 26rpx;
                   font-size: var(--theme--font-size-m);
 
-                  .foodreduce_img {
+                  .foodreduce-img {
                     width: 37rpx;
                     height: 37rpx;
                   }
 
-                  .foodAdd_img {
+                  .foodAdd-img {
                     width: 40rpx;
                     height: 40rpx;
                   }
@@ -545,13 +593,13 @@ export default {
       }
 
       // 食物详情弹框
-      .gift_box {
+      .detail-popup {
         width: 640rpx;
-        height: 952rpx;
+        // height: 952rpx;
         background: #ffffff;
         border-radius: var(--theme--border-radius);
 
-        .gift_box_top {
+        .top {
           position: relative;
 
           image {
@@ -560,7 +608,7 @@ export default {
             border-radius: 20rpx;
           }
 
-          .gift_box_top-close {
+          .close {
             position: absolute;
             top: 36rpx;
             right: 36rpx;
@@ -574,11 +622,11 @@ export default {
           }
         }
 
-        .gift_box_top_content {
+        .content {
           padding: 0 40rpx;
           text-align: justify;
 
-          .gift_box_top_content-title {
+          .title {
             width: 100%;
             // height: 36rpx;
             font-size: var(--theme--font-size-m);
@@ -587,7 +635,7 @@ export default {
             margin: 15rpx 0 10rpx 0;
           }
 
-          .gift_box_top_content-box {
+          .box {
             // height: 56rpx;
             font-size: var(--theme--font-size-s);
             color: var(--theme--font-main-color);
@@ -595,7 +643,25 @@ export default {
           }
         }
 
-        .gift_box_top_footer {
+        .flavors {
+          padding: 10rpx 40rpx;
+          .group {
+            margin-top: 24rpx;
+            .flavor {
+              font-weight: var(--theme--font-weight-light);
+              /* padding: 10rpx 20rpx; */
+              margin: 0 10rpx;
+              border: 1px solid var(--theme--deputy-color);
+              padding: 10rpx 20rpx;
+              border-radius: 10rpx;
+              &.selected {
+                background-color: var(--theme--deputy-color);
+              }
+            }
+          }
+        }
+
+        .footer {
           margin-top: 95rpx;
           width: 640rpx;
           height: 90rpx;
@@ -607,11 +673,11 @@ export default {
           padding: 0 34rpx;
           box-sizing: border-box;
 
-          .gift_box_top_footer-left {
+          .left {
             font-size: var(--theme--font-size-m);
           }
 
-          .gift_box_top_footer-right {
+          .right {
             width: 40rpx;
             height: 40rpx;
           }
