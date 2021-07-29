@@ -31,18 +31,23 @@ view.cardbag
         view.money
           | {{ card.title }} rmb {{ card.price }}
         view.action
-          view.btn(@click="activate(card)") 自用激活
-          view.btn(@click="transfer(card)") 赠送好友
+          button.btn(@click="activate(card)") 自用激活
+          button.btn(@click="transfer(card)") 赠送好友
     // 底部，礼品卡使用须知
     view.footer-links
       view.left(@click="goHistoryCards") 历史卡券
       view.divider
       view.right(@click="goTransferHistory") 卡券收赠记录
+  custom-popup(ref="sharePop")
+    view.pop-header(slot="header") {{ shareCard.title }}
+    view(slot="body")
+      button.share-button(open-type="share") 分享给好友
 </template>
 
 <script>
-import customTabs from "../../components/custom-tabs/tabs.vue";
 import moment from "moment";
+import customTabs from "../../components/custom-tabs/tabs.vue";
+import customPopup from "../../components/custom-popup/popup";
 
 export default {
   data() {
@@ -51,6 +56,7 @@ export default {
       activeIndex: 0,
       count: "",
       cards: [],
+      shareCard: {},
     };
   },
   computed: {
@@ -81,6 +87,7 @@ export default {
   },
   components: {
     "custom-tabs": customTabs,
+    "custom-popup": customPopup,
   },
   methods: {
     async getCards() {
@@ -118,7 +125,8 @@ export default {
       await this.getCards();
     },
     transfer(card) {
-      return uni.showToast({ title: "该功能即将上线", icon: "none" });
+      this.shareCard = card;
+      this.$refs.sharePop.open();
     },
   },
   filters: {
@@ -136,6 +144,13 @@ export default {
   },
   async onShow() {
     await this.getCards();
+  },
+  onShareAppMessage() {
+    return {
+      title: "赠送你1张MINI MARS礼品卡",
+      imageUrl: this.shareCard.posterUrl,
+      path: "/pages/index/index?giftCode=" + this.shareCard.giftCode,
+    };
   },
 };
 </script>
@@ -214,12 +229,14 @@ export default {
           .btn {
             width: 130rpx;
             height: 46rpx;
+            padding: 0;
             text-align: center;
             font-size: var(--theme--font-size-s);
             border: 2rpx solid var(--theme--font-main-color);
             border-radius: var(--theme--border-radius);
             line-height: 46rpx;
             color: var(--theme--font-main-color);
+            background: none;
           }
 
           .btn + .btn {
@@ -265,5 +282,10 @@ export default {
       }
     }
   }
+}
+
+.share-button {
+  color: var(--theme--font-main-color);
+  font-size: var(--theme--font-size-l);
 }
 </style>
