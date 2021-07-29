@@ -44,7 +44,7 @@ view.orderFood_box
             :id="'po' + category.uid"
           )
             text.name {{ category.name }}
-            view.content(
+            view.food-item(
               v-for="product in category.products",
               :key="product.uid",
               v-if="product.stock > 0 && product.sellPrice > 0"
@@ -511,7 +511,7 @@ export default {
             color: var(--theme--font-main-color);
           }
 
-          .content {
+          .food-item {
             display: flex;
             justify-content: space-between;
             margin-bottom: 20rpx;
