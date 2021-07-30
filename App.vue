@@ -37,6 +37,18 @@ export default {
         this.auth.user = user;
       }
 
+      this.auth.isNew = !this.auth.user.mobile;
+
+      this.auth.onMobileSet.then(() => {
+        const { slug } = this.config.common.welcomeRewardCard || {
+          slug: "welcome",
+        };
+        if (!this.auth.isNew) return;
+        setTimeout(() => {
+          uni.navigateTo({ url: "../card/buy?slug=" + slug });
+        }, 3e3);
+      });
+
       this.$launched();
 
       uni.hideLoading();

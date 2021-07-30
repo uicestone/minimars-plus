@@ -64,6 +64,8 @@ view.index_box
         )
   // modal-get-user-info
   modal-get-phone-number
+  view.welcome-cover(v-if="showWelcomeCover")
+    image(mode="aspectFill", src="/static/images/welcome.png")
 </template>
 
 <script>
@@ -81,11 +83,13 @@ export default {
       swiperAutoplay: true,
       bannerPosts: [], //轮播图
       latestBooking: null,
+      showWelcomeCover: false,
     };
   },
   computed: {
     onMobileSet: get("auth/onMobileSet"),
     user: sync("auth/user"),
+    isNewUser: sync("auth/isNew"),
     atStore: sync("auth/atStore"),
   },
   async onShow() {
@@ -110,7 +114,7 @@ export default {
     }
     if (option.cardSell) {
       await this.onMobileSet;
-      uni.navigateTo({ url: "../card/buy?id=" + option.cardSell });
+      return uni.navigateTo({ url: "../card/buy?id=" + option.cardSell });
     }
     if (option.giftCode) {
       await this.onMobileSet;
@@ -118,7 +122,12 @@ export default {
         giftCode: option.giftCode,
       });
       await alert(`您已成功受赠卡券：`, `${card.title}，点击立即查看`);
-      uni.navigateTo({ url: "../my/cards" });
+      return uni.navigateTo({ url: "../my/cards" });
+    }
+    console.log("user isNew:", this.isNewUser);
+    if (this.isNewUser) {
+      uni.hideTabBar();
+      this.showWelcomeCover = true;
     }
   },
   methods: {
@@ -366,6 +375,19 @@ export default {
           height: 40rpx;
         }
       }
+    }
+  }
+
+  // 新人
+  .welcome-cover {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    image {
+      height: 100%;
+      width: 100%;
     }
   }
 }

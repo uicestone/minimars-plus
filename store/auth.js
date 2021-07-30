@@ -17,6 +17,7 @@ const state = {
   session_key: "",
   atStore: null,
   onMobileSet,
+  isNew: false,
 };
 
 const actions = {

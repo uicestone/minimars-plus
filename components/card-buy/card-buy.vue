@@ -28,7 +28,8 @@ view.buycards_box
         温馨提示:
         </view>
       view.buyQualifyCards_footer(@click="createCard")
-        view(style="text-align:center") 订单支付 PAYMENT
+        view(style="text-align:center", v-if="price") 订单支付 PAYMENT
+        view(style="text-align:center", v-else) 免费领取 GET FOR FREE
         view ￥{{ price }}
 </template>
 
