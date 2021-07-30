@@ -46,7 +46,8 @@ export default {
         if (!this.auth.isNew) return;
         setTimeout(() => {
           uni.navigateTo({ url: "../card/buy?slug=" + slug });
-        }, 3e3);
+          this.auth.isNew = false;
+        }, 2e3);
       });
 
       this.$launched();

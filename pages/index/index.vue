@@ -97,6 +97,13 @@ export default {
     if (this.loaded) this.getAuth();
     await this.$onLaunched;
     this.swiperAutoplay = true;
+    if (this.isNewUser) {
+      uni.hideTabBar();
+      this.showWelcomeCover = true;
+    } else {
+      uni.showTabBar();
+      this.showWelcomeCover = false;
+    }
     this.getLatestBooking();
   },
   onHide() {
@@ -125,10 +132,6 @@ export default {
       return uni.navigateTo({ url: "../my/cards" });
     }
     console.log("user isNew:", this.isNewUser);
-    if (this.isNewUser) {
-      uni.hideTabBar();
-      this.showWelcomeCover = true;
-    }
   },
   methods: {
     getAuth: call("auth/get"),
