@@ -124,11 +124,12 @@ view.myOrder_box
 import { sync, get, call } from "vuex-pathify";
 import moment from "moment";
 
-import { create as createBooking } from "../../utils/booking";
+import { create as createBooking } from "@/utils/booking";
+import { confirm } from "@/utils/modal";
 
-import customPopup from "../../components/custom-popup/popup";
-import customPicker from "../../components/custom-picker/picker";
-import customCalendar from "../../components/custom-calendar/calendar";
+import customPopup from "@/components/custom-popup/popup";
+import customPicker from "@/components/custom-picker/picker";
+import customCalendar from "@/components/custom-calendar/calendar";
 
 export default {
   components: {
@@ -225,6 +226,24 @@ export default {
     async pay() {
       this.booking.date = this.date[0]; //时间
       this.booking.type = "play";
+      if (this.booking.card) {
+        const card = this.cards.find((c) => c.id === this.booking.card);
+        if (card.type === "times") {
+          await confirm(
+            `确认使用会员卡支付吗？`,
+            `${card.title}，剩余${card.timesLeft}次`
+          );
+        }
+        if (card.type === "period") {
+          await confirm(`确认使用时效卡吗？`, `${card.title}`);
+        }
+      }
+      if (this.balancePrice) {
+        await confirm(
+          `确认使用账户余额支付吗？`,
+          `将从您的账户余额扣除${this.balancePrice}元`
+        );
+      }
       await createBooking(this.booking);
     },
 
