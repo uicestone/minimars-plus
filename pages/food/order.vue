@@ -145,7 +145,8 @@ view.foodchooseBox
 
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import { create as createBooking } from "../../utils/booking.js";
+import { create as createBooking } from "@/utils/booking.js";
+import { confirm } from "@/utils/modal.js";
 import { sync } from "vuex-pathify";
 
 export default {
@@ -209,7 +210,13 @@ export default {
   },
   methods: {
     //创建订单
-    createOrder() {
+    async createOrder() {
+      if (this.balanceAmount) {
+        await confirm(
+          `确认使用账户余额支付吗？`,
+          `将从您的账户余额扣除${this.balanceAmount}元`
+        );
+      }
       createBooking(this.order);
     },
 

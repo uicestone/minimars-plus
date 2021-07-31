@@ -1,6 +1,7 @@
 import store from "../store/index.js";
 import axios from "./request.js";
 import { createOrder } from "./wechat.js";
+import sleep from "./sleep";
 
 export async function create(body = {}, paymentGateway = "") {
   uni.showLoading();
@@ -8,6 +9,7 @@ export async function create(body = {}, paymentGateway = "") {
     "/booking" + (paymentGateway ? `?paymentGateway=${paymentGateway}` : ""),
     body
   );
+  await sleep(1500);
   uni.hideLoading();
   const wechatPayment = booking.payments.find((p) => p.gateway === "wechatpay");
   if (wechatPayment) {
