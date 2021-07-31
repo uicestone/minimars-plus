@@ -647,6 +647,9 @@ export default {
           padding: 10rpx 40rpx;
           .group {
             margin-top: 24rpx;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
             .flavor {
               font-weight: var(--theme--font-weight-light);
               /* padding: 10rpx 20rpx; */
@@ -654,6 +657,7 @@ export default {
               border: 1px solid var(--theme--deputy-color);
               padding: 10rpx 20rpx;
               border-radius: 10rpx;
+              margin-bottom: 10rpx;
               &.selected {
                 background-color: var(--theme--deputy-color);
               }
