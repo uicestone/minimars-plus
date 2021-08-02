@@ -1,7 +1,10 @@
 <template lang="pug">
 view.marsActivityBox
   view.marsActivity_header.img-box
-    img(:src="detail.posterUrl", mode="aspectFill")
+    img(
+      :src="detail.ipCharacter ? `/static/images/events/${detail.ipCharacter}.png` : detail.posterUrl",
+      mode="aspectFill"
+    )
   view.marsActivity_titleBox
     view.header
       view.name {{ detail.title }}
@@ -10,14 +13,17 @@ view.marsActivityBox
         view.age {{ detail.kidAgeRange }}
     view.richtext
       rich-text(:nodes="detail.content")
-  view.btn(@click="$refs.popup.open()") 立即预约 MAKE APPOINTMENT
+  view.btn(@click="$refs.popup.open()") 立即预约 BOOK NOW
 
   uni-popup(ref="popup", type="center")
     view.popup-box
       view.popup-conent
         view.flex-x.center.popup-goods
           view.img-box.popup-goods__img
-            img(:src="detail.posterUrl", mode="aspectFill")
+            img(
+              :src="detail.ipCharacter ? `/static/images/events/${detail.ipCharacter}.png` : detail.posterUrl",
+              mode="aspectFill"
+            )
           view.grow.flex-y.between.popup-goods__content
             view.popup-goods__name {{ detail.title }}
             view.flex-x.center.between.popup-goods__detail
@@ -88,10 +94,11 @@ view.marsActivityBox
 <script>
 import moment from "moment";
 import { get } from "vuex-pathify";
-import { create as createBooking } from "../../utils/booking.js";
-import customPopup from "../../components/custom-popup/popup";
-import customPicker from "../../components/custom-picker/picker";
-import customCalendar from "../../components/custom-calendar/calendar";
+import { create as createBooking } from "@/utils/booking.js";
+import { confirm } from "@/utils/modal";
+import customPopup from "@/components/custom-popup/popup";
+import customPicker from "@/components/custom-picker/picker";
+import customCalendar from "@/components/custom-calendar/calendar";
 
 export default {
   components: {
@@ -197,6 +204,13 @@ export default {
           title: "请先选择门店",
           icon: "none",
         });
+
+      if (type === "points" && this.detail.priceInPoints) {
+        await confirm(
+          `确认使用积分支付吗？`,
+          `将扣除您账户内${this.detail.priceInPoints}积分`
+        );
+      }
 
       await createBooking(this.eventQuery, type);
     },

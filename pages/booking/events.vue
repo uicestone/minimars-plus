@@ -1,19 +1,27 @@
 <template lang="pug">
 view
-  view.tabs
+  view.tabs(@click="$refs.storePicker.open()")
     custom-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
   view.select(v-if="!store.id")
     view.img-box.select__img
-      img(src="../../static/images/events/event-no-store.png")
+      img(src="/static/images/events/event-no-store.png")
     view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
-    view.select__btn(@click="$refs.storePicker.open()") 门店选择
+    view.select__btn 门店选择
   view.list(v-else)
     view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
-      custom-card(:img="i.posterDenseUrl || i.posterUrl")
-        view
-          text {{ i.title }}
-          text.date(v-if="i.date") {{ i.date | date }}
-        view {{ i.kidAgeRange }}
+      custom-card(
+        :img="i.ipCharacter ? `/static/images/events/${i.ipCharacter}-dense.png` : i.posterUrl"
+      )
+        template(#cover)
+          view.cover-info(
+            v-show="i.ipCharacter",
+            :style="{ color: getColor(i.ipCharacter) }"
+          )
+            view.title {{ i.title }}
+            view.date-store(v-if="i.date") {{ i.date | date }}
+        template(#default)
+          view {{ i.title }}
+          view {{ i.kidAgeRange }}
   custom-pop(ref="storePicker")
     view(slot="header") 门店选择 STORES
     custom-picker(
@@ -46,6 +54,7 @@ export default {
     };
   },
   computed: {
+    config: get("config/common"),
     user: get("auth/user"),
     stores: get("config/stores"),
     options() {
@@ -67,9 +76,17 @@ export default {
       ];
     },
   },
-  onShow() {
-    if (this.user.store) {
-      this.store = this.user.store;
+  async onShow() {
+    const localStore = this.stores.find(
+      (s) => s.id === uni.getStorageSync("booking.store")
+    );
+    if (localStore) {
+      this.store = localStore;
+    } else if (this.user.store) {
+      this.store = this.user.store.id;
+    }
+
+    if (this.store) {
       this.getList();
     } else {
       this.store = { id: 0, name: "请选择门店" };
@@ -92,6 +109,7 @@ export default {
     selectStore(e) {
       this.store = e.value[0];
       if (this.store.id) this.getList();
+      uni.setStorageSync("booking.store", this.store.id);
     },
 
     // 选择门店
@@ -99,6 +117,12 @@ export default {
       if (e.item.id === 1) {
         this.$refs.storePicker.open();
       }
+    },
+
+    getColor(charName) {
+      if (!charName) return;
+      const char = this.config.ipCharacters.find((c) => c.name === charName);
+      return char.coverTextColor || "";
     },
   },
   filters: {
@@ -121,6 +145,17 @@ page {
 .item {
   width: 690rpx;
   margin: 30rpx auto 0;
+  .cover-info {
+    .title {
+      font-size: 50rpx;
+      font-weight: var(--theme--font-weight-light);
+    }
+    .date-store {
+      margin-left: 0;
+      margin-top: 20rpx;
+      font-weight: var(--theme--font-weight-bold);
+    }
+  }
   .date {
     margin-left: 15rpx;
     font-weight: var(--theme--font-weight-light);

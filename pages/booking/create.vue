@@ -271,6 +271,7 @@ export default {
 
     selectStore(e) {
       this.booking.store = e.value[0].id;
+      uni.setStorageSync("booking.store", this.booking.store);
     },
 
     // 显示人数弹窗

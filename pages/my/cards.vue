@@ -228,7 +228,7 @@ export default {
           justify-content: space-between;
           .btn {
             width: 130rpx;
-            height: 46rpx;
+            // height: 46rpx;
             padding: 0;
             text-align: center;
             font-size: var(--theme--font-size-s);

@@ -2,6 +2,8 @@
 view.item
   view.img-box.item__img
     img(:src="img", :mode="imgMode")
+    view.cover(v-if="$slots.cover")
+      slot(name="cover")
   view.item-content
     slot
 </template>
@@ -36,6 +38,13 @@ export default {
   padding: 30rpx 40rpx;
   font-size: var(--theme--font-size-s);
   line-height: var(--theme--font-size-s);
+}
+.cover {
+  position: absolute;
+  left: 40rpx;
+  right: 160rpx;
+  top: 80rpx;
+  bottom: 0;
 }
 </style>
 
