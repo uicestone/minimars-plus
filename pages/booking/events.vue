@@ -6,7 +6,7 @@ view
     view.img-box.select__img
       img(src="/static/images/events/event-no-store.png")
     view.select__text 你还没有选择门店\n快来挑选自己喜欢的活动吧
-    view.select__btn 门店选择
+    view.select__btn(@click="$refs.storePicker.open()") 门店选择
   view.list(v-else)
     view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
       custom-card(
