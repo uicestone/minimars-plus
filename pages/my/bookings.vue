@@ -27,7 +27,10 @@
           view.order__date {{ i.typeName }} {{ i.createdAt | date }}
           view.order__status {{ i.statusName }}
         view.order-content
-          view.order__shop {{ i.title }}
+          view.order__shop(v-if="i.type === 'food'")
+            view(v-for="(item, index) in i.items", :key="index")
+              text {{ item.name }} ×{{ item.quantity }} {{ item.comment || '' }}
+          view.order__shop(v-else) {{ i.title }}
           //- view.order__text(v-if="i.kidsCount && i.adultsCount") {{ i.kidsCount }}儿童; {{ i.adultsCount }}成人
           view.order__list
             view.order__goods
@@ -46,7 +49,7 @@
                 v-if="i.card",
                 style="margin-bottom:20rpx"
               ) {{ i.card.title }}
-              view.order__total__price rmb {{ i.amountPaid || '-' }}
+              view.order__total__price rmb {{ i.amountPaid | round(2) }}
 
   // 详情  弹框
   //- uni-popup(ref="popup", type="center")
@@ -89,6 +92,13 @@ export default {
       if (!value) return "";
       value = moment(value).format("YYYY-MM-DD HH:mm");
       return value;
+    },
+    round(n) {
+      if (isNaN(n) || n === null) {
+        return "-";
+      } else {
+        return n.toFixed(2);
+      }
     },
   },
   data() {
