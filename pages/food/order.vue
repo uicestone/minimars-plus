@@ -232,7 +232,9 @@ export default {
       if (this.balanceAmount) {
         await confirm(
           `确认使用账户余额支付吗？`,
-          `将从您的账户余额扣除${this.balanceAmount}元`
+          `将从您的账户余额扣除${this.balanceAmount}元`,
+          "确定",
+          "#b9dcfc"
         );
       }
       createBooking(this.order);
@@ -243,7 +245,9 @@ export default {
       if (i.numbers + quantity <= 0) {
         await confirm(
           "确定删除该项吗？",
-          `将从购物车中移除：${i.name}${i.comment ? `（${i.comment}）` : ""}`
+          `将从购物车中移除：${i.name}${i.comment ? `（${i.comment}）` : ""}`,
+          "确定",
+          "#b9dcfc"
         );
       }
       const item = this.foodCart.find(
@@ -451,6 +455,7 @@ export default {
               align-items: center;
               height: 34rpx;
               font-size: var(--theme--font-size-s);
+              font-weight: var(--theme--font-weight-light);
               color: var(--theme--font-deputy-color);
               line-height: 34rpx;
             }
@@ -476,7 +481,6 @@ export default {
             align-items: center;
             font-size: var(--theme--font-size-m);
             line-height: 40rpx;
-            color: #0d0d0d;
           }
         }
       }

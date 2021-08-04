@@ -14,6 +14,7 @@ export function confirm(
   title,
   content,
   confirmText = "确定",
+  confirmColor = "",
   cancelText = "取消"
 ) {
   return new Promise((resolve, reject) => {
@@ -21,7 +22,9 @@ export function confirm(
       title,
       content,
       confirmText,
+      confirmColor: confirmColor || "#92ffac",
       cancelText,
+      cancelColor: "#646a6d",
       showCancel: true,
       success({ confirm }) {
         if (confirm) {
