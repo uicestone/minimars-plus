@@ -85,7 +85,10 @@ view.orderFood_box
               v-for="group in popupProduct.flavorGroups",
               :key="group.uid"
             )
-              text.name {{ group.name }}：
+              text.name {{ group.name }}
+                text(v-if="group.required") *
+                text(v-if="group.multiple") （多选）
+                text ：
               text.flavor(
                 v-for="flavor in group.flavors",
                 :key="flavor.uid",
@@ -95,7 +98,10 @@ view.orderFood_box
           view.footer
             view.left
               | rmb {{ (popupProduct.sellPrice + getFlavorExtraPrice(popupProduct)) | round(2) }}
-            view.img-box.right(@click="addInPopup(index)")
+            view.img-box.right(
+              @click="addInPopup(index)",
+              :class="{ disabled: !isFlavorValid(popupProduct) }"
+            )
               img(src="../../static/images/add_deputy.png")
       // 加购选择
       view.orderFood_choose(v-if="foodCart.length > 0", @click="goOrder")
@@ -254,6 +260,9 @@ export default {
     },
     // 弹框加
     addInPopup() {
+      if (!this.isFlavorValid(this.popupProduct)) {
+        return;
+      }
       this.foodAdd(this.popupProduct, true);
       this.close();
     },
@@ -281,7 +290,9 @@ export default {
       if (product.flavorGroups?.length && !inPopup) {
         return this.open(product);
       }
-      const flavors = Object.values(this.flavorChosen?.[product.uid] || {});
+      const flavors = Object.values(
+        this.flavorChosen?.[product.uid] || {}
+      ).reduce((acc, cur) => acc.concat(cur), []);
       const comment = flavors.map((f) => f.name).join(" ") || "";
       const itemInCart = this.foodCart.find(
         (item) => item.uid === product.uid && item.comment === comment
@@ -302,24 +313,41 @@ export default {
     },
     chooseFlavor(product, group, flavor) {
       const productFlavorGroupValues = this.flavorChosen[product.uid] || {};
-      productFlavorGroupValues[group.uid] = this.isFlavorChosen(
-        product,
-        group,
-        flavor
-      )
-        ? ""
-        : flavor;
-      console.log(productFlavorGroupValues);
+      if (!productFlavorGroupValues[group.uid]) {
+        productFlavorGroupValues[group.uid] = [];
+      }
+      const chosen = this.isFlavorChosen(product, group, flavor);
+      if (!group.multiple) {
+        productFlavorGroupValues[group.uid] = chosen ? [] : [flavor];
+      } else {
+        if (chosen) {
+          productFlavorGroupValues[group.uid] = productFlavorGroupValues[
+            group.uid
+          ].filter((f) => f.uid !== flavor.uid);
+        } else {
+          productFlavorGroupValues[group.uid].push(flavor);
+        }
+      }
       this.$set(this.flavorChosen, product.uid, {
         ...productFlavorGroupValues,
       });
     },
     isFlavorChosen(product, group, flavor) {
-      return this.flavorChosen[product.uid]?.[group.uid]?.name === flavor.name;
+      return this.flavorChosen[product.uid]?.[group.uid]
+        ?.map((f) => f.uid)
+        .includes(flavor.uid);
     },
     getFlavorExtraPrice(product) {
-      const flavors = Object.values(this.flavorChosen[product.uid] || {});
+      const flavors = Object.values(
+        this.flavorChosen[product.uid] || {}
+      ).reduce((acc, cur) => acc.concat(cur), []);
       return flavors.reduce((p, f) => +(p + f.extraPrice || 0).toFixed(10), 0);
+    },
+    isFlavorValid(product) {
+      if (!product.flavorGroups?.length) return true;
+      return product.flavorGroups.every(
+        (g) => !g.required || this.flavorChosen?.[product.uid]?.[g.uid]?.length
+      );
     },
     goOrder() {
       uni.navigateTo({
@@ -684,6 +712,11 @@ export default {
           .right {
             width: 40rpx;
             height: 40rpx;
+            &.disabled {
+              image {
+                opacity: 0.3;
+              }
+            }
           }
         }
       }
