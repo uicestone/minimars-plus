@@ -45,7 +45,9 @@ view.foodchooseBox
             //- img.discounts_rightimg(src="../../static/images/111.png")
             view 暂不支持，请到吧台核销餐饮优惠券
         view.foodchooseBox_top-box_count
-          view 共{{ sum }}件
+          view
+            view(style="margin-right:30rpx") {{ order.tableId }}
+            view 共{{ sum }}件
           view 合计 rmb {{ totalPrice }}
     view.remarks
       view.title 订单备注
