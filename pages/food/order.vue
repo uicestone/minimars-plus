@@ -9,7 +9,16 @@ view.foodchooseBox
         )
           img.topimg(:src="item.imageUrl")
           view.foodchooseBox_top_one_title
-            view.foodchooseBox_top_one_name {{ item.name }}
+            view.foodchooseBox_top_one_name
+              view {{ item.name }}
+              view.foodchooseBox_top_one_add_reduce
+                view.btn(
+                  @click="itemAdd(item, -1)",
+                  :class="{ disabled: !item.numbers }"
+                )
+                  img.itemreduce-img(src="/static/images/minus_deputy.png")
+                view.btn(@click="itemAdd(item, 1)")
+                  img.itemAdd-img(src="/static/images/add_deputy.png")
             view.foodchooseBox_top_one_moneybox
               view.foodchooseBox_top_one_number ×{{ item.numbers }} {{ item.comment || '' }}
               view.foodchooseBox_top_one_money rmb {{ ((item.sellPrice + item.extraPrice) * item.numbers) | round(2) }}
@@ -202,13 +211,20 @@ export default {
   onLoad(option) {
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
-    this.order.items = this.foodCart.map((item) => ({
-      productUid: item.uid,
-      quantity: item.numbers,
-      comment: item.comment,
-    }));
+    this.loadItems();
   },
   methods: {
+    loadItems() {
+      if (!this.foodCart.length) {
+        uni.navigateBack();
+        return;
+      }
+      this.order.items = this.foodCart.map((item) => ({
+        productUid: item.uid,
+        quantity: item.numbers,
+        comment: item.comment,
+      }));
+    },
     //创建订单
     async createOrder() {
       if (this.balanceAmount) {
@@ -218,6 +234,29 @@ export default {
         );
       }
       createBooking(this.order);
+    },
+
+    async itemAdd(i, quantity) {
+      if (i.numbers <= 0 && quantity < 0) return;
+      if (i.numbers + quantity <= 0) {
+        await confirm(
+          "确定删除该项吗？",
+          `将从购物车中移除：${i.name}${i.comment ? `（${i.comment}）` : ""}`
+        );
+      }
+      const item = this.foodCart.find(
+        (item) => i.uid === item.uid && i.comment === item.comment
+      );
+      if (!item) return;
+      item.numbers += quantity;
+      if (item.numbers <= 0) {
+        this.foodCart = this.foodCart.filter(
+          (i) => !(i.uid === item.uid && i.comment === item.comment)
+        );
+      } else {
+        this.foodCart = [...this.foodCart];
+      }
+      this.loadItems();
     },
 
     //获取卡列表
@@ -326,7 +365,7 @@ export default {
             display: flex;
             justify-content: space-between;
             flex-direction: column;
-            height: 100rpx;
+            // height: 100rpx;
             margin-left: 60rpx;
 
             .foodchooseBox_top_one_name {
@@ -334,10 +373,29 @@ export default {
               white-space: nowrap;
               text-overflow: ellipsis;
               overflow: hidden;
-              height: 42rpx;
+              height: 40rpx;
               font-size: var(--theme--font-size-m);
               color: var(--theme--font-main-color);
               line-height: 42rpx;
+              display: flex;
+              justify-content: space-between;
+            }
+
+            .foodchooseBox_top_one_add_reduce {
+              display: flex;
+              width: 100rpx;
+              justify-content: space-between;
+              > .btn {
+                width: 40rpx;
+                height: 40rpx;
+                &.disabled {
+                  opacity: 0.3;
+                }
+                image {
+                  width: 100%;
+                  height: 100%;
+                }
+              }
             }
 
             .foodchooseBox_top_one_moneybox {
@@ -354,6 +412,7 @@ export default {
                 font-size: var(--theme--font-size-s);
                 color: var(--theme--font-deputy-color);
                 float: right;
+                max-width: 360rpx;
               }
             }
           }
