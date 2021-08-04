@@ -1,6 +1,6 @@
 <template lang="pug">
 view.my_box
-  view.my_header-top(@click="goMarsCover()")
+  view.my_header-top(@click="getMarsCover()")
     img(:src="imgUrl", mode="aspectFill")
   view.my_header_title_box
     view.my_header_titleBox
@@ -13,7 +13,7 @@ view.my_box
         view.my_marsMember_headerimg
           open-data(type="userAvatarUrl")
       view.my_marsMember_content-box
-        view.my_marsMember-one
+        view.my_marsMember-one(@click="goMall")
           img(mode="aspectFit", src="../../static/images/my/my-points.png")
           view {{ points || '-' }}
           span MARS积分
@@ -90,6 +90,7 @@ view.my_box
 </template>
 
 <script>
+import config from "../../utils/config";
 export default {
   data() {
     return {
@@ -126,7 +127,7 @@ export default {
           this.storeDynamic = res;
         });
     },
-    goMarsCover() {
+    getMarsCover() {
       uni.navigateTo({
         url: "/pages/my/myCover?active=1",
       });
@@ -150,10 +151,6 @@ export default {
         }
         // this.showbanner=res.currentCover
       });
-    },
-    // 获取手机号
-    getphonenumber() {
-      this.close();
     },
     // 卡包
     async getCards() {
@@ -191,6 +188,12 @@ export default {
     goCover() {
       uni.navigateTo({
         url: "/pages/my/cover",
+      });
+    },
+    goMall() {
+      uni.navigateToMiniProgram({
+        appId: config.mallAppId,
+        path: "/packages/pointstore/point-center/index?kdt_id=92170525",
       });
     },
   },
