@@ -21,13 +21,9 @@ export default {
       this.config.common = config;
       this.config.stores = stores;
 
-      Promise.allSettled([
-        loadFont("Gotham", 300, "Gotham-Light.woff2"),
-        loadFont("Gotham", 500, "Gotham-Medium.woff2"),
-        loadFont("Gotham", 900, "Gotham-Ultra.woff2"),
-      ]).catch((res) => {
-        //
-      });
+      loadFont("Gotham", 300, "Gotham-Light.woff2");
+      loadFont("Gotham", 500, "Gotham-Medium.woff2");
+      loadFont("Gotham", 900, "Gotham-Ultra.woff2");
 
       if (!this.auth.token) {
         const auth = await wechatLogin();

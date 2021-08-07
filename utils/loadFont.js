@@ -13,7 +13,7 @@ function loadFont(family, weight, filename) {
         reject();
       },
     });
-  });
+  }).catch((e) => {});
 }
 
 module.exports = loadFont;
