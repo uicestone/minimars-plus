@@ -64,8 +64,22 @@ export default {
       uni.hideTabBar();
     },
   },
+  async mounted() {
+    console.log(
+      "modal-get-phone-number:mounted",
+      this.auth.user.id,
+      !this.auth.user.mobile
+    );
+    await this.$onLaunched;
+    if (this.auth.user.id && !this.auth.user.mobile) {
+      this.open();
+    } else {
+      this.mobileSet();
+    }
+  },
   watch: {
     "auth.user"(user) {
+      console.log("watch:auth.user", user.id, !user.mobile);
       if (user.id && !user.mobile) {
         this.open();
       } else {

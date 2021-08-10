@@ -87,6 +87,7 @@ view.my_box
           img(src="../../static/images/my/my-more.png")
         span 更多
         img(src="../../static/images/111.png")
+  modal-get-phone-number
 </template>
 
 <script>
@@ -107,7 +108,8 @@ export default {
       storeDynamic: [], //门店动态
     };
   },
-  onShow() {
+  async onShow() {
+    await this.$onLaunched;
     if (!this.nickname) {
       this.imgUrl = this.defaultUrl;
     }
