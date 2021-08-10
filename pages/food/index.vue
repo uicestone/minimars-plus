@@ -70,51 +70,51 @@ view.orderFood_box
                     view {{ getCartItem(product).numbers }}
                     view(@click="foodAdd(product)")
                       img.foodAdd-img(src="../../static/images/add_deputy.png")
-      // 详情
-      uni-popup(ref="popup", type="center", :tabbar="true")
-        view.detail-popup(v-if="popupProduct")
-          view.top
-            img(:src="popupProduct.imageUrl", mode="aspectFill")
-            view.close
-              img(src="../../static/images/clear.png", @click="close()")
-          view.content
-            view.title {{ popupProduct.name }}
-            view.box {{ popupProduct.description }}
-          view.flavors
-            view.group(
-              v-for="group in popupProduct.flavorGroups",
-              :key="group.uid"
-            )
-              text.name {{ group.name }}
-                text(v-if="group.required") *
-                text(v-if="group.multiple") （多选）
-                text ：
-              text.flavor(
-                v-for="flavor in group.flavors",
-                :key="flavor.uid",
-                @click="chooseFlavor(popupProduct, group, flavor)",
-                :class="{ selected: isFlavorChosen(popupProduct, group, flavor) }"
-              ) {{ flavor.name }}
-          view.footer
-            view.left
-              | rmb {{ (popupProduct.sellPrice + getFlavorExtraPrice(popupProduct)) | round(2) }}
-            view.img-box.right(
-              @click="addInPopup(index)",
-              :class="{ disabled: !isFlavorValid(popupProduct) }"
-            )
-              img(src="../../static/images/add_deputy.png")
-      // 加购选择
-      view.orderFood_choose(v-if="foodCart.length > 0", @click="goOrder")
-        view.orderFood_choose-left
-          view.img-box.orderFood_choose-left_img
-            img(src="../../static/images/orderFood/food-cart.png")
-            view.cart__num {{ goodsSum }}
-          view.orderFood_choose-left-line
-          view.orderFood_choose-left_money
-            | rmb {{ totalPrice }}
-        view.orderFood_choose-right
-          view.orderFood_choose-right-choose 选好了
-          img(src="../../static/images/orderFood/white_right.png")
+  // 详情
+  uni-popup(ref="popup", type="center", :tabbar="true")
+    view.detail-popup(v-if="popupProduct")
+      view.top
+        img(:src="popupProduct.imageUrl", mode="aspectFill")
+        view.close
+          img(src="../../static/images/clear.png", @click="close()")
+      view.content
+        view.title {{ popupProduct.name }}
+        view.box {{ popupProduct.description }}
+      view.flavors
+        view.group(
+          v-for="group in popupProduct.flavorGroups",
+          :key="group.uid"
+        )
+          text.name {{ group.name }}
+            text(v-if="group.required") *
+            text(v-if="group.multiple") （多选）
+            text ：
+          text.flavor(
+            v-for="flavor in group.flavors",
+            :key="flavor.uid",
+            @click="chooseFlavor(popupProduct, group, flavor)",
+            :class="{ selected: isFlavorChosen(popupProduct, group, flavor) }"
+          ) {{ flavor.name }}
+      view.footer
+        view.left
+          | rmb {{ (popupProduct.sellPrice + getFlavorExtraPrice(popupProduct)) | round(2) }}
+        view.img-box.right(
+          @click="addInPopup(index)",
+          :class="{ disabled: !isFlavorValid(popupProduct) }"
+        )
+          img(src="../../static/images/add_deputy.png")
+  // 加购选择
+  view.orderFood_choose(v-if="foodCart.length > 0", @click="goOrder")
+    view.orderFood_choose-left
+      view.img-box.orderFood_choose-left_img
+        img(src="../../static/images/orderFood/food-cart.png")
+        view.cart__num {{ goodsSum }}
+      view.orderFood_choose-left-line
+      view.orderFood_choose-left_money
+        | rmb {{ totalPrice }}
+    view.orderFood_choose-right
+      view.orderFood_choose-right-choose 选好了
+      img(src="../../static/images/orderFood/white_right.png")
   modal-get-phone-number
 </template>
 
@@ -619,104 +619,106 @@ export default {
           }
         }
       }
+    }
+  }
 
-      // 食物详情弹框
-      .detail-popup {
+  // 食物详情弹框
+  .detail-popup {
+    width: 640rpx;
+    max-height: calc(100vh - env(safe-area-inset-bottom));
+    overflow-y: auto;
+    // height: 952rpx;
+    background: #ffffff;
+    border-radius: var(--theme--border-radius);
+
+    .top {
+      position: relative;
+
+      image {
         width: 640rpx;
-        // height: 952rpx;
-        background: #ffffff;
-        border-radius: var(--theme--border-radius);
+        height: 640rpx;
+        border-radius: 20rpx;
+      }
 
-        .top {
-          position: relative;
+      .close {
+        position: absolute;
+        top: 36rpx;
+        right: 36rpx;
 
+        image {
+          width: 40rpx;
+          height: 40rpx;
+          background: #666666;
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .content {
+      padding: 0 40rpx;
+      text-align: justify;
+
+      .title {
+        width: 100%;
+        // height: 36rpx;
+        font-size: var(--theme--font-size-m);
+        color: var(--theme--font-main-color);
+        line-height: 36rpx;
+        margin: 15rpx 0 10rpx 0;
+      }
+
+      .box {
+        // height: 56rpx;
+        font-size: var(--theme--font-size-s);
+        color: var(--theme--font-main-color);
+        line-height: 42rpx;
+      }
+    }
+
+    .flavors {
+      padding: 10rpx 40rpx;
+      .group {
+        margin-top: 24rpx;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        .flavor {
+          font-weight: var(--theme--font-weight-light);
+          /* padding: 10rpx 20rpx; */
+          margin: 0 10rpx;
+          border: 1px solid var(--theme--deputy-color);
+          padding: 10rpx 20rpx;
+          border-radius: 10rpx;
+          margin-bottom: 10rpx;
+          &.selected {
+            background-color: var(--theme--deputy-color);
+          }
+        }
+      }
+    }
+
+    .footer {
+      margin-top: 95rpx;
+      width: 640rpx;
+      height: 90rpx;
+      background: #f7f7f7;
+      border-radius: 20rpx;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 34rpx;
+      box-sizing: border-box;
+
+      .left {
+        font-size: var(--theme--font-size-m);
+      }
+
+      .right {
+        width: 40rpx;
+        height: 40rpx;
+        &.disabled {
           image {
-            width: 640rpx;
-            height: 640rpx;
-            border-radius: 20rpx;
-          }
-
-          .close {
-            position: absolute;
-            top: 36rpx;
-            right: 36rpx;
-
-            image {
-              width: 40rpx;
-              height: 40rpx;
-              background: #666666;
-              opacity: 0.8;
-            }
-          }
-        }
-
-        .content {
-          padding: 0 40rpx;
-          text-align: justify;
-
-          .title {
-            width: 100%;
-            // height: 36rpx;
-            font-size: var(--theme--font-size-m);
-            color: var(--theme--font-main-color);
-            line-height: 36rpx;
-            margin: 15rpx 0 10rpx 0;
-          }
-
-          .box {
-            // height: 56rpx;
-            font-size: var(--theme--font-size-s);
-            color: var(--theme--font-main-color);
-            line-height: 42rpx;
-          }
-        }
-
-        .flavors {
-          padding: 10rpx 40rpx;
-          .group {
-            margin-top: 24rpx;
-            display: flex;
-            flex-wrap: wrap;
-            align-items: center;
-            .flavor {
-              font-weight: var(--theme--font-weight-light);
-              /* padding: 10rpx 20rpx; */
-              margin: 0 10rpx;
-              border: 1px solid var(--theme--deputy-color);
-              padding: 10rpx 20rpx;
-              border-radius: 10rpx;
-              margin-bottom: 10rpx;
-              &.selected {
-                background-color: var(--theme--deputy-color);
-              }
-            }
-          }
-        }
-
-        .footer {
-          margin-top: 95rpx;
-          width: 640rpx;
-          height: 90rpx;
-          background: #f7f7f7;
-          border-radius: 20rpx;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0 34rpx;
-          box-sizing: border-box;
-
-          .left {
-            font-size: var(--theme--font-size-m);
-          }
-
-          .right {
-            width: 40rpx;
-            height: 40rpx;
-            &.disabled {
-              image {
-                opacity: 0.3;
-              }
-            }
+            opacity: 0.3;
           }
         }
       }
