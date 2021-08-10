@@ -186,6 +186,7 @@ export default {
     },
   },
   async onShow() {
+    await this.$onLaunched;
     this.getAuth();
     const localStore = uni.getStorageSync("booking.store");
     if (localStore) {
@@ -205,7 +206,13 @@ export default {
     // 获取用户的可用卡
     getCards() {
       this.$axios.getRequest("/card?status=activated").then((res) => {
-        this.cards = res.filter((card) => card.type !== "coupon");
+        this.cards = res.filter((card) => {
+          if (card.type === "coupon") return false;
+          if (card.expiresAt && new Date(card.expiresAt) < Date.now())
+            return false;
+          if (this.user.balance <= 0 && card.type === "balance") return false;
+          return true;
+        });
       });
     },
     // 去购卡
