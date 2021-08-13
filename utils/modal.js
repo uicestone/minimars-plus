@@ -1,9 +1,10 @@
-export function alert(title, content, confirmText = "确定") {
+export function alert(title, content, confirmText = "确定", confirmColor) {
   return new Promise((resolve) => {
     uni.showModal({
       title,
       content,
       confirmText,
+      confirmColor: confirmColor || "#92ffac",
       showCancel: false,
       success: resolve,
     });

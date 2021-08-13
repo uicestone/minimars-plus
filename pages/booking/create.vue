@@ -453,7 +453,7 @@ page {
         }
 
         .selected {
-          border-bottom: 10rpx solid #42ff62;
+          border-bottom: 10rpx solid var(--theme--main-color);
           box-sizing: border-box;
         }
 

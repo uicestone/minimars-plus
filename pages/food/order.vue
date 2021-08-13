@@ -21,6 +21,7 @@ view.foodchooseBox
                   img.itemAdd-img(src="/static/images/add_deputy.png")
             view.foodchooseBox_top_one_moneybox
               view.foodchooseBox_top_one_number ×{{ item.numbers }} {{ item.comment || '' }}
+                view(v-if="item.isSpecialOffer") 特价餐品，不参与其他优惠
               view.foodchooseBox_top_one_money rmb {{ ((item.sellPrice + item.extraPrice) * item.numbers) | round(2) }}
         //- view.foodchooseBox_top_one(
           v-for="(item, index) in replacebox",
@@ -34,7 +35,7 @@ view.foodchooseBox
                 | ￥
                 span 29.9
               view.foodchooseBox_top_one_number x1
-        view.foodchooseBox_top-box_discounts
+        //- view.foodchooseBox_top-box_discounts
           view.foodchooseBox_top-box_discounts_left
             img.discounts_leftimg(
               src="../../static/images/orderFood/food-coupon.png"
@@ -54,35 +55,28 @@ view.foodchooseBox
       textarea(v-model="order.remarks")
     // 超值换购
     //- view.bargain_buy
-      //
-        <view class="bargain_buy_title">
-        超值换购
-        </view>
-        <view class="bargain_buybox">
-        <view class="bargain_buybox_content" v-for="(item,index) in foods " :key="index">
-        <view class="bargain_buybox_content_box">
-        <view class="bargain_buybox_content_image">
-        <image src="../../static/images/224.jpg" class="bargain_buybox_content-img" @click="open(index)" />
-        <view class="bargain_buybox_btn-imgbox" v-show="item.buyadd" @click="goadd(index)">
-        <image src="../../static/images/orderFood/foodchooseAdd.png" class="bargain_buybox_btn-img" />
-        </view>
-        <view class="bargain_buybox_btn-imgbox" v-show="item.buyadd==false" @click="goMinus(index)">
-        <image src="../../static/images/orderFood/foodchooseMinus.png" class="bargain_buybox_btn-imgMinus" />
-        </view>
-        </view>
-        <view class="bargain_buybox_content_detail" @click="open(index)">
-        <view class="bargain_buybox_content_title">火龙果蓝莓奶昔</view>
-        <view class="bargain_buybox_content_detail_box">
-        <view class="bargain_buybox_content_detail_left"><span>¥ </span> 29.9</view>
-        <view class="bargain_buybox_content_detail_right">
-        <span>¥</span>38
-        <view class="bargain_buybox_content_detail_rightline"></view>
-        </view>
-        </view>
-        </view>
-        </view>
-        </view>
-        </view>
+      view.bargain_buy_title
+        | 超值换购
+      view.bargain_buybox
+        view.bargain_buybox_content(v-for='(item,index) in foods ' :key='index')
+          view.bargain_buybox_content_box
+            view.bargain_buybox_content_image
+              img.bargain_buybox_content-img(src='../../static/images/224.jpg' @click='open(index)')
+              view.bargain_buybox_btn-imgbox(v-show='item.buyadd' @click='goadd(index)')
+                img.bargain_buybox_btn-img(src='../../static/images/orderFood/foodchooseAdd.png')
+              view.bargain_buybox_btn-imgbox(v-show='item.buyadd==false' @click='goMinus(index)')
+                img.bargain_buybox_btn-imgMinus(src='../../static/images/orderFood/foodchooseMinus.png')
+            view.bargain_buybox_content_detail(@click='open(index)')
+              view.bargain_buybox_content_title 火龙果蓝莓奶昔
+              view.bargain_buybox_content_detail_box
+                view.bargain_buybox_content_detail_left
+                  span ¥ 
+                  |  29.9
+                view.bargain_buybox_content_detail_right
+                  span ¥
+                  | 38
+                  view.bargain_buybox_content_detail_rightline
+
       // 详情
       uni-popup(ref="popup", type="center")
         view.gift_box
@@ -107,38 +101,37 @@ view.foodchooseBox
                 view.bargain_buybox_content_detail_rightline
             view.gift_box_top_footer-right(@click="goAddClose()")
               img(src="../../static/images/add.png")
-    // 请选择支付方式
-    //
-      <view class="modeOfPayment">
-      <view class="modeOfPayment_Box">
-      <view class="modeOfPayment_Box_title">
-      请选择支付方式
-      </view>
-      <view class="modeOfPayment_gift_box">
-      <view class="modeOfPayment_gift_title">
-      礼品卡
-      </view>
-      <view class="modeOfPayment_gift_titlechoose">
-      选择您的礼品卡
-      </view>
-      <view class="modeOfPayment_gift_content_box">
-      <scroll-view scroll-x="true" class="modeOf_Payment-box">
-      <view class="modeOf_Payment_scroll">
-      <view class="modeOf_Payment_box" v-for="(item,index) in cardList" :key="index">
-      <image :src="item.imageUrl" mode="aspectFill" />
-      </view>
-      </view>
-      </scroll-view>
-      </view>
-      </view>
-      <view class="wxModeOfPayment">
-      <view class="wxModeOfPayment_left">微信支付</view>
-      <view class="wxModeOfPayment_right" @click="gowxSelected">
-      <image src="../../static/images/orderFood/foodchooseSelected.png" class="wxModeOfPayment_rightimg" v-show="wxSelected" />
-      </view>
-      </view>
-      </view>
-      </view>
+    // 优惠券
+    view.modeOfPayment
+      view.modeOfPayment_Box
+        view.modeOfPayment_Box_title
+          | 优惠券
+        view.modeOfPayment_gift_box
+          //- view.modeOfPayment_gift_title
+            | 礼品卡
+          view.modeOfPayment_gift_titlechoose
+            | 每一个订单仅支持使用一张优惠券
+            br
+            | 目前支持满减券，其他券请至吧台点单核销
+          view.modeOfPayment_gift_content_box
+            scroll-view.modeOf_Payment-box(scroll-x="true")
+              view.modeOf_Payment_scroll
+                view.modeOf_Payment_box(v-for="card in cards", :key="card.id")
+                  img(
+                    :src="card.posterUrl",
+                    mode="aspectFill",
+                    @click="selectCard(card)",
+                    :class="{ selected: isCardSelected(card), disabled: !isCardAvailable(card) }"
+                  )
+        view.wxModeOfPayment(v-if="user.balance", @click="toggleUseBalance")
+          view.wxModeOfPayment_left 余额支付
+            text.balance-hint 特价商品不支持余额支付
+          view.wxModeOfPayment_right
+            img.wxModeOfPayment_rightimg(
+              src="../../static/images/orderFood/foodchooseSelected.png",
+              v-show="useBalance"
+            )
+
     // 立即支付
     view.orderFood_choose
       view.orderFood_choose-left
@@ -147,7 +140,7 @@ view.foodchooseBox
         )
         view.orderFood_choose-left-line
         view.orderFood_choose-left_money
-          | rmb {{ totalPrice }}
+          | rmb {{ bookingCalcPrice || '-' }}
           text.balance-amount(v-if="balanceAmount") 其中余额：{{ balanceAmount }}
       view.orderFood_choose-right(@click="createOrder")
         view.orderFood_choose-right-choose 确认下单
@@ -157,8 +150,8 @@ view.foodchooseBox
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
 import { create as createBooking } from "@/utils/booking.js";
-import { confirm } from "@/utils/modal.js";
-import { sync } from "vuex-pathify";
+import { confirm, alert } from "@/utils/modal.js";
+import { sync, get } from "vuex-pathify";
 
 export default {
   components: {
@@ -166,7 +159,6 @@ export default {
   },
   data() {
     return {
-      wxSelected: false,
       foods: [
         {
           buyadd: true,
@@ -180,18 +172,21 @@ export default {
       ],
       replacebox: [],
       selectshop: [],
-      cardList: [],
+      cards: [],
       order: {
         type: "food",
         store: "",
         tableId: "",
         items: [],
         remarks: "",
+        card: null,
       },
+      useBalance: true,
+      bookingCalcPrice: null,
     };
   },
   computed: {
-    user: sync("auth/user"),
+    user: get("auth/user"),
     foodCart: sync("booking/foodCart"),
     sum() {
       return this.foodCart.reduce((sum, item) => sum + item.numbers, 0);
@@ -206,14 +201,36 @@ export default {
         0
       );
     },
+    nonSpecialOfferPrice() {
+      return this.foodCart
+        .filter((i) => !i.isSpecialOffer)
+        .reduce(
+          (total, item) =>
+            +(
+              total +
+              (item.sellPrice + (item.extraPrice || 0)) * item.numbers
+            ).toFixed(10),
+          0
+        );
+    },
     balanceAmount() {
-      return Math.min(this.totalPrice, this.user.balance);
+      return (
+        this.useBalance &&
+        Math.min(this.nonSpecialOfferPrice, this.user.balance)
+      );
     },
   },
   onLoad(option) {
     this.order.store = option.storeId;
     this.order.tableId = option.tableId;
     this.loadItems();
+    if (this.user.balance) {
+      this.useBalance = true;
+    }
+  },
+  async onShow() {
+    this.cards = await this.$axios.getRequest("/card?type=coupon");
+    this.getBookingPrice();
   },
   methods: {
     loadItems() {
@@ -237,7 +254,7 @@ export default {
           "#b9dcfc"
         );
       }
-      createBooking(this.order);
+      createBooking(this.order, "", this.useBalance);
     },
 
     async itemAdd(i, quantity) {
@@ -263,54 +280,7 @@ export default {
         this.foodCart = [...this.foodCart];
       }
       this.loadItems();
-    },
-
-    //获取卡列表
-    getCardList() {
-      this.$axios
-        .getRequest("/card-type", {
-          type: "coupon",
-        })
-        .then((res) => {
-          if (res.length > 0) {
-            res.forEach((i) => {
-              this.cardList.push(i);
-            });
-            this.$axios
-              .getRequest("/card-type", {
-                type: "balance",
-              })
-              .then((result) => {
-                if (res.length > 0) {
-                  res.forEach((j) => {
-                    this.cardList.push(j);
-                  });
-                }
-              });
-            console.log(this.cardList);
-          } else {
-            this.$axios
-              .getRequest("/card-type", {
-                type: "balance",
-              })
-              .then((result) => {
-                if (res.length > 0) {
-                  res.forEach((item) => {
-                    this.cardList.push(item);
-                  });
-                }
-              });
-            console.log(this.cardList);
-          }
-        });
-    },
-
-    gowxSelected() {
-      if (this.wxSelected) {
-        this.wxSelected = false;
-      } else {
-        this.wxSelected = true;
-      }
+      this.getBookingPrice();
     },
     open(index) {
       this.$refs.popup.open();
@@ -332,6 +302,58 @@ export default {
       this.replacebox.splice(0, 1);
       this.foods[index].buyadd = true;
     },
+    async getBookingPrice() {
+      const bookingPrice = await this.$axios.postRequest(
+        "/booking-price",
+        this.order
+      );
+      this.bookingCalcPrice = bookingPrice.price;
+    },
+    async selectCard(card) {
+      if (!this.isCardAvailable(card)) return;
+      if (this.order.card === card.id) {
+        this.order.card = null;
+        this.useBalance = true;
+      } else {
+        this.order.card = card.id;
+        if (this.useBalance) {
+          this.useBalance = false;
+          await alert(
+            "已取消余额支付",
+            "余额支付和优惠券不能同时使用",
+            "了解",
+            "#b9dcfc"
+          );
+        }
+      }
+      this.getBookingPrice();
+    },
+    isCardSelected(card) {
+      return card.id === this.order.card;
+    },
+    isCardAvailable(card) {
+      const available =
+        card.discountPrice &&
+        card.overPrice &&
+        this.nonSpecialOfferPrice >= card.overPrice;
+      if (!available && this.order.card === card.id) {
+        this.order.card = null;
+      }
+      return available;
+    },
+    async toggleUseBalance() {
+      this.useBalance = !this.useBalance;
+      if (this.useBalance && this.order.card) {
+        this.order.card = null;
+        await alert(
+          "已取消选择优惠券",
+          "余额支付和优惠券不能同时使用",
+          "了解",
+          "#b9dcfc"
+        );
+      }
+      this.getBookingPrice();
+    },
   },
 };
 </script>
@@ -340,8 +362,9 @@ export default {
 .foodchooseBox {
   width: 750rpx;
   background: #f8f8f8;
-  min-height: 100vh;
+  min-height: calc(100vh - 20rpx);
   padding-top: 20rpx;
+  padding-bottom: 180rpx;
 
   .foodchooseBox_content {
     .foodchooseBox_top {
@@ -427,7 +450,6 @@ export default {
         .foodchooseBox_top-box_discounts {
           margin-top: 15rpx;
           border-top: 1rpx solid #f0f0f0;
-          border-bottom: 1rpx solid #f0f0f0;
           display: flex;
           justify-content: space-between;
           height: 100rpx;
@@ -474,6 +496,7 @@ export default {
           flex-direction: column;
           justify-content: center;
           height: 120rpx;
+          border-top: 1rpx solid #f0f0f0;
 
           view {
             display: flex;
@@ -514,7 +537,7 @@ export default {
         padding: 20rpx;
         width: 104rpx;
         height: 36rpx;
-        font-size: 26rpx;
+        font-size: var(--theme--font-size-m);
 
         color: #fff;
         line-height: 36rpx;
@@ -588,13 +611,13 @@ export default {
                 align-items: center;
 
                 .bargain_buybox_content_detail_left {
-                  font-size: 30rpx;
+                  font-size: var(--theme--font-size-m);
 
                   color: #222222;
                   line-height: 26rpx;
 
                   span {
-                    font-size: 20rpx;
+                    font-size: var(--theme--font-size-s);
                     margin-right: 5rpx;
                   }
                 }
@@ -602,13 +625,13 @@ export default {
                 .bargain_buybox_content_detail_right {
                   width: 80rpx;
                   text-align: center;
-                  font-size: 30rpx;
+                  font-size: var(--theme--font-size-m);
 
                   color: #bfbfbf;
                   position: relative;
 
                   span {
-                    font-size: 20rpx;
+                    font-size: var(--theme--font-size-s);
                     margin-right: 5rpx;
                   }
 
@@ -662,7 +685,7 @@ export default {
           .gift_box_top_content-title {
             width: 208rpx;
             height: 36rpx;
-            font-size: 26rpx;
+            font-size: var(--theme--font-size-m);
 
             color: #222222;
             line-height: 36rpx;
@@ -672,7 +695,7 @@ export default {
           .gift_box_top_content-box {
             width: 360rpx;
             height: 56rpx;
-            font-size: 20rpx;
+            font-size: var(--theme--font-size-s);
 
             color: #bdbdbd;
             line-height: 28rpx;
@@ -695,27 +718,27 @@ export default {
             .gift_box_top_footer-left {
               width: 88rpx;
               height: 50rpx;
-              font-size: 22rpx;
+              font-size: var(--theme--font-size-s);
 
               color: #9fcdff;
               line-height: 50rpx;
               margin-left: 10rpx;
 
               span {
-                font-size: 30rpx;
+                font-size: var(--theme--font-size-m);
               }
             }
 
             .bargain_buybox_content_detail_right {
               width: 80rpx;
               text-align: center;
-              font-size: 30rpx;
+              font-size: var(--theme--font-size-m);
 
               color: #bfbfbf;
               position: relative;
 
               span {
-                font-size: 20rpx;
+                font-size: var(--theme--font-size-s);
                 margin-right: 5rpx;
               }
 
@@ -744,15 +767,15 @@ export default {
 
     // 请选择支付方式
     .modeOfPayment {
-      margin-top: 20rpx;
-      margin-bottom: 30rpx;
+      margin: 30rpx 0;
       // margin: 0 auto;
       // border: 1px solid red;
       // width: 690rpx;
-      height: 576rpx;
+      // height: 576rpx;
       background: #ffffff;
-      box-shadow: 0rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.03);
-      border-radius: 20rpx;
+      // box-shadow: 0rpx 4rpx 4rpx 4rpx rgba(0, 0, 0, 0.03);
+      // border-radius: 20rpx;
+      padding-bottom: 20rpx;
 
       .modeOfPayment_Box {
         margin: 0 auto;
@@ -762,7 +785,7 @@ export default {
           border-bottom: 1px solid #e5e5e5;
           padding: 20rpx 0;
           height: 36rpx;
-          font-size: 26rpx;
+          font-size: var(--theme--font-size-m);
 
           color: #6b6b6b;
           line-height: 36rpx;
@@ -772,7 +795,7 @@ export default {
           .modeOfPayment_gift_title {
             width: 78rpx;
             height: 36rpx;
-            font-size: 26rpx;
+            font-size: var(--theme--font-size-m);
 
             color: #222222;
             line-height: 36rpx;
@@ -780,12 +803,12 @@ export default {
           }
 
           .modeOfPayment_gift_titlechoose {
-            margin-top: 10rpx;
-            width: 195rpx;
-            height: 34rpx;
-            font-size: 24rpx;
-
-            color: #bdbdbd;
+            margin-top: 20rpx;
+            // width: 195rpx;
+            // height: 34rpx;
+            font-size: var(--theme--font-size-m);
+            font-weight: var(--theme--font-weight-light);
+            // color: #bdbdbd;
             line-height: 34rpx;
             margin-bottom: 20rpx;
           }
@@ -805,6 +828,13 @@ export default {
                     height: 172rpx;
                     background: #d8d8d8;
                     border-radius: 20rpx;
+                    &.selected {
+                      border-bottom: 10rpx solid var(--theme--main-color);
+                      box-sizing: border-box;
+                    }
+                    &.disabled {
+                      opacity: 0.3;
+                    }
                   }
                 }
               }
@@ -813,17 +843,21 @@ export default {
         }
 
         .wxModeOfPayment {
-          margin-top: 100rpx;
+          margin-top: 20rpx;
+          border-top: 1px solid #e5e5e5;
+          padding-top: 20rpx;
           // border: 1px solid red;
           display: flex;
           justify-content: space-between;
           align-items: center;
 
           .wxModeOfPayment_left {
-            width: 104rpx;
-            font-size: 26rpx;
-
-            color: #222222;
+            font-size: var(--theme--font-size-m);
+            .balance-hint {
+              margin-left: 10rpx;
+              font-size: var(--theme--font-size-s);
+              font-weight: var(--theme--font-weight-light);
+            }
           }
 
           .wxModeOfPayment_right {

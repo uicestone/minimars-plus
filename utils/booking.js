@@ -3,10 +3,15 @@ import axios from "./request.js";
 import { createOrder } from "./wechat.js";
 import sleep from "./sleep";
 
-export async function create(body = {}, paymentGateway = "") {
+export async function create(
+  body = {},
+  paymentGateway = "",
+  useBalance = true
+) {
   uni.showLoading();
   const booking = await axios.postRequest(
-    "/booking" + (paymentGateway ? `?paymentGateway=${paymentGateway}` : ""),
+    `/booking?useBalance=${useBalance}` +
+      (paymentGateway ? `&paymentGateway=${paymentGateway}` : ""),
     body
   );
   await sleep(1500);
