@@ -72,7 +72,7 @@ view.orderFood_box
                       img.foodAdd-img(src="../../static/images/add_deputy.png")
   // 详情
   uni-popup(ref="popup", type="center", :tabbar="true")
-    view.detail-popup(v-if="popupProduct")
+    scroll-view.detail-popup(v-if="popupProduct", scroll-y)
       view.top
         img(:src="popupProduct.imageUrl", mode="aspectFill")
         view.close
@@ -626,8 +626,7 @@ export default {
   .detail-popup {
     width: 640rpx;
     max-height: calc(100vh - env(safe-area-inset-bottom));
-    overflow-y: auto;
-    // height: 952rpx;
+    position: relative;
     background: #ffffff;
     border-radius: var(--theme--border-radius);
 
@@ -698,7 +697,9 @@ export default {
     }
 
     .footer {
-      margin-top: 95rpx;
+      position: sticky;
+      bottom: 0;
+      // margin-top: 95rpx;
       width: 640rpx;
       height: 90rpx;
       background: #f7f7f7;
