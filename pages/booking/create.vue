@@ -60,10 +60,10 @@ view.myOrder_box
         | 订单支付 PAYMENT
 
   // 门店选择
-  custom-popup(ref="shopPop")
+  mm-popup(ref="shopPop")
     view.pop-header(slot="header") 门店选择 STORES
     view(slot="body")
-      custom-picker(
+      mm-picker(
         valueKey="id",
         labelKey="name",
         :options="[stores]",
@@ -71,7 +71,7 @@ view.myOrder_box
       )
 
   // 日期选择
-  custom-popup(ref="calendarPop")
+  mm-popup(ref="calendarPop")
     view.pop-header(slot="header")
       view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(
         @click="changeMonth(-1)"
@@ -81,7 +81,7 @@ view.myOrder_box
         @click="changeMonth(+1)"
       )
     view.calendar__body(slot="body")
-      custom-calendar(
+      mm-calendar(
         :markDays.sync="date",
         :displayMonth.sync="calendarDisplayMonth",
         ref="calendar",
@@ -90,12 +90,12 @@ view.myOrder_box
       )
 
   // 进场人数选择
-  custom-popup(ref="peoplePop")
+  mm-popup(ref="peoplePop")
     view.pop-header(slot="header")
       view.people-pop__title 儿童 KIDS
       view.people-pop__title 成人 ADULTS
     view(slot="body")
-      custom-picker(
+      mm-picker(
         valueKey="value",
         labelKey="label",
         :options="adultsKidsValues",
@@ -127,16 +127,7 @@ import moment from "moment";
 import { create as createBooking } from "@/utils/booking";
 import { confirm } from "@/utils/modal";
 
-import customPopup from "@/components/custom-popup/popup";
-import customPicker from "@/components/custom-picker/picker";
-import customCalendar from "@/components/custom-calendar/calendar";
-
 export default {
-  components: {
-    "custom-popup": customPopup,
-    "custom-picker": customPicker,
-    "custom-calendar": customCalendar,
-  },
   data() {
     return {
       index: 0,

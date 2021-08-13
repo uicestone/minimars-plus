@@ -1,7 +1,7 @@
 <template lang="pug">
 view.list
   view.item(v-for="item in 4", :key="item")
-    custom-card
+    card
       view.item-content__name MARS BABY卡 rmb 3,000
       view.item-content__status 未收卡
       view.item-content__id 赠卡人ID: 2877hhh343
@@ -9,11 +9,7 @@ view.list
 </template>
 
 <script>
-import customCard from "../../components/custom-card-box/card-box.vue";
 export default {
-  components: {
-    "custom-card": customCard,
-  },
   data() {
     return {};
   },

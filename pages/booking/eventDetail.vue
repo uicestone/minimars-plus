@@ -61,7 +61,7 @@ view.marsActivityBox
           view.popup-bottom__btn(v-if="detail.price", @click="pay()") 微信支付
 
     // 日期选择
-  custom-popup(ref="calendarPop")
+  mm-popup(ref="calendarPop")
     view.pop-header(slot="header")
       view.pop-header__arrow.pop-header__arrow--left.cover-mask--medium(
         @click="changeMonth(-1)"
@@ -71,7 +71,7 @@ view.marsActivityBox
         @click="changeMonth(+1)"
       )
     view.calendar__body(slot="body")
-      custom-calendar(
+      mm-calendar(
         :markDays.sync="date",
         :displayMonth.sync="calendarDisplayMonth",
         ref="calendar",
@@ -80,10 +80,10 @@ view.marsActivityBox
       )
 
   // 门店选择
-  custom-popup(ref="shopPop")
+  mm-popup(ref="shopPop")
     view.pop-header(slot="header") 门店选择 STORES
     view(slot="body")
-      custom-picker(
+      mm-picker(
         valueKey="id",
         labelKey="name",
         :options="[storeOptions]",
@@ -96,16 +96,8 @@ import moment from "moment";
 import { get } from "vuex-pathify";
 import { create as createBooking } from "@/utils/booking.js";
 import { confirm } from "@/utils/modal";
-import customPopup from "@/components/custom-popup/popup";
-import customPicker from "@/components/custom-picker/picker";
-import customCalendar from "@/components/custom-calendar/calendar";
 
 export default {
-  components: {
-    "custom-popup": customPopup,
-    "custom-picker": customPicker,
-    "custom-calendar": customCalendar,
-  },
   computed: {
     currentMonth() {
       return moment(this.calendarDisplayMonth).format("YYYY 年 MM 月");

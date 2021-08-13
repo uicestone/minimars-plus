@@ -1,7 +1,7 @@
 <template lang="pug">
 view
   view.tabs(@click="$refs.storePicker.open()")
-    custom-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
+    mm-tabs(:tabs="tabs", @onselect="selectTab", activeIndex="1")
   view.select(v-if="!store.id")
     view.img-box.select__img
       img(src="/static/images/events/event-no-store.png")
@@ -9,7 +9,7 @@ view
     view.select__btn(@click="$refs.storePicker.open()") 门店选择
   view.list(v-else)
     view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
-      custom-card(
+      card(
         :img="i.ipCharacter ? `/static/images/events/${i.ipCharacter}-dense.png` : i.posterUrl"
       )
         template(#cover)
@@ -22,9 +22,9 @@ view
         template(#default)
           view {{ i.title }}
           view {{ i.kidAgeRange }}
-  custom-pop(ref="storePicker")
+  pop(ref="storePicker")
     view(slot="header") 门店选择 STORES
-    custom-picker(
+    mm-picker(
       slot="body",
       :options="[options]",
       labelKey="name",
@@ -36,17 +36,7 @@ view
 import { get } from "vuex-pathify";
 import store from "vuex";
 import moment from "moment";
-import customTabs from "../../components/custom-tabs/tabs.vue";
-import customCard from "../../components/custom-card-box/card-box.vue";
-import customPop from "../../components/custom-popup/popup.vue";
-import customPicker from "../../components/custom-picker/picker.vue";
 export default {
-  components: {
-    "custom-tabs": customTabs,
-    "custom-card": customCard,
-    "custom-pop": customPop,
-    "custom-picker": customPicker,
-  },
   data() {
     return {
       store: "",

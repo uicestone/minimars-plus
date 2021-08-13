@@ -27,11 +27,7 @@ view.marsCardbox
 </template>
 
 <script>
-import customCard from "../../components/custom-card-box/card-box.vue";
 export default {
-  components: {
-    card: customCard,
-  },
   data() {
     return {
       type: "",

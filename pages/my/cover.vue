@@ -9,7 +9,7 @@
   '
   )
     div(style="width: 100%")
-      tabs(
+      mm-tabs(
         :list="tabsList",
         linecolor="#4A5BED",
         itemcolor="#405BE6",
@@ -80,12 +80,10 @@
 
 <script>
 import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import tabs from "@/components/tabs/tabs.vue";
 import { sync } from "vuex-pathify";
 
 export default {
   components: {
-    tabs,
     uniPopup,
   },
   computed: {

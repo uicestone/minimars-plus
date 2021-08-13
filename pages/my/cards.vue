@@ -1,10 +1,6 @@
 <template lang="pug">
 view.cardbag
-  custom-tabs(
-    :tabs="tabs",
-    :activeIndex.sync="activeIndex",
-    @onselect="selectTab"
-  )
+  mm-tabs(:tabs="tabs", :activeIndex.sync="activeIndex", @onselect="selectTab")
   view.card(v-show="activeIndex === 0")
     view.box(v-for="card in activatedCards", :key="card.id")
       img(
@@ -38,7 +34,7 @@ view.cardbag
       view.left(@click="goHistoryCards") 历史卡券
       view.divider
       view.right(@click="goTransferHistory") 卡券收赠记录
-  custom-popup(ref="sharePop")
+  mm-popup(ref="sharePop")
     view.pop-header(slot="header") {{ shareCard.title }}
     view(slot="body")
       button.share-button(open-type="share") 分享给好友
@@ -46,8 +42,6 @@ view.cardbag
 
 <script>
 import moment from "moment";
-import customTabs from "../../components/custom-tabs/tabs.vue";
-import customPopup from "../../components/custom-popup/popup";
 
 export default {
   data() {
@@ -84,10 +78,6 @@ export default {
         },
       ];
     },
-  },
-  components: {
-    "custom-tabs": customTabs,
-    "custom-popup": customPopup,
   },
   methods: {
     async getCards() {
@@ -193,6 +183,7 @@ export default {
       image {
         width: 100%;
         display: block;
+        height: 233rpx;
       }
 
       .content {

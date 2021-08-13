@@ -1,7 +1,6 @@
 <template lang="pug">
 .orderList
-  custom-tabs(:tabs="tabs", :activeIndex.sync="active", @onselect="changeTab")
-
+  mm-tabs(:tabs="tabs", :activeIndex.sync="active", @onselect="changeTab")
   view.order-list
     view.haveOrder_box(v-if="active === 0 && !bookings.length")
       view.haveOrder_scan_box
@@ -76,17 +75,9 @@
 </template>
 
 <script>
-import uniPopup from "@/components/uni-popup/uni-popup.vue";
-import tabs from "@/components/tabs/tabs.vue";
-import cutomsTabs from "../../components/custom-tabs/tabs.vue";
 import moment from "moment";
 import config from "../../utils/config";
 export default {
-  components: {
-    tabs,
-    uniPopup,
-    "custom-tabs": cutomsTabs,
-  },
   filters: {
     date: function (value) {
       if (!value) return "";
