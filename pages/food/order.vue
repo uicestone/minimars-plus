@@ -104,16 +104,17 @@ view.foodchooseBox
     // 优惠券
     view.modeOfPayment
       view.modeOfPayment_Box
-        view.modeOfPayment_Box_title
+        //- view.modeOfPayment_Box_title
           | 优惠券
         view.modeOfPayment_gift_box
-          //- view.modeOfPayment_gift_title
-            | 礼品卡
-          view.modeOfPayment_gift_titlechoose
+          view.modeOfPayment_gift_title
+            | 优惠券
+            text.title-hint(v-if="!cards.length") 无可用优惠券
+          view.promo-text(v-if="cards.length")
             | 每一个订单仅支持使用一张优惠券
             br
             | 目前支持满减券，其他券请至吧台点单核销
-          view.modeOfPayment_gift_content_box
+          view.modeOfPayment_gift_content_box(v-if="cards.length")
             scroll-view.modeOf_Payment-box(scroll-x="true")
               view.modeOf_Payment_scroll
                 view.modeOf_Payment_box(v-for="card in cards", :key="card.id")
@@ -123,14 +124,15 @@ view.foodchooseBox
                     @click="selectCard(card)",
                     :class="{ selected: isCardSelected(card), disabled: !isCardAvailable(card) }"
                   )
-        view.wxModeOfPayment(v-if="user.balance", @click="toggleUseBalance")
+        view.wxModeOfPayment(@click="toggleUseBalance")
           view.wxModeOfPayment_left 余额支付
-            text.balance-hint 特价商品不支持余额支付
+            text.title-hint(v-if="user.balance") 特价商品不支持余额支付
           view.wxModeOfPayment_right
             img.wxModeOfPayment_rightimg(
               src="../../static/images/orderFood/foodchooseSelected.png",
               v-show="useBalance"
             )
+        view.promo-text(v-if="!user.balance", @click="toggleUseBalance") 购买礼品卡，享餐饮、门票优惠（特价商品除外）
 
     // 立即支付
     view.orderFood_choose
@@ -342,6 +344,10 @@ export default {
       return available;
     },
     async toggleUseBalance() {
+      if (!this.user.balance) {
+        uni.navigateTo({ url: "../card/list?type=balance" });
+        return;
+      }
       this.useBalance = !this.useBalance;
       if (this.useBalance && this.order.card) {
         this.order.card = null;
@@ -791,26 +797,31 @@ export default {
           line-height: 36rpx;
         }
 
+        .title-hint {
+          margin-left: 10rpx;
+          font-size: var(--theme--font-size-s);
+          font-weight: var(--theme--font-weight-light);
+        }
+
+        .promo-text {
+          margin-top: 20rpx;
+          // width: 195rpx;
+          // height: 34rpx;
+          font-size: var(--theme--font-size-m);
+          font-weight: var(--theme--font-weight-light);
+          // color: #bdbdbd;
+          line-height: 34rpx;
+          margin-bottom: 20rpx;
+        }
+
         .modeOfPayment_gift_box {
+          margin-bottom: 20rpx;
           .modeOfPayment_gift_title {
-            width: 78rpx;
             height: 36rpx;
             font-size: var(--theme--font-size-m);
-
-            color: #222222;
             line-height: 36rpx;
             margin-top: 40rpx;
-          }
-
-          .modeOfPayment_gift_titlechoose {
-            margin-top: 20rpx;
-            // width: 195rpx;
-            // height: 34rpx;
-            font-size: var(--theme--font-size-m);
-            font-weight: var(--theme--font-weight-light);
-            // color: #bdbdbd;
-            line-height: 34rpx;
-            margin-bottom: 20rpx;
+            padding-top: 20rpx;
           }
 
           .modeOfPayment_gift_content_box {
@@ -843,21 +854,21 @@ export default {
         }
 
         .wxModeOfPayment {
-          margin-top: 20rpx;
+          /*margin-top: 20rpx; */
           border-top: 1px solid #e5e5e5;
           padding-top: 20rpx;
-          // border: 1px solid red;
+          display: -webkit-box;
+          display: -webkit-flex;
           display: flex;
+          -webkit-box-pack: justify;
+          -webkit-justify-content: space-between;
           justify-content: space-between;
+          -webkit-box-align: center;
+          -webkit-align-items: center;
           align-items: center;
 
           .wxModeOfPayment_left {
             font-size: var(--theme--font-size-m);
-            .balance-hint {
-              margin-left: 10rpx;
-              font-size: var(--theme--font-size-s);
-              font-weight: var(--theme--font-weight-light);
-            }
           }
 
           .wxModeOfPayment_right {
