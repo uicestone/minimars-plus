@@ -242,6 +242,7 @@ export default {
       }
       this.order.items = this.foodCart.map((item) => ({
         productUid: item.uid,
+        name: item.name,
         quantity: item.numbers,
         comment: item.comment,
       }));
