@@ -1,7 +1,7 @@
 <template lang="pug">
 view.list
   view.item(v-for="item in 4", :key="item")
-    card
+    mm-card
       view.item-content__name MARS BABY卡 rmb 3,000
       view.item-content__status 未收卡
       view.item-content__id 赠卡人ID: 2877hhh343

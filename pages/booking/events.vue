@@ -9,7 +9,7 @@ view
     view.select__btn(@click="$refs.storePicker.open()") 门店选择
   view.list(v-else)
     view.item(v-for="(i, k) in list", :key="k", @click="goDetail(i.id)")
-      card(
+      mm-card(
         :img="i.ipCharacter ? `/static/images/events/${i.ipCharacter}-dense.png` : i.posterUrl"
       )
         template(#cover)
@@ -22,7 +22,7 @@ view
         template(#default)
           view {{ i.title }}
           view {{ i.kidAgeRange }}
-  pop(ref="storePicker")
+  mm-popup(ref="storePicker")
     view(slot="header") 门店选择 STORES
     mm-picker(
       slot="body",
