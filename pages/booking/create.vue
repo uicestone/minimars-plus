@@ -146,7 +146,7 @@ export default {
         date: "", //到访时间
         kidsCount: 1, //儿童人数
         adultsCount: 1, //成人人数
-        card: "", //礼品卡ID
+        card: null,
       },
       cards: [], //礼品卡
       cardContent: "", //礼品卡使用说明
