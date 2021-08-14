@@ -130,7 +130,6 @@ export default {
   },
   data() {
     return {
-      loaded: false,
       isScanning: false,
       swiperAutoplay: true,
       bannerPosts: [],
@@ -173,19 +172,19 @@ export default {
   },
   async onShow() {
     console.log("food/index:onShow");
-    if (this.loaded) this.getAuth();
     if (this.isScanning) return;
     await this.$onLaunched;
+    this.getAuth();
     try {
       if (this.storeCode === undefined || !this.tableId) {
         await this.scanTableCode();
       }
-      if (!this.categories.length) {
-        uni.showLoading();
-        await this.getMenu();
-        this.change = this.categories[0].uid;
-        uni.hideLoading();
-      }
+      const isFreshLoad = !this.categories.length;
+      uni.showLoading();
+      this.isLeftClick = false;
+      await this.getMenu();
+      isFreshLoad && (this.change = this.categories[0].uid);
+      uni.hideLoading();
     } catch (e) {
       uni.showToast({ title: e, icon: "none" });
     }
@@ -375,8 +374,9 @@ export default {
       if (!this.isLeftClick) {
         this.calcSize();
       }
-      let scrollTop = e.detail.scrollTop;
-      let tabs = this.categories
+      const scrollTop = e.detail.scrollTop;
+      // console.log(scrollTop);
+      const tabs = this.categories
         .filter((item) => item.top <= scrollTop)
         .reverse();
       if (tabs.length > 0) {
