@@ -2,6 +2,7 @@ import Vue from "vue";
 import App from "./App";
 import axios from "./utils/request.js";
 import store from "./store";
+import { definePlatform } from "./utils/definePlatform";
 
 Vue.config.productionTip = false;
 
@@ -10,6 +11,8 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$onLaunched = new Promise((resolve) => {
   Vue.prototype.$launched = resolve;
 });
+
+Vue.prototype.$platform = definePlatform();
 
 Vue.filter("round", (v, digits) => {
   if (v === undefined || v === null || !v.toFixed) return "-";

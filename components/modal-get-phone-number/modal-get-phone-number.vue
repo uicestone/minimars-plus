@@ -9,13 +9,19 @@ uni-popup(ref="getPhoneNumberPopup", type="bottom", :tabbar="true")
       )
     view.login_contentBox
       view.login_box_title 请先授权登陆
-      view.login_box_content 为了更好的为您提供服务，\n请允许微信授权后再使用功能。
+      view.login_box_content
+        view 为了更好的为您提供服务，
+        view 请先授权您的手机号
       view.login_box_btn
         button.login_box_btn_box(
           open-type="getPhoneNumber",
           @getphonenumber="getPhoneNumber"
         )
-          img.login_box_btn_img(src="../../static/images/wx.png")
+          img.login_box_btn_img(
+            v-if="$platform === 'wechat'",
+            src="../../static/images/wx.png",
+            mode="aspectFit"
+          )
           view.login_box_btn_name 授权手机号
 </template>
 
@@ -37,16 +43,20 @@ export default {
       Object.assign(this.auth, await wechatLogin());
       const openid = this.auth.openid;
       const session_key = this.auth.session_key;
-      const { encryptedData, iv } = e.detail;
-      const { token, user } = await this.$axios.postRequest(
-        "/wechat/update-mobile",
-        {
-          encryptedData,
-          iv,
-          session_key,
-          openid,
-        }
-      );
+      const { encryptedData, iv, errMsg } = e.detail;
+      if (errMsg) {
+        console.error(errMsg);
+      }
+      let path = "/wechat/update-mobile";
+      // #ifdef MP-TOUTIAO
+      path = "/byte/update-mobile";
+      // #endif
+      const { token, user } = await this.$axios.postRequest(path, {
+        encryptedData,
+        iv,
+        session_key,
+        openid,
+      });
       uni.setStorageSync("token", token);
       config.token = token;
       this.auth.token = token;

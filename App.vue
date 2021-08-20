@@ -9,7 +9,7 @@ export default {
     config: sync("config"),
   },
   async onLaunch() {
-    console.log("App Launch");
+    console.log("App Launch on platform:", this.$platform);
     try {
       uni.showLoading({ mask: true });
 

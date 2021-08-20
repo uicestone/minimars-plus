@@ -3,11 +3,15 @@ import request from "./request";
 
 export function login() {
   return new Promise((resolve, reject) => {
+    uni.getProvider();
     uni.login({
-      provider: "weixin",
       success: async (loginRes) => {
-        console.log("Wechat login success:", loginRes);
-        const auth = await request.postRequest("/wechat/login", {
+        console.log("Login success:", loginRes);
+        let path = "/wechat/login";
+        // #ifdef MP-TOUTIAO
+        path = "/byte/login";
+        // #endif
+        const auth = await request.postRequest(path, {
           code: loginRes.code,
         });
         console.log("Wechat login auth:", auth);
