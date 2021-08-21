@@ -1,7 +1,7 @@
 <template lang="pug">
 view.orderFood_box
   view.left
-    scroll-view.scroll(scroll-y="true", show-scrollbar="true")
+    scroll-view.scroll(scroll-y, enhanced, :show-scrollbar="false")
       view.title(
         v-for="(category, index) in categories",
         :key="category.uid",
@@ -18,18 +18,24 @@ view.orderFood_box
       swiper.swiper(
         :autoplay="swiperAutoplay",
         :interval="3000",
-        :duration="1000",
+        :duration="500",
         :current="swiperCurrent",
         indicator-dots="true",
         circular="true",
         indicator-color="#B9B9B9",
         indicator-active-color="#9B9B9B"
       )
-        swiper-item(v-for="item in bannerPosts", :key="item.id")
+        swiper-item(
+          v-for="item in bannerPosts",
+          :key="item.id",
+          @click="bannerClick(item)"
+        )
           img.item(:src="item.posterUrl", mode="aspectFill")
     view.content-box
       scroll-view.scroll(
-        :scroll-y="true",
+        scroll-y,
+        enhanced,
+        :show-scrollbar="false",
         :scroll-into-view="clickId",
         @scroll="asideScroll",
         @scrolltolower="scrolltolower",
@@ -41,14 +47,17 @@ view.orderFood_box
             v-for="category in categories",
             :key="category.uid",
             v-if="category.products.some((p) => p.stock > 0 && p.sellPrice > 0)",
-            :id="'po' + category.uid"
+            :id="'c' + category.uid"
           )
             text.name {{ category.name }}
             view.food-item(
               v-for="product in category.products",
               :key="product.uid",
-              v-if="product.stock > 0 && product.sellPrice > 0"
+              v-if="product.stock > 0 && product.sellPrice > 0",
+              :id="'p' + product.uid"
             )
+              view.tags(v-if="product.tags && product.tags.length")
+                view.tag(v-for="tag in product.tags", :key="tag") {{ tag }}
               view.left(@click="open(product)")
                 img(:src="product.imageUrl", mode="aspectFill")
               view.right
@@ -178,6 +187,7 @@ export default {
     try {
       if (this.storeCode === undefined || !this.tableId) {
         await this.scanTableCode();
+        this.swiperAutoplay = true;
       }
       const isFreshLoad = !this.categories.length;
       uni.showLoading();
@@ -190,6 +200,7 @@ export default {
     }
   },
   onHide() {
+    console.log("food/index:onHide");
     this.swiperAutoplay = false;
   },
   methods: {
@@ -245,6 +256,26 @@ export default {
     // 轮播
     changeSwiper(e) {
       this.swiperCurrent = e.detail.current;
+    },
+    bannerClick(item) {
+      if (!item.target) return;
+      const category = this.categories.find((c) => c.name === item.target);
+      if (category) {
+        this.scrollToCategory(category.uid);
+      } else {
+        let product = null;
+        this.categories.forEach((cat) => {
+          cat.products.forEach((p) => {
+            if (p.name.includes(item.target)) {
+              product = p;
+              return;
+            }
+          });
+        });
+        if (product) {
+          this.clickId = "p" + product.uid;
+        }
+      }
     },
     // 弹框打开,关闭
     open(product) {
@@ -356,7 +387,7 @@ export default {
     },
     // 鼠标点击
     scrollToCategory(catUid) {
-      this.clickId = "po" + catUid;
+      this.clickId = "c" + catUid;
       this.change = catUid;
       this.isLeftClick = true;
     },
@@ -417,6 +448,7 @@ export default {
     // background: #FFFFFF;
     background: #f7f7f7;
     height: 100vh;
+    box-shadow: var(--theme--box-shadow);
 
     .scroll {
       height: 100vh;
@@ -446,7 +478,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0 20rpx;
+        padding: 0 16rpx;
         position: relative;
 
         span {
@@ -483,7 +515,7 @@ export default {
           transform: translateX(-50%);
           bottom: 0;
           height: 2rpx;
-          background-color: #d1d1d1;
+          background-color: #e6e6e6;
           position: absolute;
         }
       }
@@ -500,16 +532,16 @@ export default {
       width: 100%;
       height: 270rpx;
       // background: #f0f0f0;
+      box-shadow: var(--theme--box-shadow);
 
       .swiper {
         width: 100%;
         height: 100%;
-        border-radius: var(--theme--border-radius);
+        // border-radius: var(--theme--border-radius);
 
         .item {
           width: 100%;
           height: 100%;
-          border-radius: 20rpx;
 
           image {
             width: 554rpx;
@@ -546,6 +578,25 @@ export default {
             margin-top: 20rpx;
             min-height: 168rpx;
             position: relative;
+            overflow: hidden;
+            border-radius: 20rpx;
+
+            .tags {
+              position: absolute;
+              color: var(--theme--font-main-color);
+              border-radius: 10rpx;
+              font-size: var(--theme--font-size-s);
+              background: var(--theme--deputy-color);
+              padding: 0 10rpx;
+              left: -34rpx;
+              transform: rotate(-45deg);
+              top: -2px;
+              padding-top: 12rpx;
+              padding-left: 30rpx;
+              padding-right: 30rpx;
+              .tag {
+              }
+            }
 
             > .left {
               width: 160rpx;
