@@ -2,7 +2,7 @@
 view.marsCardbox
   view.header.img-box
     img(src="../../static/images/coupon/card-list-banner.png")
-  view.marsCard_contentbox(v-if="type == 'balance'")
+  view.marsCard_contentbox(v-if="type === 'balance'")
     view.marsCard_contentbox-content(v-for="(i, j) in cardTypes", :key="j")
       view.contentbox-contentTitle {{ i.title }}
       scroll-view.modeOf_Payment-box(scroll-x="true")
@@ -21,7 +21,7 @@ view.marsCardbox
       :key="j",
       @click="gobuyCards(i)"
     )
-      card(:img="i.posterDenseUrl || i.posterUrl")
+      mm-card(:img="i.posterDenseUrl || i.posterUrl")
         view {{ i.title }}
         view rmb {{ i.price }}
 </template>
@@ -32,27 +32,22 @@ export default {
     return {
       type: "",
       cardTypes: [],
+      query: {},
     };
   },
   onShow() {
-    this.type; //卡片类型
     this.getCardTypes();
   },
   onLoad(option) {
-    const typeName = {
-      period: "时效卡",
-      balance: "礼品卡",
-      times: "限定卡",
-      coupon: "活动套餐",
-    };
-    this.type = option.type;
-    uni.setNavigationBarTitle({ title: typeName[this.type] });
+    uni.setNavigationBarTitle({ title: option.title });
+    this.query = { ...option };
+    delete this.query.title;
   },
   methods: {
     // 卡片类型列表
     async getCardTypes() {
       this.cardTypes = await this.$axios.getRequest("/card-type", {
-        type: this.type,
+        ...this.query,
         limit: -1,
       });
     },

@@ -44,19 +44,19 @@ export default {
     goCard(index) {
       if (index === 0) {
         uni.navigateTo({
-          url: "/pages/card/list?type=period",
+          url: "/pages/card/list?type=period&title=时效卡",
         });
       } else if (index === 1) {
         uni.navigateTo({
-          url: "/pages/card/list?type=balance",
+          url: "/pages/card/list?isGift=true&title=礼品卡",
         });
       } else if (index === 2) {
         uni.navigateTo({
-          url: "/pages/card/list?type=times",
+          url: "/pages/card/list?isLimited=true&title=限定卡",
         });
       } else if (index === 3) {
         uni.navigateTo({
-          url: "/pages/card/list?type=coupon",
+          url: "/pages/card/list?isCombo=true&title=活动套餐",
         });
       }
     },
