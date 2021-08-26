@@ -91,13 +91,14 @@ export default {
     user: sync("auth/user"),
     isNewUser: sync("auth/isNew"),
     atStore: sync("auth/atStore"),
+    config: get("config/common"),
   },
   async onShow() {
     console.log("index:onShow");
     if (this.loaded) this.getAuth();
     await this.$onLaunched;
     this.swiperAutoplay = true;
-    if (this.isNewUser) {
+    if (this.isNewUser && this.config.welcomeRewardCard.slug) {
       uni.hideTabBar();
       this.showWelcomeCover = true;
     } else {

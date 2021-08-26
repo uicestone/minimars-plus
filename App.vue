@@ -36,10 +36,8 @@ export default {
       this.auth.isNew = !this.auth.user.mobile;
 
       this.auth.onMobileSet.then(() => {
-        const { slug } = this.config.common.welcomeRewardCard || {
-          slug: "welcome",
-        };
-        if (!this.auth.isNew) return;
+        const { slug = undefined } = this.config.common.welcomeRewardCard;
+        if (!this.auth.isNew || !slug) return;
         setTimeout(() => {
           uni.navigateTo({ url: "../card/buy?slug=" + slug });
           this.auth.isNew = false;
