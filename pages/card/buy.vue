@@ -12,6 +12,7 @@ div
     :cover="cover",
     :content="content"
   )
+  modal-get-phone-number
 </template>
 
 <script>
