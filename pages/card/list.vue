@@ -2,28 +2,30 @@
 view.marsCardbox
   view.header.img-box
     img(src="../../static/images/coupon/card-list-banner.png")
-  view.marsCard_contentbox(v-if="type === 'balance'")
-    view.marsCard_contentbox-content(v-for="(i, j) in cardTypes", :key="j")
-      view.contentbox-contentTitle {{ i.title }}
-      scroll-view.modeOf_Payment-box(scroll-x="true")
-        view.modeOf_Payment_scroll
-          view(@click="gobuyCards(i)")
-            img.yuanimage(:src="i.posterUrl")
-          view.modeOf_Payment_box(
-            v-for="(item, index) in i.posterUrls",
-            :key="index",
-            @click="gobuyCardsCover(i, item)"
-          )
-            img(:src="item", mode="aspectFill")
-  view.marsCard_contentbox(v-else)
-    view.card--row(
-      v-for="(i, j) in cardTypes",
-      :key="j",
-      @click="gobuyCards(i)"
-    )
-      mm-card(:img="i.posterDenseUrl || i.posterUrl")
-        view {{ i.title }}
-        view rmb {{ i.price }}
+  view.marsCard_contentbox
+    template(v-for="cardType in cardTypes")
+      view.marsCard_contentbox-content(
+        :key="cardType.id",
+        v-if="cardType.type === 'balance'"
+      )
+        view.contentbox-contentTitle {{ cardType.title }}
+        scroll-view.modeOf_Payment-box(scroll-x="true")
+          view.modeOf_Payment_scroll
+            view(@click="gobuyCards(cardType)")
+              img.yuanimage(:src="cardType.posterUrl")
+            view.modeOf_Payment_box(
+              v-for="(item, index) in cardType.posterUrls",
+              :key="index",
+              @click="gobuyCardsCover(cardType, item)"
+            )
+              img(:src="item", mode="aspectFill")
+      view.card--row(:key="cardType.id", @click="gobuyCards(cardType)", v-else)
+        mm-card(:img="cardType.posterDenseUrl || cardType.posterUrl")
+          view {{ cardType.title }}
+          view(
+            v-if="cardType.balancePriceGroups && cardType.balancePriceGroups.length"
+          ) 多种金额
+          view(v-else) rmb {{ cardType.price }}
 </template>
 
 <script>
