@@ -16,6 +16,11 @@ view.buycards_box
             view.buycards_contentBody
               view.buycards_contentBody-left
                 span {{ item.count }}
+              view.buycards_contentBody-right.minus(
+                v-if="item.count > 0",
+                @click="addOne(item._id, -1)"
+              )
+                img(src="/static/images/minus.png")
               view.buycards_contentBody-right(@click="addOne(item._id)")
                 img(src="/static/images/add.png")
               view.buycards_contentBody-image(@click="open(item)") {{ item.balance }}
@@ -95,10 +100,10 @@ export default {
     close() {
       this.$refs.popup.close();
     },
-    addOne(id) {
+    addOne(id, by = 1) {
       this.balancePriceGroups.forEach((i) => {
         if (id == i._id) {
-          i.count = i.count + 1;
+          i.count = i.count + by;
         }
       });
     },
@@ -207,6 +212,11 @@ export default {
                 right: 0;
                 width: 42rpx;
                 height: 42rpx;
+
+                &.minus {
+                  left: 0;
+                  right: auto;
+                }
 
                 image {
                   width: 42rpx;
