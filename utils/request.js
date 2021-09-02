@@ -14,6 +14,7 @@ function onSuccess(res, resolve, reject) {
     if (res.statusCode === 401) {
       console.log("Remove token from storage.");
       uni.removeStorageSync("token");
+      config.token = null;
     }
   }
 }
