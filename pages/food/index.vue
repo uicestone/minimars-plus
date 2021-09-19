@@ -189,6 +189,7 @@ export default {
         await this.scanTableCode();
         this.swiperAutoplay = true;
       }
+      uni.setNavigationBarTitle({ title: "点餐" + " - " + this.tableId });
       const isFreshLoad = !this.categories.length;
       uni.showLoading();
       this.isLeftClick = false;
